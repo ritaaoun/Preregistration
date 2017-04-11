@@ -118,6 +118,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractRepository.hpp" />
+    <ClInclude Include="SqliteRepository.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SqliteRepository.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
