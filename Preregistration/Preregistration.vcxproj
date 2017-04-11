@@ -118,6 +118,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractMessage.hpp" />
+    <ClInclude Include="AbstractRepository.hpp" />
+    <ClInclude Include="SqliteRepository.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SqliteRepository.cpp" />
     <ClInclude Include="Administrator.hpp" />
     <ClInclude Include="Department.hpp" />
     <ClInclude Include="Enum.hpp" />
