@@ -32,8 +32,11 @@ public:
 	int getEnrollmentYear() const;
 	void setEnrollmentYear(int year);
 
-	Term::Term getEnrollmentTerm() const;
-	void setEnrollmentTerm(Term::Term enrollmentTerm);
+	Term::Term getStartTerm() const;
+	void setStartTerm(Term::Term startTerm);
+
+	Type getType() const;
+	void setType(Type type);
 
 	Department * getDepartment() const;
 	void setDepartment(Department * department);
@@ -54,8 +57,8 @@ private:
 	int m_id; ///< User id
 	std::string m_username, m_password; ///< User credentials
 	std::string m_firstName, m_middleName, m_lastName; ///< User name
-	int m_enrollmentYear; ///< Enrollment date
-	Term::Term m_enrollmentTerm; ///< Enrollment term
+	int m_startYear; ///< Enrollment date
+	Term::Term m_startTerm; ///< Enrollment term
 	Type m_type; ///< User type
 	Department * m_department; ///< Department the user belongs to
 	std::string m_birthday; ///< User birthday in the format DD-MM-YYYY
