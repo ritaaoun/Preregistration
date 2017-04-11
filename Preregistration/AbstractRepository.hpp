@@ -23,7 +23,7 @@ public:
 	virtual void createDepartment(const Department * department) const = 0;
 	virtual Department getDepartment(int id) const = 0;
 	virtual Department getUserDepartment(int userId) const = 0;
-	virtual Department getUserDepartment(const User * user) const = 0;
+	virtual Department getUserDepartment(const AbstractUser * user) const = 0;
 	virtual std::vector<Department *> getAdminDepartments(const Administrator * admin) const = 0;
 	virtual std::vector<Department *> getAdminDepartments(int adminId) const = 0;
 	virtual std::vector<Department *> getDepartments() const = 0;

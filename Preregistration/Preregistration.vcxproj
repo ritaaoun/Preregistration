@@ -118,6 +118,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractMessage.hpp" />
     <ClInclude Include="AbstractRepository.hpp" />
     <ClInclude Include="SqliteRepository.hpp" />
   </ItemGroup>
