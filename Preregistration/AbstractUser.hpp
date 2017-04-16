@@ -2,6 +2,8 @@
 #include <string>
 #include "Enum.hpp"
 #include "Department.hpp"
+#include "Inbox.hpp"
+
 
 /**
 * \file User.hpp
