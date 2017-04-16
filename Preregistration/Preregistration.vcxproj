@@ -120,14 +120,20 @@
   <ItemGroup>
     <ClInclude Include="AbstractMessage.hpp" />
     <ClInclude Include="AbstractRepository.hpp" />
+    <ClInclude Include="ChatMessage.hpp" />
+    <ClInclude Include="Inbox.hpp" />
     <ClInclude Include="SqliteRepository.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ChatMessage.cpp" />
     <ClCompile Include="SqliteRepository.cpp" />
     <ClInclude Include="Administrator.hpp" />
     <ClInclude Include="Department.hpp" />
     <ClInclude Include="Enum.hpp" />
     <ClInclude Include="AbstractUser.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
