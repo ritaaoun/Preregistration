@@ -44,12 +44,17 @@ public:
 	std::string getBirthday() const;
 	void setBirthday(const std::string & birthday);
 
+	bool updateSentMessages(AbstractMessage * message);
+	bool updateReceivedMessages(AbstractMessage * message);
+
 protected:
 	AbstractUser();
 	AbstractUser(const std::string & firstName, const std::string & middleName, const std::string & lastName,
-		int enrollmentYear, int enrollmentTerm, Term::Term userType, Department * department,
+		int startYear, Term::Term startTerm, Type userType, Department * department,
 		const std::string & birthday);
-	AbstractUser(AbstractUser & other);
+	AbstractUser(int id, const std::string & firstName, const std::string & middleName, const std::string & lastName,
+		int startYear, Term::Term startTerm, Type userType, Department * department, const std::string & birthday);
+	AbstractUser(const AbstractUser & other);
 	virtual ~AbstractUser();
 	AbstractUser & operator=(const AbstractUser & rhs);
 	
@@ -62,4 +67,6 @@ private:
 	Type m_type; ///< User type
 	Department * m_department; ///< Department the user belongs to
 	std::string m_birthday; ///< User birthday in the format DD-MM-YYYY
+	
+	Inbox m_inbox; //
 };
