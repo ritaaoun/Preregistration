@@ -24,17 +24,16 @@
     <ClInclude Include="AbstractMessage.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="Professor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Student.hpp">
-=======
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Inbox.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ChatMessage.hpp">
->>>>>>> e8eac8efa6b8b8c4593412cd95e2299e0bac2ebf
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
