@@ -24,15 +24,25 @@
     <ClInclude Include="AbstractMessage.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Professor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Student.hpp">
+=======
+    <ClInclude Include="Inbox.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ChatMessage.hpp">
+>>>>>>> e8eac8efa6b8b8c4593412cd95e2299e0bac2ebf
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SqliteRepository.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChatMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -49,5 +59,8 @@
     <ClInclude Include="AbstractUser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

@@ -17,100 +17,100 @@ SqliteRepository & SqliteRepository::operator=(const SqliteRepository & rhs)
 	// TODO: insert return statement here
 }
 
-void SqliteRepository::deleteUser(const AbstractUser * user) const
+bool SqliteRepository::deleteUser(const AbstractUser * user) const
 {
 }
 
-void SqliteRepository::deleteUser(int id) const
+bool SqliteRepository::deleteUser(int id) const
 {
 }
 
-void SqliteRepository::updateUser(const AbstractUser * user) const
+bool SqliteRepository::updateUser(const AbstractUser * user) const
 {
 }
 
-void SqliteRepository::createUser(const AbstractUser * user) const
+bool SqliteRepository::createUser(const AbstractUser * user) const
 {
 }
 
-AbstractUser SqliteRepository::getUser(int id) const
+AbstractUser* SqliteRepository::getUser(int id) const
 {
-	return AbstractUser();
+	return new Administrator();
 }
 
-std::vector<AbstractUser*> SqliteRepository::getUsers() const
+std::vector<AbstractUser*>* SqliteRepository::getUsers() const
 {
-	return std::vector<AbstractUser*>();
+	return new std::vector<AbstractUser*>();
 }
 
-void SqliteRepository::deleteDepartment(int id) const
-{
-}
-
-void SqliteRepository::deleteDepartment(const Department * department) const
+bool SqliteRepository::deleteDepartment(int id) const
 {
 }
 
-void SqliteRepository::updateDepartment(const Department * department) const
+bool SqliteRepository::deleteDepartment(const Department * department) const
 {
 }
 
-void SqliteRepository::createDepartment(const Department * department) const
+bool SqliteRepository::updateDepartment(const Department * department) const
 {
 }
 
-Department SqliteRepository::getDepartment(int id) const
-{
-	return Department();
-}
-
-Department SqliteRepository::getUserDepartment(int userId) const
-{
-	return Department();
-}
-
-Department SqliteRepository::getUserDepartment(const User * user) const
-{
-	return Department();
-}
-
-std::vector<Department*> SqliteRepository::getAdminDepartments(const Administrator * admin) const
-{
-	return std::vector<Department*>();
-}
-
-std::vector<Department*> SqliteRepository::getAdminDepartments(int adminId) const
-{
-	return std::vector<Department*>();
-}
-
-std::vector<Department*> SqliteRepository::getDepartments() const
-{
-	return std::vector<Department*>();
-}
-
-void SqliteRepository::deletePrivilege(const Administrator * admin, const Department * department) const
+bool SqliteRepository::createDepartment(const Department * department) const
 {
 }
 
-void SqliteRepository::createPrivilege(const Administrator * admin, const Department * department) const
+Department* SqliteRepository::getDepartment(int id) const
+{
+	return new Department();
+}
+
+Department* SqliteRepository::getUserDepartment(int userId) const
+{
+	return new Department();
+}
+
+Department* SqliteRepository::getUserDepartment(const AbstractUser * user) const
+{
+	return new Department();
+}
+
+std::vector<Department*>* SqliteRepository::getAdminDepartments(const Administrator * admin) const
+{
+	return new std::vector<Department*>();
+}
+
+std::vector<Department*>* SqliteRepository::getAdminDepartments(int adminId) const
+{
+	return new std::vector<Department*>();
+}
+
+std::vector<Department*>* SqliteRepository::getDepartments() const
+{
+	return new std::vector<Department*>();
+}
+
+bool SqliteRepository::deletePrivilege(const Administrator * admin, const Department * department) const
 {
 }
 
-void SqliteRepository::deleteMessage(const AbstractMessage * message, const AbstractUser * user) const
+bool SqliteRepository::createPrivilege(const Administrator * admin, const Department * department) const
 {
 }
 
-void SqliteRepository::createMessage(const AbstractMessage * message)
+bool SqliteRepository::deleteMessage(const AbstractMessage * message, const AbstractUser * user) const
 {
 }
 
-std::vector<AbstractMessage*> SqliteRepository::getSentMessages(const AbstractUser * user) const
+bool SqliteRepository::createMessage(const AbstractMessage * message)
 {
-	return std::vector<AbstractMessage*>();
 }
 
-std::vector<AbstractMessage*> SqliteRepository::getReceivedMessages(const AbstractUser * user) const
+std::vector<AbstractMessage*>*  SqliteRepository::getSentMessages(const AbstractUser * user) const
 {
-	return std::vector<AbstractMessage*>();
+	return new std::vector<AbstractMessage*>();
+}
+
+std::vector<AbstractMessage*>*  SqliteRepository::getReceivedMessages(const AbstractUser * user) const
+{
+	return new std::vector<AbstractMessage*>();
 }
