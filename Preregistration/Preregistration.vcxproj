@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClInclude Include="AbstractMessage.hpp" />
     <ClInclude Include="AbstractRepository.hpp" />
+    <ClInclude Include="MessageFactory.hpp" />
     <ClInclude Include="Professor.hpp" />
     <ClInclude Include="ChatMessage.hpp" />
     <ClInclude Include="Inbox.hpp" />
