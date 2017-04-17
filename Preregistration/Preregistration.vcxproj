@@ -120,7 +120,9 @@
   <ItemGroup>
     <ClInclude Include="AbstractMessage.hpp" />
     <ClInclude Include="AbstractRepository.hpp" />
+    <ClInclude Include="Professor.hpp" />
     <ClInclude Include="SqliteRepository.hpp" />
+    <ClInclude Include="Student.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SqliteRepository.cpp" />
