@@ -125,14 +125,14 @@
     <ClInclude Include="Inbox.hpp" />
     <ClInclude Include="SqliteRepository.hpp" />
     <ClInclude Include="Student.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="ChatMessage.cpp" />
-    <ClCompile Include="SqliteRepository.cpp" />
     <ClInclude Include="Administrator.hpp" />
     <ClInclude Include="Department.hpp" />
     <ClInclude Include="Enum.hpp" />
     <ClInclude Include="AbstractUser.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ChatMessage.cpp" />
+    <ClCompile Include="SqliteRepository.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
