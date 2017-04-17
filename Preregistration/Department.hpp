@@ -13,10 +13,15 @@ public:
 	virtual ~Department();
 	Department & operator=(const Department & rhs);
 
+	const std::list<Course *> & getCourses() const;
+	const std::list<Course *> & getCourseRequests() const;
+	bool requestCourse(Course *course);
+
 private:
 	int m_id;
 	std::string m_name;
 	std::string m_code;
 	std::string m_facultyCode; ///< Faculty department belongs to
 	std::list<Course *> m_courses;
+	std::list<Course *> m_courseRequests;
 };
