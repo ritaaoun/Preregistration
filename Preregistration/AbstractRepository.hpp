@@ -5,6 +5,7 @@
 #include "Department.hpp"
 #include "AbstractMessage.hpp"
 #include <vector>
+#include <string>
 
 class AbstractRepository
 {
@@ -35,5 +36,8 @@ public:
 	virtual bool createMessage(const AbstractMessage * message) = 0;
 	virtual std::vector<AbstractMessage *> * getSentMessages(const AbstractUser * user) const = 0;
 	virtual std::vector<AbstractMessage *> * getReceivedMessages(const AbstractUser * user) const = 0;
+
+	virtual int getLastId(std::string year) const = 0;
+	virtual std::string getLastUsername(std::string username) const = 0;
 
 };
