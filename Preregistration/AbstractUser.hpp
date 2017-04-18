@@ -31,8 +31,8 @@ public:
 	std::string getLastName() const;
 	void setLastName(const std::string & lastName);
 
-	int getEnrollmentYear() const;
-	void setEnrollmentYear(int year);
+	int getStartYear() const;
+	void setStartYear(int year);
 
 	Term::Term getStartTerm() const;
 	void setStartTerm(Term::Term startTerm);
@@ -70,5 +70,5 @@ private:
 	Department * m_department; ///< Department the user belongs to
 	std::string m_birthday; ///< User birthday in the format DD-MM-YYYY
 	
-	Inbox m_inbox; //
+	Inbox m_inbox; ///< User inbox
 };

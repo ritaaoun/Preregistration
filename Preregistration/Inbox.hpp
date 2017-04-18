@@ -3,13 +3,20 @@
 #include <vector>
 class Inbox {
 public:
-	
-	void updateReceivedMessages(AbstractMessage * message);
-	void updateSentMessages(AbstractMessage * message);
-	void getReceivedMessages(AbstractUser * sender, AbstractMessage::Type type);
-	void getReceivedMessages(AbstractUser * sender);
-	void getSentMessages(AbstractUser * recepient, AbstractMessage::Type type);
-	void getSentMessages(AbstractUser * recepient);
+	Inbox(int userId);
+	Inbox(const Inbox & other);
+	virtual ~Inbox();
+	Inbox & operator=(const Inbox & rhs);
+
+	bool updateReceivedMessages(AbstractMessage * message);
+	bool updateSentMessages(AbstractMessage * message);
+	bool getReceivedMessages(AbstractUser * sender, AbstractMessage::Type type);
+	bool getReceivedMessages(AbstractUser * sender);
+	bool getSentMessages(AbstractUser * recepient, AbstractMessage::Type type);
+	bool getSentMessages(AbstractUser * recepient);
+
+protected:
+	Inbox();
 
 private:
 	int m_userId;
