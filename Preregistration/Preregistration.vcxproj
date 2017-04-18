@@ -124,6 +124,7 @@
     <ClInclude Include="Professor.hpp" />
     <ClInclude Include="ChatMessage.hpp" />
     <ClInclude Include="Inbox.hpp" />
+    <ClInclude Include="Server.hpp" />
     <ClInclude Include="SqliteRepository.hpp" />
     <ClInclude Include="Student.hpp" />
     <ClInclude Include="Administrator.hpp" />

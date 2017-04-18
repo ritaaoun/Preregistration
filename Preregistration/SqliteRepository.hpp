@@ -31,4 +31,6 @@ public:
 	virtual bool createMessage(const AbstractMessage * message) override;
 	virtual std::vector<AbstractMessage*> * getSentMessages(const AbstractUser * user) const override;
 	virtual std::vector<AbstractMessage*> * getReceivedMessages(const AbstractUser * user) const override;
+	virtual int getLastId(std::string year) const override;
+	virtual std::string getLastUsername(std::string username) const override;
 };

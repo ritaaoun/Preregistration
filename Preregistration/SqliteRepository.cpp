@@ -114,3 +114,13 @@ std::vector<AbstractMessage*>*  SqliteRepository::getReceivedMessages(const Abst
 {
 	return new std::vector<AbstractMessage*>();
 }
+
+int SqliteRepository::getLastId(std::string year) const
+{
+	return 0;
+}
+
+std::string SqliteRepository::getLastUsername(std::string username) const
+{
+	return "";
+}
