@@ -54,8 +54,9 @@ protected:
 	AbstractUser(const std::string & firstName, const std::string & middleName, const std::string & lastName,
 		int startYear, Term::Term startTerm, Type userType, Department * department,
 		const std::string & birthday);
-	AbstractUser(int id, const std::string & firstName, const std::string & middleName, const std::string & lastName,
-		int startYear, Term::Term startTerm, Type userType, Department * department, const std::string & birthday);
+	AbstractUser(int id, const std::string & username, const std::string & password, const std::string & firstName,
+		const std::string & middleName, const std::string & lastName, int startYear, Term::Term startTerm,
+		Type userType, Department * department, const std::string & birthday);
 	AbstractUser(const AbstractUser & other);
 	virtual ~AbstractUser();
 	AbstractUser & operator=(const AbstractUser & rhs);

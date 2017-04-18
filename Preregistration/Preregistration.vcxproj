@@ -133,6 +133,7 @@
     <ClInclude Include="AbstractUser.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractUser.cpp" />
     <ClCompile Include="ChatMessage.cpp" />
     <ClCompile Include="SqliteRepository.cpp" />
   </ItemGroup>

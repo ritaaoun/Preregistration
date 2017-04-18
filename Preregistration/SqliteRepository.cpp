@@ -1,5 +1,11 @@
 #include "SqliteRepository.hpp"
 
+SqliteRepository & SqliteRepository::getInstance()
+{
+	static SqliteRepository instance; // Guaranteed to be destroyed.
+	return instance;	// Instantiated on first use.		
+}
+
 SqliteRepository::SqliteRepository()
 {
 }

@@ -4,11 +4,7 @@
 class SqliteRepository : public AbstractRepository{
 public:
 
-	static SqliteRepository & getInstance()
-	{
-		static SqliteRepository instance; // Guaranteed to be destroyed.
-		return instance;	// Instantiated on first use.		
-	}
+	static SqliteRepository & getInstance();
 
 	// Inherited via AbstractRepository
 	virtual bool deleteUser(const AbstractUser * user) const override;
