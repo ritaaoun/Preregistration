@@ -42,12 +42,36 @@
     <ClInclude Include="Server.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="myException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="myHostInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="myLog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mySocket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SqliteRepository.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ChatMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="myException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="myHostInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="myLog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mySocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

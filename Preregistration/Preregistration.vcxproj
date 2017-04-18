@@ -121,6 +121,10 @@
     <ClInclude Include="AbstractMessage.hpp" />
     <ClInclude Include="AbstractRepository.hpp" />
     <ClInclude Include="MessageFactory.hpp" />
+    <ClInclude Include="myException.h" />
+    <ClInclude Include="myHostInfo.h" />
+    <ClInclude Include="myLog.h" />
+    <ClInclude Include="mySocket.h" />
     <ClInclude Include="Professor.hpp" />
     <ClInclude Include="ChatMessage.hpp" />
     <ClInclude Include="Inbox.hpp" />
@@ -134,6 +138,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChatMessage.cpp" />
+    <ClCompile Include="myException.cpp" />
+    <ClCompile Include="myHostInfo.cpp" />
+    <ClCompile Include="myLog.cpp" />
+    <ClCompile Include="mySocket.cpp" />
     <ClCompile Include="SqliteRepository.cpp" />
   </ItemGroup>
   <ItemGroup>
