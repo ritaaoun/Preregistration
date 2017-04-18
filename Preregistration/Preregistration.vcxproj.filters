@@ -62,6 +62,9 @@
     <ClCompile Include="ChatMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AbstractUser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="myException.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

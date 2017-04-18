@@ -1,4 +1,5 @@
 #include "AbstractUser.hpp"
+#include "SqliteRepository.hpp"
 
 int AbstractUser::getId() const
 {
@@ -117,16 +118,27 @@ AbstractUser::AbstractUser() : m_id(0), m_username(), m_password(), m_firstName(
 
 AbstractUser::AbstractUser(const std::string & firstName, const std::string & middleName, const std::string & lastName,
 	int startYear, Term::Term startTerm, Type userType, Department * department, const std::string & birthday) :
-	m_id(0), m_username(), m_password(birthday), m_firstName(firstName), m_middleName(middleName), m_lastName(lastName), m_startYear(startYear),
-	m_startTerm(Term::TERM_END), m_type(TYPE_END), m_department(nullptr), m_birthday(birthday), m_inbox(0)
+	m_id(SqliteRepository::getInstance().getLastId(std::to_string(startYear))),
+	m_username(SqliteRepository::getInstance().getLastUsername(""+firstName[0]+middleName[0]+lastName[0])),
+	m_password(birthday), m_firstName(firstName), m_middleName(middleName), m_lastName(lastName), m_startYear(startYear),
+	m_startTerm(startTerm), m_type(userType), m_department(department), m_birthday(birthday), m_inbox(m_id)
 {
 }
 
-AbstractUser::AbstractUser(int id, const std::string & firstName, const std::string & middleName, const std::string & lastName, int startYear, Term::Term startTerm, Type userType, Department * department, const std::string & birthday)
+AbstractUser::AbstractUser(int id, const std::string & username, const std::string & password, const std::string & firstName,
+	const std::string & middleName, const std::string & lastName, int startYear, Term::Term startTerm, Type userType,
+	Department * department, const std::string & birthday) :
+	m_id(id), m_username(username), m_password(password), m_firstName(firstName), m_middleName(middleName),
+	m_lastName(lastName), m_startYear(startYear), m_startTerm(startTerm), m_type(userType), m_department(department),
+	m_birthday(birthday), m_inbox(id)
 {
 }
 
-AbstractUser::AbstractUser(const AbstractUser & other)
+AbstractUser::AbstractUser(const AbstractUser & other) :
+	m_id(other.m_id), m_username(other.m_username), m_password(other.m_password), m_firstName(other.m_firstName),
+	m_middleName(other.m_middleName), m_lastName(other.m_lastName), m_startYear(other.m_startYear),
+	m_startTerm(other.m_startTerm), m_type(other.m_type), m_department(other.m_department),
+	m_birthday(other.m_birthday), m_inbox(other.m_inbox)
 {
 }
 
@@ -136,5 +148,17 @@ AbstractUser::~AbstractUser()
 
 AbstractUser & AbstractUser::operator=(const AbstractUser & rhs)
 {
-	// TODO: insert return statement here
+	m_id = rhs.m_id;
+	m_username = rhs.m_username;
+	m_password = rhs.m_password;
+	m_firstName = rhs.m_firstName;
+	m_middleName = rhs.m_middleName;
+	m_lastName = rhs.m_lastName;
+	m_startYear = rhs.m_startYear;
+	m_startTerm = rhs.m_startTerm;
+	m_type = rhs.m_type;
+	m_department = rhs.m_department;
+	m_birthday = rhs.m_birthday;
+	m_inbox = rhs.m_inbox;
+	return *this;
 }

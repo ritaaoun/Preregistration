@@ -137,6 +137,7 @@
     <ClInclude Include="AbstractUser.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractUser.cpp" />
     <ClCompile Include="ChatMessage.cpp" />
     <ClCompile Include="myException.cpp" />
     <ClCompile Include="myHostInfo.cpp" />
