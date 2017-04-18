@@ -3,10 +3,12 @@
 
 class SqliteRepository : public AbstractRepository{
 public:
-	SqliteRepository();
-	SqliteRepository(const SqliteRepository & rhs);
-	virtual ~SqliteRepository();
-	SqliteRepository & operator=(const SqliteRepository & rhs);
+
+	static SqliteRepository & getInstance()
+	{
+		static SqliteRepository instance; // Guaranteed to be destroyed.
+		return instance;	// Instantiated on first use.		
+	}
 
 	// Inherited via AbstractRepository
 	virtual bool deleteUser(const AbstractUser * user) const override;
@@ -33,4 +35,10 @@ public:
 	virtual std::vector<AbstractMessage*> * getReceivedMessages(const AbstractUser * user) const override;
 	virtual int getLastId(std::string year) const override;
 	virtual std::string getLastUsername(std::string username) const override;
+
+private :
+	SqliteRepository();
+	SqliteRepository(const SqliteRepository & rhs);
+	virtual ~SqliteRepository();
+	SqliteRepository & operator=(const SqliteRepository & rhs);
 };

@@ -10,7 +10,7 @@
 class AbstractRepository
 {
 public:
-
+	
 	virtual bool deleteUser(const AbstractUser * user) const = 0;
 	virtual bool deleteUser(int id) const = 0;
 	virtual bool updateUser(const AbstractUser * user) const = 0;
