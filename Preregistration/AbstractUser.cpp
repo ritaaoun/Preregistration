@@ -19,6 +19,7 @@ bool AbstractUser::checkPassword(const std::string & password) const
 void AbstractUser::setPassword(const std::string & password)
 {
 	m_password = password;
+	SqliteRepository::getInstance().updateUser(this);
 }
 
 std::string AbstractUser::getFirstName() const
@@ -29,6 +30,7 @@ std::string AbstractUser::getFirstName() const
 void AbstractUser::setFirstName(const std::string & firstName)
 {
 	m_firstName = firstName;
+	SqliteRepository::getInstance().updateUser(this);
 }
 
 std::string AbstractUser::getMiddleName() const
@@ -39,6 +41,7 @@ std::string AbstractUser::getMiddleName() const
 void AbstractUser::setMiddleName(const std::string & middleName)
 {
 	m_middleName = middleName;
+	SqliteRepository::getInstance().updateUser(this);
 }
 
 std::string AbstractUser::getLastName() const
@@ -49,6 +52,7 @@ std::string AbstractUser::getLastName() const
 void AbstractUser::setLastName(const std::string & lastName)
 {
 	m_lastName = lastName;
+	SqliteRepository::getInstance().updateUser(this);
 }
 
 int AbstractUser::getStartYear() const
@@ -59,6 +63,7 @@ int AbstractUser::getStartYear() const
 void AbstractUser::setStartYear(int year)
 {
 	m_startYear = year;
+	SqliteRepository::getInstance().updateUser(this);
 }
 
 Term::Term AbstractUser::getStartTerm() const
@@ -69,6 +74,7 @@ Term::Term AbstractUser::getStartTerm() const
 void AbstractUser::setStartTerm(Term::Term startTerm)
 {
 	m_startTerm = startTerm;
+	SqliteRepository::getInstance().updateUser(this);
 }
 
 AbstractUser::Type AbstractUser::getType() const
@@ -79,6 +85,7 @@ AbstractUser::Type AbstractUser::getType() const
 void AbstractUser::setType(Type type)
 {
 	m_type = type;
+	SqliteRepository::getInstance().updateUser(this);
 }
 
 Department * AbstractUser::getDepartment() const
@@ -89,6 +96,7 @@ Department * AbstractUser::getDepartment() const
 void AbstractUser::setDepartment(Department * department)
 {
 	m_department = department;
+	SqliteRepository::getInstance().updateUser(this);
 }
 
 std::string AbstractUser::getBirthday() const
@@ -99,6 +107,7 @@ std::string AbstractUser::getBirthday() const
 void AbstractUser::setBirthday(const std::string & birthday)
 {
 	m_birthday = birthday;
+	SqliteRepository::getInstance().updateUser(this);
 }
 
 bool AbstractUser::updateSentMessages(AbstractMessage * message)
