@@ -143,15 +143,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbstractUser.cpp" />
+    <ClCompile Include="Administrator.cpp" />
     <ClCompile Include="ChatMessage.cpp" />
     <ClCompile Include="ClientInterface.cpp" />
     <ClCompile Include="myException.cpp" />
     <ClCompile Include="myHostInfo.cpp" />
     <ClCompile Include="myLog.cpp" />
     <ClCompile Include="mySocket.cpp" />
+    <ClCompile Include="Professor.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="ServerInterface.cpp" />
     <ClCompile Include="SqliteRepository.cpp" />
+    <ClCompile Include="Student.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

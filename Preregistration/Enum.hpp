@@ -1,5 +1,5 @@
 #pragma once
 
 namespace Term {
-	enum Term {Fall, Winter, Spring, Summer, TERM_END};
+	enum Term {FALL, WINTER, SPRING, SUMMER, TERM_END};
 };

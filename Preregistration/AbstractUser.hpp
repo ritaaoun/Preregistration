@@ -14,7 +14,7 @@
 
 class AbstractUser {
 public:
-	enum Type {Student, Professor, Administrator, TYPE_END};
+	enum Type {STUDENT, PROFESSOR, ADMINISTRATOR, TYPE_END};
 
 	int getId() const;
 	std::string getUsername() const;
