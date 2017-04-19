@@ -1,6 +1,7 @@
 #pragma once
-#include "AbstractUser.hpp"
 #include <string>
+
+class AbstractUser;
 
 class AbstractMessage {
 public:

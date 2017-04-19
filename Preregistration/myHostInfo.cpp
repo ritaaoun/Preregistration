@@ -1,9 +1,12 @@
 #include "myHostInfo.h"
-#include "..\myLog\myLog.h"
-#include "..\myException\myException.h"
+#include "myLog.h"
+#include "myException.h"
+
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
 
 myHostInfo::myHostInfo()
 {
+
 
 #ifdef UNIX
 	openHostDb();

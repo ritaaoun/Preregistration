@@ -21,22 +21,27 @@ SqliteRepository::~SqliteRepository()
 SqliteRepository & SqliteRepository::operator=(const SqliteRepository & rhs)
 {
 	// TODO: insert return statement here
+	return *this;
 }
 
 bool SqliteRepository::deleteUser(const AbstractUser * user) const
 {
+	return true;
 }
 
 bool SqliteRepository::deleteUser(int id) const
 {
+	return true;
 }
 
 bool SqliteRepository::updateUser(const AbstractUser * user) const
 {
+	return true;
 }
 
 bool SqliteRepository::createUser(const AbstractUser * user) const
 {
+	return true;
 }
 
 AbstractUser* SqliteRepository::getUser(int id) const
@@ -51,18 +56,22 @@ std::vector<AbstractUser*>* SqliteRepository::getUsers() const
 
 bool SqliteRepository::deleteDepartment(int id) const
 {
+	return true;
 }
 
 bool SqliteRepository::deleteDepartment(const Department * department) const
 {
+	return true;
 }
 
 bool SqliteRepository::updateDepartment(const Department * department) const
 {
+	return true;
 }
 
 bool SqliteRepository::createDepartment(const Department * department) const
 {
+	return true;
 }
 
 Department* SqliteRepository::getDepartment(int id) const
@@ -97,18 +106,22 @@ std::vector<Department*>* SqliteRepository::getDepartments() const
 
 bool SqliteRepository::deletePrivilege(const Administrator * admin, const Department * department) const
 {
+	return true;
 }
 
 bool SqliteRepository::createPrivilege(const Administrator * admin, const Department * department) const
 {
+	return true;
 }
 
 bool SqliteRepository::deleteMessage(const AbstractMessage * message, const AbstractUser * user) const
 {
+	return true;
 }
 
 bool SqliteRepository::createMessage(const AbstractMessage * message)
 {
+	return true;
 }
 
 std::vector<AbstractMessage*>*  SqliteRepository::getSentMessages(const AbstractUser * user) const

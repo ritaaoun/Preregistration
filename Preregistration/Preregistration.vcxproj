@@ -120,6 +120,8 @@
   <ItemGroup>
     <ClInclude Include="AbstractMessage.hpp" />
     <ClInclude Include="AbstractRepository.hpp" />
+    <ClInclude Include="ClientInterface.hpp" />
+    <ClInclude Include="ClientServerInterface.hpp" />
     <ClInclude Include="MessageFactory.hpp" />
     <ClInclude Include="myException.h" />
     <ClInclude Include="myHostInfo.h" />
@@ -129,20 +131,26 @@
     <ClInclude Include="ChatMessage.hpp" />
     <ClInclude Include="Inbox.hpp" />
     <ClInclude Include="Server.hpp" />
+    <ClInclude Include="ServerData.hpp" />
+    <ClInclude Include="ServerInterface.hpp" />
     <ClInclude Include="SqliteRepository.hpp" />
     <ClInclude Include="Student.hpp" />
     <ClInclude Include="Administrator.hpp" />
     <ClInclude Include="Department.hpp" />
     <ClInclude Include="Enum.hpp" />
     <ClInclude Include="AbstractUser.hpp" />
+    <ClInclude Include="TimeSlot.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbstractUser.cpp" />
     <ClCompile Include="ChatMessage.cpp" />
+    <ClCompile Include="ClientInterface.cpp" />
     <ClCompile Include="myException.cpp" />
     <ClCompile Include="myHostInfo.cpp" />
     <ClCompile Include="myLog.cpp" />
     <ClCompile Include="mySocket.cpp" />
+    <ClCompile Include="Server.cpp" />
+    <ClCompile Include="ServerInterface.cpp" />
     <ClCompile Include="SqliteRepository.cpp" />
   </ItemGroup>
   <ItemGroup>

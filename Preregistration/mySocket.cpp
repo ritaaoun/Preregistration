@@ -1162,7 +1162,7 @@ int myTcpSocket::sendMessage(string& message)
 	*/
 
 	char msgLength[MSG_HEADER_LEN+1];
-    sprintf(msgLength,"%6d",message.size());
+    sprintf_s(msgLength,"%6d",message.size());
 	string sendMsg = string(msgLength);
     sendMsg += message;
 
@@ -1197,11 +1197,11 @@ int myTcpSocket::sendMessage(string& message)
 
 #ifdef WINDOWS_XP
 /*
-int myTcpSocket::XPrecieveMessage(string& message)
+int myTcpSocket::XPreceiveMessage(string& message)
 {
 	int numBytes = 0;                 // The number of bytes received
     int currentSize = MSG_HEADER_LEN; // The number of bytes wanted to receive
-    int offsetSize = 0;               // The number of bytes currently recieved
+    int offsetSize = 0;               // The number of bytes currently received
 
 	// retrieve the length of the message received
 
@@ -1236,7 +1236,7 @@ int myTcpSocket::XPrecieveMessage(string& message)
 		exit(1);
 	}
 
-	// recieve the real message
+	// receive the real message
 	currentSize = atoi(msgLength);
 	offsetSize = 0;
 
@@ -1279,11 +1279,11 @@ int myTcpSocket::XPrecieveMessage(string& message)
 */
 
 
-int myTcpSocket::XPrecieveMessage(string& message)
+int myTcpSocket::XPreceiveMessage(string& message)
 {
 	int received = 0;                 // The number of bytes received
     int msgSize = MAX_RECV_LEN;       // The number of bytes wanted to receive
-    int numBytes = 0;                 // The number of bytes currently recieved
+    int numBytes = 0;                 // The number of bytes currently received
 	int totalRecvNum = 0;
 	bool headerFinished = false;
 
@@ -1342,12 +1342,12 @@ int myTcpSocket::XPrecieveMessage(string& message)
 
 #endif
 
-int myTcpSocket::recieveMessage(string& message)
+int myTcpSocket::receiveMessage(string& message)
 {
-	int numBytes;  // The number of bytes recieved
+	int numBytes;  // The number of bytes received
 
 	#ifdef WINDOWS_XP
-		return XPrecieveMessage(message);
+		return XPreceiveMessage(message);
 	#endif
 
 	// retrieve the length of the message received

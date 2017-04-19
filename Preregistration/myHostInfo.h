@@ -20,6 +20,7 @@
      in this case, the standard host name for the current processor is used
      
 */
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
 
 #ifndef _myHostInfo
 #define _myHostInfo
