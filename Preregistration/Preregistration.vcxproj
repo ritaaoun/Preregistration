@@ -139,7 +139,6 @@
     <ClInclude Include="Department.hpp" />
     <ClInclude Include="Enum.hpp" />
     <ClInclude Include="AbstractUser.hpp" />
-    <ClInclude Include="TimeSlot.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbstractUser.cpp" />
