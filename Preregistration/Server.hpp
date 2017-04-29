@@ -1,5 +1,6 @@
 #pragma once
 #include "ServerData.hpp"
+#include "AbstractRepository.hpp"
 #include "ServerInterface.hpp"
 #include "myLog.h"
 #include "mySocket.h"
@@ -16,9 +17,10 @@ public:
 		return instance;
 	}
 	//Has all the data
+	AbstractRepository * repository;
 	ServerData data;
-	myLog winLog;
 	ServerInterface serverInterface;
+	myLog winLog;
 
 protected:
 		

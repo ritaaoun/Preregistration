@@ -1,10 +1,9 @@
 #include "Server.hpp"
 #include "myHostInfo.h"
+#include "SqliteRepository.hpp"
 
-Server::Server() : MAX_THREADS(10)
+Server::Server() : MAX_THREADS(10), repository(&SqliteRepository::getInstance()), data(), serverInterface()
 {
-	data = ServerData();
-	serverInterface = ServerInterface();
 	startListener();	
 }
 
