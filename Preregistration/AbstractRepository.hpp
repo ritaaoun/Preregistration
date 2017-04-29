@@ -37,7 +37,7 @@ public:
 	virtual std::vector<AbstractMessage *> * getSentMessages(const AbstractUser * user) const = 0;
 	virtual std::vector<AbstractMessage *> * getReceivedMessages(const AbstractUser * user) const = 0;
 
-	virtual int getLastId(std::string year) const = 0;
-	virtual std::string getLastUsername(std::string username) const = 0;
+	virtual int getNewId(std::string year) const = 0;
+	virtual std::string getNewUsername(std::string username) const = 0;
 
 };
