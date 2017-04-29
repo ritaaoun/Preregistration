@@ -11,7 +11,6 @@
 *
 * This is an abstract class. It provides functions to access and edit User information.
 */
-
 class AbstractUser {
 public:
 	enum Type {STUDENT, PROFESSOR, ADMINISTRATOR, TYPE_END};
@@ -41,7 +40,7 @@ public:
 	void setType(Type type);
 
 	Department * getDepartment() const;
-	void setDepartment(Department * department);
+	void setDepartmentId(int departmentId);
 
 	std::string getBirthday() const;
 	void setBirthday(const std::string & birthday);
@@ -52,11 +51,11 @@ public:
 protected:
 	AbstractUser();
 	AbstractUser(const std::string & firstName, const std::string & middleName, const std::string & lastName,
-		int startYear, Term::Term startTerm, Type userType, Department * department,
+		int startYear, Term::Term startTerm, Type userType, int departmentId,
 		const std::string & birthday);
 	AbstractUser(int id, const std::string & username, const std::string & password, const std::string & firstName,
 		const std::string & middleName, const std::string & lastName, int startYear, Term::Term startTerm,
-		Type userType, Department * department, const std::string & birthday);
+		Type userType, int departmentId, const std::string & birthday);
 	AbstractUser(const AbstractUser & other);
 	virtual ~AbstractUser();
 	AbstractUser & operator=(const AbstractUser & rhs);
@@ -68,6 +67,7 @@ private:
 	int m_startYear; ///< Enrollment date
 	Term::Term m_startTerm; ///< Enrollment term
 	Type m_type; ///< User type
+	int m_departmentId; ///< Id of department the user belonds to
 	Department * m_department; ///< Department the user belongs to
 	std::string m_birthday; ///< User birthday in the format DD-MM-YYYY
 	

@@ -6,7 +6,7 @@ Student::Student() :
 }
 
 Student::Student(const std::string & firstName, const std::string & middleName, const std::string & lastName,
-	int startYear, Term::Term startTerm, Department * department, const std::string & birthday) :
+	int startYear, Term::Term startTerm, int departmentId, const std::string & birthday) :
 	AbstractUser(firstName, middleName, lastName, startYear, startTerm, Type::STUDENT, department, birthday),
 	m_sections()
 {
@@ -15,7 +15,7 @@ Student::Student(const std::string & firstName, const std::string & middleName, 
 //TODO: Get sections from db
 Student::Student(int id, const std::string & username, const std::string & password, const std::string & firstName,
 	const std::string & middleName, const std::string & lastName, int startYear, Term::Term startTerm, 
-	Department * department, const std::string & birthday) :
+	int departmentId, const std::string & birthday) :
 	AbstractUser(id, username, password, firstName, middleName, lastName, startYear, startTerm,
 		Type::STUDENT, department, birthday),
 	m_sections()

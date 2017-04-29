@@ -5,8 +5,8 @@ Professor::Professor() : AbstractUser(), m_sections()
 }
 
 Professor::Professor(const std::string & firstName, const std::string & middleName, const std::string & lastName,
-	int startYear, Term::Term startTerm, Department * department, const std::string & birthday) :
-	AbstractUser(firstName, middleName, lastName, startYear, startTerm, Type::PROFESSOR, department, birthday),
+	int startYear, Term::Term startTerm, int departmentId, const std::string & birthday) :
+	AbstractUser(firstName, middleName, lastName, startYear, startTerm, Type::PROFESSOR, departmentId, birthday),
 	m_sections()
 {
 }
@@ -14,9 +14,9 @@ Professor::Professor(const std::string & firstName, const std::string & middleNa
 //TODO: Take sections from db
 Professor::Professor(int id, const std::string & username, const std::string & password, const std::string & firstName,
 	const std::string & middleName, const std::string & lastName, int startYear, Term::Term startTerm,
-	Department * department, const std::string & birthday) :
+	int departmentId, const std::string & birthday) :
 	AbstractUser(id, username, password, firstName, middleName, lastName, startYear, startTerm, Type::PROFESSOR,
-		department, birthday),
+		departmentId, birthday),
 	m_sections()
 {
 }

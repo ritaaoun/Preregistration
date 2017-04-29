@@ -1,5 +1,5 @@
 #include "Administrator.hpp"
-#include "SqliteRepository.hpp"
+#include "Server.hpp"
 #include <algorithm>
 #include "Professor.hpp"
 #include "Student.hpp"
@@ -9,18 +9,18 @@ Administrator::Administrator() : AbstractUser(), m_privileges()
 }
 
 Administrator::Administrator(const std::string & firstName, const std::string & middleName, const std::string & lastName,
-	int startYear, Term::Term startTerm, Department * department, const std::string & birthday) :
-	AbstractUser(firstName, middleName, lastName, startYear, startTerm, Type::ADMINISTRATOR, department, birthday),
+	int startYear, Term::Term startTerm, int departmentId, const std::string & birthday) :
+	AbstractUser(firstName, middleName, lastName, startYear, startTerm, Type::ADMINISTRATOR, departmentId, birthday),
 	m_privileges()
 {
 }
 
 Administrator::Administrator(int id, const std::string & username, const std::string & password,
 	const std::string & firstName, const std::string & middleName, const std::string & lastName,
-	int startYear, Term::Term startTerm, Department * department, const std::string & birthday,
+	int startYear, Term::Term startTerm, int departmentId, const std::string & birthday,
 	const std::list<Department *> & privileges) :
 	AbstractUser(id, username, password, firstName, middleName, lastName, startYear, startTerm,
-		Type::ADMINISTRATOR, department, birthday),
+		Type::ADMINISTRATOR, departmentId, birthday),
 	m_privileges(privileges)
 {
 }
@@ -42,23 +42,23 @@ Administrator & Administrator::operator=(const Administrator & rhs)
 }
 
 AbstractUser * Administrator::createUser(const std::string & firstName, const std::string & middleName,
-	const std::string & lastName, int startYear, Term::Term startTerm, Type userType, Department * department,
+	const std::string & lastName, int startYear, Term::Term startTerm, Type userType, int departmentId,
 	const std::string & birthday) const
 {
 	AbstractUser * user;
 	if (userType == Type::ADMINISTRATOR) {
-		user = new Administrator(firstName, middleName, lastName, startYear, startTerm, department, birthday);
+		user = new Administrator(firstName, middleName, lastName, startYear, startTerm, departmentId, birthday);
 	}
 	else if (userType == Type::PROFESSOR) {
-		user = new Professor(firstName, middleName, lastName, startYear, startTerm, department, birthday);
+		user = new Professor(firstName, middleName, lastName, startYear, startTerm, departmentId, birthday);
 	}
 	else if (userType == Type::STUDENT) {
-		user = new Student(firstName, middleName, lastName, startYear, startTerm, department, birthday);
+		user = new Student(firstName, middleName, lastName, startYear, startTerm, departmentId, birthday);
 	}
 	else {
 		return nullptr;
 	}
-	SqliteRepository::getInstance().createUser(user);
+	Server::getInstance().repository->createUser(user);
 	return user;
 }
 
@@ -88,7 +88,7 @@ bool Administrator::givePrivilege(Administrator * administrator, Department * de
 {
 	if (std::find(m_privileges.begin(), m_privileges.end(), department) != m_privileges.end()) {
 		administrator->m_privileges.push_back(department);
-		SqliteRepository::getInstance().createPrivilege(administrator, department);
+		Server::getInstance().repository->createPrivilege(administrator, department);
 		return true;
 	}
 	else {

@@ -1,5 +1,5 @@
 #include "AbstractUser.hpp"
-#include "SqliteRepository.hpp"
+#include "Server.hpp"
 
 int AbstractUser::getId() const
 {
@@ -19,7 +19,7 @@ bool AbstractUser::checkPassword(const std::string & password) const
 void AbstractUser::setPassword(const std::string & password)
 {
 	m_password = password;
-	SqliteRepository::getInstance().updateUser(this);
+	Server::getInstance().repository->updateUser(this);
 }
 
 std::string AbstractUser::getFirstName() const
@@ -30,7 +30,7 @@ std::string AbstractUser::getFirstName() const
 void AbstractUser::setFirstName(const std::string & firstName)
 {
 	m_firstName = firstName;
-	SqliteRepository::getInstance().updateUser(this);
+	Server::getInstance().repository->updateUser(this);
 }
 
 std::string AbstractUser::getMiddleName() const
@@ -41,7 +41,7 @@ std::string AbstractUser::getMiddleName() const
 void AbstractUser::setMiddleName(const std::string & middleName)
 {
 	m_middleName = middleName;
-	SqliteRepository::getInstance().updateUser(this);
+	Server::getInstance().repository->updateUser(this);
 }
 
 std::string AbstractUser::getLastName() const
@@ -52,7 +52,7 @@ std::string AbstractUser::getLastName() const
 void AbstractUser::setLastName(const std::string & lastName)
 {
 	m_lastName = lastName;
-	SqliteRepository::getInstance().updateUser(this);
+	Server::getInstance().repository->updateUser(this);
 }
 
 int AbstractUser::getStartYear() const
@@ -63,7 +63,7 @@ int AbstractUser::getStartYear() const
 void AbstractUser::setStartYear(int year)
 {
 	m_startYear = year;
-	SqliteRepository::getInstance().updateUser(this);
+	Server::getInstance().repository->updateUser(this);
 }
 
 Term::Term AbstractUser::getStartTerm() const
@@ -74,7 +74,7 @@ Term::Term AbstractUser::getStartTerm() const
 void AbstractUser::setStartTerm(Term::Term startTerm)
 {
 	m_startTerm = startTerm;
-	SqliteRepository::getInstance().updateUser(this);
+	Server::getInstance().repository->updateUser(this);
 }
 
 AbstractUser::Type AbstractUser::getType() const
@@ -85,18 +85,22 @@ AbstractUser::Type AbstractUser::getType() const
 void AbstractUser::setType(Type type)
 {
 	m_type = type;
-	SqliteRepository::getInstance().updateUser(this);
+	(Server::getInstance().repository->updateUser(this);
 }
 
 Department * AbstractUser::getDepartment() const
 {
+	if (m_department == nullptr) {
+		m_department = Server::getInstance().data.getUser(m_departmentId);
+	}
 	return m_department;
 }
 
-void AbstractUser::setDepartment(Department * department)
+void AbstractUser::setDepartmentId(int departmentId)
 {
-	m_department = department;
-	SqliteRepository::getInstance().updateUser(this);
+	m_departmentId = departmentId;
+	m_department = nullptr;
+	Server::getInstance().repository->updateUser(this);
 }
 
 std::string AbstractUser::getBirthday() const
@@ -107,7 +111,7 @@ std::string AbstractUser::getBirthday() const
 void AbstractUser::setBirthday(const std::string & birthday)
 {
 	m_birthday = birthday;
-	SqliteRepository::getInstance().updateUser(this);
+	(Server::getInstance().repository->updateUser(this);
 }
 
 bool AbstractUser::updateSentMessages(AbstractMessage * message)
@@ -126,28 +130,28 @@ AbstractUser::AbstractUser() : m_id(0), m_username(), m_password(), m_firstName(
 }
 
 AbstractUser::AbstractUser(const std::string & firstName, const std::string & middleName, const std::string & lastName,
-	int startYear, Term::Term startTerm, Type userType, Department * department, const std::string & birthday) :
-	m_id(SqliteRepository::getInstance().getLastId(std::to_string(startYear))),
-	m_username(SqliteRepository::getInstance().getLastUsername(""+firstName[0]+middleName[0]+lastName[0])),
+	int startYear, Term::Term startTerm, Type userType, int departmentId, const std::string & birthday) :
+	m_id(Server::getInstance().repository->getNewId(std::to_string(startYear))),
+	m_username(Server::getInstance().repository->getNewUsername(""+firstName[0]+middleName[0]+lastName[0])),
 	m_password(birthday), m_firstName(firstName), m_middleName(middleName), m_lastName(lastName), m_startYear(startYear),
-	m_startTerm(startTerm), m_type(userType), m_department(department), m_birthday(birthday), m_inbox(m_id)
+	m_startTerm(startTerm), m_type(userType), m_departmentId(departmentId), m_department(nullptr), m_birthday(birthday), m_inbox(m_id)
 {
 }
 
 AbstractUser::AbstractUser(int id, const std::string & username, const std::string & password, const std::string & firstName,
 	const std::string & middleName, const std::string & lastName, int startYear, Term::Term startTerm, Type userType,
-	Department * department, const std::string & birthday) :
+	int departmentId, const std::string & birthday) :
 	m_id(id), m_username(username), m_password(password), m_firstName(firstName), m_middleName(middleName),
-	m_lastName(lastName), m_startYear(startYear), m_startTerm(startTerm), m_type(userType), m_department(department),
-	m_birthday(birthday), m_inbox(id)
+	m_lastName(lastName), m_startYear(startYear), m_startTerm(startTerm), m_type(userType), m_departmentId(departmentId),
+	m_department(nullptr), m_birthday(birthday), m_inbox(id)
 {
 }
 
 AbstractUser::AbstractUser(const AbstractUser & other) :
 	m_id(other.m_id), m_username(other.m_username), m_password(other.m_password), m_firstName(other.m_firstName),
 	m_middleName(other.m_middleName), m_lastName(other.m_lastName), m_startYear(other.m_startYear),
-	m_startTerm(other.m_startTerm), m_type(other.m_type), m_department(other.m_department),
-	m_birthday(other.m_birthday), m_inbox(other.m_inbox)
+	m_startTerm(other.m_startTerm), m_type(other.m_type), m_departmentId(other.m_departmentId),
+	m_department(other.m_department), m_birthday(other.m_birthday), m_inbox(other.m_inbox)
 {
 }
 
@@ -166,6 +170,7 @@ AbstractUser & AbstractUser::operator=(const AbstractUser & rhs)
 	m_startYear = rhs.m_startYear;
 	m_startTerm = rhs.m_startTerm;
 	m_type = rhs.m_type;
+	m_departmentId = rhs.m_departmentId;
 	m_department = rhs.m_department;
 	m_birthday = rhs.m_birthday;
 	m_inbox = rhs.m_inbox;

@@ -8,17 +8,16 @@ class Administrator : public AbstractUser {
 public:
 	Administrator();
 	Administrator(const std::string & firstName, const std::string & middleName, const std::string & lastName,
-		int startYear, Term::Term startTerm, Department * department, const std::string & birthday);
+		int startYear, Term::Term startTerm, int departmentId, const std::string & birthday);
 	Administrator(int id, const std::string & username, const std::string & password, const std::string & firstName,
 		const std::string & middleName, const std::string & lastName, int startYear, Term::Term startTerm,
-		Department * department, const std::string & birthday, const std::list<Department *> & privileges);
+		int departmentId, const std::string & birthday, const std::list<Department *> & privileges);
 	Administrator(const Administrator & other);
 	virtual ~Administrator();
 	Administrator & operator=(const Administrator & rhs);
 
 	AbstractUser * createUser(const std::string & firstName, const std::string & middleName, const std::string & lastName,
-		int startYear, Term::Term startTerm, Type userType, Department * department,
-		const std::string & birthday) const;
+		int startYear, Term::Term startTerm, Type userType, int departmentId, const std::string & birthday) const;
 
 	bool decideOnCourse(Course *courseRequested, bool approveCourse) const;
 
