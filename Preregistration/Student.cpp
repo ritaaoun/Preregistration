@@ -7,7 +7,7 @@ Student::Student() :
 
 Student::Student(const std::string & firstName, const std::string & middleName, const std::string & lastName,
 	int startYear, Term::Term startTerm, int departmentId, const std::string & birthday) :
-	AbstractUser(firstName, middleName, lastName, startYear, startTerm, Type::STUDENT, department, birthday),
+	AbstractUser(firstName, middleName, lastName, startYear, startTerm, Type::STUDENT, departmentId, birthday),
 	m_sections()
 {
 }
@@ -17,7 +17,7 @@ Student::Student(int id, const std::string & username, const std::string & passw
 	const std::string & middleName, const std::string & lastName, int startYear, Term::Term startTerm, 
 	int departmentId, const std::string & birthday) :
 	AbstractUser(id, username, password, firstName, middleName, lastName, startYear, startTerm,
-		Type::STUDENT, department, birthday),
+		Type::STUDENT, departmentId, birthday),
 	m_sections()
 {
 }

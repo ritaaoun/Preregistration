@@ -1,8 +1,8 @@
 #pragma once
 
 #include "AbstractUser.hpp"
-#include "Schedulable.hpp"
-#include "Schedule.hpp"
+#include "Schedulable.h"
+#include "Schedule.h"
 #include "Course.hpp"
 #include "Section.hpp"
 #include <list>

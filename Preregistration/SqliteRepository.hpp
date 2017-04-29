@@ -9,7 +9,7 @@ public:
 	// Inherited via AbstractRepository
 	virtual bool deleteUser(const AbstractUser * user) const override;
 	virtual bool deleteUser(int id) const override;
-	virtual bool updateUser(const AbstractUser * user) const override;
+	virtual bool updateUser(AbstractUser * user) const override;
 	virtual bool createUser(const AbstractUser * user) const override;
 	virtual AbstractUser * getUser(int id) const override;
 	virtual std::vector<AbstractUser*> * getUsers() const override;

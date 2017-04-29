@@ -34,7 +34,7 @@ bool SqliteRepository::deleteUser(int id) const
 	return true;
 }
 
-bool SqliteRepository::updateUser(const AbstractUser * user) const
+bool SqliteRepository::updateUser(AbstractUser * user) const
 {
 	return true;
 }
@@ -134,12 +134,12 @@ std::vector<AbstractMessage*>*  SqliteRepository::getReceivedMessages(const Abst
 	return new std::vector<AbstractMessage*>();
 }
 
-int SqliteRepository::getLastId(std::string year) const
+int SqliteRepository::getNewId(std::string year) const
 {
 	return 0;
 }
 
-std::string SqliteRepository::getLastUsername(std::string username) const
+std::string SqliteRepository::getNewUsername(std::string username) const
 {
 	return "";
 }

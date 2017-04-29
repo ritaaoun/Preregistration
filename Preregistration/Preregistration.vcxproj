@@ -122,6 +122,8 @@
     <ClInclude Include="AbstractRepository.hpp" />
     <ClInclude Include="ClientInterface.hpp" />
     <ClInclude Include="ClientServerInterface.hpp" />
+    <ClInclude Include="Constraint.hpp" />
+    <ClInclude Include="Course.hpp" />
     <ClInclude Include="MessageFactory.hpp" />
     <ClInclude Include="myException.h" />
     <ClInclude Include="myHostInfo.h" />
@@ -130,6 +132,11 @@
     <ClInclude Include="Professor.hpp" />
     <ClInclude Include="ChatMessage.hpp" />
     <ClInclude Include="Inbox.hpp" />
+    <ClInclude Include="Room.h" />
+    <ClInclude Include="RoomManager.h" />
+    <ClInclude Include="Schedulable.h" />
+    <ClInclude Include="Schedule.h" />
+    <ClInclude Include="Section.hpp" />
     <ClInclude Include="Server.hpp" />
     <ClInclude Include="ServerData.hpp" />
     <ClInclude Include="ServerInterface.hpp" />
@@ -139,21 +146,30 @@
     <ClInclude Include="Department.hpp" />
     <ClInclude Include="Enum.hpp" />
     <ClInclude Include="AbstractUser.hpp" />
+    <ClInclude Include="TimeSlot.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbstractUser.cpp" />
     <ClCompile Include="Administrator.cpp" />
     <ClCompile Include="ChatMessage.cpp" />
     <ClCompile Include="ClientInterface.cpp" />
+    <ClCompile Include="Constraint.cpp" />
+    <ClCompile Include="Course.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="myException.cpp" />
     <ClCompile Include="myHostInfo.cpp" />
     <ClCompile Include="myLog.cpp" />
     <ClCompile Include="mySocket.cpp" />
     <ClCompile Include="Professor.cpp" />
+    <ClCompile Include="Room.cpp" />
+    <ClCompile Include="RoomManager.cpp" />
+    <ClCompile Include="Schedule.cpp" />
+    <ClCompile Include="Section.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="ServerInterface.cpp" />
     <ClCompile Include="SqliteRepository.cpp" />
     <ClCompile Include="Student.cpp" />
+    <ClCompile Include="TimeSlot.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

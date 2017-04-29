@@ -13,7 +13,7 @@ public:
 	
 	virtual bool deleteUser(const AbstractUser * user) const = 0;
 	virtual bool deleteUser(int id) const = 0;
-	virtual bool updateUser(const AbstractUser * user) const = 0;
+	virtual bool updateUser(AbstractUser * user) const = 0;
 	virtual bool createUser(const AbstractUser * user) const = 0;
 	virtual AbstractUser * getUser(int id) const = 0;
 	virtual std::vector<AbstractUser *> * getUsers() const = 0;
