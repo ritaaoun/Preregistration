@@ -12,6 +12,17 @@ public:
 	virtual ~Department();
 	Department & operator=(const Department & rhs);
 
+	int getId() const;
+
+	void setName(const std::string & name);
+	std::string getName() const;
+
+	void setCode(const std::string & code);
+	std::string getCode() const;
+
+	void setFacultyCode(const std::string & facultyCode);
+	std::string getFacultyCode() const;
+
 	const std::list<Course *> & getCourses() const override;
 	const std::list<Course *> & getCourseRequests() const;
 	bool requestCourse(Course *course);

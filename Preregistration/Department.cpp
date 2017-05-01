@@ -37,6 +37,41 @@ Department & Department::operator=(const Department & rhs)
 	return *this;
 }
 
+int Department::getId() const
+{
+	return m_id;
+}
+
+void Department::setName(const std::string & name)
+{
+	m_name = name;
+}
+
+std::string Department::getName() const
+{
+	return m_name;
+}
+
+void Department::setCode(const std::string & code)
+{
+	m_code = code;
+}
+
+std::string Department::getCode() const
+{
+	return m_code;
+}
+
+void Department::setFacultyCode(const std::string & facultyCode)
+{
+	m_facultyCode = facultyCode;
+}
+
+std::string Department::getFacultyCode() const
+{
+	return m_facultyCode;
+}
+
 const std::list<Course*>& Department::getCourses() const
 {
 	return m_courses;

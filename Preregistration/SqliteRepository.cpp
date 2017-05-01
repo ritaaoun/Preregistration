@@ -98,7 +98,10 @@ bool SqliteRepository::deleteDepartment(const Department * department) const
 
 bool SqliteRepository::updateDepartment(const Department * department) const
 {
-	return true;
+	std::string sql = "UPDATE DEPARTMENT SET NAME = '" + department->getName() + "', CODE = '" +
+		department->getCode() + "', FACULTYCODE = '" + department->getFacultyCode() + "' " +
+		"WHERE ID = '" + std::to_string(department->getId()) + "';";
+	return execute(sql);
 }
 
 bool SqliteRepository::createDepartment(const Department * department) const
