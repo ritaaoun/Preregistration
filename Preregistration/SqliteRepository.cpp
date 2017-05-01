@@ -1,4 +1,5 @@
 #include "SqliteRepository.hpp"
+#include <iostream>
 
 SqliteRepository & SqliteRepository::getInstance()
 {
@@ -8,6 +9,33 @@ SqliteRepository & SqliteRepository::getInstance()
 
 SqliteRepository::SqliteRepository()
 {
+	open();
+}
+
+bool SqliteRepository::open()
+{
+	if (sqlite3_open("registration.db", &database) == SQLITE_OK)
+		return true;
+	return false;
+}
+
+void SqliteRepository::close()
+{
+	sqlite3_close(database);
+}
+
+bool SqliteRepository::execute(const std::string & sql) const
+{
+	char *zErrMsg = 0;
+	int rc;
+
+	rc = sqlite3_exec(database, sql.c_str() , nullptr, 0, &zErrMsg);
+	if (rc != SQLITE_OK) {
+		std::cerr << "SQL error: " << zErrMsg;
+		sqlite3_free(zErrMsg);
+		return false;
+	}
+	return true;
 }
 
 SqliteRepository::SqliteRepository(const SqliteRepository & rhs)
@@ -26,12 +54,14 @@ SqliteRepository & SqliteRepository::operator=(const SqliteRepository & rhs)
 
 bool SqliteRepository::deleteUser(const AbstractUser * user) const
 {
-	return true;
+	std::string sql = "DELETE FROM USER WHERE ID = " + std::to_string(user->getId()) + ";";
+	return execute(sql);
 }
 
 bool SqliteRepository::deleteUser(int id) const
 {
-	return true;
+	std::string sql = "DELETE FROM USER WHERE ID = " + std::to_string(id) + ";";
+	return execute(sql);
 }
 
 bool SqliteRepository::updateUser(AbstractUser * user) const
@@ -56,12 +86,14 @@ std::vector<AbstractUser*>* SqliteRepository::getUsers() const
 
 bool SqliteRepository::deleteDepartment(int id) const
 {
-	return true;
+	std::string sql = "DELETE FROM DEPARTMENT WHERE ID = " + std::to_string(id) + ";";
+	return execute(sql);
 }
 
 bool SqliteRepository::deleteDepartment(const Department * department) const
 {
-	return true;
+	std::string sql = "DELETE FROM DEPARTMENT WHERE ID = " + std::to_string(department->getId()) + ";";
+	return execute(sql);
 }
 
 bool SqliteRepository::updateDepartment(const Department * department) const

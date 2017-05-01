@@ -1,5 +1,7 @@
 #pragma once
 #include "AbstractRepository.hpp"
+#include "sqlite3.h"
+#include <string>
 
 class SqliteRepository : public AbstractRepository{
 public:
@@ -37,4 +39,8 @@ private :
 	SqliteRepository(const SqliteRepository & rhs);
 	virtual ~SqliteRepository();
 	SqliteRepository & operator=(const SqliteRepository & rhs);
+	sqlite3 *database;
+	bool open();
+	void close();
+	bool execute(const std::string & sql) const;
 };
