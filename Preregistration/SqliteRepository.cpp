@@ -7,6 +7,7 @@ SqliteRepository & SqliteRepository::getInstance()
 	return instance;	// Instantiated on first use.		
 }
 
+// TODO fail handling
 SqliteRepository::SqliteRepository()
 {
 	open();
@@ -44,6 +45,7 @@ SqliteRepository::SqliteRepository(const SqliteRepository & rhs)
 
 SqliteRepository::~SqliteRepository()
 {
+	close();
 }
 
 SqliteRepository & SqliteRepository::operator=(const SqliteRepository & rhs)
@@ -66,7 +68,12 @@ bool SqliteRepository::deleteUser(int id) const
 
 bool SqliteRepository::updateUser(AbstractUser * user) const
 {
-	return true;
+	std::string sql = "UPDATE USER SET PASSWORD = '" + user->getPassword() + "', " +
+		"FIRSTNAME = '" + user->getFirstName() + "', MIDDLENAME = '" + user->getMiddleName() + "', " +
+		"LASTNAME = '" + user->getLastName() + "', STARTYEAR = '" + std::to_string(user->getStartYear()) + "', " +
+		"STARTTERM = '" + std::to_string(user->getStartTerm()) + "', DEPARTMENTID = '" +
+		std::to_string(user->getDepartment()->getId()) + "' WHERE ID = '" + std::to_string(user->getId()) + "';";
+	return execute(sql);
 }
 
 bool SqliteRepository::createUser(const AbstractUser * user) const
@@ -111,17 +118,17 @@ bool SqliteRepository::createDepartment(const Department * department) const
 
 Department* SqliteRepository::getDepartment(int id) const
 {
-	return new Department();
+	return nullptr;
 }
 
 Department* SqliteRepository::getUserDepartment(int userId) const
 {
-	return new Department();
+	return nullptr;
 }
 
 Department* SqliteRepository::getUserDepartment(const AbstractUser * user) const
 {
-	return new Department();
+	return nullptr;
 }
 
 std::vector<Department*>* SqliteRepository::getAdminDepartments(const Administrator * admin) const

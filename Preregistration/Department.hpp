@@ -23,7 +23,7 @@ public:
 	void setFacultyCode(const std::string & facultyCode);
 	std::string getFacultyCode() const;
 
-	const std::list<Course *> & getCourses() const override;
+	const std::list<Course *> & getCourses() const;
 	const std::list<Course *> & getCourseRequests() const;
 	bool requestCourse(Course *course);
 	bool decideOnCourse(Course *course, bool approveCourse);

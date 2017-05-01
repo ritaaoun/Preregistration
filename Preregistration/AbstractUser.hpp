@@ -19,7 +19,9 @@ public:
 	std::string getUsername() const;
 
 	bool checkPassword(const std::string & password) const;
+	std::string getPassword() const;
 	void setPassword(const std::string & password);
+	void resetPassword();
 	
 	std::string getFirstName() const;
 	void setFirstName(const std::string & firstName);

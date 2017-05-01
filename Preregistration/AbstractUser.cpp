@@ -16,9 +16,20 @@ bool AbstractUser::checkPassword(const std::string & password) const
 	return m_password == password;
 }
 
+std::string AbstractUser::getPassword() const
+{
+	return m_password;
+}
+ 
 void AbstractUser::setPassword(const std::string & password)
 {
 	m_password = password;
+	Server::getInstance().repository->updateUser(this);
+}
+
+void AbstractUser::resetPassword()
+{
+	m_password = m_birthday;
 	Server::getInstance().repository->updateUser(this);
 }
 
