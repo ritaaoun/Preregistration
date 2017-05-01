@@ -6,7 +6,6 @@
 
 class Department {
 public:
-	Department();
 	Department(const std::string & name, const std::string & code, const std::string & facultyCode);
 	Department(int id, const std::string & name, const std::string & code, const std::string & facultyCode);
 	Department(const Department & other);
@@ -17,6 +16,9 @@ public:
 	const std::list<Course *> & getCourseRequests() const;
 	bool requestCourse(Course *course);
 	bool decideOnCourse(Course *course, bool approveCourse);
+
+protected:
+	Department();
 
 private:
 	int m_id;

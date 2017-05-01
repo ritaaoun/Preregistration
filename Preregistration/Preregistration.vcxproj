@@ -156,6 +156,7 @@
     <ClCompile Include="Constraint.cpp" />
     <ClCompile Include="Course.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Department.cpp" />
     <ClCompile Include="myException.cpp" />
     <ClCompile Include="myHostInfo.cpp" />
     <ClCompile Include="myLog.cpp" />

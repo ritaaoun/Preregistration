@@ -31,8 +31,9 @@ public:
 	virtual bool createMessage(const AbstractMessage * message) override;
 	virtual std::vector<AbstractMessage*> * getSentMessages(const AbstractUser * user) const override;
 	virtual std::vector<AbstractMessage*> * getReceivedMessages(const AbstractUser * user) const override;
-	virtual int getNewId(std::string year) const override;
+	virtual int getNewUserId(std::string year) const override;
 	virtual std::string getNewUsername(std::string username) const override;
+	virtual int getNewDepartmentId() const override;
 
 private :
 	SqliteRepository();

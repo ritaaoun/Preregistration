@@ -166,7 +166,7 @@ std::vector<AbstractMessage*>*  SqliteRepository::getReceivedMessages(const Abst
 	return new std::vector<AbstractMessage*>();
 }
 
-int SqliteRepository::getNewId(std::string year) const
+int SqliteRepository::getNewUserId(std::string year) const
 {
 	return 0;
 }
@@ -174,4 +174,9 @@ int SqliteRepository::getNewId(std::string year) const
 std::string SqliteRepository::getNewUsername(std::string username) const
 {
 	return "";
+}
+
+int SqliteRepository::getNewDepartmentId() const
+{
+	return 0;
 }
