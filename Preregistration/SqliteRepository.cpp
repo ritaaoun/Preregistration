@@ -34,7 +34,7 @@ bool SqliteRepository::deleteUser(int id) const
 	return true;
 }
 
-bool SqliteRepository::updateUser(const AbstractUser * user) const
+bool SqliteRepository::updateUser(AbstractUser * user) const
 {
 	return true;
 }

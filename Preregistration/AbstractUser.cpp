@@ -85,13 +85,13 @@ AbstractUser::Type AbstractUser::getType() const
 void AbstractUser::setType(Type type)
 {
 	m_type = type;
-	(Server::getInstance().repository->updateUser(this);
+	Server::getInstance().repository->updateUser(this);
 }
 
 Department * AbstractUser::getDepartment() const
 {
 	if (m_department == nullptr) {
-		m_department = Server::getInstance().data.getUser(m_departmentId);
+		m_department = Server::getInstance().data.getDepartment(m_departmentId);
 	}
 	return m_department;
 }
@@ -111,7 +111,7 @@ std::string AbstractUser::getBirthday() const
 void AbstractUser::setBirthday(const std::string & birthday)
 {
 	m_birthday = birthday;
-	(Server::getInstance().repository->updateUser(this);
+	Server::getInstance().repository->updateUser(this);
 }
 
 bool AbstractUser::updateSentMessages(AbstractMessage * message)

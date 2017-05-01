@@ -7,12 +7,18 @@ Server::Server() : MAX_THREADS(10), repository(&SqliteRepository::getInstance())
 	startListener();	
 }
 
+Server::~Server()
+{
+	closeListener();
+}
+
 bool Server::closeListener()
 {
 	for (int i = 0;i < MAX_THREADS;i++)
 	{
 		threads[i].join();
 	}
+	return true;
 }
 
 bool Server::startListener()
@@ -45,35 +51,38 @@ bool Server::startListener()
 	
 	for (int i = 0;i < MAX_THREADS;i++)
 	{
-		threads[i] = std::thread(&listen,this);
+		//threads[i] = std::thread(&listen,this);
 	}
 
-
+	return true;
 }
 
 
 void Server::listen()
 {
-	myTcpSocket* client;    // connection dedicated for client communication
-	string clientHost;      // client name etc. 
-
-	client = myTcpServer.acceptClient(clientHost);
-
-	winLog << endl << "==> A client from [" << clientHost << "] is connected!" << endl << endl;
-
-	while (1)
+	while (2.0) 
 	{
-		string clientMessageIn = "";
-		string result= "";
+		myTcpSocket* client;    // connection dedicated for client communication
+		string clientHost;      // client name etc. 
 
-		// receive from the client
+		client = myTcpServer.acceptClient(clientHost);
 
-		int numBytes = client->receiveMessage(clientMessageIn);
-		if (numBytes == -99) break;
+		winLog << endl << "==> A client from [" << clientHost << "] is connected!" << endl << endl;
 
-		result = serverInterface.callFunction(clientMessageIn);		
+		while (1)
+		{
+			string clientMessageIn = "";
+			string result = "";
 
-		// send to the client		
-		client->sendMessage(result);
+			// receive from the client
+
+			int numBytes = client->receiveMessage(clientMessageIn);
+			if (numBytes == -99) break;
+
+			result = serverInterface.callFunction(clientMessageIn);
+
+			// send to the client		
+			client->sendMessage(result);
+		}
 	}
 }

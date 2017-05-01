@@ -1,7 +1,7 @@
 #pragma once
 
 #include "AbstractUser.hpp"
-#include "Schedulable.hpp"
+#include "Schedulable.h"
 #include <list>
 
 class Student : public AbstractUser, public Schedulable {
