@@ -2,7 +2,7 @@
 
 #include "Course.hpp"
 #include <string>
-#include <list>
+#include <vector>
 
 class Department {
 public:
@@ -23,8 +23,8 @@ public:
 	void setFacultyCode(const std::string & facultyCode);
 	std::string getFacultyCode() const;
 
-	const std::list<Course *> & getCourses() const;
-	const std::list<Course *> & getCourseRequests() const;
+	const std::vector<Course *> & getCourses() const;
+	const std::vector<Course *> & getCourseRequests() const;
 	bool requestCourse(Course *course);
 	bool decideOnCourse(Course *course, bool approveCourse);
 
@@ -36,6 +36,10 @@ private:
 	std::string m_name;
 	std::string m_code;
 	std::string m_facultyCode; ///< Faculty department belongs to
-	std::list<Course *> m_courses;
-	std::list<Course *> m_courseRequests;
+
+	std::vector<int> m_courseIds;
+	std::vector<int> m_courseRequestIds;
+
+	std::vector<Course *> m_courses;
+	std::vector<Course *> m_courseRequests;
 };

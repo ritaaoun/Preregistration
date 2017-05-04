@@ -2,7 +2,7 @@
 
 #include "AbstractUser.hpp"
 #include "Schedulable.h"
-#include <list>
+#include <vector>
 
 class Student : public AbstractUser, public Schedulable {
 public:
@@ -16,10 +16,10 @@ public:
 	virtual ~Student();
 	Student & operator=(const Student & rhs);
 
-	const std::list<Section *> & getSections() const;
+	const std::vector<Section *> getSections() const;
 
 	bool subscribeToSection(Section * section);
 
 private:
-	std::list<Section *> m_sections;
+	std::vector<Section *> m_sections;
 };

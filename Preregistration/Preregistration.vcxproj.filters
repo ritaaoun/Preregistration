@@ -158,6 +158,12 @@
     <ClCompile Include="Department.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Inbox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enum.hpp">

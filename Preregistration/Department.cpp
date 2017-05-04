@@ -4,14 +4,14 @@
 
 Department::Department(const std::string & name, const std::string & code, const std::string & facultyCode) :
 	m_id(Server::getInstance().repository->getNewDepartmentId()), m_name(name), m_code(code),
-	m_facultyCode(facultyCode), m_courses(), m_courseRequests()
+	m_facultyCode(facultyCode), m_courseIds(), m_courseRequestIds(), m_courses(), m_courseRequests()
 {
 }
 
 Department::Department(int id, const std::string & name, const std::string & code, const std::string & facultyCode) :
 	m_id(id), m_name(name), m_code(code), m_facultyCode(facultyCode),
-	m_courses(Server::getInstance().repository->getDepartmentCourses(id)),
-	m_courseRequests(Server::getInstance().repository->getDepartmentCourseRequests(id))
+	m_courseIds(Server::getInstance().repository->getDepartmentCourses(id)),
+	m_courseRequestIds(Server::getInstance().repository->getDepartmentCourseRequests(id))
 {
 }
 
@@ -72,12 +72,12 @@ std::string Department::getFacultyCode() const
 	return m_facultyCode;
 }
 
-const std::list<Course*>& Department::getCourses() const
+const std::vector<Course*>& Department::getCourses() const
 {
 	return m_courses;
 }
 
-const std::list<Course*>& Department::getCourseRequests() const
+const std::vector<Course*>& Department::getCourseRequests() const
 {
 	return m_courseRequests;
 }
@@ -93,7 +93,7 @@ bool Department::requestCourse(Course * course)
 // TODO update database
 bool Department::decideOnCourse(Course * course, bool approveCourse)
 {
-	std::list<Course*>::iterator it = std::find(m_courseRequests.begin(), m_courseRequests.end(), course);
+	std::vector<Course*>::iterator it = std::find(m_courseRequests.begin(), m_courseRequests.end(), course);
 	if (it == m_courseRequests.end()) {
 		return false;
 	}

@@ -1,6 +1,7 @@
 #include "mySocket.h"
 #include "myException.h"
-
+#include "myLog.h"
+#include <iostream>
 const int MSG_HEADER_LEN = 6;
 
 mySocket::mySocket(int pNumber)
@@ -863,7 +864,7 @@ void myTcpSocket::detectErrorAccept(int* errCode,string& errMsg)
 	else errMsg.append("unknown problems!");
 }
 
-void myTcpSocket::detectErrorListen(int* errCode,string& errMsg)
+void myTcpSocket::detectErrorlisten(int* errCode,string& errMsg)
 {
 	*errCode = WSAGetLastError();
 
@@ -1092,14 +1093,14 @@ void myTcpSocket::listenToClient(int totalNumPorts)
 			#ifdef WINDOWS_XP
 				int errorCode = 0;
 				string errorMsg = "error calling listen():\n";
-				detectErrorListen(&errorCode,errorMsg);
-				myException* socketListenException = new myException(errorCode,errorMsg);
-				throw socketListenException;
+				detectErrorlisten(&errorCode,errorMsg);
+				myException* socketlistenException = new myException(errorCode,errorMsg);
+				throw socketlistenException;
 			#endif
 
 			#ifdef UNIX
-				myException* unixSocketListenException = new myException(0,"unix: error calling listen()");
-				throw unixSocketListenException;
+				myException* unixSocketlistenException = new myException(0,"unix: error calling listen()");
+				throw unixSocketlistenException;
 			#endif
         }
 	}
@@ -1327,7 +1328,7 @@ int myTcpSocket::XPreceiveMessage(string& message)
 	{
 		if ( excp->getErrCode() == WSAECONNRESET )
 		{
-			cout   << "!! your party has shut down the connection... \n";
+			std::cout   << "!! your party has shut down the connection... \n";
 			winLog << "!! your party has shut down the connection... \n";
 			return -99;
 		}

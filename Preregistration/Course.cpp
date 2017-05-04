@@ -71,3 +71,8 @@ bool Course::removeSection(Section * section)
 	return true;
 }
 
+Department * Course::getDepartment() const
+{//TODO
+	return nullptr;
+}
+

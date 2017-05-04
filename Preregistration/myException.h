@@ -1,7 +1,7 @@
 #ifndef _myException
 #define _myException
 
-#include "myLog.h"
+#include <string>
 
 class myException
 {
@@ -9,7 +9,7 @@ class myException
 public:
 
     // int: error code, string is the concrete error message
-	myException(int,const string&);   
+	myException(int errCode, const std::string & errMsg);
 	~myException() {};
 
 	/*
@@ -18,14 +18,14 @@ public:
 	*/
 	virtual void response();  
 	int getErrCode()    { return errorCode; }
-	string& getErrMsg() { return errorMsg; }
+	std::string & getErrMsg() { return errorMsg; }
 
 private:
 	void initVars();
 
 private:
 	int   errorCode;
-	string errorMsg;
+	std::string errorMsg;
 };
 
 #endif

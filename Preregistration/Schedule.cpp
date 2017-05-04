@@ -11,13 +11,13 @@ void Schedule::generateSchedule()
 {
 	mTimeSlots.clear();
 	
-	vector<Section*> sections = mSchedulable->getSections();
+	std::vector<Section*> sections = mSchedulable->getSections();
 
-	for (int i = 0; i < sections.size(); i++)
+	for (unsigned int i = 0; i < sections.size(); ++i)
 	{
 		vector<TimeSlot*> sectionTimeSlots = sections.at(i)->getTimeSlots();
 
-		for (int j = 0; j < sectionTimeSlots.size(); j++)
+		for (unsigned int j = 0; j < sectionTimeSlots.size(); j++)
 		{
 			mContainsConflict = mContainsConflict || hasConflictWith(sectionTimeSlots.at(j));
 			mTimeSlots.push_back(sectionTimeSlots.at(j));
@@ -27,7 +27,7 @@ void Schedule::generateSchedule()
 
 bool Schedule::hasConflictWith(TimeSlot * timeSlot)
 {
-	for (int i = 0; i < mTimeSlots.size(); i++)
+	for (unsigned int i = 0; i < mTimeSlots.size(); i++)
 	{
 		TimeSlot* ts = mTimeSlots.at(i);
 		
@@ -69,7 +69,7 @@ bool Schedule::hasConflictWith(TimeSlot * timeSlot)
 
 bool Schedule::hasConflictWith(vector<TimeSlot*> timeSlots)
 {
-	for (int i = 0; i < timeSlots.size(); i++)
+	for (unsigned int i = 0; i < timeSlots.size(); i++)
 	{
 		if (hasConflictWith(timeSlots.at(i)))
 		{

@@ -5,7 +5,7 @@
 #include "Schedule.h"
 #include "Course.hpp"
 #include "Section.hpp"
-#include <list>
+#include <vector>
 
 class Professor : public AbstractUser, public Schedulable {
 public:
@@ -19,12 +19,12 @@ public:
 	virtual ~Professor();
 	Professor & operator=(const Professor & rhs);
 
-	const std::list<Section *> & getSections() const override;
+	const std::vector<Section *> getSections() const override;
 
 	bool requestCourse(Course * course) const;
 
 	bool publishSection(Section * section);
 
 private:
-	std::list<Section *> m_sections;
+	std::vector<Section *> m_sections;
 };

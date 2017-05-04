@@ -18,7 +18,7 @@ Administrator::Administrator(const std::string & firstName, const std::string & 
 Administrator::Administrator(int id, const std::string & username, const std::string & password,
 	const std::string & firstName, const std::string & middleName, const std::string & lastName,
 	int startYear, Term::Term startTerm, int departmentId, const std::string & birthday,
-	const std::list<Department *> & privileges) :
+	const std::vector<Department *> & privileges) :
 	AbstractUser(id, username, password, firstName, middleName, lastName, startYear, startTerm,
 		Type::ADMINISTRATOR, departmentId, birthday),
 	m_privileges(privileges)
@@ -74,7 +74,7 @@ bool Administrator::decideOnCourse(Course * courseRequested, bool approveCourse)
 	}
 }
 
-const std::list<Department*>& Administrator::getPrivileges() const
+const std::vector<Department*>& Administrator::getPrivileges() const
 {
 	return m_privileges;
 }

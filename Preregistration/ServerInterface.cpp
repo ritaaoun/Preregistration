@@ -8,6 +8,20 @@ ServerInterface::ServerInterface()
 	//(*f)("");
 }
 
+ServerInterface::~ServerInterface()
+{
+}
+
+ServerInterface::ServerInterface(const ServerInterface & other)
+{
+}
+
+ServerInterface & ServerInterface::operator=(const ServerInterface & rhs)
+{
+	// TODO: insert return statement here
+	return *this;
+}
+
 std::string ServerInterface::callFunction(std::string function)
 {
 	return "hello";

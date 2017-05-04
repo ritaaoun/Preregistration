@@ -4,15 +4,21 @@
 
 Server::Server() : MAX_THREADS(10), repository(&SqliteRepository::getInstance()), data(), serverInterface()
 {
-	startListener();	
+	startlistener();	
 }
 
 Server::~Server()
 {
-	closeListener();
+	closelistener();
 }
 
-bool Server::closeListener()
+Server & Server::operator=(const Server & rhs)
+{
+	// TODO: insert return statement here
+	return *this;
+}
+
+bool Server::closelistener()
 {
 	for (int i = 0;i < MAX_THREADS;i++)
 	{
@@ -21,7 +27,12 @@ bool Server::closeListener()
 	return true;
 }
 
-bool Server::startListener()
+bool Server::start()
+{
+	return false;
+}
+
+bool Server::startlistener()
 {
 	winLog << endl;
 	winLog << "Retrieve the local host name and address:" << endl;

@@ -111,9 +111,13 @@ bool SqliteRepository::updateDepartment(const Department * department) const
 	return execute(sql);
 }
 
-bool SqliteRepository::createDepartment(const Department * department) const
+
+// TODO: return id
+int SqliteRepository::createDepartment(const Department * department) const
 {
-	return true;
+	std::string sql = "INSERT INTO DEPARTMENT (NAME, CODE, FACULTY) VALUES ('" + department->getName() +
+		 "', '" + department->getCode() + "', '" + department->getFacultyCode() + "')";
+	return 0;
 }
 
 Department* SqliteRepository::getDepartment(int id) const
@@ -144,6 +148,16 @@ std::vector<Department*>* SqliteRepository::getAdminDepartments(int adminId) con
 std::vector<Department*>* SqliteRepository::getDepartments() const
 {
 	return new std::vector<Department*>();
+}
+
+std::vector<int> SqliteRepository::getDepartmentCourses(int departmentId) const
+{
+	return std::vector<int>();
+}
+
+std::vector<int> SqliteRepository::getDepartmentCourseRequests(int departmentId) const
+{
+	return std::vector<int>();
 }
 
 bool SqliteRepository::deletePrivilege(const Administrator * admin, const Department * department) const

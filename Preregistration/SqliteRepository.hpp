@@ -18,13 +18,15 @@ public:
 	virtual bool deleteDepartment(int id) const override;
 	virtual bool deleteDepartment(const Department * department) const override;
 	virtual bool updateDepartment(const Department * department) const override;
-	virtual bool createDepartment(const Department * department) const override;
+	virtual int createDepartment(const Department * department) const override;
 	virtual Department * getDepartment(int id) const override;
 	virtual Department * getUserDepartment(int userId) const override;
 	virtual Department * getUserDepartment(const AbstractUser * user) const override;
 	virtual std::vector<Department*> * getAdminDepartments(const Administrator * admin) const override;
 	virtual std::vector<Department*> * getAdminDepartments(int adminId) const override;
 	virtual std::vector<Department*> * getDepartments() const override;
+	virtual std::vector<int> getDepartmentCourses(int departmentId) const override;
+	virtual std::vector<int> getDepartmentCourseRequests(int departmentId) const override;
 	virtual bool deletePrivilege(const Administrator * admin, const Department * department) const override;
 	virtual bool createPrivilege(const Administrator * admin, const Department * department) const override;
 	virtual bool deleteMessage(const AbstractMessage * message, const AbstractUser * user) const override;

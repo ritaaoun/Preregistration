@@ -161,7 +161,7 @@ public:
 	*/
 	myTcpSocket* acceptClient(string&);
 
-	// Listens to connecting clients, a server call
+	// listens to connecting clients, a server call
 	void listenToClient(int numPorts = 5);
 
 	// connect to the server, a client call
@@ -174,7 +174,7 @@ private:
 	void detectErrorRecv(int*,string&);
 	void detectErrorConnect(int*,string&);
     void detectErrorAccept(int*,string&);
-	void detectErrorListen(int*,string&);
+	void detectErrorlisten(int*,string&);
 
 };
 

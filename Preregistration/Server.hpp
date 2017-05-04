@@ -4,7 +4,7 @@
 #include "ServerInterface.hpp"
 #include "myLog.h"
 #include "mySocket.h"
-#include <vector>
+#include <list>
 #include <thread>
 
 class Server {
@@ -25,9 +25,9 @@ public:
 protected:
 		
 	// Server Configuration 
-	bool startListener();
+	bool startlistener();
 	void listen();
-	bool closeListener();
+	bool closelistener();
 
 	//Client Server Interface
 

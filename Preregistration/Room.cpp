@@ -1,28 +1,28 @@
 #include "Room.h"
 #include <algorithm>
 
-list<Section *> & Room ::getSections() const
+const vector<Section *> Room ::getSections() const
 {
-	return mSectionList;
+	return mSectionvector;
 }
 
 void Room::addSection(Section * section)
 {
-	vector<Section*>::iterator index = std::find(mSectionList.begin(), mSectionList.end(), section);
-	if (index == mSectionList.end())
+	vector<Section*>::iterator index = std::find(mSectionvector.begin(), mSectionvector.end(), section);
+	if (index == mSectionvector.end())
 	{
-		mSectionList.push_back(section);
+		mSectionvector.push_back(section);
 	}
 	
 }
 
 void Room::removeSection(Section * section)
 {
-	vector<Section*>::iterator index = std::find(mSectionList.begin(), mSectionList.end(), section);
+	vector<Section*>::iterator index = std::find(mSectionvector.begin(), mSectionvector.end(), section);
 
-	if (index != mSectionList.end()) 
+	if (index != mSectionvector.end()) 
 	{
-		mSectionList.erase(index);
+		mSectionvector.erase(index);
 	}
 	
 }

@@ -1,6 +1,7 @@
 #include "myException.h"
+#include "myLog.h"
 
-myException::myException(int errCode,const string& errMsg)
+myException::myException(int errCode,const std::string& errMsg)
 {
 	initVars();
 	errorCode = errCode;

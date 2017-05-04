@@ -99,7 +99,7 @@ void AbstractUser::setType(Type type)
 	Server::getInstance().repository->updateUser(this);
 }
 
-Department * AbstractUser::getDepartment() const
+Department * AbstractUser::getDepartment()
 {
 	if (m_department == nullptr) {
 		m_department = Server::getInstance().data.getDepartment(m_departmentId);

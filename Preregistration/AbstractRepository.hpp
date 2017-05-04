@@ -21,12 +21,14 @@ public:
 	virtual bool deleteDepartment(int id) const = 0;
 	virtual bool deleteDepartment(const Department * department) const = 0;
 	virtual bool updateDepartment(const Department * department) const = 0;
-	virtual bool createDepartment(const Department * department) const = 0;
+	virtual int createDepartment(const Department * department) const = 0;
 	virtual Department * getDepartment(int id) const = 0;
 	virtual Department * getUserDepartment(int userId) const = 0;
 	virtual Department * getUserDepartment(const AbstractUser * user) const = 0;
 	virtual std::vector<Department *> * getAdminDepartments(const Administrator * admin) const = 0;
 	virtual std::vector<Department *> * getAdminDepartments(int adminId) const = 0;
+	virtual std::vector<int> getDepartmentCourses(int departmentId) const = 0;
+	virtual std::vector<int> getDepartmentCourseRequests(int departmentId) const = 0;
 	virtual std::vector<Department *> * getDepartments() const = 0;
 
 	virtual bool deletePrivilege(const Administrator * admin, const Department * department) const = 0;

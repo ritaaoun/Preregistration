@@ -12,7 +12,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #ifndef myLog_H
-#define myLog_H 1
+#define myLog_H
 
 #include <fstream>
 #include <iostream>
@@ -51,25 +51,25 @@ public:
    };
  
    myLog();
-   myLog(const string&);
-   myLog(const string&,enum logLevels);
+   myLog(const std::string&);
+   myLog(const std::string&,enum logLevels);
    virtual ~myLog();
 
 private:
 
    void initVars();
-   void init(const string&);
-   void init(const string&,int);
+   void init(const std::string&);
+   void init(const std::string&,int);
    void init();
 
    char* getExecTime();
    void  getExecTime(int*,int*);
-   void  openLog(const string&,int);
+   void  openLog(const std::string&,int);
    void  printHeader(int);
 
 private:
 
-   string logName;
+	std::string logName;
    enum logLevels logLevel;
    time_t startTime;
 

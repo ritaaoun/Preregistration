@@ -37,7 +37,7 @@ Professor & Professor::operator=(const Professor & rhs)
 	return *this;
 }
 
-const std::list<Section*>& Professor::getSections() const
+const std::vector<Section*> Professor::getSections() const
 {
 	return m_sections;
 }
