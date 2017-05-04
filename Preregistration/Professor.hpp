@@ -19,12 +19,13 @@ public:
 	virtual ~Professor();
 	Professor & operator=(const Professor & rhs);
 
-	const std::vector<Section *> getSections() const override;
+	const std::vector<Section *> getSections() override;
 
 	bool requestCourse(Course * course) const;
 
 	bool publishSection(Section * section);
 
 private:
+	std::vector<int> m_sectionIds;
 	std::vector<Section *> m_sections;
 };

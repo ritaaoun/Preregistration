@@ -3,7 +3,7 @@
 #include <algorithm>
 
 Department::Department(const std::string & name, const std::string & code, const std::string & facultyCode) :
-	m_id(Server::getInstance().repository->getNewDepartmentId()), m_name(name), m_code(code),
+	m_id(Server::getInstance().data.getNewDepartmentId()), m_name(name), m_code(code),
 	m_facultyCode(facultyCode), m_courseIds(), m_courseRequestIds(), m_courses(), m_courseRequests()
 {
 }

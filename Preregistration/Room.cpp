@@ -1,7 +1,7 @@
 #include "Room.h"
 #include <algorithm>
 
-const vector<Section *> Room ::getSections() const
+const vector<Section *> Room ::getSections()
 {
 	return mSectionvector;
 }

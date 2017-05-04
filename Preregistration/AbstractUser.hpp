@@ -42,6 +42,7 @@ public:
 	void setType(Type type);
 
 	Department * getDepartment();
+	int getDepartmentId() const;
 	void setDepartmentId(int departmentId);
 
 	std::string getBirthday() const;

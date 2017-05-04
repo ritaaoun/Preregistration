@@ -15,8 +15,8 @@ public:
 	virtual bool deleteUser(int id) const = 0;
 	virtual bool updateUser(AbstractUser * user) const = 0;
 	virtual bool createUser(const AbstractUser * user) const = 0;
-	virtual AbstractUser * getUser(int id) const = 0;
-	virtual std::vector<AbstractUser *> * getUsers() const = 0;
+	virtual std::vector<AbstractUser *> getUsers() const = 0;
+	virtual std::vector<int> getUserSections(int userId) const = 0;
 
 	virtual bool deleteDepartment(int id) const = 0;
 	virtual bool deleteDepartment(const Department * department) const = 0;
@@ -24,9 +24,7 @@ public:
 	virtual int createDepartment(const Department * department) const = 0;
 	virtual Department * getDepartment(int id) const = 0;
 	virtual Department * getUserDepartment(int userId) const = 0;
-	virtual Department * getUserDepartment(const AbstractUser * user) const = 0;
-	virtual std::vector<Department *> * getAdminDepartments(const Administrator * admin) const = 0;
-	virtual std::vector<Department *> * getAdminDepartments(int adminId) const = 0;
+	virtual std::vector<int> getAdminDepartments(int adminId) const = 0;
 	virtual std::vector<int> getDepartmentCourses(int departmentId) const = 0;
 	virtual std::vector<int> getDepartmentCourseRequests(int departmentId) const = 0;
 	virtual std::vector<Department *> * getDepartments() const = 0;
@@ -38,8 +36,4 @@ public:
 	virtual bool createMessage(const AbstractMessage * message) = 0;
 	virtual std::vector<AbstractMessage *> * getSentMessages(const AbstractUser * user) const = 0;
 	virtual std::vector<AbstractMessage *> * getReceivedMessages(const AbstractUser * user) const = 0;
-
-	virtual int getNewUserId(std::string year) const = 0;
-	virtual std::string getNewUsername(std::string username) const = 0;
-	virtual int getNewDepartmentId() const = 0;
 };

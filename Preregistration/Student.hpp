@@ -16,10 +16,11 @@ public:
 	virtual ~Student();
 	Student & operator=(const Student & rhs);
 
-	const std::vector<Section *> getSections() const;
+	const std::vector<Section *> getSections() override;
 
 	bool subscribeToSection(Section * section);
 
 private:
+	std::vector<int> m_sectionIds;
 	std::vector<Section *> m_sections;
 };

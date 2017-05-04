@@ -16,7 +16,7 @@ private:
 
 
 public:
-	const vector<Section *> getSections() const override;
+	const vector<Section *> getSections() override;
 	void addSection(Section* section);
 	void removeSection(Section* section);
 	void setConstraint(Constraint * constraint);

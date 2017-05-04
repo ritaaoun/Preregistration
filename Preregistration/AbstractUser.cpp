@@ -107,6 +107,11 @@ Department * AbstractUser::getDepartment()
 	return m_department;
 }
 
+int AbstractUser::getDepartmentId() const
+{
+	return m_departmentId;
+}
+
 void AbstractUser::setDepartmentId(int departmentId)
 {
 	m_departmentId = departmentId;
@@ -142,11 +147,12 @@ AbstractUser::AbstractUser() : m_id(0), m_username(), m_password(), m_firstName(
 
 AbstractUser::AbstractUser(const std::string & firstName, const std::string & middleName, const std::string & lastName,
 	int startYear, Term::Term startTerm, Type userType, int departmentId, const std::string & birthday) :
-	m_id(Server::getInstance().repository->getNewUserId(std::to_string(startYear))),
-	m_username(Server::getInstance().repository->getNewUsername(""+firstName[0]+middleName[0]+lastName[0])),
+	m_id(Server::getInstance().data.getNewUserId(std::to_string(startYear))),
+	m_username(Server::getInstance().data.getNewUsername(""+firstName[0]+middleName[0]+lastName[0])),
 	m_password(birthday), m_firstName(firstName), m_middleName(middleName), m_lastName(lastName), m_startYear(startYear),
 	m_startTerm(startTerm), m_type(userType), m_departmentId(departmentId), m_department(nullptr), m_birthday(birthday), m_inbox(m_id)
 {
+	Server::getInstance().repository->createUser(this);
 }
 
 AbstractUser::AbstractUser(int id, const std::string & username, const std::string & password, const std::string & firstName,

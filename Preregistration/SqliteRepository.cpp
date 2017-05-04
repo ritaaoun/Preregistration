@@ -1,4 +1,6 @@
 #include "SqliteRepository.hpp"
+#include "Professor.hpp"
+#include "Student.hpp"
 #include <iostream>
 
 SqliteRepository & SqliteRepository::getInstance()
@@ -30,13 +32,71 @@ bool SqliteRepository::execute(const std::string & sql) const
 	char *zErrMsg = 0;
 	int rc;
 
-	rc = sqlite3_exec(database, sql.c_str() , nullptr, 0, &zErrMsg);
+	rc = sqlite3_exec(database, sql.c_str(), nullptr, 0, &zErrMsg);
 	if (rc != SQLITE_OK) {
 		std::cerr << "SQL error: " << zErrMsg;
 		sqlite3_free(zErrMsg);
 		return false;
 	}
 	return true;
+}
+
+std::vector<std::vector<std::string>> SqliteRepository::query(const std::string & sql) const
+{
+	sqlite3_stmt *statement;
+	std::vector<std::vector<std::string> > results;
+
+	if (sqlite3_prepare_v2(database, sql.c_str(), -1, &statement, 0) == SQLITE_OK)
+	{
+		int cols = sqlite3_column_count(statement);
+		int result = 0;
+		while (true)
+		{
+			result = sqlite3_step(statement);
+
+			if (result == SQLITE_ROW)
+			{
+				std::vector<std::string> values;
+				for (int col = 0; col < cols; col++)
+				{
+					values.push_back((char*)sqlite3_column_text(statement, col));
+				}
+				results.push_back(values);
+			}
+			else
+			{
+				break;
+			}
+		}
+		sqlite3_finalize(statement);
+	}
+	std::string error = sqlite3_errmsg(database);
+	if (error != "not an error")
+	{
+		std::cerr << "SqliteRepository::query: " << sql << " " << error << std::endl;
+	}
+	return results;
+}
+
+long SqliteRepository::stringToLong(const std::string & nb) const
+{
+	char *end;
+	errno = 0;
+	long l = std::strtol(nb.c_str(), &end, 0);
+	if ((errno == ERANGE && l == LONG_MAX) || l > INT_MAX) {
+		std::cerr << "SqliteRepository::stringToLong: overflow when converting " + nb << std::endl;
+		return 0;
+	}
+	if ((errno == ERANGE && l == LONG_MIN) || l < INT_MIN) {
+		std::cerr << "SqliteRepository::stringToLong: underflow when converting " + nb << std::endl;
+		return 0;
+	}
+	if (nb.c_str() == '\0' || *end != '\0') {
+		std::cerr << "SqliteRepository::stringToLong: " + nb + " is unconvertable" << std::endl;
+		return 0;
+	}
+
+	return l;
 }
 
 SqliteRepository::SqliteRepository(const SqliteRepository & rhs)
@@ -78,17 +138,57 @@ bool SqliteRepository::updateUser(AbstractUser * user) const
 
 bool SqliteRepository::createUser(const AbstractUser * user) const
 {
-	return true;
+	std::string sql = "INSERT INTO USER (ID, USERNAME, PASSWORD, FIRSTNAME, MIDDLENAME, LASTNAME, STARTYEAR, "
+		"STARTTERM, TYPE, DEPARTMENTID, BIRTHDAY) VALUES ('" + std::to_string(user->getId()) + "', '" + 
+		user->getUsername() + "', '" + user->getPassword() + "', '" + user->getFirstName() + "', '" + 
+		user->getMiddleName() + "', '" + user->getLastName() + "', '" + std::to_string(user->getStartYear()) + "', '" + 
+		std::to_string(user->getStartTerm()) + "', '" + std::to_string(user->getType()) + "', '" +
+		std::to_string(user->getDepartmentId()) + "', '" + user->getBirthday() + "')";
+	return execute(sql);
 }
 
-AbstractUser* SqliteRepository::getUser(int id) const
+std::vector<AbstractUser*> SqliteRepository::getUsers() const
 {
-	return new Administrator();
+	std::string sql = "SELECT * FROM USER";
+	std::vector<std::vector<std::string>> results = query(sql);
+	std::vector<AbstractUser *> out;
+
+	for (std::vector<std::vector<std::string>>::iterator it = results.begin(); it != results.end(); ++it)
+	{
+		std::vector<std::string> row = *it;
+		int id = stringToLong(row.at(0));
+		std::string username = row.at(1);
+		std::string password = row.at(2);
+		std::string firstname = row.at(3);
+		std::string middlename = row.at(4);
+		std::string lastname = row.at(5);
+		int startyear = stringToLong(row.at(6));
+		Term::Term startterm = static_cast<Term::Term>(stringToLong(row.at(7)));
+		AbstractUser::Type type = static_cast<AbstractUser::Type>(stringToLong(row.at(8)));
+		int departmentid = stringToLong(row.at(9));
+		std::string birthday = row.at(10);
+
+		if (type == AbstractUser::ADMINISTRATOR) {
+			out.push_back(new Administrator(id, username, password, firstname, middlename, lastname, startyear, startterm, departmentid, birthday));
+		}
+		else if (type == AbstractUser::PROFESSOR) {
+			out.push_back(new Professor(id, username, password, firstname, middlename, lastname, startyear, startterm, departmentid, birthday));
+		}
+		else if (type == AbstractUser::STUDENT) {
+			out.push_back(new Student(id, username, password, firstname, middlename, lastname, startyear, startterm, departmentid, birthday));
+		}
+		else {
+			cerr << "SqliteRepository::getUsers(): invalid type " << to_string(type) << endl;
+		}
+
+	}
+
+	return out;
 }
 
-std::vector<AbstractUser*>* SqliteRepository::getUsers() const
+std::vector<int> SqliteRepository::getUserSections(int userId) const
 {
-	return new std::vector<AbstractUser*>();
+	return std::vector<int>();
 }
 
 bool SqliteRepository::deleteDepartment(int id) const
@@ -116,7 +216,7 @@ bool SqliteRepository::updateDepartment(const Department * department) const
 int SqliteRepository::createDepartment(const Department * department) const
 {
 	std::string sql = "INSERT INTO DEPARTMENT (NAME, CODE, FACULTY) VALUES ('" + department->getName() +
-		 "', '" + department->getCode() + "', '" + department->getFacultyCode() + "')";
+		"', '" + department->getCode() + "', '" + department->getFacultyCode() + "')";
 	return 0;
 }
 
@@ -130,19 +230,9 @@ Department* SqliteRepository::getUserDepartment(int userId) const
 	return nullptr;
 }
 
-Department* SqliteRepository::getUserDepartment(const AbstractUser * user) const
+std::vector<int> SqliteRepository::getAdminDepartments(int adminId) const
 {
-	return nullptr;
-}
-
-std::vector<Department*>* SqliteRepository::getAdminDepartments(const Administrator * admin) const
-{
-	return new std::vector<Department*>();
-}
-
-std::vector<Department*>* SqliteRepository::getAdminDepartments(int adminId) const
-{
-	return new std::vector<Department*>();
+	return std::vector<int>();
 }
 
 std::vector<Department*>* SqliteRepository::getDepartments() const
@@ -188,19 +278,4 @@ std::vector<AbstractMessage*>*  SqliteRepository::getSentMessages(const Abstract
 std::vector<AbstractMessage*>*  SqliteRepository::getReceivedMessages(const AbstractUser * user) const
 {
 	return new std::vector<AbstractMessage*>();
-}
-
-int SqliteRepository::getNewUserId(std::string year) const
-{
-	return 0;
-}
-
-std::string SqliteRepository::getNewUsername(std::string username) const
-{
-	return "";
-}
-
-int SqliteRepository::getNewDepartmentId() const
-{
-	return 0;
 }
