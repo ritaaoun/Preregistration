@@ -2,10 +2,10 @@
 #include "ServerData.hpp"
 #include "AbstractRepository.hpp"
 #include "ServerInterface.hpp"
-#include "myLog.h"
-#include "mySocket.h"
+#include "NetworkServer.hpp"
 #include <list>
 #include <thread>
+
 
 class Server {
 public:
@@ -20,24 +20,19 @@ public:
 	AbstractRepository * repository;
 	ServerData data;
 	ServerInterface serverInterface;
-	myLog winLog;
+	NetworkServer netServer;
 
 protected:
 		
 	// Server Configuration 
-	bool startlistener();
-	void listen();
-	bool closelistener();
+	void startlistener();
+	void closelistener();
 
 	//Client Server Interface
 
 
 private:
-
-	myTcpSocket myTcpServer;
-	std::vector<std::thread> threads;
-	const int MAX_THREADS;
-
+	
 	Server();
 	~Server();
 	Server(const Server & other);
