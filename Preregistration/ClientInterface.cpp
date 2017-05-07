@@ -1,7 +1,18 @@
 #include "ClientInterface.hpp"
 
-void ClientInterface::getUsers(std::string params)
+ClientInterface::ClientInterface() :client()
 {
+}
+
+std::string ClientInterface::login(std::string params)
+{
+	params = "login" + ClientServerInterface::FUNC_DELIMITER + params;
+	return client.sendData(params);	
+}
+
+std::string ClientInterface::getUsers(std::string params)
+{
+	return "";
 }
 
 void ClientInterface::addUser()

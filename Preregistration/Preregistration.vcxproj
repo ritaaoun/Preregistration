@@ -154,6 +154,7 @@
     <ClCompile Include="Administrator.cpp" />
     <ClCompile Include="ChatMessage.cpp" />
     <ClCompile Include="ClientInterface.cpp" />
+    <ClCompile Include="ClientServerInterface.cpp" />
     <ClCompile Include="Constraint.cpp" />
     <ClCompile Include="Course.cpp" />
     <ClCompile Include="Inbox.cpp" />

@@ -3,7 +3,7 @@
 
 ServerInterface::ServerInterface()
 {
-	//funcmap["getUsers"] = &getUsers;
+	//funcmap["getUsers"] = *getUsers;
 	//pfunc f = funcMap["getUsers"];
 	//(*f)("");
 }
@@ -24,11 +24,41 @@ ServerInterface & ServerInterface::operator=(const ServerInterface & rhs)
 
 std::string ServerInterface::callFunction(std::string function)
 {
-	return "hello";
+	std::vector<std::string> param = this->split(function, ClientServerInterface::FUNC_DELIMITER);
+	return login(param[1]);
+
 }
 
-void ServerInterface::getUsers(std::string params)
+std::string ServerInterface::login(std::string params)
 {
+	std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
+
+	std::string username = param[0];
+	std::string password = param[1];
+	AbstractUser* user = Server::getInstance().data.getUser(username);
+
+	if (user != nullptr && user->checkPassword(password))
+	{
+		std::string userInfo = user->getUsername() + ClientServerInterface::DELIMITER + std::to_string(user->getId()) +
+			ClientServerInterface::DELIMITER + user->getFirstName() + ClientServerInterface::DELIMITER + user->getMiddleName() +
+			ClientServerInterface::DELIMITER + user->getLastName() + ClientServerInterface::DELIMITER +
+			std::to_string(user->getType());
+	}
+	else
+	{
+		//return "false";
+		//TODO: Chane to real impl
+
+		return "caj07,:,201402911,:,christian,:,adel,:,jabr,:,2";
+	}
+
+}
+
+std::string ServerInterface::getUsers(std::string params)
+{
+	//TODO: implement
+
+	return "";
 }
 
 void ServerInterface::addUser()
@@ -78,5 +108,3 @@ void ServerInterface::editDepartment()
 void ServerInterface::deleteDepartment()
 {
 }
-
-

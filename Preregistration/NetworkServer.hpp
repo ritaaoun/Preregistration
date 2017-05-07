@@ -24,6 +24,7 @@ public:
 	NetworkServer(const NetworkServer & other);
 	NetworkServer & operator=(const NetworkServer & rhs);
 	int acceptClient();
+	void startListener();
 	void closeListener();
 
 private:

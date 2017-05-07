@@ -9,9 +9,16 @@ Department * ServerData::getDepartment(int id)
 	return nullptr;
 }
 
-AbstractUser * ServerData::getUser(int id)
+AbstractUser * ServerData::getUser(std::string username)
 {
-	return nullptr;
+	if (users.find(username) != users.end())
+	{
+		AbstractUser* user = users[username];
+	}
+	else
+	{
+		return nullptr;
+	}
 }
 
 AbstractMessage * ServerData::getMessage(int id)
