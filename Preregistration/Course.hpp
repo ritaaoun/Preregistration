@@ -33,6 +33,7 @@ private:
 	int mCourseCode; ///< Unique Course code
 	std::string mCourseName; ///< Unique Course name
 	std::string mDescription; ///< Descirption of the course
+	std::vector<int> mSectionIds; ///< vector of different section of the course
 	std::vector<Section*> mSections; ///< vector of different section of the course
 	int mNumberOfCredits; ///< number of credits of the course
 	Constraint* mConstraints; ///< constraints i.e: needComputers
