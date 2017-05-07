@@ -15,7 +15,6 @@
 #define DEFAULT_BUFLEN 8192
 #define DEFAULT_PORT "27015"
 
-//class Server;
 
 class NetworkServer {
 

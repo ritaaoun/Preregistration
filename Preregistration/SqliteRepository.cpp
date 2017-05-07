@@ -10,7 +10,7 @@ SqliteRepository & SqliteRepository::getInstance()
 }
 
 // TODO fail handling
-SqliteRepository::SqliteRepository()
+SqliteRepository::SqliteRepository() : database()
 {
 	open();
 }

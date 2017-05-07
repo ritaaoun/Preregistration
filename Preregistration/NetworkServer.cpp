@@ -56,6 +56,7 @@ NetworkServer::NetworkServer()
 
 NetworkServer::~NetworkServer()
 {
+	closeListener();
 }
 
 NetworkServer::NetworkServer(const NetworkServer & other)

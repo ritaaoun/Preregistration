@@ -1,5 +1,9 @@
 #include "RoomManager.h"
 
+RoomManager::RoomManager()
+{
+}
+
 bool RoomManager::constraintChecker(Section * section, Room * room)
 {
 	if (section->getConstraint()->matchingConstraint(room->getConstraint()))
@@ -8,11 +12,11 @@ bool RoomManager::constraintChecker(Section * section, Room * room)
 	return false;
 }
 
+
 RoomManager * RoomManager::getInstance()
 {
-	if (sRoomManager == NULL)
-		sRoomManager = new RoomManager();
-	return sRoomManager;
+	static RoomManager* instance(new RoomManager()); // Guaranteed to be destroyed.
+	return instance;	// Instantiated on first use.		
 }
 
 void RoomManager::addRoom(Room * room)
@@ -52,3 +56,4 @@ void RoomManager::assignRoom(Section * section)
 		}
 	}
 }
+

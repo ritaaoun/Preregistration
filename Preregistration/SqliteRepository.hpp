@@ -1,7 +1,7 @@
 #pragma once
 #include "AbstractRepository.hpp"
-#include "sqlite3.h"
 #include <string>
+#include "sqlite3.h"
 
 class SqliteRepository : public AbstractRepository{
 public:

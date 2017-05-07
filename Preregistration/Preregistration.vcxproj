@@ -126,6 +126,7 @@
     <ClInclude Include="Constraint.hpp" />
     <ClInclude Include="Course.hpp" />
     <ClInclude Include="MessageFactory.hpp" />
+    <ClInclude Include="NetworkClient.hpp" />
     <ClInclude Include="NetworkServer.hpp" />
     <ClInclude Include="Professor.hpp" />
     <ClInclude Include="ChatMessage.hpp" />
@@ -138,6 +139,8 @@
     <ClInclude Include="Server.hpp" />
     <ClInclude Include="ServerData.hpp" />
     <ClInclude Include="ServerInterface.hpp" />
+    <ClInclude Include="sqlite3.h" />
+    <ClInclude Include="sqlite3ext.h" />
     <ClInclude Include="SqliteRepository.hpp" />
     <ClInclude Include="Student.hpp" />
     <ClInclude Include="Administrator.hpp" />
@@ -156,6 +159,7 @@
     <ClCompile Include="Inbox.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Department.cpp" />
+    <ClCompile Include="NetworkClient.cpp" />
     <ClCompile Include="NetworkServer.cpp" />
     <ClCompile Include="Professor.cpp" />
     <ClCompile Include="Room.cpp" />
@@ -165,6 +169,7 @@
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="ServerData.cpp" />
     <ClCompile Include="ServerInterface.cpp" />
+    <ClCompile Include="sqlite3.c" />
     <ClCompile Include="SqliteRepository.cpp" />
     <ClCompile Include="Student.cpp" />
     <ClCompile Include="TimeSlot.cpp" />

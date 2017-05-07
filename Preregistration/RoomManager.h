@@ -7,7 +7,6 @@
 class RoomManager
 {
 private:
-	static RoomManager* sRoomManager;
 	RoomManager();
 	vector<Room*> mRooms;
 
