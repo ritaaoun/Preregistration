@@ -152,7 +152,7 @@ publish/
 # Windows Azure Build Output
 csx/
 *.build.csdef
-
+*.VC.db
 # Windows Store app package directory
 AppPackages/
 

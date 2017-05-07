@@ -1,11 +1,10 @@
 #include "ServerInterface.hpp"
 #include "Server.hpp"
+#include <functional>
 
 ServerInterface::ServerInterface()
 {
-	//funcmap["getUsers"] = *getUsers;
-	//pfunc f = funcMap["getUsers"];
-	//(*f)("");
+	functionMap["login"] = &ServerInterface::login;
 }
 
 ServerInterface::~ServerInterface()
@@ -25,8 +24,8 @@ ServerInterface & ServerInterface::operator=(const ServerInterface & rhs)
 std::string ServerInterface::callFunction(std::string function)
 {
 	std::vector<std::string> param = this->split(function, ClientServerInterface::FUNC_DELIMITER);
-	return login(param[1]);
-
+	FnPtr p = functionMap[param[0]];
+	return (this->*p)(param[1]);
 }
 
 std::string ServerInterface::login(std::string params)

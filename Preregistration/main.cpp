@@ -3,6 +3,5 @@
 
 int main()
 {
-	Server::getInstance();
 	Server::getInstance().startlistener();
 }

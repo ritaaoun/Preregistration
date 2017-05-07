@@ -14,7 +14,7 @@ std::vector<std::string> ClientServerInterface::split(const std::string & s, std
 	else {
 		std::string lastElement;
 		for (int i = 0; i < s.length(); i = i + lastElement.length() + delim.length()) {
-			lastElement = s.substr(i, s.find(delim, i));
+			lastElement = s.substr(i, s.find(delim, i)-i);
 			elems.push_back(lastElement);
 		}
 	}
