@@ -22,7 +22,7 @@ public:
 	ServerInterface serverInterface;
 	NetworkServer netServer;
 
-protected:
+
 		
 	// Server Configuration 
 	void startlistener();

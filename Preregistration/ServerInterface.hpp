@@ -2,24 +2,24 @@
 #include "ClientServerInterface.hpp"
 #include <string>
 #include <unordered_map>
+#include <map>
 
 
 class ServerInterface : public ClientServerInterface
 {
+
 public:
 	ServerInterface();
 	~ServerInterface();
 	ServerInterface(const ServerInterface & other);
 	ServerInterface & operator=(const ServerInterface & rhs);
 
-	typedef void(*pfunc)(std::string);
-
-	std::unordered_map<std::string, pfunc> funcmap;
-
 	std::string callFunction(std::string function);
 
 	// Inherited via ClientServerInterface
-	virtual void getUsers(std::string params) override;
+	virtual std::string login(std::string params) override;
+
+	virtual std::string getUsers(std::string params) override;
 
 	virtual void addUser() override;
 
@@ -46,5 +46,9 @@ public:
 	virtual void deleteDepartment() override;
 
 
+private:
+
+	typedef std::string(ServerInterface::*FnPtr)(std::string);
+	std::map<std::string, FnPtr> functionMap;
 
 };

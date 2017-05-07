@@ -11,7 +11,7 @@ public:
 	ServerData();
 	
 	Department * getDepartment(int id);
-	AbstractUser * getUser(int id);
+	AbstractUser * getUser(std::string username);
 	AbstractMessage * getMessage(int id);
 	Course * getCourse(int id);
 	Section * getSection(int id);
@@ -21,7 +21,7 @@ public:
 	int getNewDepartmentId() const;
 
 private:
-	std::unordered_map<int, AbstractUser *> users;
+	std::unordered_map<std::string, AbstractUser *> users;
 	std::unordered_map<int, Department *> departments;
 	std::unordered_map<int, AbstractMessage *> messages;
 	std::unordered_map<int, Course *> courses;

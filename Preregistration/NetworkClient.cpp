@@ -2,11 +2,31 @@
 
 NetworkClient::NetworkClient()
 {
+
+}
+
+NetworkClient::~NetworkClient()
+{
+	closeConnection();
+}
+
+NetworkClient::NetworkClient(const NetworkClient & other)
+{
+}
+
+NetworkClient & NetworkClient::operator=(const NetworkClient & rhs)
+{
+	// TODO: insert return statement here
+	return *this;
+}
+
+void NetworkClient::connectClient()
+{
 	// Initialize Winsock
 	iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (iResult != 0) {
 		printf("WSAStartup failed with error: %d\n", iResult);
-		return ;
+		return;
 	}
 
 	ZeroMemory(&hints, sizeof(hints));
@@ -19,7 +39,7 @@ NetworkClient::NetworkClient()
 	if (iResult != 0) {
 		printf("getaddrinfo failed with error: %d\n", iResult);
 		WSACleanup();
-		return ;
+		return;
 	}
 
 	// Attempt to connect to an address until one succeeds
@@ -31,7 +51,7 @@ NetworkClient::NetworkClient()
 		if (ConnectSocket == INVALID_SOCKET) {
 			printf("socket failed with error: %ld\n", WSAGetLastError());
 			WSACleanup();
-			return ;
+			return;
 		}
 
 		// Connect to server.
@@ -49,7 +69,7 @@ NetworkClient::NetworkClient()
 	if (ConnectSocket == INVALID_SOCKET) {
 		printf("Unable to connect to server!\n");
 		WSACleanup();
-		return ;
+		return;
 	}
 
 	// Send an initial buffer
@@ -58,7 +78,7 @@ NetworkClient::NetworkClient()
 		printf("send failed with error: %d\n", WSAGetLastError());
 		closesocket(ConnectSocket);
 		WSACleanup();
-		return ;
+		return;
 	}
 
 	iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
@@ -66,31 +86,30 @@ NetworkClient::NetworkClient()
 		printf("send failed with error: %d\n", WSAGetLastError());
 		closesocket(ConnectSocket);
 		WSACleanup();
-		return ;
+		return;
+	}
+}
+
+std::string NetworkClient::sendData(std::string params)
+{	
+	connectClient();
+	iResult = send(ConnectSocket, params.c_str(), params.size(), 0);
+	if (iResult == SOCKET_ERROR) {
+		printf("send failed with error: %d\n", WSAGetLastError());
+		closesocket(ConnectSocket);
+		WSACleanup();
+		return "false";
+	}
+	iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
+	if (iResult > 0)
+		printf("Bytes received: %d\n", iResult);
+	else if (iResult == 0) {
+		printf("Connection closed\n");
+	}
+	else {
+		printf("recv failed with error: %d\n", WSAGetLastError());
 	}
 
-	while (true)
-	{
-		std::cin >> sendbuf;
-		iResult = send(ConnectSocket, sendbuf.c_str(), sendbuf.size(), 0);
-		if (iResult == SOCKET_ERROR) {
-			printf("send failed with error: %d\n", WSAGetLastError());
-			closesocket(ConnectSocket);
-			WSACleanup();
-			return ;
-		}
-		iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
-		if (iResult > 0)
-			printf("Bytes received: %d\n", iResult);
-		else if (iResult == 0) {
-			printf("Connection closed\n");
-			break;
-		}
-		else {
-			printf("recv failed with error: %d\n", WSAGetLastError());
-			break;
-		}
-	}
 
 	// shutdown the connection since no more data will be sent
 	iResult = shutdown(ConnectSocket, SD_SEND);
@@ -98,7 +117,7 @@ NetworkClient::NetworkClient()
 		printf("shutdown failed with error: %d\n", WSAGetLastError());
 		closesocket(ConnectSocket);
 		WSACleanup();
-		return ;
+		return "false";
 	}
 
 	// Receive until the peer closes the connection
@@ -117,28 +136,12 @@ NetworkClient::NetworkClient()
 	closesocket(ConnectSocket);
 	WSACleanup();
 
-	return;
-}
-
-NetworkClient::~NetworkClient()
-{
-}
-
-NetworkClient::NetworkClient(const NetworkClient & other)
-{
-}
-
-NetworkClient & NetworkClient::operator=(const NetworkClient & rhs)
-{
-	// TODO: insert return statement here
-	return *this;
-}
-
-int NetworkClient::connectClient()
-{
-	return 0;
+	return recvbuf;
+	
 }
 
 void NetworkClient::closeConnection()
 {
+	closesocket(ConnectSocket);
+	WSACleanup();
 }

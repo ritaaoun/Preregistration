@@ -3,13 +3,16 @@
 
 class ClientInterface : public ClientServerInterface
 {
+public:
+
 	ClientInterface();
 	~ClientInterface();
 	ClientInterface(const ClientInterface & other);
 	ClientInterface & operator=(const ClientInterface & rhs);
 
 	// Inherited via ClientServerInterface
-	virtual void getUsers(std::string params) override;
+	virtual std::string login(std::string params) override;
+	virtual std::string getUsers(std::string params) override;
 	virtual void addUser() override;
 	virtual void editUser() override;
 	virtual void deleteUser() override;
@@ -22,4 +25,7 @@ class ClientInterface : public ClientServerInterface
 	virtual void addDepartment() override;
 	virtual void editDepartment() override;
 	virtual void deleteDepartment() override;
+
+private:
+	NetworkClient client;
 };

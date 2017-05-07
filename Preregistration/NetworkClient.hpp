@@ -27,10 +27,13 @@ public:
 	~NetworkClient();
 	NetworkClient(const NetworkClient & other);
 	NetworkClient & operator=(const NetworkClient & rhs);
-	int connectClient();
+	std::string sendData(std::string params);
 	void closeConnection();
 
 private:
+
+	void connectClient();
+
 
 	WSADATA wsaData;
 	SOCKET ConnectSocket = INVALID_SOCKET;
