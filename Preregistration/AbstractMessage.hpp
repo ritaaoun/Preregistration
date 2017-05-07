@@ -5,16 +5,36 @@ class AbstractUser;
 
 class AbstractMessage {
 public:
-	enum Type { Chat, CapacityRequest, SectionRequest, EnrollmentRequest, TYPE_END };
+	enum Type { CHAT, CAPACITYREQUEST, SECTIONREQUEST, ENROLLMENTREQUEST, TYPE_END };
 
-	virtual bool sendMessage() = 0;
+	int getId() const;
+	AbstractUser * getSender();
+	AbstractUser * getRecipient();
+
+	std::string getTopic() const;
+	void setTopic(const std::string & title);
+
+	std::string getContent() const;
+	void setContent(const std::string & content);
+
+	Type getType() const;
+
+	virtual ~AbstractMessage();
 
 protected:
-	AbstractUser * m_sender;
-	AbstractUser * m_recepient;
-	std::string m_title;
-	std::string m_content;
-	Type m_type;
+	AbstractMessage();
+	AbstractMessage(AbstractUser * sender, AbstractUser * recipient, Type type, const std::string & topic, const std::string & content);
+	AbstractMessage(int id, int senderId, int recipientId, Type type, const std::string & topic, const std::string & content);
+	AbstractMessage(const AbstractMessage & other);
+	AbstractMessage & operator=(const AbstractMessage & rhs);
 
 private:
+	int m_id;
+	int m_senderId;
+	AbstractUser * m_sender;
+	int m_recipientId;
+	AbstractUser * m_recipient;
+	Type m_type;
+	std::string m_topic;
+	std::string m_content;
 };

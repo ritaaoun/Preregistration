@@ -1,6 +1,7 @@
 #include "SqliteRepository.hpp"
 #include "Professor.hpp"
 #include "Student.hpp"
+#include "ChatMessage.hpp"
 #include <iostream>
 
 SqliteRepository & SqliteRepository::getInstance()
@@ -180,9 +181,7 @@ std::vector<AbstractUser*> SqliteRepository::getUsers() const
 		else {
 			cerr << "SqliteRepository::getUsers(): invalid type " << to_string(type) << endl;
 		}
-
 	}
-
 	return out;
 }
 
@@ -193,13 +192,13 @@ std::vector<int> SqliteRepository::getUserSections(int userId) const
 
 bool SqliteRepository::deleteDepartment(int id) const
 {
-	std::string sql = "DELETE FROM DEPARTMENT WHERE ID = " + std::to_string(id) + ";";
+	std::string sql = "DELETE FROM DEPARTMENT WHERE ID = '" + std::to_string(id) + "'";
 	return execute(sql);
 }
 
 bool SqliteRepository::deleteDepartment(const Department * department) const
 {
-	std::string sql = "DELETE FROM DEPARTMENT WHERE ID = " + std::to_string(department->getId()) + ";";
+	std::string sql = "DELETE FROM DEPARTMENT WHERE ID = '" + std::to_string(department->getId()) + "'";
 	return execute(sql);
 }
 
@@ -220,24 +219,37 @@ int SqliteRepository::createDepartment(const Department * department) const
 	return 0;
 }
 
-Department* SqliteRepository::getDepartment(int id) const
-{
-	return nullptr;
-}
-
-Department* SqliteRepository::getUserDepartment(int userId) const
-{
-	return nullptr;
-}
-
 std::vector<int> SqliteRepository::getAdminDepartments(int adminId) const
 {
-	return std::vector<int>();
+	std::string sql = "SELECT DEPARTMENTID FROM PRIVILEGE WHERE USERID='" + std::to_string(adminId) + "'";
+	std::vector<std::vector<std::string>> results = query(sql);
+	std::vector<int> departments;
+
+	for (std::vector<std::vector<std::string>>::iterator it = results.begin(); it != results.end(); ++it)
+	{
+		departments.push_back(stringToLong((*it).at(0)));
+	}
+
+	return departments;
 }
 
-std::vector<Department*>* SqliteRepository::getDepartments() const
+std::vector<Department*> SqliteRepository::getDepartments() const
 {
-	return new std::vector<Department*>();
+	std::string sql = "SELECT * FROM DEPARTMENT";
+	std::vector<std::vector<std::string>> results = query(sql);
+	std::vector<Department *> out;
+
+	for (std::vector<std::vector<std::string>>::iterator it = results.begin(); it != results.end(); ++it)
+	{
+		std::vector<std::string> row = *it;
+		int id = stringToLong(row.at(0));
+		std::string name = row.at(1);
+		std::string code = row.at(2);
+		std::string faculty = row.at(3);
+
+		out.push_back(new Department(id, name, code, faculty));
+	}
+	return out;
 }
 
 std::vector<int> SqliteRepository::getDepartmentCourses(int departmentId) const
@@ -252,30 +264,59 @@ std::vector<int> SqliteRepository::getDepartmentCourseRequests(int departmentId)
 
 bool SqliteRepository::deletePrivilege(const Administrator * admin, const Department * department) const
 {
-	return true;
+	std::string sql = "DELETE FROM PRIVILEGE WHERE USERID = '" + std::to_string(admin->getId()) + "'"
+		"AND DEPARTMENTID = '" + std::to_string(department->getId()) + "'";
+	return execute(sql);
 }
 
 bool SqliteRepository::createPrivilege(const Administrator * admin, const Department * department) const
 {
-	return true;
+	std::string sql = "INSERT INTO PRIVILEGE (USERID, DEPARTMENTID) VALUES ('" + std::to_string(admin->getId()) +
+		"', '" + std::to_string(department->getId()) + "')";
+	return execute(sql);
 }
 
-bool SqliteRepository::deleteMessage(const AbstractMessage * message, const AbstractUser * user) const
+int SqliteRepository::createMessage(AbstractMessage * message)
 {
-	return true;
+	std::string sql = "INSERT INTO MESSAGE (SENDERID, RECIPIENTID, TYPE, TOPIC, CONTENT) VALUES ('" +
+		std::to_string(message->getSender()->getId()) + "', '" + std::to_string(message->getRecipient()->getId()) + "', '" +
+		std::to_string(message->getType()) + "', '" + message->getTopic() + "', '" + message->getContent() + "')";
+	
+	if (execute(sql))
+	{
+		std::string sql = "SELECT MAX(ID) FROM MESSAGE";
+		std::vector<std::vector<std::string>> results = query(sql);
+		
+		return stringToLong(results.at(0).at(0));
+	}
+	else
+	{
+		return -1;
+	}
 }
 
-bool SqliteRepository::createMessage(const AbstractMessage * message)
+std::vector<AbstractMessage*> SqliteRepository::getMessages() const
 {
-	return true;
-}
+	std::string sql = "SELECT * FROM MESSAGE";
+	std::vector<std::vector<std::string>> results = query(sql);
+	std::vector<AbstractMessage *> out;
 
-std::vector<AbstractMessage*>*  SqliteRepository::getSentMessages(const AbstractUser * user) const
-{
-	return new std::vector<AbstractMessage*>();
-}
+	for (std::vector<std::vector<std::string>>::iterator it = results.begin(); it != results.end(); ++it)
+	{
+		std::vector<std::string> row = *it;
+		int id = stringToLong(row.at(0));
+		int senderId = stringToLong(row.at(1));
+		int recipientId = stringToLong(row.at(2));
+		AbstractMessage::Type type = static_cast<AbstractMessage::Type>(stringToLong(row.at(3)));
+		std::string topic = row.at(4);
+		std::string content = row.at(5);
 
-std::vector<AbstractMessage*>*  SqliteRepository::getReceivedMessages(const AbstractUser * user) const
-{
-	return new std::vector<AbstractMessage*>();
+		if (type == AbstractMessage::CHAT) {
+			out.push_back(new ChatMessage(id, senderId, recipientId, topic, content));
+		}
+		else {
+			cerr << "SqliteRepository::getMessages(): invalid type " << to_string(type) << endl;
+		}
+	}
+	return out;
 }

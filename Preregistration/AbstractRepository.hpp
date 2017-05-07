@@ -22,18 +22,14 @@ public:
 	virtual bool deleteDepartment(const Department * department) const = 0;
 	virtual bool updateDepartment(const Department * department) const = 0;
 	virtual int createDepartment(const Department * department) const = 0;
-	virtual Department * getDepartment(int id) const = 0;
-	virtual Department * getUserDepartment(int userId) const = 0;
 	virtual std::vector<int> getAdminDepartments(int adminId) const = 0;
 	virtual std::vector<int> getDepartmentCourses(int departmentId) const = 0;
 	virtual std::vector<int> getDepartmentCourseRequests(int departmentId) const = 0;
-	virtual std::vector<Department *> * getDepartments() const = 0;
+	virtual std::vector<Department *> getDepartments() const = 0;
 
 	virtual bool deletePrivilege(const Administrator * admin, const Department * department) const = 0;
 	virtual bool createPrivilege(const Administrator * admin, const Department * department) const = 0;
 
-	virtual bool deleteMessage(const AbstractMessage * message, const  AbstractUser * user) const = 0;
-	virtual bool createMessage(const AbstractMessage * message) = 0;
-	virtual std::vector<AbstractMessage *> * getSentMessages(const AbstractUser * user) const = 0;
-	virtual std::vector<AbstractMessage *> * getReceivedMessages(const AbstractUser * user) const = 0;
+	virtual int createMessage(AbstractMessage * message) = 0;
+	virtual std::vector<AbstractMessage *> getMessages() const = 0;
 };

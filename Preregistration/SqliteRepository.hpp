@@ -20,20 +20,16 @@ public:
 	virtual bool deleteDepartment(const Department * department) const override;
 	virtual bool updateDepartment(const Department * department) const override;
 	virtual int createDepartment(const Department * department) const override;
-	virtual Department * getDepartment(int id) const override;
-	virtual Department * getUserDepartment(int userId) const override;
 	virtual std::vector<int> getAdminDepartments(int adminId) const override;
-	virtual std::vector<Department*> * getDepartments() const override;
+	virtual std::vector<Department*> getDepartments() const override;
 	virtual std::vector<int> getDepartmentCourses(int departmentId) const override;
 	virtual std::vector<int> getDepartmentCourseRequests(int departmentId) const override;
 
 	virtual bool deletePrivilege(const Administrator * admin, const Department * department) const override;
 	virtual bool createPrivilege(const Administrator * admin, const Department * department) const override;
 
-	virtual bool deleteMessage(const AbstractMessage * message, const AbstractUser * user) const override;
-	virtual bool createMessage(const AbstractMessage * message) override;
-	virtual std::vector<AbstractMessage*> * getSentMessages(const AbstractUser * user) const override;
-	virtual std::vector<AbstractMessage*> * getReceivedMessages(const AbstractUser * user) const override;
+	virtual int createMessage(AbstractMessage * message) override;
+	virtual std::vector<AbstractMessage *> getMessages() const override;
 
 private :
 	SqliteRepository();

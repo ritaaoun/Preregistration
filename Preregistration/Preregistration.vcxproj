@@ -150,6 +150,7 @@
     <ClInclude Include="TimeSlot.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractMessage.cpp" />
     <ClCompile Include="AbstractUser.cpp" />
     <ClCompile Include="Administrator.cpp" />
     <ClCompile Include="ChatMessage.cpp" />
