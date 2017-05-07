@@ -1,9 +1,15 @@
 #pragma once
 #include <string>
+#include <sstream>
+#include <vector>
+#include <iterator>
+#include "NetworkClient.hpp"
 
 class ClientServerInterface
 {
-	virtual void getUsers(std::string params) = 0;
+public:
+	virtual std::string login(std::string params) = 0;
+	virtual std::string getUsers(std::string params) = 0;
 	virtual void addUser() = 0;
 	virtual void editUser() = 0;
 	virtual void deleteUser() = 0;
@@ -21,4 +27,11 @@ class ClientServerInterface
 	virtual void deleteDepartment() = 0;
 
 	//TODO: implement all functions needed by the client
+
+protected:
+	std::vector<std::string> split(const std::string & s, std::string delim);
+	static const std::string DELIMITER;
+	static const std::string FUNC_DELIMITER;
 };
+
+

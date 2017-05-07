@@ -19,7 +19,9 @@ public:
 	std::string callFunction(std::string function);
 
 	// Inherited via ClientServerInterface
-	virtual void getUsers(std::string params) override;
+	virtual std::string login(std::string params) override;
+	
+	virtual std::string getUsers(std::string params) override;
 
 	virtual void addUser() override;
 

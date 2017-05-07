@@ -4,7 +4,6 @@
 
 Server::Server() : repository(&SqliteRepository::getInstance()), data(), serverInterface(),netServer()
 {
-	startlistener();	
 }
 
 Server::~Server()
@@ -32,6 +31,7 @@ void Server::startlistener()
 {
 	while (2.0)
 	{
+		netServer.startListener();
 		netServer.acceptClient();
 	}
 }
