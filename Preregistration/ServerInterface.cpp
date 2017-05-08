@@ -179,6 +179,7 @@ std::string ServerInterface::getDepartments(std::string params)
 						result += ClientServerInterface::LIST_DELIMITER;
 					}
 				}
+				return result;
 			}
 		}
 		return "false";

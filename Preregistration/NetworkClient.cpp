@@ -72,22 +72,6 @@ void NetworkClient::connectClient()
 		return;
 	}
 
-	// Send an initial buffer
-	iResult = send(ConnectSocket, sendbuf.c_str(), sendbuf.size(), 0);
-	if (iResult == SOCKET_ERROR) {
-		printf("send failed with error: %d\n", WSAGetLastError());
-		closesocket(ConnectSocket);
-		WSACleanup();
-		return;
-	}
-
-	iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
-	if (iResult == SOCKET_ERROR) {
-		printf("send failed with error: %d\n", WSAGetLastError());
-		closesocket(ConnectSocket);
-		WSACleanup();
-		return;
-	}
 }
 
 std::string NetworkClient::sendData(std::string params)
