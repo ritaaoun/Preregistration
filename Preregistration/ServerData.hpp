@@ -24,6 +24,8 @@ public:
 	std::string getNewUsername(std::string username);
 	int getNewDepartmentId();
 
+	std::vector<AbstractUser *> getDepartmentUsers(const Department * department) const;
+
 private:
 	std::unordered_map<std::string, AbstractUser *> m_usersByUsername;
 	std::unordered_map<int, AbstractUser *> m_usersById;

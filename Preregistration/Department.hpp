@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+class AbstractUser;
+
 class Department {
 public:
 	Department(const std::string & name, const std::string & code, const std::string & facultyCode);
@@ -27,6 +29,8 @@ public:
 	const std::vector<Course *> & getCourseRequests() const;
 	bool requestCourse(Course *course);
 	bool decideOnCourse(Course *course, bool approveCourse);
+
+	std::vector<AbstractUser*> getUsers() const;
 
 protected:
 	Department();

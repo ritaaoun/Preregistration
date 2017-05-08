@@ -206,6 +206,19 @@ int ServerData::getNewDepartmentId()
 	return newId;
 }
 
+std::vector<AbstractUser*> ServerData::getDepartmentUsers(const Department * department) const
+{
+	std::vector<AbstractUser*> out;
+	int departmentId = department->getId();
+	for (std::unordered_map<int, AbstractUser *>::const_iterator it = m_usersById.begin(); it != m_usersById.end(); ++it)
+	{
+		if (it->second->getDepartmentId() == departmentId) {
+			out.push_back(it->second);
+		}
+	}
+	return out;
+}
+
 /**
 * Retrieve departments from database.
 */
