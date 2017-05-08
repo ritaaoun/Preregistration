@@ -44,20 +44,30 @@ AbstractUser * Administrator::createUser(const std::string & firstName, const st
 	const std::string & lastName, int startYear, Term::Term startTerm, Type userType, int departmentId,
 	const std::string & birthday) const
 {
-	AbstractUser * user;
-	if (userType == Type::ADMINISTRATOR) {
-		user = new Administrator(firstName, middleName, lastName, startYear, startTerm, departmentId, birthday);
-	}
-	else if (userType == Type::PROFESSOR) {
-		user = new Professor(firstName, middleName, lastName, startYear, startTerm, departmentId, birthday);
-	}
-	else if (userType == Type::STUDENT) {
-		user = new Student(firstName, middleName, lastName, startYear, startTerm, departmentId, birthday);
+	Department * department = Server::getInstance().data.getDepartment(departmentId);
+	if (hasPrivilegeTo(department)) {
+		AbstractUser * user;
+		if (userType == Type::ADMINISTRATOR) {
+			user = new Administrator(firstName, middleName, lastName, startYear, startTerm, departmentId, birthday);
+		}
+		else if (userType == Type::PROFESSOR) {
+			user = new Professor(firstName, middleName, lastName, startYear, startTerm, departmentId, birthday);
+		}
+		else if (userType == Type::STUDENT) {
+			user = new Student(firstName, middleName, lastName, startYear, startTerm, departmentId, birthday);
+		}
+		else {
+			std::cerr << "Administrator::createUser: undefined userType " + std::to_string(userType) << std::endl;
+			return nullptr;
+		}
+		std::cout << "Administrator::createUser: user " + std::to_string(user->getId()) << " created" << std::endl;
+		return user;
 	}
 	else {
+		std::cout << "Administrator::createUser: admin " + std::to_string(getId()) + " does not have privilege to department " <<
+			std::to_string(department->getId()) << std::endl;
 		return nullptr;
 	}
-	return user;
 }
 
 bool Administrator::decideOnCourse(Course * courseRequested, bool approveCourse) const
@@ -74,7 +84,7 @@ bool Administrator::decideOnCourse(Course * courseRequested, bool approveCourse)
 
 const std::vector<Department*> Administrator::getPrivileges()
 {
-	if (m_privileges.empty())
+	if (m_privileges.empty() && !m_privilegeIds.empty())
 	{
 		for (std::vector<int>::iterator it = m_privilegeIds.begin(); it != m_privilegeIds.end(); ++it)
 		{
