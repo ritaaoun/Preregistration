@@ -30,7 +30,7 @@ public:
 	bool requestCourse(Course *course);
 	bool decideOnCourse(Course *course, bool approveCourse);
 
-	std::vector<AbstractUser*> getUsers();
+	std::vector<AbstractUser*> getUsers() const;
 
 protected:
 	Department();
@@ -46,6 +46,4 @@ private:
 
 	std::vector<Course *> m_courses;
 	std::vector<Course *> m_courseRequests;
-
-	std::vector<AbstractUser *> m_users;
 };

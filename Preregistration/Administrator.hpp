@@ -26,8 +26,14 @@ public:
 	bool hasPrivilegeTo(Department * department) const;
 	bool givePrivilege(Administrator *administrator, Department * department) const;
 
+	std::vector<AbstractUser*> getUsers();
+
+	bool editUser(std::string username, const std::string & firstName, const std::string & middleName, const std::string & lastName,
+		int departmentId, const std::string & birthday);
+
 private:
 	std::vector<int> m_privilegeIds;
 	std::vector<Department *> m_privileges; ///< vector of departments the Administrator has privileges in
 
+	std::vector<AbstractUser *> m_users;
 };

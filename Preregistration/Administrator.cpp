@@ -110,3 +110,42 @@ bool Administrator::givePrivilege(Administrator * administrator, Department * de
 		return false;
 	}
 }
+
+std::vector<AbstractUser*> Administrator::getUsers()
+{
+	std::vector<AbstractUser*> out;
+
+	if (!m_privilegeIds.empty()) {
+		if (m_privileges.empty()) {
+			getPrivileges();
+		}
+
+		for (std::vector<Department*>::const_iterator it = m_privileges.begin(); it != m_privileges.end(); ++it) {
+			std::vector<AbstractUser*> departmentUsers = Server::getInstance().data.getDepartmentUsers(*it);
+
+			for (std::vector<AbstractUser*>::const_iterator user = departmentUsers.begin(); user != departmentUsers.end(); ++user) {
+				out.push_back(*user);
+			}
+		}
+	}
+	return out;
+}
+
+bool Administrator::editUser(std::string username, const std::string & firstName, const std::string & middleName, const std::string & lastName, int departmentId, const std::string & birthday)
+{
+	AbstractUser * user = Server::getInstance().data.getUser(username);
+	if (hasPrivilegeTo(user->getDepartment())) {
+		user->setFirstName(firstName);
+		user->setMiddleName(middleName);
+		user->setLastName(lastName);
+		user->setDepartmentId(departmentId);
+		user->setBirthday(birthday);
+		Server::getInstance().repository->updateUser(user);
+		std::cout << "Administrator " << getId() << " successfully edited User " << user->getId() << endl;
+		return true;
+	}
+	else {
+		std::cout << "Administrator " << getId() << " has no privilege over User " << user->getId() << endl;
+		return false;
+	}
+}
