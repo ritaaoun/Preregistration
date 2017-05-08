@@ -13,7 +13,9 @@ private:
 	std::vector<Section*> mSectionvector;
 	Schedule* mSchedule;
 	Constraint* mConstraints; ///< constraints i.e: needComputers
-
+	std::string  roomNumber; ///< room number, e.g. 243
+	std::string buildingCode; ///< building code, e.g. OXY
+	int capacity; ///< number of students that the room can handle
 
 public:
 	const vector<Section *> getSections() override;
@@ -22,4 +24,9 @@ public:
 	void setConstraint(Constraint * constraint);
 	//Schedule* getSchedule() override;
 	Constraint* getConstraint();
+	Room(int input_capacity, std::string input_roomNumber, std::string input_buildingCode);
+	int getCapacity();
+	std::string getRoomNumber();
+	std::string getBuildingCode();
+
 };

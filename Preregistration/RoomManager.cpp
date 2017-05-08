@@ -48,7 +48,7 @@ void RoomManager::assignRoom(Section * section)
 {
 	for (Room * room : getRooms())
 	{
-		if (constraintChecker(section, room))
+		if (constraintChecker(section, room) && section->getSectionCapacity() <= room->getCapacity())
 		{
 			section->setRoom(room);
 			room->addSection(section);

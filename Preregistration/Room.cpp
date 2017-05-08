@@ -42,3 +42,25 @@ Constraint * Room::getConstraint()
 {
 	return mConstraints;
 }
+
+Room::Room(int input_capacity, std::string input_roomNumber, std::string input_buildingCode)
+{
+	capacity = input_capacity;
+	roomNumber = input_roomNumber;
+	buildingCode = input_buildingCode;
+}
+
+int Room::getCapacity()
+{
+	return capacity;
+}
+
+std::string Room::getRoomNumber()
+{
+	return roomNumber;
+}
+
+std::string Room::getBuildingCode()
+{
+	return buildingCode;
+}
