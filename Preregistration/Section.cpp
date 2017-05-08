@@ -1,15 +1,19 @@
 #include "Section.hpp"
 #include "Server.hpp"
+#include "Course.hpp"
 
-Section::Section(int input_sectionCode) :
-mSectionCode (input_sectionCode)
+Section::Section(int input_capacity, int input_courseID, int input_professorID) :
+	mCapacity(input_capacity), mSectionCode(Server::getInstance().data.getNewSectionNumber(input_courseID)),
+	mCourseId(input_courseID), mProfId(input_professorID), mProfessor(nullptr), mStatus(Tentative), mRoom(nullptr),
+	mTimeSlots(), mConstraints(), mCourse(nullptr)
 {
+	mCrn = Server::getInstance().repository->createSection(this);
 }
 
-Section::Section(int input_id, int input_capacity, int input_courseID, int input_professorID, bool input_isConfirmed) :
-	mCapacity(input_capacity), mSectionCode(input_capacity), mCourseId(input_courseID), mProfId(input_professorID),
+Section::Section(int crn, int input_id, int input_capacity, int input_courseID, int input_professorID, bool input_isConfirmed) :
+	mCrn(crn), mCapacity(input_capacity), mSectionCode(input_id), mCourseId(input_courseID), mProfId(input_professorID),
 	mProfessor(nullptr), mStatus(static_cast<Status>(input_isConfirmed)), mRoom(nullptr), mTimeSlots(),
-	mConstraints(Server::getInstance().repository->getSectionConstraint(input_id)), mCourse(nullptr)
+	mConstraints(Server::getInstance().repository->getSectionConstraint(crn)), mCourse(nullptr)
 {
 	// use input_id to get contsraint of the section from database
 	// build Constraint object from retreived 
@@ -18,6 +22,11 @@ Section::Section(int input_id, int input_capacity, int input_courseID, int input
 Section::~Section()
 {
 	delete mConstraints;
+}
+
+int Section::getCrn() const
+{
+	return mCrn;
 }
 
 bool Section::addTimeSlot(TimeSlot * timeslot)

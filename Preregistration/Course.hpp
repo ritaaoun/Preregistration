@@ -25,6 +25,7 @@ public:
 
 	bool addSection(Section* section);
 	bool removeSection(Section* section);
+	std::vector<Section*> getSections();
 
 	Department * getDepartment();
 

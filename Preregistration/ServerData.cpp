@@ -2,7 +2,7 @@
 #include "Server.hpp"
 #include "Helper.hpp"
 
-ServerData::ServerData() : m_maxUserId(), m_maxUsername(), m_maxDepartmentId(-1)
+ServerData::ServerData() : m_maxUserId(), m_maxUsername(), m_maxSectionPerCourse()
 {
 	
 }
@@ -29,11 +29,9 @@ ServerData::~ServerData()
 		delete it->second;
 	}
 
-	for (std::unordered_map<int, std::unordered_map<int, Section *>>::iterator it = m_sections.begin(); it != m_sections.end(); ++it)
+	for (std::unordered_map<int, Section *>::iterator it = m_sections.begin(); it != m_sections.end(); ++it)
 	{
-		for (std::unordered_map<int, Section *>::iterator it2 = it->second.begin(); it2 != it->second.end(); ++it2) {
-			delete it2->second;
-		}
+		delete it->second;
 	}
 }
 
@@ -110,7 +108,7 @@ AbstractMessage * ServerData::getMessage(int id) const
 
 bool ServerData::addCourse(Course * course)
 {
-	m_courses[course->getId()] = course;
+	m_courses[course->getID()] = course;
 	return true;
 }
 
@@ -129,13 +127,13 @@ Course * ServerData::getCourse(int id) const
 
 bool ServerData::addSection(Section * section)
 {
-	m_sections[section->getId()] = section;
+	m_sections[section->getCrn()] = section;
 	return true;
 }
 
-Section * ServerData::getSection(int id) const
+Section * ServerData::getSection(int crn) const
 {
-	std::unordered_map<int, Section*>::const_iterator it = m_sections.find(id);
+	std::unordered_map<int, Section*>::const_iterator it = m_sections.find(crn);
 	if (it != m_sections.end())
 	{
 		return it->second;
@@ -188,7 +186,7 @@ std::string ServerData::getNewUsername(std::string username)
 	int newNumber;
 	if (it == m_maxUsername.end())
 	{ // if the map doesn't yet have abc, find the maximum number corresponding to abc
-		int maxNumber = 0; //abc00
+		int maxNumber = -1; 
 		for (std::unordered_map<std::string, AbstractUser*>::const_iterator it = m_usersByUsername.begin(); it != m_usersByUsername.end(); ++it)
 		{
 			std::string current = it->first;
@@ -217,14 +215,18 @@ std::string ServerData::getNewUsername(std::string username)
 	return newUsername;
 }
 
-int ServerData::getNewDepartmentId() 
+int ServerData::getNewSectionNumber(int courseId)
 {
+	std::unordered_map<int, int>::iterator it = m_maxSectionPerCourse.find(courseId);
+
 	int newId;
-	if (m_maxDepartmentId == -1) {
-		int maxId = m_departments.begin()->first;
-		for (std::unordered_map<int, Department*>::const_iterator it = std::next(m_departments.begin(), 1); it != m_departments.end(); ++it)
+	if (it == m_maxSectionPerCourse.end()) {
+		int maxId = 0;
+		std::unordered_map<int, Course*>::const_iterator it = m_courses.find(courseId);
+		std::vector<Section*> sections = it->second->getSections();
+		for (std::vector<Section*>::const_iterator it = sections.begin(); it != sections.end(); ++it)
 		{
-			int id = it->first;
+			int id = (*it)->getSectionCode();
 			if (id > maxId)
 			{
 				maxId = id;
@@ -233,9 +235,9 @@ int ServerData::getNewDepartmentId()
 		newId = maxId + 1;
 	}
 	else {
-		newId = m_maxDepartmentId + 1;
+		newId = m_maxSectionPerCourse[courseId] + 1;
 	}
-	m_maxDepartmentId = newId;
+	m_maxSectionPerCourse[courseId] = newId;
 	return newId;
 }
 

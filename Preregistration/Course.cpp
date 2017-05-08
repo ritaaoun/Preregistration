@@ -76,6 +76,18 @@ bool Course::removeSection(Section * section)
 	return true;
 }
 
+std::vector<Section*> Course::getSections()
+{
+	if (mSections.empty() && !mSectionIds.empty())
+	{
+		for (std::vector<int>::iterator it = mSectionIds.begin(); it != mSectionIds.end(); ++it)
+		{
+			mSections.push_back(Server::getInstance().data.getSection(*it));
+		}
+	}
+	return mSections;
+}
+
 Department * Course::getDepartment()
 {
 	if (mDepartment == nullptr)

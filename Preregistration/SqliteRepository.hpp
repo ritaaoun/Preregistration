@@ -30,12 +30,13 @@ public:
 	virtual int createMessage(AbstractMessage * message) override;
 	virtual std::vector<AbstractMessage *> getMessages() const override;
 
+	virtual bool deleteSection(int crn) const override;
+	virtual bool deleteSection(const Section * department) const override;
+	virtual bool updateSection(const Section * department) const override;
+	virtual int createSection(const Section * department) const override;
 	virtual std::vector<Section*> getSections() const override;
 	virtual Constraint* getSectionConstraint(int sectionID) const override;
 	virtual TimeSlot* getSectionTimeSlots(int sectionID) const override;
-
-
-
 
 private :
 	SqliteRepository();

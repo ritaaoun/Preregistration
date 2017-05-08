@@ -32,7 +32,10 @@ public:
 	virtual int createMessage(AbstractMessage * message) = 0;
 	virtual std::vector<AbstractMessage *> getMessages() const = 0;
 
-
+	virtual bool deleteSection(int crn) const = 0;
+	virtual bool deleteSection(const Section * department) const = 0;
+	virtual bool updateSection(const Section * department) const = 0;
+	virtual int createSection(const Section * department) const = 0;
 	virtual std::vector<Section*> getSections() const = 0;
 	virtual Constraint* getSectionConstraint(int sectionID) const = 0;
 	virtual TimeSlot* getSectionTimeSlots(int sectionID) const = 0;
