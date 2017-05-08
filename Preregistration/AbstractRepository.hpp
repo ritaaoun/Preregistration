@@ -31,4 +31,9 @@ public:
 
 	virtual int createMessage(AbstractMessage * message) = 0;
 	virtual std::vector<AbstractMessage *> getMessages() const = 0;
+
+
+	virtual std::vector<Section*> getSections() const = 0;
+	virtual Constraint* getSectionConstraint(int sectionID) const = 0;
+	virtual TimeSlot* getSectionTimeSlots(int sectionID) const = 0;
 };
