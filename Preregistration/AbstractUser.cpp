@@ -148,7 +148,7 @@ AbstractUser::AbstractUser() : m_id(), m_username(), m_password(), m_firstName()
 AbstractUser::AbstractUser(const std::string & firstName, const std::string & middleName, const std::string & lastName,
 	int startYear, Term::Term startTerm, Type userType, int departmentId, const std::string & birthday) :
 	m_id(Server::getInstance().data.getNewUserId(startYear)),
-	m_username(Server::getInstance().data.getNewUsername(""+firstName[0]+middleName[0]+lastName[0])),
+	m_username(Server::getInstance().data.getNewUsername(std::to_string(firstName[0])+ std::to_string(middleName[0])+ std::to_string(lastName[0]))),
 	m_password(birthday), m_firstName(firstName), m_middleName(middleName), m_lastName(lastName), m_startYear(startYear),
 	m_startTerm(startTerm), m_type(userType), m_departmentId(departmentId), m_department(nullptr), m_birthday(birthday), m_inbox()
 {

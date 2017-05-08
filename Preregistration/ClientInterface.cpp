@@ -1,6 +1,6 @@
 #include "ClientInterface.hpp"
 
-ClientInterface::ClientInterface() :client()
+ClientInterface::ClientInterface() : client()
 {
 }
 
@@ -8,13 +8,13 @@ ClientInterface::~ClientInterface()
 {
 }
 
-ClientInterface::ClientInterface(const ClientInterface & other)
+ClientInterface::ClientInterface(const ClientInterface & other) : client(other.client)
 {
 }
 
 ClientInterface & ClientInterface::operator=(const ClientInterface & rhs)
 {
-	// TODO: insert return statement here
+	client = rhs.client;
 	return *this;
 }
 
