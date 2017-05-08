@@ -1,11 +1,12 @@
 #include "Department.hpp"
 #include "Server.hpp"
+#include "AbstractUser.hpp"
 #include <algorithm>
 
 //TODO: course/course requests
 Department::Department(const std::string & name, const std::string & code, const std::string & facultyCode) :
 	m_id(Server::getInstance().data.getNewDepartmentId()), m_name(name), m_code(code),
-	m_facultyCode(facultyCode), m_courseIds(), m_courseRequestIds(), m_courses(), m_courseRequests()
+	m_facultyCode(facultyCode), m_courseIds(), m_courseRequestIds(), m_courses(), m_courseRequests(), m_users()
 {
 	Server::getInstance().repository->createDepartment(this);
 }
@@ -13,13 +14,13 @@ Department::Department(const std::string & name, const std::string & code, const
 Department::Department(int id, const std::string & name, const std::string & code, const std::string & facultyCode) :
 	m_id(id), m_name(name), m_code(code), m_facultyCode(facultyCode),
 	m_courseIds(Server::getInstance().repository->getDepartmentCourses(id)),
-	m_courseRequestIds(Server::getInstance().repository->getDepartmentCourseRequests(id))
+	m_courseRequestIds(Server::getInstance().repository->getDepartmentCourseRequests(id)), m_users()
 {
 }
 
 Department::Department(const Department & other) :
 	m_id(other.m_id), m_name(other.m_name), m_code(other.m_code), m_facultyCode(other.m_facultyCode),
-	m_courses(other.m_courses), m_courseRequests(other.m_courseRequests)
+	m_courses(other.m_courses), m_courseRequests(other.m_courseRequests), m_users(other.m_users)
 {
 }
 
@@ -35,6 +36,7 @@ Department & Department::operator=(const Department & rhs)
 	m_facultyCode = rhs.m_code;
 	m_courses = rhs.m_courses;
 	m_courseRequests = rhs.m_courseRequests;
+	m_users = rhs.m_users;
 
 	return *this;
 }
@@ -106,6 +108,13 @@ bool Department::decideOnCourse(Course * course, bool approveCourse)
 	}
 }
 
-Department::Department() : m_id(), m_name(), m_code(), m_facultyCode(), m_courses(), m_courseRequests()
+std::vector<AbstractUser*> Department::getUsers()
+{
+	if (m_users.empty()) {
+
+	}
+}
+
+Department::Department() : m_id(), m_name(), m_code(), m_facultyCode(), m_courses(), m_courseRequests(), m_users()
 {
 }

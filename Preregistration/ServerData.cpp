@@ -199,6 +199,11 @@ int ServerData::getNewDepartmentId()
 	return newId;
 }
 
+std::vector<AbstractUser*> ServerData::getDepartmentUsers() const
+{
+	return std::vector<AbstractUser*>();
+}
+
 /**
 * Retrieve departments from database.
 */
