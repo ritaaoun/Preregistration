@@ -46,6 +46,5 @@ private:
 	Status mStatus; ///< section status
 	std::vector<TimeSlot *> mTimeSlots; ///< time slots of the schedule of the section
 	Constraint* mConstraints; ///< constraints i.e: needComputers
-
 };
 
