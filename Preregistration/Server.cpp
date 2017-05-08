@@ -24,7 +24,9 @@ void Server::closelistener()
 
 bool Server::start()
 {
-	return false;
+	data.initialize();
+	startlistener();
+	return true;
 }
 
 void Server::startlistener()

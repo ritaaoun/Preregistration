@@ -4,11 +4,7 @@
 
 ServerData::ServerData() : m_maxUserId(), m_maxUsername(), m_maxDepartmentId(-1)
 {
-	getUsers();
-	getDepartments();
-	getMessages();
-	getSections();
-	getCourses();
+	
 }
 
 ServerData::~ServerData()
@@ -115,6 +111,17 @@ Section * ServerData::getSection(int id) const
 	{
 		return nullptr;
 	}
+}
+
+bool ServerData::initialize()
+{
+	//TODO: check if there is an error
+	getUsers();
+	getDepartments();
+	getMessages();
+	getSections();
+	getCourses();
+	return true;
 }
 
 int ServerData::getNewUserId(int year)

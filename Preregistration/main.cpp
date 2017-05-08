@@ -11,7 +11,7 @@ int main()
 	std::streambuf *cerrbuf = std::cerr.rdbuf();
 	std::cerr.rdbuf(out2.rdbuf());
 
-	Server::getInstance().startlistener();
+	Server::getInstance().start();
 
 	std::cout.rdbuf(coutbuf);
 	std::cerr.rdbuf(cerrbuf);

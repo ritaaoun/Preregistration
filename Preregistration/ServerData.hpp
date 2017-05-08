@@ -18,6 +18,8 @@ public:
 	Course * getCourse(int id) const;
 	Section * getSection(int id) const;
 
+	bool initialize();
+
 	int getNewUserId(int year);
 	std::string getNewUsername(std::string username);
 	int getNewDepartmentId();
