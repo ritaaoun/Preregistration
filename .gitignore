@@ -37,7 +37,7 @@ TestResult.xml
 [Dd]ebugPS/
 [Rr]eleasePS/
 dlldata.c
-
+Log/
 # DNX
 project.lock.json
 artifacts/
