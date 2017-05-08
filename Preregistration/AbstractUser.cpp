@@ -140,6 +140,12 @@ bool AbstractUser::updateReceivedMessages(AbstractMessage * message)
 	return m_inbox.updateReceivedMessages(message);
 }
 
+bool AbstractUser::editUser(const std::string & firstName, const std::string & middleName, const std::string & lastName, int departmentId, const std::string & birthday)
+{
+	//TODO: edit
+	return false;
+}
+
 AbstractUser::AbstractUser() : m_id(), m_username(), m_password(), m_firstName(), m_middleName(), m_lastName(),
 	m_startYear(0), m_startTerm(Term::TERM_END), m_type(TYPE_END), m_department(nullptr), m_birthday(), m_inbox()
 {

@@ -21,29 +21,29 @@ public:
 
 	virtual std::string getUsers(std::string params) override;
 
-	virtual void addUser() override;
+	virtual  std::string addUser(std::string params) override;
 
-	virtual void editUser() override;
+	virtual  std::string editUser(std::string params) override;
 
-	virtual void deleteUser() override;
+	virtual  std::string deleteUser(std::string params) override;
 
-	virtual void getMessages() override;
+	virtual  std::string getMessages(std::string params) override;
 
-	virtual void sendMessage() override;
+	virtual  std::string sendMessage(std::string params) override;
 
-	virtual void getCourses() override;
+	virtual  std::string getCourses(std::string params) override;
 
-	virtual void addCourse() override;
+	virtual  std::string addCourse(std::string params) override;
 
-	virtual void deleteCourse() override;
+	virtual  std::string deleteCourse(std::string params) override;
 
-	virtual void getDepartments() override;
+	virtual  std::string getDepartments(std::string params) override;
 
-	virtual void addDepartment() override;
+	virtual  std::string addDepartment(std::string params) override;
 
-	virtual void editDepartment() override;
+	virtual  std::string editDepartment(std::string params) override;
 
-	virtual void deleteDepartment() override;
+	virtual  std::string deleteDepartment(std::string params) override;
 
 
 private:
