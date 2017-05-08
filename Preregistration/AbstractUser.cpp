@@ -152,9 +152,9 @@ AbstractUser::AbstractUser(const std::string & firstName, const std::string & mi
 	m_departmentId(departmentId), m_department(nullptr), m_birthday(birthday), m_inbox()
 {
 	std::string username;
-	username.push_back(firstName[0]);
-	username.push_back(middleName[0]);
-	username.push_back(lastName[0]);
+	username.push_back(tolower(firstName[0]));
+	username.push_back(tolower(middleName[0]));
+	username.push_back(tolower(lastName[0]));
 	m_username = Server::getInstance().data.getNewUsername(username);
 
 	Server::getInstance().repository->createUser(this);
