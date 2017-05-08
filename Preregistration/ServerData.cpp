@@ -29,10 +29,18 @@ ServerData::~ServerData()
 		delete it->second;
 	}
 
-	for (std::unordered_map<int, Section *>::iterator it = m_sections.begin(); it != m_sections.end(); ++it)
+	for (std::unordered_map<int, std::unordered_map<int, Section *>>::iterator it = m_sections.begin(); it != m_sections.end(); ++it)
 	{
-		delete it->second;
+		for (std::unordered_map<int, Section *>::iterator it2 = it->second.begin(); it2 != it->second.end(); ++it2) {
+			delete it2->second;
+		}
 	}
+}
+
+bool ServerData::addDepartment(Department * department)
+{
+	m_departments[department->getId()] = department;
+	return true;
 }
 
 Department * ServerData::getDepartment(int id) const
@@ -46,6 +54,13 @@ Department * ServerData::getDepartment(int id) const
 	{
 		return nullptr;
 	}
+}
+
+bool ServerData::addUser(AbstractUser * user)
+{
+	m_usersById[user->getId()] = user;
+	m_usersByUsername[user->getUsername()] = user;
+	return true;
 }
 
 AbstractUser * ServerData::getUser(std::string username) const
@@ -74,6 +89,12 @@ AbstractUser * ServerData::getUser(int id) const
 	}
 }
 
+bool ServerData::addMessage(AbstractMessage * message)
+{
+	m_messages[message->getId()] = message;
+	return true;
+}
+
 AbstractMessage * ServerData::getMessage(int id) const
 {
 	std::unordered_map<int, AbstractMessage*>::const_iterator it = m_messages.find(id);
@@ -87,6 +108,12 @@ AbstractMessage * ServerData::getMessage(int id) const
 	}
 }
 
+bool ServerData::addCourse(Course * course)
+{
+	m_courses[course->getId()] = course;
+	return true;
+}
+
 Course * ServerData::getCourse(int id) const
 {
 	std::unordered_map<int, Course*>::const_iterator it = m_courses.find(id);
@@ -98,6 +125,12 @@ Course * ServerData::getCourse(int id) const
 	{
 		return nullptr;
 	}
+}
+
+bool ServerData::addSection(Section * section)
+{
+	m_sections[section->getId()] = section;
+	return true;
 }
 
 Section * ServerData::getSection(int id) const

@@ -61,6 +61,7 @@ AbstractUser * Administrator::createUser(const std::string & firstName, const st
 			return nullptr;
 		}
 		std::cout << "Administrator::createUser: user " + std::to_string(user->getId()) << " created" << std::endl;
+
 		return user;
 	}
 	else {
