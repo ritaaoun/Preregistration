@@ -113,7 +113,7 @@ std::string ServerInterface::addUser(std::string params)
 			}
 		}
 
-		return false;
+		return "false";
 
 	}
 	catch (std::exception& e)
