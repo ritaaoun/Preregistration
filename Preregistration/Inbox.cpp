@@ -4,7 +4,8 @@ Inbox::Inbox() : m_sentMessages(), m_receivedMessages()
 {
 }
 
-Inbox::Inbox(const Inbox & other)
+Inbox::Inbox(const Inbox & other) :
+	m_receivedMessages(other.m_receivedMessages), m_sentMessages(other.m_sentMessages)
 {
 }
 
@@ -14,36 +15,29 @@ Inbox::~Inbox()
 
 Inbox & Inbox::operator=(const Inbox & rhs)
 {
-	// TODO: insert return statement here
+	m_receivedMessages = rhs.m_receivedMessages;
+	m_sentMessages = rhs.m_sentMessages;
 	return *this;
 }
 
 bool Inbox::updateReceivedMessages(AbstractMessage * message)
 {
-	return false;
+	m_receivedMessages.push_back(message);
+	return true;
 }
 
 bool Inbox::updateSentMessages(AbstractMessage * message)
 {
-	return false;
+	m_sentMessages.push_back(message);
+	return true;
 }
 
-bool Inbox::getReceivedMessages(AbstractUser * sender, AbstractMessage::Type type)
+std::vector<AbstractMessage*> Inbox::getReceivedMessages() const
 {
-	return false;
+	return m_receivedMessages;
 }
 
-bool Inbox::getReceivedMessages(AbstractUser * sender)
+std::vector<AbstractMessage*> Inbox::getSentMessages() const
 {
-	return false;
-}
-
-bool Inbox::getSentMessages(AbstractUser * recepient, AbstractMessage::Type type)
-{
-	return false;
-}
-
-bool Inbox::getSentMessages(AbstractUser * recepient)
-{
-	return false;
+	return m_sentMessages;
 }

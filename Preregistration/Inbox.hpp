@@ -10,14 +10,13 @@ public:
 
 	bool updateReceivedMessages(AbstractMessage * message);
 	bool updateSentMessages(AbstractMessage * message);
-	bool getReceivedMessages(AbstractUser * sender, AbstractMessage::Type type);
-	bool getReceivedMessages(AbstractUser * sender);
-	bool getSentMessages(AbstractUser * recepient, AbstractMessage::Type type);
-	bool getSentMessages(AbstractUser * recepient);
+
+	std::vector<AbstractMessage*> getReceivedMessages() const;
+	std::vector<AbstractMessage*> getSentMessages() const;
 
 protected:
 
 private:
-	std::vector<AbstractMessage> m_sentMessages;
-	std::vector<AbstractMessage> m_receivedMessages;
+	std::vector<AbstractMessage*> m_sentMessages;
+	std::vector<AbstractMessage*> m_receivedMessages;
 };

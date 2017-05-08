@@ -13,18 +13,18 @@ public:
 	// Inherited via ClientServerInterface
 	virtual std::string login(std::string params) override;
 	virtual std::string getUsers(std::string params) override;
-	virtual void addUser() override;
-	virtual void editUser() override;
-	virtual void deleteUser() override;
-	virtual void getMessages() override;
-	virtual void sendMessage() override;
-	virtual void getCourses() override;
-	virtual void addCourse() override;
-	virtual void deleteCourse() override;
-	virtual void getDepartments() override;
-	virtual void addDepartment() override;
-	virtual void editDepartment() override;
-	virtual void deleteDepartment() override;
+	virtual  std::string addUser(std::string params) override;
+	virtual  std::string editUser(std::string params) override;
+	virtual  std::string deleteUser(std::string params) override;
+	virtual  std::string getMessages(std::string params) override;
+	virtual  std::string sendMessage(std::string params) override;
+	virtual  std::string getCourses(std::string params) override;
+	virtual  std::string addCourse(std::string params) override;
+	virtual  std::string deleteCourse(std::string params) override;
+	virtual  std::string getDepartments(std::string params) override;
+	virtual  std::string addDepartment(std::string params) override;
+	virtual  std::string editDepartment(std::string params) override;
+	virtual  std::string deleteDepartment(std::string params) override;
 
 private:
 	NetworkClient client;

@@ -1,5 +1,6 @@
 #include "Department.hpp"
 #include "Server.hpp"
+#include "AbstractUser.hpp"
 #include <algorithm>
 
 //TODO: course/course requests
@@ -35,7 +36,6 @@ Department & Department::operator=(const Department & rhs)
 	m_facultyCode = rhs.m_code;
 	m_courses = rhs.m_courses;
 	m_courseRequests = rhs.m_courseRequests;
-
 	return *this;
 }
 
@@ -104,6 +104,11 @@ bool Department::decideOnCourse(Course * course, bool approveCourse)
 		m_courseRequests.erase(it);
 		return true;
 	}
+}
+
+std::vector<AbstractUser*> Department::getUsers() const
+{
+	return Server::getInstance().data.getDepartmentUsers(this);
 }
 
 Department::Department() : m_id(), m_name(), m_code(), m_facultyCode(), m_courses(), m_courseRequests()

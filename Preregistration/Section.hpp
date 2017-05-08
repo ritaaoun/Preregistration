@@ -34,6 +34,7 @@ public:
 	void setConstraint(Constraint * constraint);
 	Constraint * getConstraint();
 
+	Course* getCourse();
 
 	Section(int input_sectionCode);
 	Section(int input_id, int input_capacity, int input_courseID, int input_professorID, bool input_isConfirmed);
@@ -49,5 +50,6 @@ private:
 	Status mStatus; ///< section status
 	std::vector<TimeSlot *> mTimeSlots; ///< time slots of the schedule of the section
 	Constraint* mConstraints; ///< constraints i.e: needComputers
+	Course* mCourse;
 };
 

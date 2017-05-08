@@ -4,11 +4,35 @@
 
 ServerData::ServerData() : m_maxUserId(), m_maxUsername(), m_maxDepartmentId(-1)
 {
-	getUsers();
-	getDepartments();
-	getMessages();
-	getSections();
-	getCourses();
+	
+}
+
+ServerData::~ServerData()
+{
+	for (std::unordered_map<std::string, AbstractUser *>::iterator it = m_usersByUsername.begin(); it != m_usersByUsername.end(); ++it)
+	{
+		delete it->second;
+	}
+
+	for (std::unordered_map<int, Department *>::iterator it = m_departments.begin(); it != m_departments.end(); ++it)
+	{
+		delete it->second;
+	}
+
+	for (std::unordered_map<int, AbstractMessage *>::iterator it = m_messages.begin(); it != m_messages.end(); ++it)
+	{
+		delete it->second;
+	}
+	
+	for (std::unordered_map<int, Course *>::iterator it = m_courses.begin(); it != m_courses.end(); ++it)
+	{
+		delete it->second;
+	}
+
+	for (std::unordered_map<int, Section *>::iterator it = m_sections.begin(); it != m_sections.end(); ++it)
+	{
+		delete it->second;
+	}
 }
 
 Department * ServerData::getDepartment(int id) const
@@ -87,6 +111,17 @@ Section * ServerData::getSection(int id) const
 	{
 		return nullptr;
 	}
+}
+
+bool ServerData::initialize()
+{
+	//TODO: check if there is an error
+	getUsers();
+	getDepartments();
+	getMessages();
+	getSections();
+	getCourses();
+	return true;
 }
 
 int ServerData::getNewUserId(int year)
@@ -169,6 +204,19 @@ int ServerData::getNewDepartmentId()
 	}
 	m_maxDepartmentId = newId;
 	return newId;
+}
+
+std::vector<AbstractUser*> ServerData::getDepartmentUsers(const Department * department) const
+{
+	std::vector<AbstractUser*> out;
+	int departmentId = department->getId();
+	for (std::unordered_map<int, AbstractUser *>::const_iterator it = m_usersById.begin(); it != m_usersById.end(); ++it)
+	{
+		if (it->second->getDepartmentId() == departmentId) {
+			out.push_back(it->second);
+		}
+	}
+	return out;
 }
 
 /**

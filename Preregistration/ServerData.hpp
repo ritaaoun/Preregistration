@@ -9,6 +9,7 @@ class ServerData
 {
 public:	
 	ServerData();
+	~ServerData();
 	
 	Department * getDepartment(int id) const;
 	AbstractUser * getUser(std::string username) const;
@@ -17,9 +18,13 @@ public:
 	Course * getCourse(int id) const;
 	Section * getSection(int id) const;
 
+	bool initialize();
+
 	int getNewUserId(int year);
 	std::string getNewUsername(std::string username);
 	int getNewDepartmentId();
+
+	std::vector<AbstractUser *> getDepartmentUsers(const Department * department) const;
 
 private:
 	std::unordered_map<std::string, AbstractUser *> m_usersByUsername;
