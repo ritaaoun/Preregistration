@@ -19,7 +19,7 @@ public:
 	virtual bool deleteDepartment(const Department * department) const override;
 	virtual bool updateDepartment(const Department * department) const override;
 	virtual int createDepartment(const Department * department) const override;
-	virtual std::vector<int> getAdminDepartments(int adminId) const override;
+	virtual std::vector<int> getAdminPrivileges(int adminId) const override;
 	virtual std::vector<Department*> getDepartments() const override;
 	virtual std::vector<int> getDepartmentCourses(int departmentId) const override;
 	virtual std::vector<int> getDepartmentCourseRequests(int departmentId) const override;

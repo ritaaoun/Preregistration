@@ -20,7 +20,7 @@ Administrator::Administrator(int id, const std::string & username, const std::st
 	int startYear, Term::Term startTerm, int departmentId, const std::string & birthday) :
 	AbstractUser(id, username, password, firstName, middleName, lastName, startYear, startTerm,
 		Type::ADMINISTRATOR, departmentId, birthday),
-	m_privilegeIds(Server::getInstance().repository->getAdminDepartments(id)), m_privileges()
+	m_privilegeIds(Server::getInstance().repository->getAdminPrivileges(id)), m_privileges()
 {
 }
 

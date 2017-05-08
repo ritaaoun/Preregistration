@@ -9,6 +9,7 @@ class ServerData
 {
 public:	
 	ServerData();
+	~ServerData();
 	
 	Department * getDepartment(int id) const;
 	AbstractUser * getUser(std::string username) const;
