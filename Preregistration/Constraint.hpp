@@ -3,7 +3,7 @@ class Constraint
 {
 public:
 
-	Constraint();
+	Constraint(bool input_hasComputer, bool input_hasSpeakers, bool input_hasHighEnergyParticleAccelerator);
 	~Constraint();
 	void setHasComputer(bool hasComputer);
 	bool hasComputer();
@@ -15,7 +15,6 @@ public:
 	bool HasHighEnergyParticleAccelerator();
 
 	bool matchingConstraint(Constraint* constraint);
-
 
 private:
 

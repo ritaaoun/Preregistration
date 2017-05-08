@@ -303,3 +303,55 @@ std::vector<AbstractMessage*> SqliteRepository::getMessages() const
 	}
 	return out;
 }
+
+std::vector<Section*> SqliteRepository::getSections() const
+{
+	std::string sql = "SELECT * FROM SECTION";
+	std::vector<std::vector<std::string>> results = query(sql);
+	std::vector<Section *> out;
+
+	for (std::vector<std::vector<std::string>>::iterator it = results.begin(); it != results.end(); ++it)
+	{
+		std::vector<std::string> row = *it;
+		int id = Helper::stringToLong(row.at(0));
+		int capacity = Helper::stringToLong(row.at(1));
+		int courseID = Helper::stringToLong(row.at(2));
+		int professorID = Helper::stringToLong(row.at(3));
+		bool isConfirmed = (bool)Helper::stringToLong(row.at(4));
+
+		out.push_back(new Section(id, capacity, courseID, professorID, isConfirmed));
+	}
+	return out;
+}
+
+Constraint * SqliteRepository::getSectionConstraint(int sectionID) const
+{
+	std::string sql = "SELECT * FROM CONSTRAINTSECTION WHERE SECTIONID = '" + std::to_string(sectionID) + "'";
+	std::vector<std::vector<std::string>> results = query(sql);
+	std::vector<Section *> out;
+
+	//int id = Helper::stringToLong(results.at(0).at(0));
+	//int sectionID = Helper::stringToLong(results.at(0).at(1));
+	bool hasComputer = (bool)Helper::stringToLong(results.at(0).at(2));
+	bool hasSpeakers = (bool)Helper::stringToLong(results.at(0).at(3));
+	bool hasHighEnergyParticleAccelerator = (bool)Helper::stringToLong(results.at(0).at(4));
+
+	return new Constraint(hasComputer, hasSpeakers, hasHighEnergyParticleAccelerator);
+}
+
+TimeSlot * SqliteRepository::getSectionTimeSlots(int sectionID) const
+{
+	std::string sql = "SELECT * FROM TIMESLOTSECTION WHERE SECTIONID = '" + std::to_string(sectionID) + "'";
+	std::vector<std::vector<std::string>> results = query(sql);
+	std::vector<Section *> out;
+
+	//int id = Helper::stringToLong(results.at(0).at(0));
+	//int sectionID = Helper::stringToLong(results.at(0).at(1));
+	TimeSlot::Day day = static_cast<TimeSlot::Day>(Helper::stringToLong(results.at(0).at(2)));
+	int startHour = Helper::stringToLong(results.at(0).at(3));
+	int startMinute = Helper::stringToLong(results.at(0).at(4));
+	int endHour = Helper::stringToLong(results.at(0).at(5));
+	int endMinute = Helper::stringToLong(results.at(0).at(6));
+
+	return new TimeSlot(day, startHour, startMinute, endHour, endMinute);
+}

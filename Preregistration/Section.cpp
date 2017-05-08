@@ -1,12 +1,23 @@
 #include "Section.hpp"
+#include "Server.hpp"
 
-Section::Section(int input_sectionCode)
+Section::Section(int input_sectionCode) :
+mSectionCode (input_sectionCode)
 {
-	mSectionCode = input_sectionCode;
+}
+
+Section::Section(int input_id, int input_capacity, int input_courseID, int input_professorID, bool input_isConfirmed) :
+	mCapacity(input_capacity), mSectionCode(input_capacity), mCourseId(input_courseID), mProfId(input_professorID),
+	mProfessor(nullptr), mStatus(static_cast<Status>(input_isConfirmed)), mRoom(nullptr), mTimeSlots(),
+	mConstraints(Server::getInstance().repository->getSectionConstraint(input_id)), mCourse(nullptr)
+{
+	// use input_id to get contsraint of the section from database
+	// build Constraint object from retreived 
 }
 
 Section::~Section()
 {
+	delete mConstraints;
 }
 
 bool Section::addTimeSlot(TimeSlot * timeslot)
@@ -92,3 +103,13 @@ Constraint * Section::getConstraint()
 {
 	return mConstraints;
 }
+
+Course * Section::getCourse()
+{
+	if (mCourse == nullptr)
+	{
+		mCourse = Server::getInstance().data.getCourse(mCourseId);
+	}
+	return mCourse;
+}
+
