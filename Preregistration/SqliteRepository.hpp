@@ -5,7 +5,6 @@
 
 class SqliteRepository : public AbstractRepository{
 public:
-
 	static SqliteRepository & getInstance();
 
 	// Inherited via AbstractRepository
@@ -41,5 +40,4 @@ private :
 	void close();
 	bool execute(const std::string & sql) const;
 	std::vector< std::vector < std::string > > query(const std::string & sql) const;
-	long stringToLong(const std::string & nb) const;
 };

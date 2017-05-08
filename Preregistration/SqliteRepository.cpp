@@ -2,6 +2,7 @@
 #include "Professor.hpp"
 #include "Student.hpp"
 #include "ChatMessage.hpp"
+#include "Helper.hpp"
 #include <iostream>
 
 SqliteRepository & SqliteRepository::getInstance()
@@ -79,27 +80,6 @@ std::vector<std::vector<std::string>> SqliteRepository::query(const std::string 
 	return results;
 }
 
-long SqliteRepository::stringToLong(const std::string & nb) const
-{
-	char *end;
-	errno = 0;
-	long l = std::strtol(nb.c_str(), &end, 0);
-	if ((errno == ERANGE && l == LONG_MAX) || l > INT_MAX) {
-		std::cerr << "SqliteRepository::stringToLong: overflow when converting " + nb << std::endl;
-		return 0;
-	}
-	if ((errno == ERANGE && l == LONG_MIN) || l < INT_MIN) {
-		std::cerr << "SqliteRepository::stringToLong: underflow when converting " + nb << std::endl;
-		return 0;
-	}
-	if (nb.c_str() == '\0' || *end != '\0') {
-		std::cerr << "SqliteRepository::stringToLong: " + nb + " is unconvertable" << std::endl;
-		return 0;
-	}
-
-	return l;
-}
-
 SqliteRepository::SqliteRepository(const SqliteRepository & rhs)
 {
 }
@@ -157,16 +137,16 @@ std::vector<AbstractUser*> SqliteRepository::getUsers() const
 	for (std::vector<std::vector<std::string>>::iterator it = results.begin(); it != results.end(); ++it)
 	{
 		std::vector<std::string> row = *it;
-		int id = stringToLong(row.at(0));
+		int id = Helper::stringToLong(row.at(0));
 		std::string username = row.at(1);
 		std::string password = row.at(2);
 		std::string firstname = row.at(3);
 		std::string middlename = row.at(4);
 		std::string lastname = row.at(5);
-		int startyear = stringToLong(row.at(6));
-		Term::Term startterm = static_cast<Term::Term>(stringToLong(row.at(7)));
-		AbstractUser::Type type = static_cast<AbstractUser::Type>(stringToLong(row.at(8)));
-		int departmentid = stringToLong(row.at(9));
+		int startyear = Helper::stringToLong(row.at(6));
+		Term::Term startterm = static_cast<Term::Term>(Helper::stringToLong(row.at(7)));
+		AbstractUser::Type type = static_cast<AbstractUser::Type>(Helper::stringToLong(row.at(8)));
+		int departmentid = Helper::stringToLong(row.at(9));
 		std::string birthday = row.at(10);
 
 		if (type == AbstractUser::ADMINISTRATOR) {
@@ -227,7 +207,7 @@ std::vector<int> SqliteRepository::getAdminDepartments(int adminId) const
 
 	for (std::vector<std::vector<std::string>>::iterator it = results.begin(); it != results.end(); ++it)
 	{
-		departments.push_back(stringToLong((*it).at(0)));
+		departments.push_back(Helper::stringToLong((*it).at(0)));
 	}
 
 	return departments;
@@ -242,7 +222,7 @@ std::vector<Department*> SqliteRepository::getDepartments() const
 	for (std::vector<std::vector<std::string>>::iterator it = results.begin(); it != results.end(); ++it)
 	{
 		std::vector<std::string> row = *it;
-		int id = stringToLong(row.at(0));
+		int id = Helper::stringToLong(row.at(0));
 		std::string name = row.at(1);
 		std::string code = row.at(2);
 		std::string faculty = row.at(3);
@@ -287,7 +267,7 @@ int SqliteRepository::createMessage(AbstractMessage * message)
 		std::string sql = "SELECT MAX(ID) FROM MESSAGE";
 		std::vector<std::vector<std::string>> results = query(sql);
 		
-		return stringToLong(results.at(0).at(0));
+		return Helper::stringToLong(results.at(0).at(0));
 	}
 	else
 	{
@@ -301,13 +281,13 @@ std::vector<AbstractMessage*> SqliteRepository::getMessages() const
 	std::vector<std::vector<std::string>> results = query(sql);
 	std::vector<AbstractMessage *> out;
 
-	for (std::vector<std::vector<std::string>>::iterator it = results.begin(); it != results.end(); ++it)
+	for (std::vector<std::vector<std::string>>::iterator it = results.end()-1; it != results.begin()-1; --it)
 	{
 		std::vector<std::string> row = *it;
-		int id = stringToLong(row.at(0));
-		int senderId = stringToLong(row.at(1));
-		int recipientId = stringToLong(row.at(2));
-		AbstractMessage::Type type = static_cast<AbstractMessage::Type>(stringToLong(row.at(3)));
+		int id = Helper::stringToLong(row.at(0));
+		int senderId = Helper::stringToLong(row.at(1));
+		int recipientId = Helper::stringToLong(row.at(2));
+		AbstractMessage::Type type = static_cast<AbstractMessage::Type>(Helper::stringToLong(row.at(3)));
 		std::string topic = row.at(4);
 		std::string content = row.at(5);
 

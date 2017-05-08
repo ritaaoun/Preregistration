@@ -42,6 +42,7 @@ std::string ServerInterface::login(std::string params)
 			ClientServerInterface::DELIMITER + user->getFirstName() + ClientServerInterface::DELIMITER + user->getMiddleName() +
 			ClientServerInterface::DELIMITER + user->getLastName() + ClientServerInterface::DELIMITER +
 			std::to_string(user->getType());
+		return userInfo;
 	}
 	else
 	{

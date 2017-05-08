@@ -77,6 +77,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -125,6 +126,7 @@
     <ClInclude Include="ClientServerInterface.hpp" />
     <ClInclude Include="Constraint.hpp" />
     <ClInclude Include="Course.hpp" />
+    <ClInclude Include="Helper.hpp" />
     <ClInclude Include="MessageFactory.hpp" />
     <ClInclude Include="NetworkClient.hpp" />
     <ClInclude Include="NetworkServer.hpp" />
@@ -158,6 +160,7 @@
     <ClCompile Include="ClientServerInterface.cpp" />
     <ClCompile Include="Constraint.cpp" />
     <ClCompile Include="Course.cpp" />
+    <ClCompile Include="Helper.cpp" />
     <ClCompile Include="Inbox.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Department.cpp" />

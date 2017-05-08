@@ -1,6 +1,6 @@
 #include "Inbox.hpp"
 
-Inbox::Inbox(int userId)
+Inbox::Inbox() : m_sentMessages(), m_receivedMessages()
 {
 }
 
@@ -46,12 +46,4 @@ bool Inbox::getSentMessages(AbstractUser * recepient, AbstractMessage::Type type
 bool Inbox::getSentMessages(AbstractUser * recepient)
 {
 	return false;
-}
-
-Inbox::Inbox()
-{
-}
-
-void Inbox::updateInbox()
-{
 }
