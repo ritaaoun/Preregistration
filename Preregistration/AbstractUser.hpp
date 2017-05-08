@@ -51,6 +51,9 @@ public:
 	bool updateSentMessages(AbstractMessage * message);
 	bool updateReceivedMessages(AbstractMessage * message);
 
+	bool editUser(const std::string & firstName, const std::string & middleName, const std::string & lastName,
+		int departmentId, const std::string & birthday);
+
 protected:
 	AbstractUser();
 	AbstractUser(const std::string & firstName, const std::string & middleName, const std::string & lastName,

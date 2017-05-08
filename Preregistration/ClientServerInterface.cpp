@@ -1,7 +1,8 @@
 #include "ClientServerInterface.hpp"
 
 const std::string ClientServerInterface::DELIMITER(",:,");
-const std::string ClientServerInterface::FUNC_DELIMITER(":,:,:");
+const std::string ClientServerInterface::FUNC_DELIMITER(":,::,:");
+const std::string ClientServerInterface::LIST_DELIMITER("::,,::");
 
 std::vector<std::string> ClientServerInterface::split(const std::string & s, std::string delim)
 {
