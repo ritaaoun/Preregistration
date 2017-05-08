@@ -199,7 +199,7 @@ int SqliteRepository::createDepartment(const Department * department) const
 	return 0;
 }
 
-std::vector<int> SqliteRepository::getAdminDepartments(int adminId) const
+std::vector<int> SqliteRepository::getAdminPrivileges(int adminId) const
 {
 	std::string sql = "SELECT DEPARTMENTID FROM PRIVILEGE WHERE USERID='" + std::to_string(adminId) + "'";
 	std::vector<std::vector<std::string>> results = query(sql);
@@ -281,21 +281,24 @@ std::vector<AbstractMessage*> SqliteRepository::getMessages() const
 	std::vector<std::vector<std::string>> results = query(sql);
 	std::vector<AbstractMessage *> out;
 
-	for (std::vector<std::vector<std::string>>::iterator it = results.end()-1; it != results.begin()-1; --it)
+	if (!results.empty())
 	{
-		std::vector<std::string> row = *it;
-		int id = Helper::stringToLong(row.at(0));
-		int senderId = Helper::stringToLong(row.at(1));
-		int recipientId = Helper::stringToLong(row.at(2));
-		AbstractMessage::Type type = static_cast<AbstractMessage::Type>(Helper::stringToLong(row.at(3)));
-		std::string topic = row.at(4);
-		std::string content = row.at(5);
+		for (std::vector<std::vector<std::string>>::iterator it = results.end() - 1; it != results.begin() - 1; --it)
+		{
+			std::vector<std::string> row = *it;
+			int id = Helper::stringToLong(row.at(0));
+			int senderId = Helper::stringToLong(row.at(1));
+			int recipientId = Helper::stringToLong(row.at(2));
+			AbstractMessage::Type type = static_cast<AbstractMessage::Type>(Helper::stringToLong(row.at(3)));
+			std::string topic = row.at(4);
+			std::string content = row.at(5);
 
-		if (type == AbstractMessage::CHAT) {
-			out.push_back(new ChatMessage(id, senderId, recipientId, topic, content));
-		}
-		else {
-			cerr << "SqliteRepository::getMessages(): invalid type " << to_string(type) << endl;
+			if (type == AbstractMessage::CHAT) {
+				out.push_back(new ChatMessage(id, senderId, recipientId, topic, content));
+			}
+			else {
+				cerr << "SqliteRepository::getMessages(): invalid type " << to_string(type) << endl;
+			}
 		}
 	}
 	return out;
