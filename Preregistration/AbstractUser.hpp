@@ -51,6 +51,8 @@ public:
 	bool updateSentMessages(AbstractMessage * message);
 	bool updateReceivedMessages(AbstractMessage * message);
 
+	virtual ~AbstractUser();
+
 	bool editUser(const std::string & firstName, const std::string & middleName, const std::string & lastName,
 		int departmentId, const std::string & birthday);
 
@@ -63,7 +65,6 @@ protected:
 		const std::string & middleName, const std::string & lastName, int startYear, Term::Term startTerm,
 		Type userType, int departmentId, const std::string & birthday);
 	AbstractUser(const AbstractUser & other);
-	virtual ~AbstractUser();
 	AbstractUser & operator=(const AbstractUser & rhs);
 	
 private:

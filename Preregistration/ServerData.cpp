@@ -11,6 +11,34 @@ ServerData::ServerData() : m_maxUserId(), m_maxUsername(), m_maxDepartmentId(-1)
 	getCourses();
 }
 
+ServerData::~ServerData()
+{
+	for (std::unordered_map<std::string, AbstractUser *>::iterator it = m_usersByUsername.begin(); it != m_usersByUsername.end(); ++it)
+	{
+		delete it->second;
+	}
+
+	for (std::unordered_map<int, Department *>::iterator it = m_departments.begin(); it != m_departments.end(); ++it)
+	{
+		delete it->second;
+	}
+
+	for (std::unordered_map<int, AbstractMessage *>::iterator it = m_messages.begin(); it != m_messages.end(); ++it)
+	{
+		delete it->second;
+	}
+	
+	for (std::unordered_map<int, Course *>::iterator it = m_courses.begin(); it != m_courses.end(); ++it)
+	{
+		delete it->second;
+	}
+
+	for (std::unordered_map<int, Section *>::iterator it = m_sections.begin(); it != m_sections.end(); ++it)
+	{
+		delete it->second;
+	}
+}
+
 Department * ServerData::getDepartment(int id) const
 {
 	std::unordered_map<int, Department*>::const_iterator it = m_departments.find(id);

@@ -199,7 +199,7 @@ int SqliteRepository::createDepartment(const Department * department) const
 	return 0;
 }
 
-std::vector<int> SqliteRepository::getAdminDepartments(int adminId) const
+std::vector<int> SqliteRepository::getAdminPrivileges(int adminId) const
 {
 	std::string sql = "SELECT DEPARTMENTID FROM PRIVILEGE WHERE USERID='" + std::to_string(adminId) + "'";
 	std::vector<std::vector<std::string>> results = query(sql);

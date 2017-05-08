@@ -4,6 +4,7 @@
 #include "Course.hpp"
 #include <vector>
 
+//TODO: get users from department
 class Administrator : public AbstractUser {
 public:
 	Administrator();
