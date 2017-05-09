@@ -45,6 +45,8 @@ public:
 	virtual Constraint * getRoomConstraint(int roomId) const = 0;
 	virtual std::vector<int> getRoomSectionIds(int roomId) const = 0;
 
+	virtual bool deleteCourse(int id) const = 0;
+	virtual bool deleteCourse(const Course * course) const = 0;
 	virtual std::vector<Course *> getCourses() const = 0;
 	virtual int createCourse(const Course * course) const = 0;
 	virtual Constraint * getCourseConstraints(int courseId) const = 0;

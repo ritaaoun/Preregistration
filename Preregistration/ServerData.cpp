@@ -112,6 +112,15 @@ bool ServerData::addCourse(Course * course)
 	return true;
 }
 
+bool ServerData::deleteCourse(Course * course)
+{
+	int id = course->getID();
+	m_courses.erase(id);
+	Server::getInstance().repository->deleteCourse(id);
+	delete course;
+	return true;
+}
+
 Course * ServerData::getCourse(int id) const
 {
 	std::unordered_map<int, Course*>::const_iterator it = m_courses.find(id);

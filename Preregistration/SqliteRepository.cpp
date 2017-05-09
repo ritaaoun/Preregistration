@@ -505,6 +505,17 @@ std::vector<int> SqliteRepository::getRoomSectionIds(int roomId) const
 	return sections;
 }
 
+bool SqliteRepository::deleteCourse(int id) const
+{
+	std::string sql = "DELETE FROM COURSE WHERE ID = " + std::to_string(id) + ";";
+	return execute(sql);
+}
+
+bool SqliteRepository::deleteCourse(const Course * course) const
+{
+	return deleteCourse(course->getID());
+}
+
 std::vector<Course*> SqliteRepository::getCourses() const
 {
 	std::string sql = "SELECT * FROM COURSE";

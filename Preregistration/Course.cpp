@@ -128,7 +128,6 @@ void Course::approveCourse()
 
 void Course::refuseCourse()
 {
-	
-	delete this;
+	Server::getInstance().data.deleteCourse(this);
 }
 
