@@ -22,6 +22,7 @@ public:
 	AbstractMessage * getMessage(int id) const;
 
 	bool addCourse(Course * course);
+	bool deleteCourse(Course * course);
 	Course * getCourse(int id) const;
 
 	bool addSection(Section * section);

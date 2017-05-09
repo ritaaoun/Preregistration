@@ -112,6 +112,15 @@ bool ServerData::addCourse(Course * course)
 	return true;
 }
 
+bool ServerData::deleteCourse(Course * course)
+{
+	int id = course->getID();
+	m_courses.erase(id);
+	Server::getInstance().repository->deleteCourse(id);
+	delete course;
+	return true;
+}
+
 Course * ServerData::getCourse(int id) const
 {
 	std::unordered_map<int, Course*>::const_iterator it = m_courses.find(id);
@@ -316,18 +325,33 @@ bool ServerData::getMessages()
 
 bool ServerData::getCourses()
 {
-	//TODO: implement
-	return false;
+	std::vector<Course *> courses(Server::getInstance().repository->getCourses());
+	for (std::vector<Course*>::iterator it = courses.begin(); it != courses.end(); ++it)
+	{
+		Course * course = *it;
+		m_courses[course->getID()] = course;
+	}
+	return true;
 }
 
 bool ServerData::getSections()
 {
-	//TODO: implement
-	return false;
+	std::vector<Section *> sections(Server::getInstance().repository->getSections());
+	for (std::vector<Section*>::iterator it = sections.begin(); it != sections.end(); ++it)
+	{
+		Section * section = *it;
+		m_sections[section->getCrn()] = section;
+	}
+	return true;
 }
 
 bool ServerData::getRooms()
 {
-	//TODO: retrieve rooms
-	return false;
+	std::vector<Room *> rooms(Server::getInstance().repository->getRooms());
+	for (std::vector<Room*>::iterator it = rooms.begin(); it != rooms.end(); ++it)
+	{
+		Room * room = *it;
+		m_rooms[room->getId()] = room;
+	}
+	return true;
 }
