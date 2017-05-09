@@ -7,6 +7,8 @@ SystemWindowAdminstrator::SystemWindowAdminstrator(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    dialogOpened = false;
+
     ui->label_welcome->setText("Welcome Admin " + User::getUser()->getName());
 
 
@@ -236,6 +238,11 @@ void SystemWindowAdminstrator::on_pbLogout_clicked()
     LogInWindow* login = new LogInWindow();
     login->show();
 
+    if(dialogOpened)
+    {
+        dialog->close();
+    }
+
     this->close();
 }
 
@@ -275,4 +282,22 @@ void SystemWindowAdminstrator::refresh()
     setUpDepartments();
     setUpAdminCourseRequests();
     setUpAdminUsers();
+}
+
+void SystemWindowAdminstrator::on_pushButton_clicked()
+{
+    if(!dialogOpened)
+    {
+        dialog = new DialogMessage();
+
+        QObject::connect(dialog, SIGNAL(finished(int)), this, SLOT(dialogClosed()));
+        dialog->show();
+
+        dialogOpened = true;
+    }
+}
+void SystemWindowAdminstrator::dialogClosed()
+{
+    delete dialog;
+    dialogOpened = false;
 }
