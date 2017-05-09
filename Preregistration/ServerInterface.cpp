@@ -260,7 +260,34 @@ std::string ServerInterface::getReceivedMessages(std::string params)
 
 std::string ServerInterface::sendMessage(std::string params)
 {
-	return "";
+	try
+	{
+		AbstractUser* user = Server::getInstance().data.getUser(params);
+		if (user != nullptr)
+		{
+			std::vector<AbstractMessage*> msgs = user->getReceivedMessages();
+			std::string result = "";
+			for (std::vector<AbstractMessage*>::iterator it = msgs.begin();it != msgs.end();++it)
+			{
+				result += (*it)->getSender()->getUsername() + ClientServerInterface::DELIMITER + (*it)->getRecipient()->getUsername() +
+					ClientServerInterface::DELIMITER + (*it)->getTopic() + ClientServerInterface::DELIMITER + (*it)->getContent() +
+					ClientServerInterface::DELIMITER + std::to_string((*it)->getType());
+				if (msgs.end() != it + 1)
+				{
+					result += ClientServerInterface::LIST_DELIMITER;
+				}
+			}
+			return result;
+		}
+
+		return "false";
+
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "Error in ServerInterface::addUser" << e.what();
+		return "false";
+	}
 }
 
 std::string ServerInterface::getCourses(std::string params)
