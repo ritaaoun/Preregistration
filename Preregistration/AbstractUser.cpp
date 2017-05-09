@@ -130,6 +130,16 @@ void AbstractUser::setBirthday(const std::string & birthday)
 	Server::getInstance().repository->updateUser(this);
 }
 
+std::vector<AbstractMessage*> AbstractUser::getSentMessages()
+{
+	return m_inbox.getSentMessages();
+}
+
+std::vector<AbstractMessage*> AbstractUser::getReceivedMessages()
+{
+	return m_inbox.getReceivedMessages();
+}
+
 bool AbstractUser::updateSentMessages(AbstractMessage * message)
 {
 	return m_inbox.updateSentMessages(message);
@@ -158,6 +168,7 @@ AbstractUser::AbstractUser(const std::string & firstName, const std::string & mi
 	m_username = Server::getInstance().data.getNewUsername(username);
 
 	Server::getInstance().repository->createUser(this);
+	Server::getInstance().data.addUser(this);
 }
 
 AbstractUser::AbstractUser(int id, const std::string & username, const std::string & password, const std::string & firstName,

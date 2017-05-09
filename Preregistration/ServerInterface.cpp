@@ -1,5 +1,6 @@
 #include "ServerInterface.hpp"
 #include "Server.hpp"
+#include "Helper.hpp"
 #include <functional>
 #include <exception>
 
@@ -9,16 +10,13 @@ ServerInterface::ServerInterface()
 	functionMap["getUsers"] = &ServerInterface::getUsers;
 	functionMap["addUser"] = &ServerInterface::addUser;
 	functionMap["editUser"] = &ServerInterface::editUser;
-	functionMap["deleteUser"] = &ServerInterface::deleteUser;
-	functionMap["getMessages"] = &ServerInterface::getMessages;
+	functionMap["getSentMessages"] = &ServerInterface::getSentMessages;
+	functionMap["getReceivedMessages"] = &ServerInterface::getReceivedMessages;
 	functionMap["sendMessage"] = &ServerInterface::sendMessage;
 	functionMap["getCourses"] = &ServerInterface::getCourses;
 	functionMap["addCourse"] = &ServerInterface::addCourse;
 	functionMap["deleteCourse"] = &ServerInterface::deleteCourse;
 	functionMap["getDepartments"] = &ServerInterface::getDepartments;
-	functionMap["addDepartment"] = &ServerInterface::addDepartment;
-	functionMap["editDepartment"] = &ServerInterface::editDepartment;
-	functionMap["deleteDepartment"] = &ServerInterface::deleteDepartment;
 
 }
 
@@ -89,9 +87,31 @@ std::string ServerInterface::login(std::string params)
 
 std::string ServerInterface::getUsers(std::string params)
 {
-	//std::vector<AbstractUser*> user = Server::getInstance().data.getUser(params);
+	std::string username = params;
+	AbstractUser* user = Server::getInstance().data.getUser(username);
+	if (user != nullptr)
+	{
+		if (user->getType() == AbstractUser::Type::ADMINISTRATOR)
+		{
+			Administrator * admin = (Administrator*)user;
+			std::vector<AbstractUser*> users = admin->getUsers();
+			std::string result = "";
+			for (std::vector<AbstractUser*>::iterator it = users.begin();it != users.end();++it)
+			{
+				result += (*it)->getUsername() + ClientServerInterface::DELIMITER + std::to_string((*it)->getId()) +
+					ClientServerInterface::DELIMITER + (*it)->getFirstName() + ClientServerInterface::DELIMITER + (*it)->getMiddleName() +
+					ClientServerInterface::DELIMITER + (*it)->getLastName() + ClientServerInterface::DELIMITER +
+					std::to_string((*it)->getType());
+				if (users.end() != it + 1)
+				{
+					result += ClientServerInterface::LIST_DELIMITER;
+				}
+			}
+			return result;
+		}
+	}
 
-	return "";
+	return "false";
 }
 
 std::string ServerInterface::addUser(std::string params)
@@ -137,17 +157,103 @@ std::string ServerInterface::addUser(std::string params)
 
 std::string ServerInterface::editUser(std::string params)
 {
-	return "";
+	try
+	{
+		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
+
+		std::string username = param[0];
+		std::string firstName = param[1];
+		std::string middleName = param[2];
+		std::string lastName = param[3];
+		std::string department = param[4];
+		std::string dateOfBirth = param[5];
+		std::string startYear = param[6];
+		std::string startTerm = param[7];
+		std::string editedUsername = param[8];
+
+		AbstractUser* user = Server::getInstance().data.getUser(username);
+		if (user != nullptr)
+		{
+			if (user->getType() == AbstractUser::Type::ADMINISTRATOR)
+			{
+				Administrator * admin = (Administrator*)user;
+				bool worked = admin->editUser(editedUsername, firstName, middleName, lastName, Helper::stringToLong(department), dateOfBirth);
+				return std::to_string(worked);
+			}
+		}
+
+		return "false";
+
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "Error in ServerInterface::editUser" << e.what();
+		return "false";
+	}
 }
 
-std::string ServerInterface::deleteUser(std::string params)
+std::string ServerInterface::getSentMessages(std::string params)
 {
-	return "";
+	try
+	{
+		AbstractUser* user = Server::getInstance().data.getUser(params);
+		if (user != nullptr)
+		{
+			std::vector<AbstractMessage*> msgs = user->getSentMessages();
+			std::string result = "";
+			for (std::vector<AbstractMessage*>::iterator it = msgs.begin();it != msgs.end();++it)
+			{
+				result += (*it)->getSender()->getUsername() + ClientServerInterface::DELIMITER + (*it)->getRecipient()->getUsername() +
+					ClientServerInterface::DELIMITER + (*it)->getTopic() + ClientServerInterface::DELIMITER + (*it)->getContent() +
+					ClientServerInterface::DELIMITER + std::to_string((*it)->getType());
+				if (msgs.end() != it + 1)
+				{
+					result += ClientServerInterface::LIST_DELIMITER;
+				}
+			}
+			return result;
+		}
+
+		return "false";
+
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "Error in ServerInterface::addUser" << e.what();
+		return "false";
+	}
 }
 
-std::string ServerInterface::getMessages(std::string params)
+std::string ServerInterface::getReceivedMessages(std::string params)
 {
-	return "";
+	try
+	{
+		AbstractUser* user = Server::getInstance().data.getUser(params);
+		if (user != nullptr)
+		{
+			std::vector<AbstractMessage*> msgs = user->getReceivedMessages();
+			std::string result = "";
+			for (std::vector<AbstractMessage*>::iterator it = msgs.begin();it != msgs.end();++it)
+			{
+				result += (*it)->getSender()->getUsername() + ClientServerInterface::DELIMITER + (*it)->getRecipient()->getUsername() +
+					ClientServerInterface::DELIMITER + (*it)->getTopic() + ClientServerInterface::DELIMITER + (*it)->getContent() +
+					ClientServerInterface::DELIMITER + std::to_string((*it)->getType());
+				if (msgs.end() != it + 1)
+				{
+					result += ClientServerInterface::LIST_DELIMITER;
+				}
+			}
+			return result;
+		}
+
+		return "false";
+
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "Error in ServerInterface::addUser" << e.what();
+		return "false";
+	}
 }
 
 std::string ServerInterface::sendMessage(std::string params)
@@ -203,17 +309,3 @@ std::string ServerInterface::getDepartments(std::string params)
 	}
 }
 
-std::string ServerInterface::addDepartment(std::string params)
-{
-	return "";
-}
-
-std::string ServerInterface::editDepartment(std::string params)
-{
-	return "";
-}
-
-std::string ServerInterface::deleteDepartment(std::string params)
-{
-	return "";
-}

@@ -42,15 +42,15 @@ std::string ClientInterface::editUser(std::string params)
 	return client.sendData(params);
 }
 
-std::string ClientInterface::deleteUser(std::string params)
+std::string ClientInterface::getSentMessages(std::string params)
 {
-	params = "deleteUser" + ClientServerInterface::FUNC_DELIMITER + params;
+	params = "getSentMessages" + ClientServerInterface::FUNC_DELIMITER + params;
 	return client.sendData(params);
 }
 
-std::string ClientInterface::getMessages(std::string params)
+std::string ClientInterface::getReceivedMessages(std::string params)
 {
-	params = "getMessages" + ClientServerInterface::FUNC_DELIMITER + params;
+	params = "getReceivedMessages" + ClientServerInterface::FUNC_DELIMITER + params;
 	return client.sendData(params);
 }
 
@@ -81,23 +81,5 @@ std::string ClientInterface::deleteCourse(std::string params)
 std::string ClientInterface::getDepartments(std::string params)
 {
 	params = "getDepartments" + ClientServerInterface::FUNC_DELIMITER + params;
-	return client.sendData(params);
-}
-
-std::string ClientInterface::addDepartment(std::string params)
-{
-	params = "addDepartment" + ClientServerInterface::FUNC_DELIMITER + params;
-	return client.sendData(params);
-}
-
-std::string ClientInterface::editDepartment(std::string params)
-{
-	params = "editDepartment" + ClientServerInterface::FUNC_DELIMITER + params;
-	return client.sendData(params);
-}
-
-std::string ClientInterface::deleteDepartment(std::string params)
-{
-	params = "deleteDepartment" + ClientServerInterface::FUNC_DELIMITER + params;
 	return client.sendData(params);
 }
