@@ -12,9 +12,9 @@ public:
 	virtual std::string getUsers(std::string params) = 0;
 	virtual  std::string addUser(std::string params) = 0;
 	virtual  std::string editUser(std::string params) = 0;
-	virtual  std::string deleteUser(std::string params) = 0;
 
-	virtual  std::string getMessages(std::string params) = 0;
+	virtual  std::string getSentMessages(std::string params) = 0;
+	virtual  std::string getReceivedMessages(std::string params) = 0;
 	virtual  std::string sendMessage(std::string params) = 0;
 
 	virtual  std::string getCourses(std::string params) = 0;
@@ -22,9 +22,6 @@ public:
 	virtual  std::string deleteCourse(std::string params) = 0;
 
 	virtual  std::string getDepartments(std::string params) = 0;
-	virtual  std::string addDepartment(std::string params) = 0;
-	virtual  std::string editDepartment(std::string params) = 0;
-	virtual  std::string deleteDepartment(std::string params) = 0;
 
 
 	static std::vector<std::string> split(const std::string & s, std::string delim);
