@@ -10,23 +10,25 @@ class Department;
 class Course
 {
 public:
-	Course(int departmentId, int input_courseCode, const std::string & input_courseName, int input_numberOfCredits);
+	Course(int departmentId, const std::string & courseCode, const std::string & courseName, const std::string & courseDescription, int numberOfCredits, Constraint * constraints);
+	Course(int id, int departmentId, const std::string & courseCode, const std::string & courseName, const std::string & courseDescription, int numberOfCredits, bool isRequest);
 
 	int getID() const;
-	int getCourseCode();
-	std::string getCourseName();
-	int getNumberOfCredits();
+	std::string getCourseCode() const;
+	std::string getCourseName() const;
+	int getNumberOfCredits() const;
 
 	void setDescription(std::string description);
-	std::string getDescription();
+	std::string getDescription() const;
 
 	void setConstraint(Constraint* constraint);
-	Constraint* getConstraint();
+	Constraint* getConstraint() const;
 
 	bool addSection(Section* section);
 	bool removeSection(Section* section);
 	std::vector<Section*> getSections();
 
+	int getDepartmentId() const;
 	Department * getDepartment();
 
 	bool isRequest() const;
@@ -36,16 +38,19 @@ public:
 	~Course();
 
 private:
-	int mId; 
-	int mCourseCode; ///< Unique Course code
+	int mId;
+
+	int mDepartmentID;
+	Department* mDepartment;
+	std::string mCourseCode; ///< Unique Course code
+
 	std::string mCourseName; ///< Unique Course name
 	std::string mDescription; ///< Descirption of the course
+	int mNumberOfCredits; ///< number of credits of the course
+	bool mIsRequest;
+
+	Constraint* mConstraints; ///< constraints i.e: needComputers
 	std::vector<int> mSectionIds; ///< vector of different section of the course
 	std::vector<Section*> mSections; ///< vector of different section of the course
-	int mNumberOfCredits; ///< number of credits of the course
-	Constraint* mConstraints; ///< constraints i.e: needComputers
-	int mDepartmentID; 
-	Department* mDepartment;
-	bool mIsRequest;
 };
 

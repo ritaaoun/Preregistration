@@ -33,9 +33,9 @@ public:
 	virtual std::vector<AbstractMessage *> getMessages() const = 0;
 
 	virtual bool deleteSection(int crn) const = 0;
-	virtual bool deleteSection(const Section * department) const = 0;
-	virtual bool updateSection(const Section * department) const = 0;
-	virtual int createSection(const Section * department) const = 0;
+	virtual bool deleteSection(const Section * section) const = 0;
+	virtual bool updateSection(const Section * section) const = 0;
+	virtual int createSection(const Section * section) const = 0;
 	virtual std::vector<Section*> getSections() const = 0;
 	virtual Constraint* getSectionConstraint(int sectionCrn) const = 0;
 	virtual std::vector<TimeSlot *> getSectionTimeSlots(int sectionCrn) const = 0;
@@ -44,4 +44,9 @@ public:
 	virtual int getSectionRoomId(int sectionCrn) const = 0;
 	virtual Constraint * getRoomConstraint(int roomId) const = 0;
 	virtual std::vector<int> getRoomSectionIds(int roomId) const = 0;
+
+	virtual std::vector<Course *> getCourses() const = 0;
+	virtual int createCourse(const Course * course) const = 0;
+	virtual Constraint * getCourseConstraints(int courseId) const = 0;
+	virtual std::vector<int> getCourseSections(int courseId) const = 0;
 };
