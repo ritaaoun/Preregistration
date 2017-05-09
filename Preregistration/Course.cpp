@@ -10,16 +10,16 @@ Course::~Course()
 Course::Course(int departmentId, const std::string & courseCode, const std::string & courseName, 
 	const std::string & courseDescription, int numberOfCredits, Constraint * constraints) :
 	mDepartmentID(departmentId), mDepartment(nullptr), mCourseCode(courseCode), mCourseName(courseName),
-	mDescription(courseDescription), mNumberOfCredits(numberOfCredits), mIsRequest(true), mConstraints(constraints), 
+	mDescription(courseDescription), mNumberOfCredits(numberOfCredits), mStatus(PENDING), mConstraints(constraints),
 	mSectionIds(), mSections()
 {
 	mId = Server::getInstance().repository->createCourse(this);
 }
 
 Course::Course(int id, int departmentId, const std::string & courseCode, const std::string & courseName, 
-	const std::string & courseDescription, int numberOfCredits, bool isRequest) :
+	const std::string & courseDescription, int numberOfCredits, Status status) :
 	mId(id), mDepartmentID(departmentId), mDepartment(nullptr), mCourseCode(courseCode), mCourseName(courseName),
-	mDescription(courseDescription), mNumberOfCredits(numberOfCredits), mIsRequest(isRequest), 
+	mDescription(courseDescription), mNumberOfCredits(numberOfCredits), mStatus(status),
 	mConstraints(Server::getInstance().repository->getCourseConstraints(id)),
 	mSectionIds(Server::getInstance().repository->getCourseSections(id)), mSections()
 {
@@ -116,14 +116,14 @@ Department * Course::getDepartment()
 	return mDepartment;
 }
 
-bool Course::isRequest() const
+Course::Status Course::getStatus() const
 {
-	return mIsRequest;
+	return mStatus;
 }
 
 void Course::approveCourse()
 {
-	mIsRequest = false;
+	mStatus = APPROVED;
 }
 
 void Course::refuseCourse()

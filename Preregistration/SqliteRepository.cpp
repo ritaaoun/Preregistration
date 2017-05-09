@@ -251,7 +251,7 @@ std::vector<Department*> SqliteRepository::getDepartments() const
 
 std::vector<int> SqliteRepository::getDepartmentCourses(int departmentId) const
 {
-	std::string sql = "SELECT ID FROM COURSE WHERE DEPARTMENTID='" + std::to_string(departmentId) + "' AND ISREQUEST='0'";
+	std::string sql = "SELECT ID FROM COURSE WHERE DEPARTMENTID='" + std::to_string(departmentId) + "' AND STATUS='2'";
 	std::vector<std::vector<std::string>> results = query(sql);
 	std::vector<int> courses;
 
@@ -265,7 +265,7 @@ std::vector<int> SqliteRepository::getDepartmentCourses(int departmentId) const
 
 std::vector<int> SqliteRepository::getDepartmentCourseRequests(int departmentId) const
 {
-	std::string sql = "SELECT ID FROM COURSE WHERE DEPARTMENTID='" + std::to_string(departmentId) + "' AND ISREQUEST='1'";
+	std::string sql = "SELECT ID FROM COURSE WHERE DEPARTMENTID='" + std::to_string(departmentId) + "' AND STATUS='0'";
 	std::vector<std::vector<std::string>> results = query(sql);
 	std::vector<int> courses;
 
@@ -531,19 +531,19 @@ std::vector<Course*> SqliteRepository::getCourses() const
 		std::string name = row.at(3);
 		std::string description = row.at(4);
 		int credits = Helper::stringToLong(row.at(5));
-		bool isRequest = Helper::stringToLong(row.at(6)) == 1;
+		Course::Status status = static_cast<Course::Status>(Helper::stringToLong(row.at(6)));
 
-		out.push_back(new Course(id, departmentId, code, name, description, credits, isRequest));
+		out.push_back(new Course(id, departmentId, code, name, description, credits, status));
 	}
 	return out;
 }
 
 int SqliteRepository::createCourse(const Course * course) const
 {
-	std::string sql = "INSERT INTO COURSE (DEPARTMENTID, CODE, NAME, DESCRIPTION, CREDITS, ISREQUEST) VALUES ( '" +
+	std::string sql = "INSERT INTO COURSE (DEPARTMENTID, CODE, NAME, DESCRIPTION, CREDITS, STATUS) VALUES ( '" +
 		std::to_string(course->getDepartmentId()) + "', '" + course->getCourseCode() + "', '" +course->getCourseName() + "', '" + 
 		course->getDescription() + "', '" + std::to_string(course->getNumberOfCredits()) + "', '" + 
-		std::to_string(course->isRequest()) + "'";
+		std::to_string(course->getStatus()) + "'";
 	if (execute(sql))
 	{
 		std::string sql = "SELECT MAX(ID) FROM COURSE";

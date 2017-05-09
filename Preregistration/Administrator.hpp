@@ -3,7 +3,7 @@
 #include "AbstractUser.hpp"
 #include "Course.hpp"
 #include <vector>
-
+//course requests
 class Administrator : public AbstractUser {
 public:
 	Administrator();

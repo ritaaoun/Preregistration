@@ -10,8 +10,9 @@ class Department;
 class Course
 {
 public:
+	enum Status {PENDING, REFUSED, APPROVED, STATUSEND};
 	Course(int departmentId, const std::string & courseCode, const std::string & courseName, const std::string & courseDescription, int numberOfCredits, Constraint * constraints);
-	Course(int id, int departmentId, const std::string & courseCode, const std::string & courseName, const std::string & courseDescription, int numberOfCredits, bool isRequest);
+	Course(int id, int departmentId, const std::string & courseCode, const std::string & courseName, const std::string & courseDescription, int numberOfCredits, Status status);
 
 	int getID() const;
 	std::string getCourseCode() const;
@@ -31,7 +32,7 @@ public:
 	int getDepartmentId() const;
 	Department * getDepartment();
 
-	bool isRequest() const;
+	Status getStatus() const;
 	void approveCourse();
 	void refuseCourse();
 
@@ -47,7 +48,7 @@ private:
 	std::string mCourseName; ///< Unique Course name
 	std::string mDescription; ///< Descirption of the course
 	int mNumberOfCredits; ///< number of credits of the course
-	bool mIsRequest;
+	Status mStatus;
 
 	Constraint* mConstraints; ///< constraints i.e: needComputers
 	std::vector<int> mSectionIds; ///< vector of different section of the course
