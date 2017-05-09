@@ -100,7 +100,7 @@ std::string ServerInterface::getUsers(std::string params)
 			{
 				result += (*it)->getUsername() + ClientServerInterface::DELIMITER + (*it)->getFirstName() +
 					ClientServerInterface::DELIMITER + (*it)->getMiddleName() + ClientServerInterface::DELIMITER + 
-					(*it)->getLastName() + ClientServerInterface::DELIMITER + ClientServerInterface::DELIMITER + 
+					(*it)->getLastName() + ClientServerInterface::DELIMITER +
 					std::to_string((*it)->getDepartmentId()) + ClientServerInterface::DELIMITER +(*it)->getBirthday() +
 					ClientServerInterface::DELIMITER + std::to_string((*it)->getStartYear()) + ClientServerInterface::DELIMITER +
 					std::to_string((*it)->getStartTerm()) + ClientServerInterface::DELIMITER + std::to_string((*it)->getType());
