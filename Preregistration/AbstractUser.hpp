@@ -51,7 +51,6 @@ public:
 	std::vector<AbstractMessage*> getSentMessages();
 	std::vector<AbstractMessage*> getReceivedMessages();
 
-
 	bool updateSentMessages(AbstractMessage * message);
 	bool updateReceivedMessages(AbstractMessage * message);
 
