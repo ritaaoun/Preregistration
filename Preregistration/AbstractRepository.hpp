@@ -2,7 +2,7 @@
 #include "AbstractUser.hpp"
 #include "Department.hpp"
 #include "Administrator.hpp"
-#include "Department.hpp"
+#include "Room.h"
 #include "AbstractMessage.hpp"
 #include <vector>
 #include <string>
@@ -37,6 +37,11 @@ public:
 	virtual bool updateSection(const Section * department) const = 0;
 	virtual int createSection(const Section * department) const = 0;
 	virtual std::vector<Section*> getSections() const = 0;
-	virtual Constraint* getSectionConstraint(int sectionID) const = 0;
-	virtual TimeSlot* getSectionTimeSlots(int sectionID) const = 0;
+	virtual Constraint* getSectionConstraint(int sectionCrn) const = 0;
+	virtual std::vector<TimeSlot *> getSectionTimeSlots(int sectionCrn) const = 0;
+
+	virtual std::vector<Room*> getRooms() const = 0;
+	virtual int getSectionRoomId(int sectionCrn) const = 0;
+	virtual Constraint * getRoomConstraint(int roomId) const = 0;
+	virtual std::vector<int> getRoomSectionIds(int roomId) const = 0;
 };

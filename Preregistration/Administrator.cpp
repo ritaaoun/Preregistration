@@ -142,11 +142,11 @@ bool Administrator::editUser(std::string username, const std::string & firstName
 		user->setDepartmentId(departmentId);
 		user->setBirthday(birthday);
 		Server::getInstance().repository->updateUser(user);
-		std::cout << "Administrator " << getId() << " successfully edited User " << user->getId() << endl;
+		std::cout << "Administrator " << getId() << " successfully edited User " << user->getId() << std::endl;
 		return true;
 	}
 	else {
-		std::cout << "Administrator " << getId() << " has no privilege over User " << user->getId() << endl;
+		std::cout << "Administrator " << getId() << " has no privilege over User " << user->getId() << std::endl;
 		return false;
 	}
 }

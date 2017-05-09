@@ -1,10 +1,12 @@
 #include "Schedule.h"
 
-Schedule::Schedule(Schedulable * schedulable)
+Schedule::Schedule(Schedulable * schedulable) :
+	mSchedulable(schedulable), mContainsConflict(false), mTimeSlots()
 {
-	mSchedulable = schedulable;
-	mContainsConflict = false;
-	mTimeSlots.clear();
+}
+
+Schedule::~Schedule()
+{
 }
 
 void Schedule::generateSchedule()
@@ -15,7 +17,7 @@ void Schedule::generateSchedule()
 
 	for (unsigned int i = 0; i < sections.size(); ++i)
 	{
-		vector<TimeSlot*> sectionTimeSlots = sections.at(i)->getTimeSlots();
+		std::vector<TimeSlot*> sectionTimeSlots = sections.at(i)->getTimeSlots();
 
 		for (unsigned int j = 0; j < sectionTimeSlots.size(); j++)
 		{
@@ -25,7 +27,7 @@ void Schedule::generateSchedule()
 	}
 }
 
-bool Schedule::hasConflictWith(TimeSlot * timeSlot)
+bool Schedule::hasConflictWith(TimeSlot * timeSlot) const
 {
 	for (unsigned int i = 0; i < mTimeSlots.size(); i++)
 	{
@@ -67,7 +69,7 @@ bool Schedule::hasConflictWith(TimeSlot * timeSlot)
 	return false;
 }
 
-bool Schedule::hasConflictWith(vector<TimeSlot*> timeSlots)
+bool Schedule::hasConflictWith(std::vector<TimeSlot*> timeSlots) const
 {
 	for (unsigned int i = 0; i < timeSlots.size(); i++)
 	{
@@ -79,14 +81,14 @@ bool Schedule::hasConflictWith(vector<TimeSlot*> timeSlots)
 	return false;
 }
 
-bool Schedule::hasConflictWith(Section * section)
+bool Schedule::hasConflictWith(Section * section) const
 {
-	vector<TimeSlot*> sectionTimeSlots = section->getTimeSlots();
+	std::vector<TimeSlot*> sectionTimeSlots = section->getTimeSlots();
 
 	return hasConflictWith(sectionTimeSlots);
 }
 
-bool Schedule::containsConflict()
+bool Schedule::containsConflict() const
 {
 	return mContainsConflict;
 }

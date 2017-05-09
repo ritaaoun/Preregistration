@@ -27,6 +27,8 @@ public:
 	bool addSection(Section * section);
 	Section * getSection(int crn) const;
 
+	Room * getRoom(int id) const;
+
 	bool initialize();
 
 	int getNewUserId(int year);
@@ -42,6 +44,7 @@ private:
 	std::unordered_map<int, AbstractMessage *> m_messages;
 	std::unordered_map<int, Course *> m_courses;
 	std::unordered_map<int, Section *> m_sections;
+	std::unordered_map<int, Room *> m_rooms;
 
 	std::unordered_map<int, int> m_maxUserId;
 	std::unordered_map<std::string, int> m_maxUsername;
@@ -52,4 +55,5 @@ private:
 	bool getMessages();
 	bool getCourses();
 	bool getSections();
+	bool getRooms();
 };

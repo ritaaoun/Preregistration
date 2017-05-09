@@ -97,3 +97,18 @@ Department * Course::getDepartment()
 	return mDepartment;
 }
 
+bool Course::isRequest() const
+{
+	return mIsRequest;
+}
+
+void Course::approveCourse()
+{
+	mIsRequest = false;
+}
+
+void Course::refuseCourse()
+{
+	//TODO: delete from server data, and free memory
+}
+
