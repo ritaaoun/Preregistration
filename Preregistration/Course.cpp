@@ -3,11 +3,25 @@
 
 Course::~Course()
 {
+	delete mConstraints;
 }
 
-Course::Course(int departmentId, int input_courseCode, const std::string & input_courseName, const int input_numberOfCredits) :
-	mCourseCode(input_courseCode), mCourseName(input_courseName), mNumberOfCredits(input_numberOfCredits),
-	mDepartmentID(departmentId), mDepartment(nullptr)
+
+Course::Course(int departmentId, const std::string & courseCode, const std::string & courseName, 
+	const std::string & courseDescription, int numberOfCredits, Constraint * constraints) :
+	mDepartmentID(departmentId), mDepartment(nullptr), mCourseCode(courseCode), mCourseName(courseName),
+	mDescription(courseDescription), mNumberOfCredits(numberOfCredits), mStatus(PENDING), mConstraints(constraints),
+	mSectionIds(), mSections()
+{
+	mId = Server::getInstance().repository->createCourse(this);
+}
+
+Course::Course(int id, int departmentId, const std::string & courseCode, const std::string & courseName, 
+	const std::string & courseDescription, int numberOfCredits, Status status) :
+	mId(id), mDepartmentID(departmentId), mDepartment(nullptr), mCourseCode(courseCode), mCourseName(courseName),
+	mDescription(courseDescription), mNumberOfCredits(numberOfCredits), mStatus(status),
+	mConstraints(Server::getInstance().repository->getCourseConstraints(id)),
+	mSectionIds(Server::getInstance().repository->getCourseSections(id)), mSections()
 {
 }
 
@@ -16,17 +30,17 @@ int Course::getID() const
 	return mId;
 }
 
-int Course::getCourseCode()
+std::string Course::getCourseCode() const
 {
 	return mCourseCode;
 }
 
-std::string Course::getCourseName()
+std::string Course::getCourseName() const
 {
 	return mCourseName;
 }
 
-int Course::getNumberOfCredits()
+int Course::getNumberOfCredits() const
 {
 	return mNumberOfCredits;
 }
@@ -36,7 +50,7 @@ void Course::setDescription(std::string description)
 	mDescription = description;
 }
 
-std::string Course::getDescription()
+std::string Course::getDescription() const
 {
 	return mDescription;
 }
@@ -46,7 +60,7 @@ void Course::setConstraint(Constraint * constraint)
 	mConstraints = constraint;
 }
 
-Constraint * Course::getConstraint()
+Constraint * Course::getConstraint() const
 {
 	return mConstraints;
 }
@@ -88,6 +102,11 @@ std::vector<Section*> Course::getSections()
 	return mSections;
 }
 
+int Course::getDepartmentId() const
+{
+	return mId;
+}
+
 Department * Course::getDepartment()
 {
 	if (mDepartment == nullptr)
@@ -97,18 +116,18 @@ Department * Course::getDepartment()
 	return mDepartment;
 }
 
-bool Course::isRequest() const
+Course::Status Course::getStatus() const
 {
-	return mIsRequest;
+	return mStatus;
 }
 
 void Course::approveCourse()
 {
-	mIsRequest = false;
+	mStatus = APPROVED;
 }
 
 void Course::refuseCourse()
 {
-	//TODO: delete from server data, and free memory
+	Server::getInstance().data.deleteCourse(this);
 }
 

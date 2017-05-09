@@ -43,6 +43,13 @@ public:
 	virtual Constraint * getRoomConstraint(int roomId) const override;
 	virtual std::vector<int> getRoomSectionIds(int roomId) const override;
 
+	virtual bool deleteCourse(int id) const override;
+	virtual bool deleteCourse(const Course * course) const override;
+	virtual std::vector<Course *> getCourses() const override; 
+	virtual int createCourse(const Course * course) const override;
+	virtual Constraint * getCourseConstraints(int courseId) const override;
+	virtual std::vector<int> getCourseSections(int courseId) const override;
+
 private :
 	SqliteRepository();
 	SqliteRepository(const SqliteRepository & rhs);
