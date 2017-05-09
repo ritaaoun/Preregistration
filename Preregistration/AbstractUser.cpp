@@ -168,6 +168,7 @@ AbstractUser::AbstractUser(const std::string & firstName, const std::string & mi
 	m_username = Server::getInstance().data.getNewUsername(username);
 
 	Server::getInstance().repository->createUser(this);
+	Server::getInstance().data.addUser(this);
 }
 
 AbstractUser::AbstractUser(int id, const std::string & username, const std::string & password, const std::string & firstName,
