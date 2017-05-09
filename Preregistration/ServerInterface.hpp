@@ -25,9 +25,9 @@ public:
 
 	virtual  std::string editUser(std::string params) override;
 
-	virtual  std::string deleteUser(std::string params) override;
-
-	virtual  std::string getMessages(std::string params) override;
+	virtual  std::string getSentMessages(std::string params) override;
+	
+	virtual  std::string getReceivedMessages(std::string params) override;
 
 	virtual  std::string sendMessage(std::string params) override;
 
@@ -38,12 +38,6 @@ public:
 	virtual  std::string deleteCourse(std::string params) override;
 
 	virtual  std::string getDepartments(std::string params) override;
-
-	virtual  std::string addDepartment(std::string params) override;
-
-	virtual  std::string editDepartment(std::string params) override;
-
-	virtual  std::string deleteDepartment(std::string params) override;
 
 
 private:
