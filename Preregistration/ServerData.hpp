@@ -11,18 +11,27 @@ public:
 	ServerData();
 	~ServerData();
 	
+	bool addDepartment(Department * department);
 	Department * getDepartment(int id) const;
+
+	bool addUser(AbstractUser * user);
 	AbstractUser * getUser(std::string username) const;
 	AbstractUser * getUser(int id) const;
+
+	bool addMessage(AbstractMessage * message);
 	AbstractMessage * getMessage(int id) const;
+
+	bool addCourse(Course * course);
 	Course * getCourse(int id) const;
-	Section * getSection(int id) const;
+
+	bool addSection(Section * section);
+	Section * getSection(int crn) const;
 
 	bool initialize();
 
 	int getNewUserId(int year);
 	std::string getNewUsername(std::string username);
-	int getNewDepartmentId();
+	int getNewSectionNumber(int courseId);
 
 	std::vector<AbstractUser *> getDepartmentUsers(const Department * department) const;
 
@@ -36,7 +45,7 @@ private:
 
 	std::unordered_map<int, int> m_maxUserId;
 	std::unordered_map<std::string, int> m_maxUsername;
-	int m_maxDepartmentId;
+	std::unordered_map<int, int> m_maxSectionPerCourse;
 
 	bool getDepartments();
 	bool getUsers();

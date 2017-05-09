@@ -1,11 +1,10 @@
 #include "Constraint.hpp"
 
 
-
-Constraint::Constraint()
+Constraint::Constraint(bool input_hasComputer, bool input_hasSpeakers, bool input_hasHighEnergyParticleAccelerator) :
+	mHasComputer (input_hasComputer), mHasSpeakers (input_hasSpeakers), mHasHighEnergyParticleAccelerator (input_hasComputer)
 {
 }
-
 
 Constraint::~Constraint()
 {

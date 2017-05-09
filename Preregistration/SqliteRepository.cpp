@@ -190,13 +190,22 @@ bool SqliteRepository::updateDepartment(const Department * department) const
 	return execute(sql);
 }
 
-
-// TODO: return id
 int SqliteRepository::createDepartment(const Department * department) const
 {
 	std::string sql = "INSERT INTO DEPARTMENT (NAME, CODE, FACULTY) VALUES ('" + department->getName() +
 		"', '" + department->getCode() + "', '" + department->getFacultyCode() + "')";
-	return 0;
+	if (execute(sql))
+	{
+		std::string sql = "SELECT MAX(ID) FROM MESSAGE";
+		std::vector<std::vector<std::string>> results = query(sql);
+		std::cout << "SqliteRepository::createDepartment: Successfully created department " << department->getCode() << std::endl;
+		return Helper::stringToLong(results.at(0).at(0));
+	}
+	else
+	{
+		std::cerr << "SqliteRepository::createDepartment: Could not create department " << department->getCode() << std::endl;
+		return -1;
+	}
 }
 
 std::vector<int> SqliteRepository::getAdminPrivileges(int adminId) const
@@ -302,4 +311,77 @@ std::vector<AbstractMessage*> SqliteRepository::getMessages() const
 		}
 	}
 	return out;
+}
+
+bool SqliteRepository::deleteSection(int crn) const
+{
+	return false;
+}
+
+bool SqliteRepository::deleteSection(const Section * department) const
+{
+	return false;
+}
+
+bool SqliteRepository::updateSection(const Section * department) const
+{
+	return false;
+}
+
+int SqliteRepository::createSection(const Section * department) const
+{
+	return 0;
+}
+
+std::vector<Section*> SqliteRepository::getSections() const
+{
+	std::string sql = "SELECT * FROM SECTION";
+	std::vector<std::vector<std::string>> results = query(sql);
+	std::vector<Section *> out;
+
+	for (std::vector<std::vector<std::string>>::iterator it = results.begin(); it != results.end(); ++it)
+	{
+		std::vector<std::string> row = *it;
+		int crn = Helper::stringToLong(row.at(0));
+		int id = Helper::stringToLong(row.at(1));
+		int capacity = Helper::stringToLong(row.at(2));
+		int courseID = Helper::stringToLong(row.at(3));
+		int professorID = Helper::stringToLong(row.at(4));
+		bool isConfirmed = Helper::stringToLong(row.at(5)) == 1;
+
+		out.push_back(new Section(crn, id, capacity, courseID, professorID, isConfirmed));
+	}
+	return out;
+}
+
+Constraint * SqliteRepository::getSectionConstraint(int sectionID) const
+{
+	std::string sql = "SELECT * FROM CONSTRAINTSECTION WHERE SECTIONID = '" + std::to_string(sectionID) + "'";
+	std::vector<std::vector<std::string>> results = query(sql);
+	std::vector<Section *> out;
+
+	//int id = Helper::stringToLong(results.at(0).at(0));
+	//int sectionID = Helper::stringToLong(results.at(0).at(1));
+	bool hasComputer = Helper::stringToLong(results.at(0).at(2)) == 1;
+	bool hasSpeakers = Helper::stringToLong(results.at(0).at(3)) == 1;
+	bool hasHighEnergyParticleAccelerator = Helper::stringToLong(results.at(0).at(4)) == 1;
+
+	return new Constraint(hasComputer, hasSpeakers, hasHighEnergyParticleAccelerator);
+}
+
+TimeSlot * SqliteRepository::getSectionTimeSlots(int sectionID) const
+{
+	std::string sql = "SELECT * FROM TIMESLOTSECTION WHERE SECTIONID = '" + std::to_string(sectionID) + "'";
+	std::vector<std::vector<std::string>> results = query(sql);
+	std::vector<Section *> out;
+
+	//int id = Helper::stringToLong(results.at(0).at(0));
+	//int sectionID = Helper::stringToLong(results.at(0).at(1));
+	TimeSlot::Day day = static_cast<TimeSlot::Day>(Helper::stringToLong(results.at(0).at(2)));
+	int startHour = Helper::stringToLong(results.at(0).at(3));
+	int startMinute = Helper::stringToLong(results.at(0).at(4));
+	int endHour = Helper::stringToLong(results.at(0).at(5));
+	int endMinute = Helper::stringToLong(results.at(0).at(6));
+
+	return new TimeSlot(day, startHour, startMinute, endHour, endMinute);
 }
