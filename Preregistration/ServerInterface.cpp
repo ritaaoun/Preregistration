@@ -98,14 +98,12 @@ std::string ServerInterface::getUsers(std::string params)
 			std::string result = "";
 			for (std::vector<AbstractUser*>::iterator it = users.begin();it != users.end();++it)
 			{
-				result += (*it)->getUsername() +
-					ClientServerInterface::DELIMITER + (*it)->getFirstName() + ClientServerInterface::DELIMITER + (*it)->getMiddleName() +
-					ClientServerInterface::DELIMITER + (*it)->getLastName() + ClientServerInterface::DELIMITER +
-					ClientServerInterface::DELIMITER + std::to_string((*it)->getDepartmentId()) + ClientServerInterface::DELIMITER +
-					ClientServerInterface::DELIMITER + (*it)->getBirthday() + ClientServerInterface::DELIMITER +
+				result += (*it)->getUsername() + ClientServerInterface::DELIMITER + (*it)->getFirstName() +
+					ClientServerInterface::DELIMITER + (*it)->getMiddleName() + ClientServerInterface::DELIMITER + 
+					(*it)->getLastName() + ClientServerInterface::DELIMITER + ClientServerInterface::DELIMITER + 
+					std::to_string((*it)->getDepartmentId()) + ClientServerInterface::DELIMITER +(*it)->getBirthday() +
 					ClientServerInterface::DELIMITER + std::to_string((*it)->getStartYear()) + ClientServerInterface::DELIMITER +
-					ClientServerInterface::DELIMITER + std::to_string((*it)->getStartTerm()) + ClientServerInterface::DELIMITER +
-					std::to_string((*it)->getType());
+					std::to_string((*it)->getStartTerm()) + ClientServerInterface::DELIMITER + std::to_string((*it)->getType());
 				if (users.end() != it + 1)
 				{
 					result += ClientServerInterface::LIST_DELIMITER;
