@@ -1,14 +1,19 @@
 #include "Course.hpp"
+#include "Server.hpp"
 
 Course::~Course()
 {
 }
 
-Course::Course(const int input_courseCode, const std::string input_courseName, const int input_numberOfCredits)
+Course::Course(int departmentId, int input_courseCode, const std::string & input_courseName, const int input_numberOfCredits) :
+	mCourseCode(input_courseCode), mCourseName(input_courseName), mNumberOfCredits(input_numberOfCredits),
+	mDepartmentID(departmentId), mDepartment(nullptr)
 {
-	mCourseCode = input_courseCode;
-	mCourseName = input_courseName;
-	mNumberOfCredits = input_numberOfCredits;
+}
+
+int Course::getID() const
+{
+	return mId;
 }
 
 int Course::getCourseCode()
@@ -71,8 +76,24 @@ bool Course::removeSection(Section * section)
 	return true;
 }
 
-Department * Course::getDepartment() const
-{//TODO
-	return nullptr;
+std::vector<Section*> Course::getSections()
+{
+	if (mSections.empty() && !mSectionIds.empty())
+	{
+		for (std::vector<int>::iterator it = mSectionIds.begin(); it != mSectionIds.end(); ++it)
+		{
+			mSections.push_back(Server::getInstance().data.getSection(*it));
+		}
+	}
+	return mSections;
+}
+
+Department * Course::getDepartment()
+{
+	if (mDepartment == nullptr)
+	{
+		mDepartment = Server::getInstance().data.getDepartment(mDepartmentID);
+	}
+	return mDepartment;
 }
 

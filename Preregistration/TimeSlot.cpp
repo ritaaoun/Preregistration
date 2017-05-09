@@ -9,16 +9,12 @@ TimeSlot::TimeSlot()
 	mEndMinutes = 0;
 }
 
-TimeSlot::TimeSlot::TimeSlot(Day day, unsigned int startHour, unsigned int startMinutes, unsigned int endHour, unsigned int endMinutes)
+TimeSlot::TimeSlot(Day day, unsigned int startHour, unsigned int startMinutes, unsigned int endHour, unsigned int endMinutes) :
+	mDay (day), mStartHour (startHour), mStartMinutes (startMinutes), mEndHour (endHour), mEndMinutes (endMinutes)
 {
-	mDay = day;
-	mStartHour = startHour;
-	mStartMinutes = startMinutes;
-	mEndHour = endHour;
-	mEndMinutes = endMinutes;
 }
 
-Day TimeSlot::getDay()
+TimeSlot::Day TimeSlot::getDay()
 {
 	return mDay;
 }
