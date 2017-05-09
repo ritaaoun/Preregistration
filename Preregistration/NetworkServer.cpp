@@ -84,6 +84,7 @@ int NetworkServer::acceptClient()
 
 	// Receive until the peer shuts down the connection
 
+	char recvbuf[DEFAULT_BUFLEN];
 
 	iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
 
