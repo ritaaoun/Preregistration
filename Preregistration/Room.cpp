@@ -23,7 +23,7 @@ int Room::getId() const
 	return mId;
 }
 
-const vector<Section *> Room ::getSections()
+const std::vector<Section *> Room ::getSections()
 {
 	if (mSections.empty() && !mSectionIds.empty()) {
 		for (std::vector<int>::const_iterator it = mSectionIds.begin(); it != mSectionIds.end(); ++it) {
@@ -36,7 +36,7 @@ const vector<Section *> Room ::getSections()
 void Room::addSection(Section * section)
 {
 	getSections();
-	vector<Section*>::iterator index = std::find(mSections.begin(), mSections.end(), section);
+	std::vector<Section*>::iterator index = std::find(mSections.begin(), mSections.end(), section);
 	if (index == mSections.end())
 	{
 		mSections.push_back(section);
@@ -47,7 +47,7 @@ void Room::addSection(Section * section)
 void Room::removeSection(Section * section)
 {
 	getSections();
-	vector<Section*>::iterator index = std::find(mSections.begin(), mSections.end(), section);
+	std::vector<Section*>::iterator index = std::find(mSections.begin(), mSections.end(), section);
 
 	if (index != mSections.end())
 	{

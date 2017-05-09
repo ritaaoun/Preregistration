@@ -158,7 +158,7 @@ std::vector<AbstractUser*> SqliteRepository::getUsers() const
 			out.push_back(new Student(id, username, password, firstname, middlename, lastname, startyear, startterm, departmentid, birthday));
 		}
 		else {
-			cerr << "SqliteRepository::getUsers(): invalid type " << to_string(type) << endl;
+			std::cerr << "SqliteRepository::getUsers(): invalid type " << std::to_string(type) << std::endl;
 		}
 	}
 	return out;
@@ -332,7 +332,7 @@ std::vector<AbstractMessage*> SqliteRepository::getMessages() const
 				out.push_back(new ChatMessage(id, senderId, recipientId, topic, content));
 			}
 			else {
-				cerr << "SqliteRepository::getMessages(): invalid type " << to_string(type) << endl;
+				std::cerr << "SqliteRepository::getMessages(): invalid type " << std::to_string(type) << std::endl;
 			}
 		}
 	}

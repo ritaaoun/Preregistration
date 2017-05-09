@@ -39,7 +39,7 @@ void RoomManager::removeRoom(Room * room)
 	}
 }
 
-vector<Room*> RoomManager::getRooms()
+std::vector<Room*> RoomManager::getRooms()
 {
 	return mRooms;
 }

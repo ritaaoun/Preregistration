@@ -50,7 +50,7 @@ void NetworkServer::startListener()
 		WSACleanup();
 		return;
 	}
-	//useless comment
+
 	// Setup the TCP listening socket
 	iResult = bind(ListenSocket, result->ai_addr, (int)result->ai_addrlen);
 	if (iResult == SOCKET_ERROR) {

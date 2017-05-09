@@ -16,7 +16,7 @@ public:
 	int getRoomNumber() const;
 	std::string getBuildingCode() const;
 
-	const vector<Section *> getSections() override;
+	const std::vector<Section *> getSections() override;
 	void addSection(Section* section);
 	void removeSection(Section* section);
 
