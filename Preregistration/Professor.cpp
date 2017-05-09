@@ -57,9 +57,11 @@ bool Professor::requestCourse(int departmentId, const std::string & courseCode, 
 	return course->getDepartment()->requestCourse(course);
 }
 
-//TODO Create section inside
-bool Professor::publishSection(Section * section)
+bool Professor::publishSection(int courseId, int capacity, int professorId, const std::vector<TimeSlot*>& timeSlots)
 {
+	getSections();
+	Section * section = new Section(courseId, capacity, professorId, timeSlots);
+	m_sectionIds.push_back(section->getCrn());
 	m_sections.push_back(section);
 	return true;
 }

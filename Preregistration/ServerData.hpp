@@ -24,6 +24,7 @@ public:
 	bool addCourse(Course * course);
 	bool deleteCourse(Course * course);
 	Course * getCourse(int id) const;
+	std::vector<Course *> getCourses(Course::Status status) const;
 
 	bool addSection(Section * section);
 	Section * getSection(int crn) const;

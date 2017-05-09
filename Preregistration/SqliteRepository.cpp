@@ -557,6 +557,16 @@ int SqliteRepository::createCourse(const Course * course) const
 	}
 }
 
+bool SqliteRepository::updateCourse(const Course * course) const
+{
+	std::string sql = "UPDATE COURSE SET DEPARTMENTID = '" + std::to_string(course->getDepartmentId()) + "', "
+		"CODE = '" + course->getCourseCode() + "', NAME = '" + course->getCourseName() + "', DESCRIPTION = '" +
+		course->getDescription() + "', CREDITS = '" + std::to_string(course->getNumberOfCredits()) + 
+		"', STATUS = '" + std::to_string(course->getStatus()) + "')";
+
+	return execute(sql);
+}
+
 Constraint * SqliteRepository::getCourseConstraints(int courseId) const
 {
 	std::string sql = "SELECT * FROM CONSTRAINTCOURSE WHERE COURSEID = '" + std::to_string(courseId) + "'";

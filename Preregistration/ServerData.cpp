@@ -134,6 +134,17 @@ Course * ServerData::getCourse(int id) const
 	}
 }
 
+std::vector<Course*> ServerData::getCourses(Course::Status status) const
+{
+	std::vector<Course *> out;
+	for (std::unordered_map<int, Course*>::const_iterator it = m_courses.begin(); it != m_courses.end(); ++it) {
+		if (it->second->getStatus() == status) {
+			out.push_back(it->second);
+		}
+	}
+	return out;
+}
+
 bool ServerData::addSection(Section * section)
 {
 	m_sections[section->getCrn()] = section;

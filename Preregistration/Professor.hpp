@@ -23,7 +23,7 @@ public:
 
 	bool requestCourse(int departmentId, const std::string & courseCode, const std::string & courseName, const std::string & courseDescription, int numberOfCredits, Constraint * constraints) const;
 
-	bool publishSection(Section * section);
+	bool publishSection(int courseId, int capacity, int professorId, const std::vector<TimeSlot*>& timeSlots);
 
 private:
 	std::vector<int> m_sectionIds;

@@ -87,7 +87,9 @@ const std::vector<Course*>& Department::getCourseRequests() const
 
 bool Department::requestCourse(Course * course)
 {
-	m_courses.push_back(course);
+	getCourseRequests();
+	m_courseRequestIds.push_back(course->getID());
+	m_courseRequests.push_back(course);
 	return true;
 }
 
@@ -96,10 +98,18 @@ bool Department::decideOnCourse(Course * course, bool approveCourse)
 {
 	std::vector<Course*>::iterator it = std::find(m_courseRequests.begin(), m_courseRequests.end(), course);
 	if (it == m_courseRequests.end()) {
+		std::cerr << "Department::decideOnCourse: course " << course->getID() << " is not a request" << std::endl;
 		return false;
 	}
 	else {
-		m_courses.push_back(*it);
+		Course * course = *it;
+		if (approveCourse) {
+			course->approveCourse();
+		}
+		else {
+			course->refuseCourse();
+		}
+		m_courses.push_back(course);
 		m_courseRequests.erase(it);
 		return true;
 	}

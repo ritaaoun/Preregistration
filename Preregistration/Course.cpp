@@ -125,10 +125,12 @@ Course::Status Course::getStatus() const
 void Course::approveCourse()
 {
 	mStatus = APPROVED;
+	Server::getInstance().repository->updateCourse(this);
 }
 
 void Course::refuseCourse()
 {
-	Server::getInstance().data.deleteCourse(this);
+	mStatus = REFUSED;
+	Server::getInstance().repository->updateCourse(this);
 }
 

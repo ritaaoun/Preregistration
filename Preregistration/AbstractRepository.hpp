@@ -49,6 +49,7 @@ public:
 	virtual bool deleteCourse(const Course * course) const = 0;
 	virtual std::vector<Course *> getCourses() const = 0;
 	virtual int createCourse(const Course * course) const = 0;
+	virtual bool updateCourse(const Course * course) const = 0;
 	virtual Constraint * getCourseConstraints(int courseId) const = 0;
 	virtual std::vector<int> getCourseSections(int courseId) const = 0;
 };
