@@ -38,9 +38,21 @@ ServerInterface & ServerInterface::operator=(const ServerInterface & rhs)
 
 std::string ServerInterface::callFunction(std::string function)
 {
-	std::vector<std::string> param = this->split(function, ClientServerInterface::FUNC_DELIMITER);
-	FnPtr p = functionMap[param[0]];
-	return (this->*p)(param[1]);
+	try
+	{
+		std::vector<std::string> param = this->split(function, ClientServerInterface::FUNC_DELIMITER);
+		FnPtr p = functionMap[param[0]];
+		if (p != nullptr)
+		{
+			return (this->*p)(param[1]);
+		}
+		return "false";
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "Error in ServerInterface::login" << e.what();
+		return "false";
+	}
 }
 
 std::string ServerInterface::login(std::string params)
