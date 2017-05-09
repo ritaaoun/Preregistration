@@ -41,7 +41,6 @@ private:
 		*ptr = NULL,
 		hints;
 	std::string sendbuf = "this is a test";
-	char recvbuf[DEFAULT_BUFLEN];
 	int iResult;
 	int iSendResult;
 	int recvbuflen = DEFAULT_BUFLEN;
