@@ -51,8 +51,9 @@ const std::vector<Section*> Professor::getSections()
 	return m_sections;
 }
 
-bool Professor::requestCourse(Course * course) const
+bool Professor::requestCourse(int departmentId, const std::string & courseCode, const std::string & courseName, const std::string & courseDescription, int numberOfCredits, Constraint * constraints) const
 {
+	Course * course = new Course(departmentId, courseCode, courseName, courseDescription, numberOfCredits, constraints);
 	return course->getDepartment()->requestCourse(course);
 }
 

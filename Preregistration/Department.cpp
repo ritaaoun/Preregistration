@@ -9,6 +9,7 @@ Department::Department(const std::string & name, const std::string & code, const
 	m_courseRequests()
 {
 	m_id = Server::getInstance().repository->createDepartment(this);
+	Server::getInstance().data.addDepartment(this);
 }
 
 Department::Department(int id, const std::string & name, const std::string & code, const std::string & facultyCode) :
@@ -84,10 +85,8 @@ const std::vector<Course*>& Department::getCourseRequests() const
 	return m_courseRequests;
 }
 
-// TODO update database
 bool Department::requestCourse(Course * course)
 {
-	// Server::getInstance().repository->
 	m_courses.push_back(course);
 	return true;
 }

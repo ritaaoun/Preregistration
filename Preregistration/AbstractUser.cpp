@@ -1,5 +1,6 @@
 #include "AbstractUser.hpp"
 #include "Server.hpp"
+#include "ChatMessage.hpp"
 
 int AbstractUser::getId() const
 {
@@ -130,10 +131,12 @@ void AbstractUser::setBirthday(const std::string & birthday)
 	Server::getInstance().repository->updateUser(this);
 }
 
-bool AbstractUser::sendChatMessage(std::string recipient, std::string topic, std::string content)
+bool AbstractUser::sendChatMessage(const std::string & recipient, const std::string & topic, const std::string & content)
 {
-	//TODO: implement
-	return false;
+	AbstractUser * user = Server::getInstance().data.getUser(recipient);
+	ChatMessage * message = new ChatMessage(this, user, topic, content);
+	updateSentMessages(message);
+	user->updateReceivedMessages(message);
 }
 
 std::vector<AbstractMessage*> AbstractUser::getSentMessages()

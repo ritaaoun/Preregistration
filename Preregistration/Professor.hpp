@@ -21,7 +21,7 @@ public:
 
 	const std::vector<Section *> getSections() override;
 
-	bool requestCourse(Course * course) const;
+	bool requestCourse(int departmentId, const std::string & courseCode, const std::string & courseName, const std::string & courseDescription, int numberOfCredits, Constraint * constraints) const;
 
 	bool publishSection(Section * section);
 
