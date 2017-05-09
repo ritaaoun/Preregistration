@@ -22,6 +22,16 @@ AbstractUser * AbstractMessage::getRecipient()
 	return m_recipient;
 }
 
+int AbstractMessage::getSenderId() const
+{
+	return m_senderId;
+}
+
+int AbstractMessage::getRecipientId() const
+{
+	return m_recipientId;
+}
+
 std::string AbstractMessage::getTopic() const
 {
 	return m_topic;

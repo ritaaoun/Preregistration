@@ -29,6 +29,10 @@ public:
 
 	Department * getDepartment();
 
+	bool isRequest() const;
+	void approveCourse();
+	void refuseCourse();
+
 	~Course();
 
 private:
@@ -42,7 +46,6 @@ private:
 	Constraint* mConstraints; ///< constraints i.e: needComputers
 	int mDepartmentID; 
 	Department* mDepartment;
-	
-	// need to see how to store a departement depending on the implementation of the department i.e departmentId or departmentName or the department object ...
+	bool mIsRequest;
 };
 

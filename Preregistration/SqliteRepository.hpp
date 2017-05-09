@@ -31,12 +31,17 @@ public:
 	virtual std::vector<AbstractMessage *> getMessages() const override;
 
 	virtual bool deleteSection(int crn) const override;
-	virtual bool deleteSection(const Section * department) const override;
-	virtual bool updateSection(const Section * department) const override;
-	virtual int createSection(const Section * department) const override;
+	virtual bool deleteSection(const Section * section) const override;
+	virtual bool updateSection(const Section * section) const override;
+	virtual int createSection(const Section * section) const override;
 	virtual std::vector<Section*> getSections() const override;
-	virtual Constraint* getSectionConstraint(int sectionID) const override;
-	virtual TimeSlot* getSectionTimeSlots(int sectionID) const override;
+	virtual Constraint* getSectionConstraint(int sectionCrn) const override;
+	virtual std::vector<TimeSlot *> getSectionTimeSlots(int sectionCrn) const override;
+
+	virtual std::vector<Room*> getRooms() const override;
+	virtual int getSectionRoomId(int sectionCrn) const override;
+	virtual Constraint * getRoomConstraint(int roomId) const override;
+	virtual std::vector<int> getRoomSectionIds(int roomId) const override;
 
 private :
 	SqliteRepository();

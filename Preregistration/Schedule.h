@@ -5,17 +5,20 @@
 #include "Section.hpp"
 
 class Schedule {
+public:
+	Schedule(Schedulable* schedulable);
+	~Schedule();
+
+	void generateSchedule();
+	bool hasConflictWith(TimeSlot* timeSlot) const;
+	bool hasConflictWith(vector<TimeSlot*> timeSlots) const;
+	bool hasConflictWith(Section* section) const;
+	bool containsConflict() const;
 
 private:
 	Schedulable* mSchedulable;
 	vector<TimeSlot*> mTimeSlots;
 	bool mContainsConflict;
-
-public:
-	Schedule(Schedulable* schedulable);
-	void generateSchedule();
-	bool hasConflictWith(TimeSlot* timeSlot);
-	bool hasConflictWith(vector<TimeSlot*> timeSlots);
-	bool hasConflictWith(Section* section);
-	bool containsConflict();
+	Schedule();
+	Schedule(const Schedule & other);
 };

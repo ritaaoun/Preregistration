@@ -1,66 +1,96 @@
 #include "Room.h"
+#include "Server.hpp"
 #include <algorithm>
+
+Room::Room(int id, const std::string & buildingCode, int roomNumber, int capacity) :
+	mId(id), mBuildingCode(buildingCode), mRoomNumber(roomNumber), mCapacity(capacity),
+	mConstraints(Server::getInstance().repository->getRoomConstraint(id)), 
+	mSectionIds(Server::getInstance().repository->getRoomSectionIds(id)), mSections(),
+	mSchedule(new Schedule(this))
+{
+}
+
+Room::~Room()
+{
+	if (mConstraints != nullptr) {
+		delete mConstraints;
+	}
+	delete mSchedule;
+}
+
+int Room::getId() const
+{
+	return mId;
+}
 
 const vector<Section *> Room ::getSections()
 {
-	return mSectionvector;
+	if (mSections.empty() && !mSectionIds.empty()) {
+		for (std::vector<int>::const_iterator it = mSectionIds.begin(); it != mSectionIds.end(); ++it) {
+			mSections.push_back(Server::getInstance().data.getSection(*it));
+		}
+	}
+	return mSections;
 }
 
 void Room::addSection(Section * section)
 {
-	vector<Section*>::iterator index = std::find(mSectionvector.begin(), mSectionvector.end(), section);
-	if (index == mSectionvector.end())
+	getSections();
+	vector<Section*>::iterator index = std::find(mSections.begin(), mSections.end(), section);
+	if (index == mSections.end())
 	{
-		mSectionvector.push_back(section);
+		mSections.push_back(section);
 	}
 	
 }
 
 void Room::removeSection(Section * section)
 {
-	vector<Section*>::iterator index = std::find(mSectionvector.begin(), mSectionvector.end(), section);
+	getSections();
+	vector<Section*>::iterator index = std::find(mSections.begin(), mSections.end(), section);
 
-	if (index != mSectionvector.end()) 
+	if (index != mSections.end())
 	{
-		mSectionvector.erase(index);
+		mSections.erase(index);
 	}
 	
 }
 
 void Room::setConstraint(Constraint * constraint)
 {
+	if (mConstraints != nullptr) {
+		delete mConstraints;
+	}
 	mConstraints = constraint;
 }
 
-//Schedule* Room::getSchedule()
-//{
-//	mSchedule->generateSchedule();
-//	return mSchedule;
-//}
+Schedule* Room::getSchedule()
+{
+	mSchedule->generateSchedule();
+	return mSchedule;
+}
 
-Constraint * Room::getConstraint()
+Constraint * Room::getConstraint() const
 {
 	return mConstraints;
 }
 
-Room::Room(int input_capacity, std::string input_roomNumber, std::string input_buildingCode)
+int Room::getCapacity() const
 {
-	capacity = input_capacity;
-	roomNumber = input_roomNumber;
-	buildingCode = input_buildingCode;
+	return mCapacity;
 }
 
-int Room::getCapacity()
+void Room::setCapacity(int capacity)
 {
-	return capacity;
+	mCapacity = capacity;
 }
 
-std::string Room::getRoomNumber()
+int Room::getRoomNumber() const
 {
-	return roomNumber;
+	return mRoomNumber;
 }
 
-std::string Room::getBuildingCode()
+std::string Room::getBuildingCode() const
 {
-	return buildingCode;
+	return mBuildingCode;
 }

@@ -144,6 +144,19 @@ Section * ServerData::getSection(int crn) const
 	}
 }
 
+Room * ServerData::getRoom(int id) const
+{
+	std::unordered_map<int, Room*>::const_iterator it = m_rooms.find(id);
+	if (it != m_rooms.end())
+	{
+		return it->second;
+	}
+	else
+	{
+		return nullptr;
+	}
+}
+
 bool ServerData::initialize()
 {
 	//TODO: check if there is an error
@@ -152,6 +165,7 @@ bool ServerData::initialize()
 	getMessages();
 	getSections();
 	getCourses();
+	getRooms();
 	return true;
 }
 
@@ -226,7 +240,7 @@ int ServerData::getNewSectionNumber(int courseId)
 		std::vector<Section*> sections = it->second->getSections();
 		for (std::vector<Section*>::const_iterator it = sections.begin(); it != sections.end(); ++it)
 		{
-			int id = (*it)->getSectionCode();
+			int id = (*it)->getSectionNumber();
 			if (id > maxId)
 			{
 				maxId = id;
@@ -309,5 +323,11 @@ bool ServerData::getCourses()
 bool ServerData::getSections()
 {
 	//TODO: implement
+	return false;
+}
+
+bool ServerData::getRooms()
+{
+	//TODO: retrieve rooms
 	return false;
 }

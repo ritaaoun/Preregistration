@@ -8,25 +8,34 @@
 
 class Room : public Schedulable
 {
-
-private:
-	std::vector<Section*> mSectionvector;
-	Schedule* mSchedule;
-	Constraint* mConstraints; ///< constraints i.e: needComputers
-	std::string  roomNumber; ///< room number, e.g. 243
-	std::string buildingCode; ///< building code, e.g. OXY
-	int capacity; ///< number of students that the room can handle
-
 public:
+	Room(int id, const std::string & buildingCode, int roomNumber, int capacity);
+	virtual ~Room();
+
+	int getId() const;
+	int getRoomNumber() const;
+	std::string getBuildingCode() const;
+
 	const vector<Section *> getSections() override;
 	void addSection(Section* section);
 	void removeSection(Section* section);
-	void setConstraint(Constraint * constraint);
-	//Schedule* getSchedule() override;
-	Constraint* getConstraint();
-	Room(int input_capacity, std::string input_roomNumber, std::string input_buildingCode);
-	int getCapacity();
-	std::string getRoomNumber();
-	std::string getBuildingCode();
 
+	void setConstraint(Constraint * constraint);
+	Constraint* getConstraint() const;
+
+	int getCapacity() const;
+	void setCapacity(int capacity);
+
+	Schedule * getSchedule();
+
+private:
+	int mId;
+	std::string mBuildingCode; ///< building code, e.g. IOEC
+	int  mRoomNumber; ///< room number, e.g. 243
+	int mCapacity; ///< number of students that the room can handle
+	Constraint* mConstraints; ///< constraints i.e: needComputers
+
+	std::vector<int> mSectionIds;
+	std::vector<Section*> mSections;
+	Schedule* mSchedule;
 };

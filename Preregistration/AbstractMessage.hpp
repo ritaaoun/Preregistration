@@ -10,6 +10,8 @@ public:
 	int getId() const;
 	AbstractUser * getSender();
 	AbstractUser * getRecipient();
+	int getSenderId() const;
+	int getRecipientId() const;
 
 	std::string getTopic() const;
 	void setTopic(const std::string & title);

@@ -11,48 +11,57 @@ class Course;
 class Section
 {
 public:
-	enum Status { Tentative, Definite, STATUS_END };
+	enum Status { TENTATIVE, DEFINITE, STATUS_END };
 
 	int getCrn() const;
 
 	bool addTimeSlot(TimeSlot* timeslot);
 	bool removeTimeSlot(TimeSlot* timeslot);
-	std::vector<TimeSlot*> getTimeSlots();
+	std::vector<TimeSlot*> getTimeSlots() const;
 
 	void setStatus(Status status);
-	Status getStatus();
+	Status getStatus() const;
 
-	int getSectionCode();
+	int getSectionNumber() const;
 
 	void setSectionCapacity(int capacity);
-	int getSectionCapacity();
+	int getSectionCapacity() const;
 
 	void setRoom(Room* room);
 	Room* getRoom();
+	int getRoomId() const;
 
 	void setProfessor(Professor* professor);
+	int getProfessorId() const;
 	Professor* getProfessor();
 
 	void setConstraint(Constraint * constraint);
 	Constraint * getConstraint();
 
+	int getCourseId() const;
 	Course * getCourse();
 
-	Section(int input_capacity, int input_courseID, int input_professorID);
-	Section(int crn, int input_id, int input_capacity, int input_courseID, int input_professorID, bool input_isConfirmed);
+	Section(int courseId, int capacity, int professorId, const std::vector < TimeSlot *> & timeSlots);
+	Section(int crn, int courseId, int number, int capacity, int professorId, Status status);
 	~Section();
 
 private:
 	int mCrn;
-	int mSectionCode; ///< section code
-	int mCapacity; ///< section capacity
+
 	int mCourseId; ///<  id of the course that the section gives
+	Course* mCourse;
+	int mSectionNumber; ///< section code
+
+	int mCapacity; ///< section capacity
+
 	int mProfId; ///<  id of the professor that teaches this section
-	Room* mRoom; ///< Room used for the section
 	Professor* mProfessor;
+
 	Status mStatus; ///< section status
+
+	int mRoomId;
+	Room* mRoom; ///< Room used for the section
 	std::vector<TimeSlot *> mTimeSlots; ///< time slots of the schedule of the section
 	Constraint* mConstraints; ///< constraints i.e: needComputers
-	Course* mCourse;
 };
 
