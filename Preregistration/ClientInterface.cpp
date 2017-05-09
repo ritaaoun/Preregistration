@@ -72,7 +72,7 @@ std::string ClientInterface::addCourse(std::string params)
 	return client.sendData(params);
 }
 
-std::string ClientInterface::deleteCourse(std::string params)
+std::string ClientInterface::decideOnCourse(std::string params)
 {
 	params = "deleteCourse" + ClientServerInterface::FUNC_DELIMITER + params;
 	return client.sendData(params);

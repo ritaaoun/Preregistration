@@ -48,6 +48,7 @@ public:
 	std::string getBirthday() const;
 	void setBirthday(const std::string & birthday);
 
+	bool sendChatMessage(std::string recipient,std::string topic,std::string content);
 	std::vector<AbstractMessage*> getSentMessages();
 	std::vector<AbstractMessage*> getReceivedMessages();
 

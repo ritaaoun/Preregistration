@@ -19,7 +19,7 @@ public:
 
 	virtual  std::string getCourses(std::string params) = 0;
 	virtual  std::string addCourse(std::string params) = 0;
-	virtual  std::string deleteCourse(std::string params) = 0;
+	virtual  std::string decideOnCourse(std::string params) = 0;
 
 	virtual  std::string getDepartments(std::string params) = 0;
 

@@ -130,6 +130,12 @@ void AbstractUser::setBirthday(const std::string & birthday)
 	Server::getInstance().repository->updateUser(this);
 }
 
+bool AbstractUser::sendChatMessage(std::string recipient, std::string topic, std::string content)
+{
+	//TODO: implement
+	return false;
+}
+
 std::vector<AbstractMessage*> AbstractUser::getSentMessages()
 {
 	return m_inbox.getSentMessages();

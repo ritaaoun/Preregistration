@@ -15,7 +15,7 @@ ServerInterface::ServerInterface()
 	functionMap["sendMessage"] = &ServerInterface::sendMessage;
 	functionMap["getCourses"] = &ServerInterface::getCourses;
 	functionMap["addCourse"] = &ServerInterface::addCourse;
-	functionMap["deleteCourse"] = &ServerInterface::deleteCourse;
+	functionMap["decideOnCourse"] = &ServerInterface::decideOnCourse;
 	functionMap["getDepartments"] = &ServerInterface::getDepartments;
 
 }
@@ -262,22 +262,18 @@ std::string ServerInterface::sendMessage(std::string params)
 {
 	try
 	{
+		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
+
+		std::string username = param[0];
+		std::string recipient = param[1];
+		std::string topic = param[2];
+		std::string content = param[3];
+
 		AbstractUser* user = Server::getInstance().data.getUser(params);
 		if (user != nullptr)
 		{
-			std::vector<AbstractMessage*> msgs = user->getReceivedMessages();
-			std::string result = "";
-			for (std::vector<AbstractMessage*>::iterator it = msgs.begin();it != msgs.end();++it)
-			{
-				result += (*it)->getSender()->getUsername() + ClientServerInterface::DELIMITER + (*it)->getRecipient()->getUsername() +
-					ClientServerInterface::DELIMITER + (*it)->getTopic() + ClientServerInterface::DELIMITER + (*it)->getContent() +
-					ClientServerInterface::DELIMITER + std::to_string((*it)->getType());
-				if (msgs.end() != it + 1)
-				{
-					result += ClientServerInterface::LIST_DELIMITER;
-				}
-			}
-			return result;
+			bool sent = user->sendChatMessage(recipient,topic,content);
+			return std::to_string(sent);
 		}
 
 		return "false";
@@ -300,7 +296,7 @@ std::string ServerInterface::addCourse(std::string params)
 	return "";
 }
 
-std::string ServerInterface::deleteCourse(std::string params)
+std::string ServerInterface::decideOnCourse(std::string params)
 {
 	return "";
 }
