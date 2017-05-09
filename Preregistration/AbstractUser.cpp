@@ -137,6 +137,7 @@ bool AbstractUser::sendChatMessage(const std::string & recipient, const std::str
 	ChatMessage * message = new ChatMessage(this, user, topic, content);
 	updateSentMessages(message);
 	user->updateReceivedMessages(message);
+	return true;
 }
 
 std::vector<AbstractMessage*> AbstractUser::getSentMessages()
