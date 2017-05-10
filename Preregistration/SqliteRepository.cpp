@@ -119,9 +119,9 @@ bool SqliteRepository::updateUser(AbstractUser * user) const
 bool SqliteRepository::createUser(const AbstractUser * user) const
 {
 	std::string sql = "INSERT INTO USER (ID, USERNAME, PASSWORD, FIRSTNAME, MIDDLENAME, LASTNAME, STARTYEAR, "
-		"STARTTERM, TYPE, DEPARTMENTID, BIRTHDAY) VALUES ('" + std::to_string(user->getId()) + "', '" + 
-		user->getUsername() + "', '" + user->getPassword() + "', '" + user->getFirstName() + "', '" + 
-		user->getMiddleName() + "', '" + user->getLastName() + "', '" + std::to_string(user->getStartYear()) + "', '" + 
+		"STARTTERM, TYPE, DEPARTMENTID, BIRTHDAY) VALUES ('" + std::to_string(user->getId()) + "', '" +
+		user->getUsername() + "', '" + user->getPassword() + "', '" + user->getFirstName() + "', '" +
+		user->getMiddleName() + "', '" + user->getLastName() + "', '" + std::to_string(user->getStartYear()) + "', '" +
 		std::to_string(user->getStartTerm()) + "', '" + std::to_string(user->getType()) + "', '" +
 		std::to_string(user->getDepartmentId()) + "', '" + user->getBirthday() + "')";
 	return execute(sql);
@@ -296,12 +296,12 @@ int SqliteRepository::createMessage(AbstractMessage * message)
 	std::string sql = "INSERT INTO MESSAGE (SENDERID, RECIPIENTID, TYPE, TOPIC, CONTENT) VALUES ('" +
 		std::to_string(message->getSenderId()) + "', '" + std::to_string(message->getRecipientId()) + "', '" +
 		std::to_string(message->getType()) + "', '" + message->getTopic() + "', '" + message->getContent() + "')";
-	
+
 	if (execute(sql))
 	{
 		std::string sql = "SELECT MAX(ID) FROM MESSAGE";
 		std::vector<std::vector<std::string>> results = query(sql);
-		
+
 		return Helper::stringToLong(results.at(0).at(0));
 	}
 	else
@@ -312,13 +312,13 @@ int SqliteRepository::createMessage(AbstractMessage * message)
 
 std::vector<AbstractMessage*> SqliteRepository::getMessages() const
 {
-	std::string sql = "SELECT * FROM MESSAGE";
+	std::string sql = "SELECT * FROM MESSAGE ORDER BY ID DESC";
 	std::vector<std::vector<std::string>> results = query(sql);
 	std::vector<AbstractMessage *> out;
 
 	if (!results.empty())
 	{
-		for (std::vector<std::vector<std::string>>::iterator it = results.end() - 1; it != results.begin() - 1; --it)
+		for (std::vector<std::vector<std::string>>::iterator it = results.begin(); it != results.end(); ++it)
 		{
 			std::vector<std::string> row = *it;
 			int id = Helper::stringToLong(row.at(0));
@@ -360,7 +360,7 @@ bool SqliteRepository::updateSection(const Section * section) const
 int SqliteRepository::createSection(const Section * section) const
 {
 	std::string sql = "INSERT INTO SECTION (COURSEID, NUMBER, CAPACITY, PROFESSORID, ISCONFIRMED) VALUES ( '" +
-		std::to_string(section->getCourseId()) + "', '" + std::to_string(section->getNumber()) + "', '" + 
+		std::to_string(section->getCourseId()) + "', '" + std::to_string(section->getNumber()) + "', '" +
 		std::to_string(section->getCapacity()) + "', '" + std::to_string(section->getProfessorId()) + "', '" +
 		std::to_string(section->getStatus()) + "'";
 	if (execute(sql))
@@ -566,8 +566,8 @@ std::vector<Course*> SqliteRepository::getCourses() const
 int SqliteRepository::createCourse(const Course * course) const
 {
 	std::string sql = "INSERT INTO COURSE (DEPARTMENTID, CODE, NAME, DESCRIPTION, CREDITS, STATUS) VALUES ( '" +
-		std::to_string(course->getDepartmentId()) + "', '" + course->getCourseCode() + "', '" +course->getCourseName() + "', '" + 
-		course->getDescription() + "', '" + std::to_string(course->getNumberOfCredits()) + "', '" + 
+		std::to_string(course->getDepartmentId()) + "', '" + course->getCourseCode() + "', '" + course->getCourseName() + "', '" +
+		course->getDescription() + "', '" + std::to_string(course->getNumberOfCredits()) + "', '" +
 		std::to_string(course->getStatus()) + "'";
 	if (execute(sql))
 	{
@@ -586,7 +586,7 @@ bool SqliteRepository::updateCourse(const Course * course) const
 {
 	std::string sql = "UPDATE COURSE SET DEPARTMENTID = '" + std::to_string(course->getDepartmentId()) + "', "
 		"CODE = '" + course->getCourseCode() + "', NAME = '" + course->getCourseName() + "', DESCRIPTION = '" +
-		course->getDescription() + "', CREDITS = '" + std::to_string(course->getNumberOfCredits()) + 
+		course->getDescription() + "', CREDITS = '" + std::to_string(course->getNumberOfCredits()) +
 		"', STATUS = '" + std::to_string(course->getStatus()) + "')";
 
 	return execute(sql);
