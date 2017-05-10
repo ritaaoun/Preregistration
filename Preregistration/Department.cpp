@@ -2,6 +2,7 @@
 #include "Server.hpp"
 #include "AbstractUser.hpp"
 #include <algorithm>
+#include <iostream>
 
 Department::Department(const std::string & name, const std::string & code, const std::string & facultyCode) :
 	m_name(name), m_code(code), m_facultyCode(facultyCode), m_courseIds(), m_courseRequestIds(), m_courses(),
@@ -129,4 +130,9 @@ void Department::loadCourses()
 
 void Department::loadCourseRequests()
 {
+}
+
+std::string Department::serialize()
+{
+	return std::to_string(getId()) + ClientServerInterface::DELIMITER + getName();
 }

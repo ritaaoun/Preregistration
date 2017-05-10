@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "Professor.hpp"
 #include "Student.hpp"
+#include <iostream>
 
 Administrator::Administrator() : AbstractUser(), m_privilegeIds(), m_privileges()
 {

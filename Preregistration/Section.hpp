@@ -3,13 +3,14 @@
 #include <algorithm>
 #include "TimeSlot.h"
 #include "Constraint.hpp"
+#include "ISerializable.hpp"
 
 class Professor;
 class Room;
 class Course;
 class Student;
 
-class Section
+class Section : public ISerializable
 {
 public:
 	enum Status { TENTATIVE, DEFINITE, STATUS_END };
@@ -47,6 +48,9 @@ public:
 	int getNumberOfStudents() const;
 	bool addStudent(Student * student);
 	bool removeStudent(Student * student);
+	
+	// Inherited via ISerializable
+	virtual std::string serialize() override;
 
 	Section(int courseId, int capacity, int professorId, const std::vector < TimeSlot *> & timeSlots);
 	Section(int crn, int courseId, int number, int capacity, int professorId, Status status);
@@ -73,5 +77,6 @@ private:
 
 	std::vector<int> mStudentIds;
 	std::vector<Student *> mStudents;
+
 };
 

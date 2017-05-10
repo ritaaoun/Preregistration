@@ -93,6 +93,9 @@
     <ClInclude Include="Helper.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ISerializable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SqliteRepository.cpp">

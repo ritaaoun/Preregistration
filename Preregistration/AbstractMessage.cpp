@@ -102,3 +102,10 @@ void AbstractMessage::loadRecipient()
 {
 	m_sender = Server::getInstance().data.getUser(m_senderId);
 }
+
+std::string AbstractMessage::serialize()
+{
+	return getSender()->getUsername() + ClientServerInterface::DELIMITER + getRecipient()->getUsername() +
+		ClientServerInterface::DELIMITER + getTopic() + ClientServerInterface::DELIMITER + getContent() +
+		ClientServerInterface::DELIMITER + std::to_string(getType());
+}

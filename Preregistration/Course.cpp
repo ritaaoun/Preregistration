@@ -1,5 +1,6 @@
 #include "Course.hpp"
 #include "Server.hpp"
+#include <iostream>
 
 Course::~Course()
 {
@@ -23,8 +24,15 @@ void Course::loadSections()
 	}
 }
 
+std::string Course::serialize()
+{
+	return std::to_string(getID()) + ClientServerInterface::DELIMITER + getFullCode() + ClientServerInterface::DELIMITER +
+		getName() + ClientServerInterface::DELIMITER + getDescription() +
+		ClientServerInterface::DELIMITER + std::to_string(getNumberOfCredits());
+}
 
-Course::Course(int departmentId, const std::string & courseCode, const std::string & courseName, 
+
+Course::Course(int departmentId, const std::string & courseCode, const std::string & courseName,
 	const std::string & courseDescription, int numberOfCredits, Constraint * constraints) :
 	mDepartmentID(departmentId), mDepartment(nullptr), mCode(courseCode), mName(courseName),
 	mDescription(courseDescription), mNumberOfCredits(numberOfCredits), mStatus(PENDING), mConstraints(constraints),
@@ -34,7 +42,7 @@ Course::Course(int departmentId, const std::string & courseCode, const std::stri
 	Server::getInstance().data.addCourse(this);
 }
 
-Course::Course(int id, int departmentId, const std::string & courseCode, const std::string & courseName, 
+Course::Course(int id, int departmentId, const std::string & courseCode, const std::string & courseName,
 	const std::string & courseDescription, int numberOfCredits, Status status) :
 	mId(id), mDepartmentID(departmentId), mDepartment(nullptr), mCode(courseCode), mName(courseName),
 	mDescription(courseDescription), mNumberOfCredits(numberOfCredits), mStatus(status),

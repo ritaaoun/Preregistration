@@ -3,10 +3,11 @@
 #include "Course.hpp"
 #include <string>
 #include <vector>
+#include "ISerializable.hpp"
 
 class AbstractUser;
 
-class Department {
+class Department : public ISerializable {
 public:
 	Department(const std::string & name, const std::string & code, const std::string & facultyCode);
 	Department(int id, const std::string & name, const std::string & code, const std::string & facultyCode);
@@ -32,6 +33,9 @@ public:
 
 	std::vector<AbstractUser*> getUsers() const;
 
+	// Inherited via ISerializable
+	virtual std::string serialize() override;
+
 protected:
 	Department();
 
@@ -49,4 +53,5 @@ private:
 
 	void loadCourses();
 	void loadCourseRequests();
+
 };

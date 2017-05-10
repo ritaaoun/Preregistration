@@ -3,7 +3,7 @@
 #include "Enum.hpp"
 #include "Department.hpp"
 #include "Inbox.hpp"
-
+#include "ISerializable.hpp"
 
 /**
 * \file User.hpp
@@ -11,7 +11,7 @@
 *
 * This is an abstract class. It provides functions to access and edit User information.
 */
-class AbstractUser {
+class AbstractUser : public ISerializable {
 public:
 	enum Type {STUDENT, PROFESSOR, ADMINISTRATOR, TYPE_END};
 
@@ -57,6 +57,9 @@ public:
 	bool updateSentMessages(AbstractMessage * message);
 	bool updateReceivedMessages(AbstractMessage * message);
 
+	// Inherited via ISerializable
+	virtual std::string serialize() override;
+
 	virtual ~AbstractUser();
 
 protected:
@@ -84,4 +87,6 @@ private:
 	Inbox m_inbox; ///< User inbox
 
 	void loadDepartment();
+
+
 };
