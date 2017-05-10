@@ -7,7 +7,8 @@ SystemWindowAdminstrator::SystemWindowAdminstrator(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    dialogOpened = false;
+    dialogMessageOpened = false;
+    dialogChangePasswordOpened = false;
 
     ui->label_welcome->setText("Welcome Admin " + User::getUser()->getName());
 
@@ -106,15 +107,15 @@ void SystemWindowAdminstrator::setUpAdminCourseRequests()
 {
      courseRequests = APIService::getInstance()->getCourseRequests();
 
-     ui->tableCourseRequests->clearContents();
+     ui->tableCourseRequests->setRowCount(0);
 
      for(int i = 0; i < courseRequests.size(); i++)
      {
         std::vector<QTableWidgetItem*> items;
 
-        items.push_back(new QTableWidgetItem(courseRequests[i].getCourseName()));
-        items.push_back(new QTableWidgetItem(courseRequests[i].getDepartment()));
-        items.push_back(new QTableWidgetItem(courseRequests[i].getProfessor()));
+        items.push_back(new QTableWidgetItem(courseRequests[i].getCode()));
+        items.push_back(new QTableWidgetItem(courseRequests[i].getName()));
+        items.push_back(new QTableWidgetItem(courseRequests[i].getCredits()));
 
         ui->tableCourseRequests->insertRow(i);
         for(int j = 0; j < items.size(); j++)
@@ -143,23 +144,29 @@ void SystemWindowAdminstrator::setUpAdminCourseRequests()
 
 void SystemWindowAdminstrator::acceptCourseRequest(int index)
 {
-    qDebug() << "accept " << index;
+    Course course = courseRequests[index];
+
+    APIService::getInstance()->decideOnCourse(course, true);
+    setUpAdminCourseRequests();
 }
 
 void SystemWindowAdminstrator::rejectCourseRequest(int index)
 {
-    qDebug() << "reject " << index;
+    Course course = courseRequests[index];
+
+    APIService::getInstance()->decideOnCourse(course, false);
+    setUpAdminCourseRequests();
 }
 
 void SystemWindowAdminstrator::on_pbConfirmPriviliges_clicked()
 {
     QString adminUsername = ui->leAdminUsername->text();
-    QString adminDepartment = ui->cbDepartmentAdmin->currentText();
+    int adminDepartment = ui->cbDepartmentAdmin->currentData().toInt();
 
-    if(adminUsername.isEmpty() || adminDepartment.isEmpty())
+    if(adminUsername.isEmpty())
         return;
 
-    APIService::getInstance()->sendPriviliges(adminUsername, adminDepartment);
+    APIService::getInstance()->sendPrivileges(adminUsername, adminDepartment);
 
     ui->leAdminUsername->clear();
 }
@@ -184,6 +191,8 @@ void SystemWindowAdminstrator::setEditUserMode()
 
     ui->pbAction->setText("Edit");
     ui->labelUserAction->setText("Edit User");
+
+    ui->pbResetPassword->show();
 }
 
 void SystemWindowAdminstrator::setCreateUserMode()
@@ -193,6 +202,8 @@ void SystemWindowAdminstrator::setCreateUserMode()
 
     ui->pbAction->setText("Create");
     ui->labelUserAction->setText("Create User");
+
+    ui->pbResetPassword->hide();
 }
 
 void SystemWindowAdminstrator::on_rbCreate_clicked()
@@ -200,12 +211,21 @@ void SystemWindowAdminstrator::on_rbCreate_clicked()
     clearUserInputs();
     setCreateUserMode();
 
+    if(ui->rbAdministrator->isChecked())
+    {
+        setAdminChoiceDepartment();
+    }
+    else
+    {
+        setOtherChoiceDepartment();
+    }
 }
 
 void SystemWindowAdminstrator::on_rbEdit_clicked()
 {
     clearUserInputs();
     setEditUserMode();
+    setOtherChoiceDepartment();
 
     if(!userInfo.empty())
     {
@@ -238,9 +258,14 @@ void SystemWindowAdminstrator::on_pbLogout_clicked()
     LogInWindow* login = new LogInWindow();
     login->show();
 
-    if(dialogOpened)
+    if(dialogMessageOpened)
     {
-        dialog->close();
+        dialogMessage->close();
+    }
+
+    if(dialogChangePasswordOpened)
+    {
+        dialogChangePassword->close();
     }
 
     this->close();
@@ -286,18 +311,71 @@ void SystemWindowAdminstrator::refresh()
 
 void SystemWindowAdminstrator::on_pushButton_clicked()
 {
-    if(!dialogOpened)
+    if(!dialogMessageOpened)
     {
-        dialog = new DialogMessage();
+        dialogMessage = new DialogMessage();
 
-        QObject::connect(dialog, SIGNAL(finished(int)), this, SLOT(dialogClosed()));
-        dialog->show();
+        QObject::connect(dialogMessage, SIGNAL(finished(int)), this, SLOT(dialogMessageClosed()));
+        dialogMessage->show();
 
-        dialogOpened = true;
+        dialogMessageOpened = true;
     }
 }
-void SystemWindowAdminstrator::dialogClosed()
+void SystemWindowAdminstrator::dialogMessageClosed()
 {
-    delete dialog;
-    dialogOpened = false;
+    delete dialogMessage;
+    dialogMessageOpened = false;
+}
+
+void SystemWindowAdminstrator::on_pbChangePassword_clicked()
+{
+    qDebug() << dialogChangePasswordOpened;
+    if(!dialogChangePasswordOpened)
+    {
+        dialogChangePassword = new DialogChangePassword();
+
+        QObject::connect(dialogChangePassword, SIGNAL(finished(int)), this, SLOT(dialogChangePaswordClosed()));
+        dialogChangePassword->show();
+
+        dialogChangePasswordOpened = true;
+    }
+}
+
+void SystemWindowAdminstrator::dialogChangePaswordClosed()
+{
+    delete dialogChangePassword;
+    dialogChangePasswordOpened = false;
+}
+
+void SystemWindowAdminstrator::on_pbResetPassword_clicked()
+{
+    QString userUsername = ui->cbUserList->currentText();
+
+    APIService::getInstance()->resetPassword(userUsername);
+}
+
+void SystemWindowAdminstrator::on_rbAdministrator_clicked()
+{
+    setAdminChoiceDepartment();
+}
+
+void SystemWindowAdminstrator::on_rbProfessor_clicked()
+{
+    setOtherChoiceDepartment();
+}
+
+void SystemWindowAdminstrator::on_rbStudent_clicked()
+{
+    setOtherChoiceDepartment();
+}
+
+void SystemWindowAdminstrator::setAdminChoiceDepartment()
+{
+    ui->cbDepartmentUser->setCurrentText(departments[0]);
+   // ui->cbDepartmentUser->showPopup();
+}
+
+void SystemWindowAdminstrator::setOtherChoiceDepartment()
+{
+   // ui->cbDepartmentUser->hidePopup();
 }

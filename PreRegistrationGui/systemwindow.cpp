@@ -45,7 +45,7 @@ void SystemWindow::on_cbCoursesList_currentIndexChanged(int index)
 {
     Course course = courses[index];
 
-    ui->tableCourses->clearContents();
+    ui->tableCourses->setRowCount(0);
     ui->cbSectionsList->clear();
 
     for(int i = 0; i < course.getSections().size(); i++)
@@ -111,14 +111,14 @@ void SystemWindow::displaySchedule()
 
 void SystemWindow::clearSchedule()
 {
-    ui->tableSchedule->clearContents();
+    ui->tableSchedule->setRowCount(0);
 }
 
 void SystemWindow::setUpUserCourses()
 {
     userCourses = APIService::getInstance()->getUserCourses();
 
-    ui->tableMyCourses->clearContents();
+    ui->tableMyCourses->setRowCount(0);
     ui->cbMyCoursesList->clear();
 
     for(int i = 0; i < courses.size(); i++)

@@ -50,7 +50,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <property name="elideMode">
      <enum>Qt::ElideLeft</enum>
@@ -351,8 +351,8 @@
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>73</width>
-        <height>41</height>
+        <width>86</width>
+        <height>47</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -381,13 +381,13 @@
        <string>Add Course</string>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>120</x>
         <y>10</y>
-        <width>71</width>
-        <height>41</height>
+        <width>75</width>
+        <height>47</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -417,7 +417,7 @@
      <x>0</x>
      <y>0</y>
      <width>946</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

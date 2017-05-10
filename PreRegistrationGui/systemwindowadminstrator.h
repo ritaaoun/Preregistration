@@ -9,6 +9,7 @@
 #include "userinfo.h"
 #include "loginwindow.h"
 #include "dialogmessage.h"
+#include "dialogchangepassword.h"
 
 namespace Ui {
 class SystemWindowAdminstrator;
@@ -40,14 +41,28 @@ private slots:
 
     void on_pushButton_clicked();
 
-    void dialogClosed();
+    void dialogMessageClosed();
+
+    void dialogChangePaswordClosed();
+
+    void on_pbChangePassword_clicked();
+
+    void on_pbResetPassword_clicked();
+
+    void on_rbAdministrator_clicked();
+
+    void on_rbProfessor_clicked();
+
+    void on_rbStudent_clicked();
 
 private:
     Ui::SystemWindowAdminstrator *ui;
-    QDialog* dialog;
-    bool dialogOpened;
+    QDialog* dialogMessage;
+    QDialog* dialogChangePassword;
+    bool dialogMessageOpened;
+    bool dialogChangePasswordOpened;
 
-    std::vector<CourseRequest> courseRequests;
+    std::vector<Course> courseRequests;
     std::vector<UserInfo> userInfo;
     std::unordered_map<int, QString> departments;
     std::unordered_map<int, QString> terms;
@@ -65,6 +80,9 @@ private:
 
     void clearUserInputs();
     void setUserInputs(UserInfo user);
+
+    void setAdminChoiceDepartment();
+    void setOtherChoiceDepartment();
 };
 
 #endif // SYSTEMWINDOWADMINSTRATOR_H

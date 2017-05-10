@@ -60,9 +60,15 @@ std::string ClientInterface::sendMessage(std::string params)
 	return client.sendData(params);
 }
 
-std::string ClientInterface::getCourses(std::string params)
+std::string ClientInterface::getCourseRequests(std::string params)
 {
-	params = "getCourses" + ClientServerInterface::FUNC_DELIMITER + params;
+	params = "getCourseRequests" + ClientServerInterface::FUNC_DELIMITER + params;
+	return client.sendData(params);
+}
+
+std::string ClientInterface::getUserCourses(std::string params)
+{
+	params = "getUserCourses" + ClientServerInterface::FUNC_DELIMITER + params;
 	return client.sendData(params);
 }
 
@@ -72,14 +78,44 @@ std::string ClientInterface::addCourse(std::string params)
 	return client.sendData(params);
 }
 
-std::string ClientInterface::deleteCourse(std::string params)
+std::string ClientInterface::decideOnCourse(std::string params)
 {
-	params = "deleteCourse" + ClientServerInterface::FUNC_DELIMITER + params;
+	params = "decideOnCourse" + ClientServerInterface::FUNC_DELIMITER + params;
 	return client.sendData(params);
 }
 
 std::string ClientInterface::getDepartments(std::string params)
 {
 	params = "getDepartments" + ClientServerInterface::FUNC_DELIMITER + params;
+	return client.sendData(params);
+}
+
+std::string ClientInterface::givePrivileges(std::string params)
+{
+	params = "givePrivileges" + ClientServerInterface::FUNC_DELIMITER + params;
+	return client.sendData(params);
+}
+
+std::string ClientInterface::getSections(std::string params)
+{
+	params = "getSections" + ClientServerInterface::FUNC_DELIMITER + params;
+	return client.sendData(params);
+}
+
+std::string ClientInterface::getUserSections(std::string params)
+{
+	params = "getUserSections" + ClientServerInterface::FUNC_DELIMITER + params;
+	return client.sendData(params);
+}
+
+std::string ClientInterface::resetPassword(std::string params)
+{
+	params = "resetPassword" + ClientServerInterface::FUNC_DELIMITER + params;
+	return client.sendData(params);
+}
+
+std::string ClientInterface::changePassword(std::string params)
+{
+	params = "changePassword" + ClientServerInterface::FUNC_DELIMITER + params;
 	return client.sendData(params);
 }
