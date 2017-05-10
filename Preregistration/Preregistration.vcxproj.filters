@@ -57,9 +57,6 @@
     <ClInclude Include="Course.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Schedulable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Schedule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -91,6 +88,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Helper.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ISchedulable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ISerializable.hpp">

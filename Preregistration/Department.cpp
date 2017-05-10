@@ -75,20 +75,22 @@ std::string Department::getFacultyCode() const
 	return m_facultyCode;
 }
 
-const std::vector<Course*>& Department::getCourses() const
+const std::vector<Course*>& Department::getCourses()
 {
+	loadCourses();
 	return m_courses;
 }
 
-const std::vector<Course*>& Department::getCourseRequests() const
+const std::vector<Course*>& Department::getCourseRequests()
 {
+	loadCourseRequests();
 	return m_courseRequests;
 }
 
 bool Department::requestCourse(Course * course)
 {
-	getCourseRequests();
-	m_courseRequestIds.push_back(course->getID());
+	loadCourseRequests();
+	m_courseRequestIds.push_back(course->getId());
 	m_courseRequests.push_back(course);
 	return true;
 }
@@ -97,20 +99,26 @@ bool Department::decideOnCourse(Course * course, bool approveCourse)
 {
 	std::vector<Course*>::iterator it = std::find(m_courseRequests.begin(), m_courseRequests.end(), course);
 	if (it == m_courseRequests.end()) {
-		std::cerr << "Department::decideOnCourse: course " << course->getID() << " is not a request" << std::endl;
+		std::cerr << "Department::decideOnCourse: course " << course->getId() << " is not a request" << std::endl;
 		return false;
 	}
 	else {
 		Course * course = *it;
 		if (approveCourse) {
+			loadCourses();
 			course->approveCourse();
+			m_courseIds.push_back(course->getId());
+			m_courses.push_back(course);
 		}
 		else {
 			course->refuseCourse();
 		}
-		m_courses.push_back(course);
-		m_courseRequests.erase(std::remove(m_courseRequests.begin(), m_courseRequests.end(), *it), m_courseRequests.end());
+		m_courseRequestIds.erase(std::remove(m_courseRequestIds.begin(), m_courseRequestIds.end(), course->getId()), m_courseRequestIds.end());
+		m_courseRequests.erase(std::remove(m_courseRequests.begin(), m_courseRequests.end(), course), m_courseRequests.end());
 		Server::getInstance().repository->updateCourse(course);
+
+		std::cout << "Department::decideOnCourse: course " << course->getId() << " has been decided on" << std::endl;
+
 		return true;
 	}
 }
@@ -126,10 +134,20 @@ Department::Department() : m_id(), m_name(), m_code(), m_facultyCode(), m_course
 
 void Department::loadCourses()
 {
+	if (m_courses.empty() && !m_courseIds.empty()) {
+		for (std::vector<int>::const_iterator it = m_courseIds.begin(); it != m_courseIds.end(); ++it) {
+			m_courses.push_back(Server::getInstance().data.getCourse(*it));
+		}
+	}
 }
 
 void Department::loadCourseRequests()
 {
+	if (m_courseRequests.empty() && !m_courseRequestIds.empty()) {
+		for (std::vector<int>::const_iterator it = m_courseRequestIds.begin(); it != m_courseRequestIds.end(); ++it) {
+			m_courseRequests.push_back(Server::getInstance().data.getCourse(*it));
+		}
+	}
 }
 
 std::string Department::serialize()

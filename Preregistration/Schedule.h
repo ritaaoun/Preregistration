@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Schedulable.h"
+#include "ISchedulable.h"
 #include "TimeSlot.h"
 #include "Section.hpp"
 
 class Schedule {
 public:
-	Schedule(Schedulable* schedulable);
+	Schedule(ISchedulable* schedulable);
 	~Schedule();
 
 	void generateSchedule();
@@ -16,7 +16,7 @@ public:
 	bool containsConflict() const;
 
 private:
-	Schedulable* mSchedulable;
+	ISchedulable* mSchedulable;
 	std::vector<TimeSlot*> mTimeSlots;
 	bool mContainsConflict;
 	Schedule();

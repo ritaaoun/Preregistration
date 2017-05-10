@@ -13,6 +13,37 @@ Section::~Section()
 	}
 }
 
+void Section::loadCourse()
+{
+	if (mCourse == nullptr)
+	{
+		mCourse = Server::getInstance().data.getCourse(mCourseId);
+	}
+}
+
+void Section::loadProfessor()
+{
+	if (mProfessor == nullptr) {
+		mProfessor = static_cast<Professor *>(Server::getInstance().data.getUser(mProfId));
+	}
+}
+
+void Section::loadRoom()
+{
+	if (mRoom == nullptr) {
+		mRoom = Server::getInstance().data.getRoom(mRoomId);
+	}
+}
+
+void Section::loadStudents()
+{
+	if (mStudents.empty() && !mStudentIds.empty()) {
+		for (std::vector<int>::const_iterator it = mStudentIds.begin(); it != mStudentIds.end(); ++it) {
+			mStudents.push_back(static_cast<Student*>(Server::getInstance().data.getUser(*it)));
+		}
+	}
+}
+
 std::string Section::serialize()
 {
 	std::string result = std::to_string(getCrn()) + ClientServerInterface::DELIMITER + std::to_string(getCourseId()) +
@@ -104,6 +135,7 @@ int Section::getCapacity() const
 
 void Section::setRoom(Room * room)
 {
+	mRoomId = room->getId();
 	mRoom = room;
 }
 
@@ -114,14 +146,13 @@ int Section::getRoomId() const
 
 Room * Section::getRoom()
 {
-	if (mRoom == nullptr) {
-		mRoom = Server::getInstance().data.getRoom(mRoomId);
-	}
+	loadRoom();
 	return mRoom;
 }
 
 void Section::setProfessor(Professor * professor)
 {
+	mProfId = professor->getId();
 	mProfessor = professor;
 }
 
@@ -132,9 +163,7 @@ int Section::getProfessorId() const
 
 Professor * Section::getProfessor()
 {
-	if (mProfessor == nullptr) {
-		mProfessor = static_cast<Professor *>(Server::getInstance().data.getUser(mProfId));
-	}
+	loadProfessor();
 	return mProfessor;
 }
 
@@ -165,20 +194,13 @@ int Section::getCourseId() const
 
 Course * Section::getCourse()
 {
-	if (mCourse == nullptr)
-	{
-		mCourse = Server::getInstance().data.getCourse(mCourseId);
-	}
+	loadCourse();
 	return mCourse;
 }
 
 std::vector<Student*> Section::getStudents()
 {
-	if (mStudents.empty() && !mStudentIds.empty()) {
-		for (std::vector<int>::const_iterator it = mStudentIds.begin(); it != mStudentIds.end(); ++it) {
-			mStudents.push_back(static_cast<Student*>(Server::getInstance().data.getUser(*it)));
-		}
-	}
+	loadStudents();
 	return mStudents;
 }
 
@@ -189,6 +211,7 @@ int Section::getNumberOfStudents() const
 
 bool Section::addStudent(Student * student)
 {
+	loadStudents();
 	mStudentIds.push_back(student->getId());
 	mStudents.push_back(student);
 	return true;
@@ -196,6 +219,7 @@ bool Section::addStudent(Student * student)
 
 bool Section::removeStudent(Student * student)
 {
+	loadStudents();
 	mStudentIds.erase(std::find(mStudentIds.begin(), mStudentIds.end(), student->getId()));
 	mStudents.erase(std::find(mStudents.begin(), mStudents.end(), student));
 	return true;
@@ -204,7 +228,7 @@ bool Section::removeStudent(Student * student)
 Section::Section(int courseId, int capacity, int professorId, const std::vector<TimeSlot*>& timeSlots) :
 	mCourseId(courseId), mCourse(nullptr), mSectionNumber(Server::getInstance().data.getNewSectionNumber(courseId)),
 	mCapacity(capacity), mProfId(professorId), mProfessor(nullptr), mStatus(TENTATIVE), mRoomId(-1), mRoom(nullptr),
-	mTimeSlots(timeSlots), mConstraints(nullptr)
+	mTimeSlots(timeSlots), mConstraints(nullptr), mStudentIds(), mStudents()
 {
 	mCrn = Server::getInstance().repository->createSection(this);
 	Server::getInstance().data.addSection(this);
@@ -212,8 +236,9 @@ Section::Section(int courseId, int capacity, int professorId, const std::vector<
 
 Section::Section(int crn, int courseId, int number, int capacity, int professorId, Status status) :
 	mCrn(crn), mCourseId(courseId), mCourse(nullptr), mSectionNumber(number), mCapacity(capacity), mProfId(professorId),
-	mProfessor(nullptr), mStatus(status), mRoomId(Server::getInstance().repository->getSectionRoomId(crn)), mRoom(nullptr),
-	mTimeSlots(Server::getInstance().repository->getSectionTimeSlots(crn)),
-	mConstraints(Server::getInstance().repository->getSectionConstraint(crn))
+	mProfessor(nullptr), mStatus(status), mRoomId(Server::getInstance().repository->getSectionRoomId(crn)), mRoom(nullptr), 
+	mTimeSlots(Server::getInstance().repository->getSectionTimeSlots(crn)), 
+	mConstraints(Server::getInstance().repository->getSectionConstraint(crn)), 
+	mStudentIds(Server::getInstance().repository->getSectionStudents(this)), mStudents()
 {
 }

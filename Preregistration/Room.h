@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Schedulable.h"
+#include "ISchedulable.h"
 #include "Schedule.h"
 #include "Section.hpp"
 #include "Constraint.hpp"
@@ -43,4 +43,5 @@ private:
 	std::vector<Section*> mSections;
 	Schedule* mSchedule;
 
+	void loadSections();
 };

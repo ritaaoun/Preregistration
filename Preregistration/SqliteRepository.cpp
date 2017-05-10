@@ -3,6 +3,7 @@
 #include "Student.hpp"
 #include "ChatMessage.hpp"
 #include "Helper.hpp"
+#include "Server.hpp"
 #include <iostream>
 
 SqliteRepository & SqliteRepository::getInstance()
@@ -509,6 +510,23 @@ bool SqliteRepository::removeRoomSection(Room * room, Section * section) const
 	return execute(sql);
 }
 
+std::vector<int> SqliteRepository::getSectionStudents(const Section * section) const
+{
+	std::string sql = "SELECT USERID FROM USERSECTION WHERE SECTIONCRN = '" + std::to_string(section->getCrn()) + "'";
+	std::vector<std::vector<std::string>> results = query(sql);
+	std::vector<int> out;
+
+	for (std::vector<std::vector<std::string>>::iterator it = results.begin(); it != results.end(); ++it)
+	{
+		int userId = Helper::stringToLong((*it).at(0));
+
+		if (Server::getInstance().data.getUser(userId)->getType() == AbstractUser::STUDENT) {
+			out.push_back(userId);
+		}
+	}
+	return out;
+}
+
 std::vector<Room*> SqliteRepository::getRooms() const
 {
 	std::string sql = "SELECT * FROM ROOM";
@@ -580,7 +598,7 @@ bool SqliteRepository::deleteCourse(int id) const
 
 bool SqliteRepository::deleteCourse(const Course * course) const
 {
-	return deleteCourse(course->getID());
+	return deleteCourse(course->getId());
 }
 
 std::vector<Course*> SqliteRepository::getCourses() const
@@ -599,8 +617,9 @@ std::vector<Course*> SqliteRepository::getCourses() const
 		std::string description = row.at(4);
 		int credits = Helper::stringToLong(row.at(5));
 		Course::Status status = static_cast<Course::Status>(Helper::stringToLong(row.at(6)));
+		int professorId = Helper::stringToLong(row.at(7));
 
-		out.push_back(new Course(id, departmentId, code, name, description, credits, status));
+		out.push_back(new Course(id, departmentId, code, name, description, credits, status, professorId));
 	}
 	return out;
 }
@@ -629,7 +648,7 @@ bool SqliteRepository::updateCourse(const Course * course) const
 	std::string sql = "UPDATE COURSE SET DEPARTMENTID = '" + std::to_string(course->getDepartmentId()) + "', "
 		"CODE = '" + course->getCode() + "', NAME = '" + course->getName() + "', DESCRIPTION = '" +
 		course->getDescription() + "', CREDITS = '" + std::to_string(course->getNumberOfCredits()) +
-		"', STATUS = '" + std::to_string(course->getStatus()) + "')";
+		"', STATUS = '" + std::to_string(course->getStatus()) + "', PROFESSORID = '" + std::to_string(course->getProfessorId()) + "')";
 
 	return execute(sql);
 }

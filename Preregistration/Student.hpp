@@ -1,10 +1,10 @@
 #pragma once
 
 #include "AbstractUser.hpp"
-#include "Schedulable.h"
+#include "ISchedulable.h"
 #include <vector>
 
-class Student : public AbstractUser, public Schedulable {
+class Student : public AbstractUser, public ISchedulable {
 public:
 	Student();
 	Student(const std::string & firstName, const std::string & middleName, const std::string & lastName,
@@ -24,4 +24,6 @@ public:
 private:
 	std::vector<int> m_sectionCrns;
 	std::vector<Section *> m_sections;
+
+	void loadSections();
 };

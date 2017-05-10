@@ -44,6 +44,7 @@ public:
 	virtual bool removeProfessorSection(Professor * professor, Section * section) const override;
 	virtual bool addRoomSection(Room * room, Section * section) const override;
 	virtual bool removeRoomSection(Room * room, Section * section) const override;
+	virtual std::vector<int> getSectionStudents(const Section * section) const override;
 
 	virtual std::vector<Room*> getRooms() const override;
 	virtual int getSectionRoomId(int sectionCrn) const override;

@@ -25,11 +25,7 @@ int Room::getId() const
 
 const std::vector<Section *> Room ::getSections()
 {
-	if (mSections.empty() && !mSectionIds.empty()) {
-		for (std::vector<int>::const_iterator it = mSectionIds.begin(); it != mSectionIds.end(); ++it) {
-			mSections.push_back(Server::getInstance().data.getSection(*it));
-		}
-	}
+	loadSections();
 	return mSections;
 }
 
@@ -37,6 +33,7 @@ void Room::addSection(Section * section)
 {
 	if (section->getRoom() == nullptr)
 	{
+		loadSections();
 		mSectionIds.push_back(section->getCrn());
 		mSections.push_back(section);
 		Server::getInstance().repository->addRoomSection(this, section);
@@ -48,6 +45,7 @@ void Room::removeSection(Section * section)
 {
 	if (section->getRoom() == this)
 	{
+		loadSections();
 		mSectionIds.erase(std::remove(mSectionIds.begin(), mSectionIds.end(), section->getCrn()), mSectionIds.end());
 		mSections.erase(std::remove(mSections.begin(), mSections.end(), section), mSections.end());
 		Server::getInstance().repository->removeRoomSection(this, section);
@@ -72,6 +70,15 @@ Schedule* Room::getSchedule()
 std::string Room::serialize()
 {
 	return std::string();
+}
+
+void Room::loadSections()
+{
+	if (mSections.empty() && !mSectionIds.empty()) {
+		for (std::vector<int>::const_iterator it = mSectionIds.begin(); it != mSectionIds.end(); ++it) {
+			mSections.push_back(Server::getInstance().data.getSection(*it));
+		}
+	}
 }
 
 Constraint * Room::getConstraint() const

@@ -72,12 +72,30 @@ AbstractUser * Administrator::createUser(const std::string & firstName, const st
 	}
 }
 
-bool Administrator::decideOnCourse(Course * courseRequested, bool approveCourse) const
+bool Administrator::decideOnCourse(Course * courseRequested, bool approveCourse)
 {
 	Department * courseDepartment = courseRequested->getDepartment();
 	if (hasPrivilegeTo(courseDepartment)) {
 		courseDepartment->decideOnCourse(courseRequested, approveCourse);
-		std::cout << "Administrator::decideOnCourse: course " << courseRequested->getID() << " was decided on" << std::endl;
+
+		std::string topic = courseRequested->getFullCode();
+		std::string content = "Course " + topic + " was ";
+		if (approveCourse) {
+			content = content + "approved.";
+		}
+		else {
+			content = content + "rejected.";
+		}
+
+		content += " The course details are:\n"
+			"Id: " + std::to_string(courseRequested->getId()) + "\n"
+			"Code: " + courseRequested->getFullCode() + "\n"
+			"Name: " + courseRequested->getName() + "\n"
+			"Description: " + courseRequested->getDescription() + "\n"
+			"Credits: " + std::to_string(courseRequested->getNumberOfCredits());
+
+		sendChatMessage(courseRequested->getProfessor(), topic, content);
+		std::cout << "Administrator::decideOnCourse: course " << courseRequested->getId() << " was decided on" << std::endl;
 		return true;
 	}
 	else {

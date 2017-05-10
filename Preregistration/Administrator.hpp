@@ -21,7 +21,7 @@ public:
 	bool editUser(std::string username, const std::string & firstName, const std::string & middleName, const std::string & lastName,
 		int departmentId, const std::string & birthday);
 
-	bool decideOnCourse(Course *courseRequested, bool approveCourse) const;
+	bool decideOnCourse(Course *courseRequested, bool approveCourse);
 
 	const std::vector<Department *> getPrivileges();
 	bool hasPrivilegeTo(Department * department) const;

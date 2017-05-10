@@ -51,6 +51,7 @@ public:
 	void setBirthday(const std::string & birthday);
 
 	bool sendChatMessage(const std::string & recipient, const std::string & topic, const std::string & content);
+	bool sendChatMessage(AbstractUser * recipient, const std::string & topic, const std::string & content);
 	std::vector<AbstractMessage*> getSentMessages();
 	std::vector<AbstractMessage*> getReceivedMessages();
 
