@@ -15,9 +15,9 @@ public:
 	Course(int id, int departmentId, const std::string & courseCode, const std::string & courseName, const std::string & courseDescription, int numberOfCredits, Status status);
 
 	int getID() const;
-	std::string getCourseCode() const;
-	std::string getCourseFullCode();
-	std::string getCourseName() const;
+	std::string getCode() const;
+	std::string getFullCode();
+	std::string getName() const;
 	int getNumberOfCredits() const;
 
 	void setDescription(std::string description);
@@ -44,9 +44,9 @@ private:
 
 	int mDepartmentID;
 	Department* mDepartment;
-	std::string mCourseCode; ///< Unique Course code
+	std::string mCode; ///< Unique Course code
 
-	std::string mCourseName; ///< Unique Course name
+	std::string mName; ///< Unique Course name
 	std::string mDescription; ///< Descirption of the course
 	int mNumberOfCredits; ///< number of credits of the course
 	Status mStatus;

@@ -9,7 +9,7 @@ Course::~Course()
 
 Course::Course(int departmentId, const std::string & courseCode, const std::string & courseName, 
 	const std::string & courseDescription, int numberOfCredits, Constraint * constraints) :
-	mDepartmentID(departmentId), mDepartment(nullptr), mCourseCode(courseCode), mCourseName(courseName),
+	mDepartmentID(departmentId), mDepartment(nullptr), mCode(courseCode), mName(courseName),
 	mDescription(courseDescription), mNumberOfCredits(numberOfCredits), mStatus(PENDING), mConstraints(constraints),
 	mSectionIds(), mSections()
 {
@@ -19,7 +19,7 @@ Course::Course(int departmentId, const std::string & courseCode, const std::stri
 
 Course::Course(int id, int departmentId, const std::string & courseCode, const std::string & courseName, 
 	const std::string & courseDescription, int numberOfCredits, Status status) :
-	mId(id), mDepartmentID(departmentId), mDepartment(nullptr), mCourseCode(courseCode), mCourseName(courseName),
+	mId(id), mDepartmentID(departmentId), mDepartment(nullptr), mCode(courseCode), mName(courseName),
 	mDescription(courseDescription), mNumberOfCredits(numberOfCredits), mStatus(status),
 	mConstraints(Server::getInstance().repository->getCourseConstraints(id)),
 	mSectionIds(Server::getInstance().repository->getCourseSections(id)), mSections()
@@ -31,19 +31,19 @@ int Course::getID() const
 	return mId;
 }
 
-std::string Course::getCourseCode() const
+std::string Course::getCode() const
 {
-	return mCourseCode;
+	return mCode;
 }
 
-std::string Course::getCourseFullCode()
+std::string Course::getFullCode()
 {
-	return getDepartment()->getCode() + mCourseCode;
+	return getDepartment()->getCode() + mCode;
 }
 
-std::string Course::getCourseName() const
+std::string Course::getName() const
 {
-	return mCourseName;
+	return mName;
 }
 
 int Course::getNumberOfCredits() const

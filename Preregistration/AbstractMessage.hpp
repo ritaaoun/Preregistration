@@ -39,4 +39,5 @@ private:
 	Type m_type;
 	std::string m_topic;
 	std::string m_content;
+
 };
