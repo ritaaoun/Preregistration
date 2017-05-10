@@ -65,6 +65,7 @@ AbstractMessage::AbstractMessage(AbstractUser * sender, AbstractUser * recipient
 	m_senderId(sender->getId()), m_sender(sender), m_recipientId(recipient->getId()), m_recipient(recipient), m_type(type), m_topic(topic), m_content(content)
 {
 	m_id = Server::getInstance().repository->createMessage(this);
+	Server::getInstance().repository->createMessage(this);
 }
 
 AbstractMessage::AbstractMessage(int id, int senderId, int recipientId, Type type, const std::string & topic, const std::string & content) :

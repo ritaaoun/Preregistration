@@ -46,7 +46,8 @@ public:
 	virtual bool deleteCourse(int id) const override;
 	virtual bool deleteCourse(const Course * course) const override;
 	virtual std::vector<Course *> getCourses() const override; 
-	virtual int createCourse(const Course * course) const override;
+	virtual int createCourse(const Course * course) const override; 
+	virtual bool updateCourse(const Course * course) const override;
 	virtual Constraint * getCourseConstraints(int courseId) const override;
 	virtual std::vector<int> getCourseSections(int courseId) const override;
 

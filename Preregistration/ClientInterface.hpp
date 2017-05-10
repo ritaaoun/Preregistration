@@ -20,7 +20,7 @@ public:
 	virtual  std::string sendMessage(std::string params) override;
 	virtual  std::string getCourses(std::string params) override;
 	virtual  std::string addCourse(std::string params) override;
-	virtual  std::string deleteCourse(std::string params) override;
+	virtual  std::string decideOnCourse(std::string params) override;
 	virtual  std::string getDepartments(std::string params) override;
 
 private:

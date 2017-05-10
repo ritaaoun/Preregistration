@@ -142,6 +142,7 @@ Section::Section(int courseId, int capacity, int professorId, const std::vector<
 	mTimeSlots(timeSlots), mConstraints(nullptr)
 {
 	mCrn = Server::getInstance().repository->createSection(this);
+	Server::getInstance().data.addSection(this);
 }
 
 Section::Section(int crn, int courseId, int number, int capacity, int professorId, Status status) :

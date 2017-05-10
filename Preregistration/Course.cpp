@@ -14,6 +14,7 @@ Course::Course(int departmentId, const std::string & courseCode, const std::stri
 	mSectionIds(), mSections()
 {
 	mId = Server::getInstance().repository->createCourse(this);
+	Server::getInstance().data.addCourse(this);
 }
 
 Course::Course(int id, int departmentId, const std::string & courseCode, const std::string & courseName, 
@@ -124,10 +125,12 @@ Course::Status Course::getStatus() const
 void Course::approveCourse()
 {
 	mStatus = APPROVED;
+	Server::getInstance().repository->updateCourse(this);
 }
 
 void Course::refuseCourse()
 {
-	Server::getInstance().data.deleteCourse(this);
+	mStatus = REFUSED;
+	Server::getInstance().repository->updateCourse(this);
 }
 

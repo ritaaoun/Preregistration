@@ -9,6 +9,7 @@ Department::Department(const std::string & name, const std::string & code, const
 	m_courseRequests()
 {
 	m_id = Server::getInstance().repository->createDepartment(this);
+	Server::getInstance().data.addDepartment(this);
 }
 
 Department::Department(int id, const std::string & name, const std::string & code, const std::string & facultyCode) :
@@ -84,11 +85,11 @@ const std::vector<Course*>& Department::getCourseRequests() const
 	return m_courseRequests;
 }
 
-// TODO update database
 bool Department::requestCourse(Course * course)
 {
-	// Server::getInstance().repository->
-	m_courses.push_back(course);
+	getCourseRequests();
+	m_courseRequestIds.push_back(course->getID());
+	m_courseRequests.push_back(course);
 	return true;
 }
 
@@ -97,10 +98,18 @@ bool Department::decideOnCourse(Course * course, bool approveCourse)
 {
 	std::vector<Course*>::iterator it = std::find(m_courseRequests.begin(), m_courseRequests.end(), course);
 	if (it == m_courseRequests.end()) {
+		std::cerr << "Department::decideOnCourse: course " << course->getID() << " is not a request" << std::endl;
 		return false;
 	}
 	else {
-		m_courses.push_back(*it);
+		Course * course = *it;
+		if (approveCourse) {
+			course->approveCourse();
+		}
+		else {
+			course->refuseCourse();
+		}
+		m_courses.push_back(course);
 		m_courseRequests.erase(it);
 		return true;
 	}
