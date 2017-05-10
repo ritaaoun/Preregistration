@@ -19,14 +19,19 @@ ServerInterface::ServerInterface()
 	functionMap["getReceivedMessages"] = &ServerInterface::getReceivedMessages;
 	functionMap["sendMessage"] = &ServerInterface::sendMessage;
 	functionMap["getCourseRequests"] = &ServerInterface::getCourseRequests;
+	functionMap["getUserDepartmentCourses"] = &ServerInterface::getUserDepartmentCourses;
 	functionMap["addCourse"] = &ServerInterface::addCourse;
 	functionMap["decideOnCourse"] = &ServerInterface::decideOnCourse;
 	functionMap["getDepartments"] = &ServerInterface::getDepartments;
 	functionMap["givePrivileges"] = &ServerInterface::givePrivileges;
 	functionMap["getSections"] = &ServerInterface::getSections;
-	functionMap["getUserSections"] = &ServerInterface::getUserSections;
 	functionMap["resetPassword"] = &ServerInterface::resetPassword;
 	functionMap["changePassword"] = &ServerInterface::changePassword;
+	functionMap["getUserSections"] = &ServerInterface::getUserSections;
+	functionMap["addSection"] = &ServerInterface::addSection;
+	functionMap["editSection"] = &ServerInterface::editSection;
+	functionMap["deleteSection"] = &ServerInterface::deleteSection;
+	functionMap["getUserDepartmentSections"] = &ServerInterface::getUserDepartmentSections;
 
 }
 
@@ -319,7 +324,7 @@ std::string ServerInterface::getCourseRequests(std::string params)
 	}
 }
 
-std::string ServerInterface::getUserCourses(std::string params)
+std::string ServerInterface::getUserDepartmentCourses(std::string params)
 {
 	try
 	{
@@ -621,5 +626,84 @@ std::string ServerInterface::changePassword(std::string params)
 		std::cerr << "Error in ServerInterface::changePassword" << e.what();
 		return "false";
 	}
+}
+
+std::string ServerInterface::addSection(std::string params)
+{
+	try
+	{
+		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
+
+		std::string username = param.at(0);
+		int courseId = Helper::stringToLong(param.at(1));
+		int capacity = Helper::stringToLong(param.at(2));
+		std::string timeslots = param.at(3);
+
+		AbstractUser* user = Server::getInstance().data.getUser(username);
+		
+		if (user != nullptr)
+		{
+			if (user->getType() == AbstractUser::Type::PROFESSOR)
+			{
+				Professor * prof = (Professor*)user;
+				std::vector<TimeSlot*> actualTimeslots;
+				std::vector<std::string> slots = this->split(timeslots, ClientServerInterface::LIST_TIMESLOT_DELIMITER);
+				for (std::vector<std::string>::iterator it = slots.begin();it != slots.end();++it)
+				{
+					std::vector<std::string> tslots = this->split((*it), ClientServerInterface::TIMESLOT_DELIMITER);
+					TimeSlot * slot = new TimeSlot(static_cast<TimeSlot::Day>(Helper::stringToLong(tslots.at(0))), Helper::stringToLong(tslots.at(1)),
+						Helper::stringToLong(tslots.at(2)), Helper::stringToLong(tslots.at(3)), Helper::stringToLong(tslots.at(4)));
+					actualTimeslots.push_back(slot);
+				}
+				bool success = prof->publishSection(courseId, capacity, actualTimeslots);
+				return success ? "true" : "false";
+			}
+		}
+		return "false";
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "Error in ServerInterface::addSection" << e.what();
+		return "false";
+	}
+}
+
+std::string ServerInterface::editSection(std::string params)
+{
+	return std::string();
+}
+
+std::string ServerInterface::deleteSection(std::string params)
+{
+	try
+	{
+		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
+
+		std::string username = param.at(0);
+		int crn = Helper::stringToLong(param.at(1));
+		
+		AbstractUser* user = Server::getInstance().data.getUser(username);
+
+		if (user != nullptr)
+		{
+			if (user->getType() == AbstractUser::Type::PROFESSOR)
+			{
+				Professor * prof = (Professor*)user;							
+				bool success = prof->unpublishSection(crn);
+				return success ? "true" : "false";
+			}
+		}
+		return "false";
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "Error in ServerInterface::deleteSection" << e.what();
+		return "false";
+	}
+}
+
+std::string ServerInterface::getUserDepartmentSections(std::string params)
+{
+	return std::string();
 }
 
