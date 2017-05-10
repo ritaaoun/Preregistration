@@ -26,7 +26,10 @@ public:
 	virtual  std::string givePrivileges(std::string params) override;
 	virtual  std::string getSections(std::string params) override;
 	virtual  std::string getUserSections(std::string params) override;
+	virtual std::string resetPassword(std::string params) override;
+	virtual std::string changePassword(std::string params) override;
 
 private:
 	NetworkClient client;
+
 };

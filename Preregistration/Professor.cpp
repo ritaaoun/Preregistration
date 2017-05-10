@@ -86,7 +86,7 @@ bool Professor::editSectionCapacity(int sectionCrn, int capacity)
 		section->setCapacity(capacity);
 		Server::getInstance().repository->updateSection(section);
 		notifySectionStudents(section, "Capacity change", "The capacity of section " + std::to_string(section->getNumber()) +
-			" of " + section->getCourse()->getDepartment()->getCode() + section->getCourse()->getCourseCode() + " has changed");
+			" of " + section->getCourse()->getFullCode() + " has changed");
 		return true;
 	}
 	else {
@@ -102,7 +102,7 @@ bool Professor::editSectionTimeSlots(int sectionCrn, const std::vector<TimeSlot*
 		section->setTimeSlots(timeSlots);
 		Server::getInstance().repository->updateSectionTimeSlots(section);
 		notifySectionStudents(section, "Time slot change", "The timing of section " + std::to_string(section->getNumber()) + 
-			" of " + section->getCourse()->getDepartment()->getCode() + section->getCourse()->getCourseCode() + " has changed");
+			" of " + section->getCourse()->getFullCode() + " has changed");
 		return true;
 	}
 	else {

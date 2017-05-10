@@ -10,7 +10,7 @@ class Department;
 class Course
 {
 public:
-	enum Status {PENDING, REFUSED, APPROVED, STATUSEND};
+	enum Status { PENDING, REFUSED, APPROVED, STATUSEND };
 	Course(int departmentId, const std::string & courseCode, const std::string & courseName, const std::string & courseDescription, int numberOfCredits, Constraint * constraints);
 	Course(int id, int departmentId, const std::string & courseCode, const std::string & courseName, const std::string & courseDescription, int numberOfCredits, Status status);
 
@@ -58,4 +58,3 @@ private:
 	void loadDepartment();
 	void loadSections();
 };
-

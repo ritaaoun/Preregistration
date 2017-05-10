@@ -107,3 +107,15 @@ std::string ClientInterface::getUserSections(std::string params)
 	params = "getUserSections" + ClientServerInterface::FUNC_DELIMITER + params;
 	return client.sendData(params);
 }
+
+std::string ClientInterface::resetPassword(std::string params)
+{
+	params = "resetPassword" + ClientServerInterface::FUNC_DELIMITER + params;
+	return client.sendData(params);
+}
+
+std::string ClientInterface::changePassword(std::string params)
+{
+	params = "changePassword" + ClientServerInterface::FUNC_DELIMITER + params;
+	return client.sendData(params);
+}

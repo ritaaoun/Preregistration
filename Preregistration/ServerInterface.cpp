@@ -4,7 +4,9 @@
 #include <functional>
 #include <exception>
 #include "Professor.hpp"
-
+#include "Student.hpp"
+#include "Section.hpp"
+#include "Course.hpp"
 ServerInterface::ServerInterface()
 {
 	functionMap["login"] = &ServerInterface::login;
@@ -21,6 +23,8 @@ ServerInterface::ServerInterface()
 	functionMap["givePrivileges"] = &ServerInterface::givePrivileges;
 	functionMap["getSections"] = &ServerInterface::getSections;
 	functionMap["getUserSections"] = &ServerInterface::getUserSections;
+	functionMap["resetPassword"] = &ServerInterface::resetPassword;
+	functionMap["changePassword"] = &ServerInterface::changePassword;
 
 }
 
@@ -42,10 +46,10 @@ std::string ServerInterface::callFunction(std::string function)
 	try
 	{
 		std::vector<std::string> param = this->split(function, ClientServerInterface::FUNC_DELIMITER);
-		FnPtr p = functionMap[param[0]];
+		FnPtr p = functionMap[param.at(0)];
 		if (p != nullptr)
 		{
-			return (this->*p)(param[1]);
+			return (this->*p)(param.at(1));
 		}
 		return "false";
 	}
@@ -61,8 +65,8 @@ std::string ServerInterface::login(std::string params)
 	try {
 		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
 
-		std::string username = param[0];
-		std::string password = param[1];
+		std::string username = param.at(0);
+		std::string password = param.at(1);
 		AbstractUser* user = Server::getInstance().data.getUser(username);
 
 		if (user != nullptr && user->checkPassword(password))
@@ -128,15 +132,15 @@ std::string ServerInterface::addUser(std::string params)
 	{
 		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
 
-		std::string username = param[0];
-		std::string firstName = param[1];
-		std::string middleName = param[2];
-		std::string lastName = param[3];
-		std::string department = param[4];
-		std::string dateOfBirth = param[5];
-		std::string startYear = param[6];
-		std::string startTerm = param[7];
-		std::string userType = param[8];
+		std::string username = param.at(0);
+		std::string firstName = param.at(1);
+		std::string middleName = param.at(2);
+		std::string lastName = param.at(3);
+		std::string department = param.at(4);
+		std::string dateOfBirth = param.at(5);
+		std::string startYear = param.at(6);
+		std::string startTerm = param.at(7);
+		std::string userType = param.at(8);
 
 		AbstractUser* user = Server::getInstance().data.getUser(username);
 		if (user != nullptr)
@@ -169,15 +173,15 @@ std::string ServerInterface::editUser(std::string params)
 	{
 		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
 
-		std::string username = param[0];
-		std::string firstName = param[1];
-		std::string middleName = param[2];
-		std::string lastName = param[3];
-		std::string department = param[4];
-		std::string dateOfBirth = param[5];
-		std::string startYear = param[6];
-		std::string startTerm = param[7];
-		std::string editedUsername = param[8];
+		std::string username = param.at(0);
+		std::string firstName = param.at(1);
+		std::string middleName = param.at(2);
+		std::string lastName = param.at(3);
+		std::string department = param.at(4);
+		std::string dateOfBirth = param.at(5);
+		std::string startYear = param.at(6);
+		std::string startTerm = param.at(7);
+		std::string editedUsername = param.at(8);
 
 		AbstractUser* user = Server::getInstance().data.getUser(username);
 		if (user != nullptr)
@@ -270,12 +274,12 @@ std::string ServerInterface::sendMessage(std::string params)
 	{
 		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
 
-		std::string username = param[0];
-		std::string recipient = param[1];
-		std::string topic = param[2];
-		std::string content = param[3];
+		std::string username = param.at(0);
+		std::string recipient = param.at(1);
+		std::string topic = param.at(2);
+		std::string content = param.at(3);
 
-		AbstractUser* user = Server::getInstance().data.getUser(param[0]);
+		AbstractUser* user = Server::getInstance().data.getUser(param.at(0));
 		if (user != nullptr)
 		{
 			bool sent = user->sendChatMessage(recipient, topic, content);
@@ -307,8 +311,8 @@ std::string ServerInterface::getCourseRequests(std::string params)
 				std::string result = "";
 				for (std::vector<Course*>::iterator it = courses.begin();it != courses.end();++it)
 				{
-					result += std::to_string((*it)->getID()) + ClientServerInterface::DELIMITER + (*it)->getCourseCode() + ClientServerInterface::DELIMITER +
-						(*it)->getCourseName() + ClientServerInterface::DELIMITER + (*it)->getDescription() +
+					result += std::to_string((*it)->getID()) + ClientServerInterface::DELIMITER + (*it)->getCode() + ClientServerInterface::DELIMITER +
+						(*it)->getName() + ClientServerInterface::DELIMITER + (*it)->getDescription() +
 						ClientServerInterface::DELIMITER + std::to_string((*it)->getNumberOfCredits());
 
 					if (courses.end() != it + 1)
@@ -334,16 +338,16 @@ std::string ServerInterface::getUserCourses(std::string params)
 	{
 		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
 
-		std::string username = param[0];
-		Course::Status status = (Course::Status)Helper::stringToLong(param[1]);
+		std::string username = param.at(0);
+		Course::Status status = (Course::Status)Helper::stringToLong(param.at(1));
 
 		std::vector<Course*> courses = Server::getInstance().data.getCourses(username, status);
 
 		std::string result = "";
 		for (std::vector<Course*>::iterator it = courses.begin();it != courses.end();++it)
 		{
-			result += std::to_string((*it)->getID()) + ClientServerInterface::DELIMITER + (*it)->getCourseCode() + ClientServerInterface::DELIMITER +
-				(*it)->getCourseName() + ClientServerInterface::DELIMITER + (*it)->getDescription() +
+			result += std::to_string((*it)->getID()) + ClientServerInterface::DELIMITER + (*it)->getCode() + ClientServerInterface::DELIMITER +
+				(*it)->getName() + ClientServerInterface::DELIMITER + (*it)->getDescription() +
 				ClientServerInterface::DELIMITER + std::to_string((*it)->getNumberOfCredits());
 
 			if (courses.end() != it + 1)
@@ -366,15 +370,15 @@ std::string ServerInterface::addCourse(std::string params)
 	try {
 		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
 
-		std::string username = param[0];
-		std::string departmentId = param[1];
-		std::string courseCode = param[1];
-		std::string courseName = param[1];
-		std::string description = param[1];
-		std::string credits = param[1];
-		bool computer = Helper::stringToLong(param[1]) == 1;
-		bool speaker = Helper::stringToLong(param[1]) == 1;
-		bool accelerator = Helper::stringToLong(param[1]) == 1;
+		std::string username = param.at(0);
+		std::string departmentId = param.at(1);
+		std::string courseCode = param.at(1);
+		std::string courseName = param.at(1);
+		std::string description = param.at(1);
+		std::string credits = param.at(1);
+		bool computer = Helper::stringToLong(param.at(1)) == 1;
+		bool speaker = Helper::stringToLong(param.at(1)) == 1;
+		bool accelerator = Helper::stringToLong(param.at(1)) == 1;
 
 		AbstractUser* user = Server::getInstance().data.getUser(username);
 		if (user != nullptr)
@@ -407,9 +411,9 @@ std::string ServerInterface::decideOnCourse(std::string params)
 	{
 		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
 
-		std::string username = param[0];
-		std::string courseId = param[1];
-		std::string status = param[2];
+		std::string username = param.at(0);
+		std::string courseId = param.at(1);
+		std::string status = param.at(2);
 
 		AbstractUser* user = Server::getInstance().data.getUser(username);
 		if (user != nullptr)
@@ -472,13 +476,13 @@ std::string ServerInterface::givePrivileges(std::string params)
 	{
 		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
 
-		std::string username = param[0];
-		std::string recipient = param[1];
-		int departmentId = Helper::stringToLong(param[2]);
+		std::string username = param.at(0);
+		std::string recipient = param.at(1);
+		int departmentId = Helper::stringToLong(param.at(2));
 
 		std::string result = "";
-		AbstractUser* user = Server::getInstance().data.getUser(param[0]);
-		AbstractUser* recip = Server::getInstance().data.getUser(param[1]);
+		AbstractUser* user = Server::getInstance().data.getUser(username);
+		AbstractUser* recip = Server::getInstance().data.getUser(recipient);
 		Department* department = Server::getInstance().data.getDepartment(departmentId);
 
 		if (user != nullptr && recip != nullptr && department != nullptr)
@@ -508,6 +512,101 @@ std::string ServerInterface::getSections(std::string params)
 
 std::string ServerInterface::getUserSections(std::string params)
 {
-	return std::string();
+	try
+	{
+		AbstractUser* user = Server::getInstance().data.getUser(params);
+
+		if (user != nullptr)
+		{
+			std::vector<Section*> sections;
+			if (user->getType() == AbstractUser::Type::PROFESSOR)
+			{
+				Professor * prof = (Professor*)user;
+				sections = prof->getSections();
+			}
+			else if (user->getType() == AbstractUser::Type::STUDENT)
+			{
+				Student * student = (Student*)user;
+				sections = student->getSections();
+			}
+			std::string result = "";
+			for (std::vector<Section*>::iterator it = sections.begin();it != sections.end();++it)
+			{
+				result += std::to_string((*it)->getCrn()) + ClientServerInterface::DELIMITER + std::to_string((*it)->getCourseId()) +
+					ClientServerInterface::DELIMITER + (*it)->getCourse()->getFullCode() + ClientServerInterface::DELIMITER +
+					(*it)->getCourse()->getDescription() +
+					ClientServerInterface::DELIMITER + std::to_string((*it)->getNumber()) + ClientServerInterface::DELIMITER +
+					std::to_string((*it)->getCapacity()) + ClientServerInterface::DELIMITER + std::to_string((*it)->getNumberOfStudents()) +
+					ClientServerInterface::DELIMITER + (*it)->getProfessor()->getFullName();// +ClientServerInterface::DELIMITER
+				//	+ (*it)->getTimeSlots() + ClientServerInterface::DELIMITER;
+
+				if (sections.end() != it + 1)
+				{
+					result += ClientServerInterface::LIST_DELIMITER;
+				}
+			}
+			return result;
+		}
+
+		return "";
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "Error in ServerInterface::getCourseRequests" << e.what();
+		return "";
+	}
+}
+
+std::string ServerInterface::resetPassword(std::string params)
+{
+	try
+	{
+		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
+
+		std::string username = param.at(0);
+		std::string recipient = param.at(1);
+
+		std::string result = "";
+		AbstractUser* user = Server::getInstance().data.getUser(params);
+		if (user != nullptr)
+		{
+			if (user->getType() == AbstractUser::Type::ADMINISTRATOR)
+			{
+				Administrator * admin = (Administrator*)user;
+				admin->resetUserPassword(recipient);
+			}
+		}
+		return "false";
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "Error in ServerInterface::givePrivileges" << e.what();
+		return "false";
+	}
+}
+
+std::string ServerInterface::changePassword(std::string params)
+{
+	try
+	{
+		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
+
+		std::string username = param.at(0);
+		std::string oldPass = param.at(1);
+		std::string newPass = param.at(2);
+
+		std::string result = "";
+		AbstractUser* user = Server::getInstance().data.getUser(params);
+		if (user != nullptr)
+		{
+			user->setPassword(oldPass, newPass);
+		}
+		return "false";
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "Error in ServerInterface::givePrivileges" << e.what();
+		return "false";
+	}
 }
 

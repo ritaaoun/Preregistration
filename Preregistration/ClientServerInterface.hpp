@@ -12,6 +12,8 @@ public:
 	virtual std::string getUsers(std::string params) = 0;
 	virtual  std::string addUser(std::string params) = 0;
 	virtual  std::string editUser(std::string params) = 0;
+	virtual  std::string resetPassword(std::string params) = 0;
+	virtual  std::string changePassword(std::string params) = 0;
 
 	virtual  std::string getSentMessages(std::string params) = 0;
 	virtual  std::string getReceivedMessages(std::string params) = 0;
