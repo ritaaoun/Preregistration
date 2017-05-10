@@ -113,12 +113,12 @@ std::string ServerInterface::getUsers(std::string params)
 			}
 		}
 
-		return "false";
+		return "";
 	}
 	catch (std::exception& e)
 	{
 		std::cerr << "Error in ServerInterface::getUsers" << e.what();
-		return "false";
+		return "";
 	}
 }
 
@@ -222,7 +222,7 @@ std::string ServerInterface::getSentMessages(std::string params)
 			return result;
 		}
 
-		return "false";
+		return "";
 
 	}
 	catch (std::exception& e)
@@ -254,13 +254,13 @@ std::string ServerInterface::getReceivedMessages(std::string params)
 			return result;
 		}
 
-		return "false";
+		return "";
 
 	}
 	catch (std::exception& e)
 	{
 		std::cerr << "Error in ServerInterface::getReceivedMessages" << e.what();
-		return "false";
+		return "";
 	}
 }
 
@@ -316,14 +316,15 @@ std::string ServerInterface::getCourseRequests(std::string params)
 						result += ClientServerInterface::LIST_DELIMITER;
 					}
 				}
+				return result;
 			}
 		}
-		return "false";
+		return "";
 	}
 	catch (std::exception& e)
 	{
 		std::cerr << "Error in ServerInterface::getCourseRequests" << e.what();
-		return "false";
+		return "";
 	}
 }
 
@@ -356,7 +357,7 @@ std::string ServerInterface::getUserCourses(std::string params)
 	catch (std::exception& e)
 	{
 		std::cerr << "Error in ServerInterface::getUserCourses" << e.what();
-		return "false";
+		return "";
 	}
 }
 
@@ -456,7 +457,7 @@ std::string ServerInterface::getDepartments(std::string params)
 				return result;
 			}
 		}
-		return "false";
+		return "";
 	}
 	catch (std::exception& e)
 	{
