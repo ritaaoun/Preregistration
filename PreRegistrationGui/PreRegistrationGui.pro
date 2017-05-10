@@ -19,7 +19,8 @@ SOURCES += main.cpp \
     NetworkClient.cpp \
     ClientInterface.cpp \
     userinfo.cpp \
-    dialogmessage.cpp
+    dialogmessage.cpp \
+    message.cpp
 
 HEADERS += \
     loginwindow.h \
@@ -36,7 +37,8 @@ HEADERS += \
     NetworkClient.hpp \
     ClientInterface.hpp \
     userinfo.h \
-    dialogmessage.h
+    dialogmessage.h \
+    message.h
 
 FORMS += \
     loginwindow.ui \

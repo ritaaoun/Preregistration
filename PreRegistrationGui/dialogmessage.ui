@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>831</width>
-    <height>439</height>
+    <height>666</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,7 +36,7 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QTableWidget" name="tableWidget">
+  <widget class="QTableWidget" name="tableMessages">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -69,17 +69,17 @@
   <widget class="QPushButton" name="pbSend">
    <property name="geometry">
     <rect>
-     <x>700</x>
-     <y>340</y>
-     <width>93</width>
-     <height>28</height>
+     <x>10</x>
+     <y>570</y>
+     <width>121</width>
+     <height>51</height>
     </rect>
    </property>
    <property name="text">
     <string>Send</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -101,7 +101,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>170</x>
@@ -114,12 +114,47 @@
     <item>
      <widget class="QLabel" name="label_3">
       <property name="text">
+       <string>Subject</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="leSubject"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QPushButton" name="pbRefresh">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>570</y>
+     <width>131</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Refresh Messages</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>390</y>
+     <width>661</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <widget class="QLabel" name="label_4">
+      <property name="text">
        <string>Message</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="leMessage"/>
+     <widget class="QTextEdit" name="teMessage"/>
     </item>
    </layout>
   </widget>

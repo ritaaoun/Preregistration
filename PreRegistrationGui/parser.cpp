@@ -18,6 +18,12 @@ std::vector<std::string> Parser::getStdVector(std::vector<QString> qStringVector
 
     return stringVector;
 }
+
+std::string Parser::sendActiveUser()
+{
+    return User::getUser()->getUsername().toStdString();
+}
+
 std::string Parser::sendCredentials(std::string username, std::string password)
 {
     std::string result;
@@ -114,4 +120,39 @@ std::vector<UserInfo> Parser::getAdminUserInfo(std::string message)
     }
 
     return userInfo;
+}
+
+std::vector<Message> Parser::getUserMessages(std::string message)
+{
+    std::vector<std::string> messageVector = ClientInterface::split(message, ClientInterface::LIST_DELIMITER);
+
+    std::vector<Message> userMessages;
+
+    for(int i = 0; i < messageVector.size(); i++)
+    {
+        std::vector<std::string> object = ClientInterface::split(messageVector[i], ClientInterface::DELIMITER);
+
+        Message message;
+
+        message.setFrom(object[0]);
+        message.setTo(object[1]);
+        message.setSubject(object[2]);
+        message.setMessage(object[3]);
+
+        userMessages.push_back(message);
+    }
+
+    return userMessages;
+}
+
+std::string Parser::sendMessage(Message message)
+{
+    std::string result;
+
+    result = message.getFromStdString()
+            + ClientInterface::DELIMITER + message.getToStdString()
+            + ClientInterface::DELIMITER + message.getSubjectStdString()
+            + ClientInterface::DELIMITER + message.getMessageStdString();
+
+    return result;
 }
