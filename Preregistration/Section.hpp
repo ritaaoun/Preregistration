@@ -43,7 +43,9 @@ public:
 	int getCourseId() const;
 	Course * getCourse();
 
-	
+	std::vector<Student *> getStudents();
+	bool addStudent(Student * student);
+	bool removeStudent(Student * student);
 
 	Section(int courseId, int capacity, int professorId, const std::vector < TimeSlot *> & timeSlots);
 	Section(int crn, int courseId, int number, int capacity, int professorId, Status status);

@@ -28,6 +28,7 @@ public:
 	std::vector<Course *> getCourses(const std::string & username, Course::Status status) const;
 
 	bool addSection(Section * section);
+	bool deleteSection(Section * section);
 	Section * getSection(int crn) const;
 
 	Room * getRoom(int id) const;
