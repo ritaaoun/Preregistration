@@ -1,6 +1,6 @@
 #include "Schedule.h"
 
-Schedule::Schedule(Schedulable * schedulable) :
+Schedule::Schedule(ISchedulable * schedulable) :
 	mSchedulable(schedulable), mContainsConflict(false), mTimeSlots()
 {
 }

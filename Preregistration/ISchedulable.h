@@ -3,7 +3,7 @@
 
 class Section;
 
-class Schedulable 
+class ISchedulable 
 {
 public:
 	virtual const std::vector<Section *> getSections() = 0;

@@ -136,7 +136,7 @@
     <ClInclude Include="Inbox.hpp" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="RoomManager.h" />
-    <ClInclude Include="Schedulable.h" />
+    <ClInclude Include="ISchedulable.h" />
     <ClInclude Include="Schedule.h" />
     <ClInclude Include="Section.hpp" />
     <ClInclude Include="Server.hpp" />

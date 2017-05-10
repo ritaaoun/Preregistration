@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Schedulable.h"
+#include "ISchedulable.h"
 #include "Schedule.h"
 #include "Section.hpp"
 #include "Constraint.hpp"
 #include <vector>
 
-class Room : public Schedulable
+class Room : public ISchedulable
 {
 public:
 	Room(int id, const std::string & buildingCode, int roomNumber, int capacity);

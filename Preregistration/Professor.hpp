@@ -1,13 +1,13 @@
 #pragma once
 
 #include "AbstractUser.hpp"
-#include "Schedulable.h"
+#include "ISchedulable.h"
 #include "Schedule.h"
 #include "Course.hpp"
 #include "Section.hpp"
 #include <vector>
 
-class Professor : public AbstractUser, public Schedulable {
+class Professor : public AbstractUser, public ISchedulable {
 public:
 	Professor();
 	Professor(const std::string & firstName, const std::string & middleName, const std::string & lastName,
