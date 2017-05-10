@@ -45,7 +45,8 @@ const std::vector<Section*> Professor::getSections()
 	return m_sections;
 }
 
-bool Professor::requestCourse(int departmentId, const std::string & courseCode, const std::string & courseName, const std::string & courseDescription, int numberOfCredits, Constraint * constraints) const
+bool Professor::requestCourse(int departmentId, const std::string & courseCode, const std::string & courseName, 
+	const std::string & courseDescription, int numberOfCredits, Constraint * constraints) const
 {
 	std::vector<Course *> coursesInDepartment = Server::getInstance().data.getDepartment(departmentId)->getCourses();
 	for (std::vector<Course *>::const_iterator it = coursesInDepartment.begin(); it != coursesInDepartment.end(); ++it) {
