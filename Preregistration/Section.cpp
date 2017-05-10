@@ -156,6 +156,11 @@ std::vector<Student*> Section::getStudents()
 	return mStudents;
 }
 
+int Section::getNumberOfStudents() const
+{
+	return mStudentIds.size();
+}
+
 bool Section::addStudent(Student * student)
 {
 	mStudentIds.push_back(student->getId());

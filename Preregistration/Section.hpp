@@ -44,6 +44,7 @@ public:
 	Course * getCourse();
 
 	std::vector<Student *> getStudents();
+	int getNumberOfStudents() const;
 	bool addStudent(Student * student);
 	bool removeStudent(Student * student);
 
