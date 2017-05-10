@@ -21,7 +21,7 @@ std::string AbstractUser::getPassword() const
 {
 	return m_password;
 }
- 
+
 bool AbstractUser::setPassword(const std::string & oldPassword, const std::string & password)
 {
 	if (oldPassword == m_password) {
@@ -177,14 +177,14 @@ bool AbstractUser::updateReceivedMessages(AbstractMessage * message)
 }
 
 AbstractUser::AbstractUser() : m_id(), m_username(), m_password(), m_firstName(), m_middleName(), m_lastName(),
-	m_startYear(0), m_startTerm(Term::TERM_END), m_type(TYPE_END), m_department(nullptr), m_birthday(), m_inbox()
+m_startYear(0), m_startTerm(Term::TERM_END), m_type(TYPE_END), m_department(nullptr), m_birthday(), m_inbox()
 {
 }
 
 AbstractUser::AbstractUser(const std::string & firstName, const std::string & middleName, const std::string & lastName,
 	int startYear, Term::Term startTerm, Type userType, int departmentId, const std::string & birthday) :
 	m_id(Server::getInstance().data.getNewUserId(startYear)), m_password(birthday), m_firstName(firstName),
-	m_middleName(middleName), m_lastName(lastName), m_startYear(startYear),	m_startTerm(startTerm), m_type(userType), 
+	m_middleName(middleName), m_lastName(lastName), m_startYear(startYear), m_startTerm(startTerm), m_type(userType),
 	m_departmentId(departmentId), m_department(nullptr), m_birthday(birthday), m_inbox()
 {
 	std::string username;
@@ -239,4 +239,14 @@ AbstractUser & AbstractUser::operator=(const AbstractUser & rhs)
 void AbstractUser::loadDepartment()
 {
 	m_department = Server::getInstance().data.getDepartment(m_departmentId);
+}
+
+std::string AbstractUser::serialize()
+{
+	return getUsername() + ClientServerInterface::DELIMITER + std::to_string(getId()) + 
+		ClientServerInterface::DELIMITER + getFirstName() + ClientServerInterface::DELIMITER + 
+		getMiddleName() + ClientServerInterface::DELIMITER + getLastName() + ClientServerInterface::DELIMITER +
+		std::to_string(getDepartmentId()) + ClientServerInterface::DELIMITER + getBirthday() +
+		ClientServerInterface::DELIMITER + std::to_string(getStartYear()) + ClientServerInterface::DELIMITER +
+		std::to_string(getStartTerm()) + ClientServerInterface::DELIMITER + std::to_string(getType());
 }

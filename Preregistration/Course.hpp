@@ -4,10 +4,11 @@
 #include <algorithm>
 #include "Section.hpp"
 #include "Constraint.hpp"
+#include "ISerializable.hpp"
 
 class Department;
 
-class Course
+class Course : public ISerializable
 {
 public:
 	enum Status { PENDING, REFUSED, APPROVED, STATUSEND };
@@ -36,6 +37,9 @@ public:
 	Status getStatus() const;
 	void approveCourse();
 	void refuseCourse();
+
+	// Inherited via ISerializable
+	virtual std::string serialize() override;
 
 	int getProfessorId() const;
 	Professor * getProfessor();

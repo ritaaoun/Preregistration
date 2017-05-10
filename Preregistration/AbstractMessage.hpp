@@ -1,9 +1,9 @@
 #pragma once
 #include <string>
-
+#include "ISerializable.hpp"
 class AbstractUser;
 
-class AbstractMessage {
+class AbstractMessage : public ISerializable{
 public:
 	enum Type { CHAT, CAPACITYREQUEST, SECTIONREQUEST, ENROLLMENTREQUEST, TYPE_END };
 
@@ -20,6 +20,9 @@ public:
 	void setContent(const std::string & content);
 
 	Type getType() const;
+
+	// Inherited via ISerializable
+	virtual std::string serialize() override;
 
 	virtual ~AbstractMessage();
 
@@ -42,4 +45,5 @@ private:
 
 	void loadSender();
 	void loadRecipient();
+
 };

@@ -7,6 +7,8 @@
 #include "Student.hpp"
 #include "Section.hpp"
 #include "Course.hpp"
+#include<iostream>
+
 ServerInterface::ServerInterface()
 {
 	functionMap["login"] = &ServerInterface::login;
@@ -71,11 +73,7 @@ std::string ServerInterface::login(std::string params)
 
 		if (user != nullptr && user->checkPassword(password))
 		{
-			std::string userInfo = user->getUsername() + ClientServerInterface::DELIMITER + std::to_string(user->getId()) +
-				ClientServerInterface::DELIMITER + user->getFirstName() + ClientServerInterface::DELIMITER + user->getMiddleName() +
-				ClientServerInterface::DELIMITER + user->getLastName() + ClientServerInterface::DELIMITER +
-				std::to_string(user->getType());
-			return userInfo;
+			return user->serialize();
 		}
 
 		return "false";
@@ -102,12 +100,7 @@ std::string ServerInterface::getUsers(std::string params)
 				std::string result = "";
 				for (std::vector<AbstractUser*>::iterator it = users.begin();it != users.end();++it)
 				{
-					result += (*it)->getUsername() + ClientServerInterface::DELIMITER + (*it)->getFirstName() +
-						ClientServerInterface::DELIMITER + (*it)->getMiddleName() + ClientServerInterface::DELIMITER +
-						(*it)->getLastName() + ClientServerInterface::DELIMITER +
-						std::to_string((*it)->getDepartmentId()) + ClientServerInterface::DELIMITER + (*it)->getBirthday() +
-						ClientServerInterface::DELIMITER + std::to_string((*it)->getStartYear()) + ClientServerInterface::DELIMITER +
-						std::to_string((*it)->getStartTerm()) + ClientServerInterface::DELIMITER + std::to_string((*it)->getType());
+					result += (*it)->serialize();
 					if (users.end() != it + 1)
 					{
 						result += ClientServerInterface::LIST_DELIMITER;
@@ -215,9 +208,7 @@ std::string ServerInterface::getSentMessages(std::string params)
 			std::string result = "";
 			for (std::vector<AbstractMessage*>::iterator it = msgs.begin();it != msgs.end();++it)
 			{
-				result += (*it)->getSender()->getUsername() + ClientServerInterface::DELIMITER + (*it)->getRecipient()->getUsername() +
-					ClientServerInterface::DELIMITER + (*it)->getTopic() + ClientServerInterface::DELIMITER + (*it)->getContent() +
-					ClientServerInterface::DELIMITER + std::to_string((*it)->getType());
+				result += (*it)->serialize();
 				if (msgs.end() != it + 1)
 				{
 					result += ClientServerInterface::LIST_DELIMITER;
@@ -247,9 +238,7 @@ std::string ServerInterface::getReceivedMessages(std::string params)
 			std::string result = "";
 			for (std::vector<AbstractMessage*>::iterator it = msgs.begin();it != msgs.end();++it)
 			{
-				result += (*it)->getSender()->getUsername() + ClientServerInterface::DELIMITER + (*it)->getRecipient()->getUsername() +
-					ClientServerInterface::DELIMITER + (*it)->getTopic() + ClientServerInterface::DELIMITER + (*it)->getContent() +
-					ClientServerInterface::DELIMITER + std::to_string((*it)->getType());
+				result += (*it)->serialize();
 				if (msgs.end() != it + 1)
 				{
 					result += ClientServerInterface::LIST_DELIMITER;
@@ -311,9 +300,7 @@ std::string ServerInterface::getCourseRequests(std::string params)
 				std::string result = "";
 				for (std::vector<Course*>::iterator it = courses.begin();it != courses.end();++it)
 				{
-					result += std::to_string((*it)->getId()) + ClientServerInterface::DELIMITER + (*it)->getCode() + ClientServerInterface::DELIMITER +
-						(*it)->getName() + ClientServerInterface::DELIMITER + (*it)->getDescription() +
-						ClientServerInterface::DELIMITER + std::to_string((*it)->getNumberOfCredits());
+					result += (*it)->serialize();
 
 					if (courses.end() != it + 1)
 					{
@@ -339,16 +326,17 @@ std::string ServerInterface::getUserCourses(std::string params)
 		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
 
 		std::string username = param.at(0);
+
+		AbstractUser* user = Server::getInstance().data.getUser(username);
+
 		Course::Status status = (Course::Status)Helper::stringToLong(param.at(1));
 
-		std::vector<Course*> courses = Server::getInstance().data.getCourses(username, status);
+		std::vector<Course*> courses = user->getDepartment()->getCourses();
 
 		std::string result = "";
 		for (std::vector<Course*>::iterator it = courses.begin();it != courses.end();++it)
 		{
-			result += std::to_string((*it)->getId()) + ClientServerInterface::DELIMITER + (*it)->getCode() + ClientServerInterface::DELIMITER +
-				(*it)->getName() + ClientServerInterface::DELIMITER + (*it)->getDescription() +
-				ClientServerInterface::DELIMITER + std::to_string((*it)->getNumberOfCredits());
+			result += (*it)->serialize();
 
 			if (courses.end() != it + 1)
 			{
@@ -452,7 +440,7 @@ std::string ServerInterface::getDepartments(std::string params)
 				std::vector<Department*> deps = admin->getPrivileges();
 				for (std::vector<Department*>::iterator it = deps.begin();it != deps.end();++it)
 				{
-					result += std::to_string((*it)->getId()) + ClientServerInterface::DELIMITER + (*it)->getName();
+					result += (*it)->serialize();
 					if (deps.end() != it + 1)
 					{
 						result += ClientServerInterface::LIST_DELIMITER;
@@ -507,7 +495,36 @@ std::string ServerInterface::givePrivileges(std::string params)
 
 std::string ServerInterface::getSections(std::string params)
 {
-	return std::string();
+	try
+	{
+		std::vector<Section*> sections;
+		std::vector<Course*> courses = Server::getInstance().data.getCourses(Course::Status::APPROVED);
+		for (std::vector<Course*>::iterator it = courses.begin();it != courses.end();++it)
+		{
+			sections.insert((*it)->getSections().end(), (*it)->getSections().begin(), (*it)->getSections().end());
+		}
+
+
+		std::string result = "";
+		for (std::vector<Section*>::iterator it = sections.begin();it != sections.end();++it)
+		{
+			result += (*it)->serialize();
+
+			if (sections.end() != it + 1)
+			{
+				result += ClientServerInterface::LIST_DELIMITER;
+			}
+
+			return result;
+		}
+
+		return "";
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "Error in ServerInterface::getSections" << e.what();
+		return "";
+	}
 }
 
 std::string ServerInterface::getUserSections(std::string params)
@@ -532,13 +549,7 @@ std::string ServerInterface::getUserSections(std::string params)
 			std::string result = "";
 			for (std::vector<Section*>::iterator it = sections.begin();it != sections.end();++it)
 			{
-				result += std::to_string((*it)->getCrn()) + ClientServerInterface::DELIMITER + std::to_string((*it)->getCourseId()) +
-					ClientServerInterface::DELIMITER + (*it)->getCourse()->getFullCode() + ClientServerInterface::DELIMITER +
-					(*it)->getCourse()->getDescription() +
-					ClientServerInterface::DELIMITER + std::to_string((*it)->getNumber()) + ClientServerInterface::DELIMITER +
-					std::to_string((*it)->getCapacity()) + ClientServerInterface::DELIMITER + std::to_string((*it)->getNumberOfStudents()) +
-					ClientServerInterface::DELIMITER + (*it)->getProfessor()->getFullName();// +ClientServerInterface::DELIMITER
-				//	+ (*it)->getTimeSlots() + ClientServerInterface::DELIMITER;
+				result += (*it)->serialize();
 
 				if (sections.end() != it + 1)
 				{
@@ -552,7 +563,7 @@ std::string ServerInterface::getUserSections(std::string params)
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << "Error in ServerInterface::getCourseRequests" << e.what();
+		std::cerr << "Error in ServerInterface::getUserSections" << e.what();
 		return "";
 	}
 }
@@ -581,7 +592,7 @@ std::string ServerInterface::resetPassword(std::string params)
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << "Error in ServerInterface::givePrivileges" << e.what();
+		std::cerr << "Error in ServerInterface::resetPassword" << e.what();
 		return "false";
 	}
 }
@@ -607,7 +618,7 @@ std::string ServerInterface::changePassword(std::string params)
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << "Error in ServerInterface::givePrivileges" << e.what();
+		std::cerr << "Error in ServerInterface::changePassword" << e.what();
 		return "false";
 	}
 }

@@ -1,6 +1,7 @@
 #pragma once
-
-class TimeSlot
+#include <string>
+#include "ISerializable.hpp"
+class TimeSlot : public ISerializable
 {
 
 public:
@@ -17,12 +18,19 @@ public:
 	unsigned int getEndHour();
 	unsigned int getEndMinutes();
 
+	std::string getTimeString();
+	std::string getDayString();
+	
+	// Inherited via ISerializable
+	virtual std::string serialize() override;
+
 private:
 	Day mDay;
 	unsigned int mStartHour;
 	unsigned int mStartMinutes;
 	unsigned int mEndHour;
 	unsigned int mEndMinutes;
+
 };
 
 

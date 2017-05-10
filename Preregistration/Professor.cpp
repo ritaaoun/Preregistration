@@ -1,6 +1,8 @@
 #include "Professor.hpp"
 #include "Server.hpp"
 #include "Student.hpp"
+#include <iostream>
+
 
 Professor::Professor() : AbstractUser(), m_sections()
 {

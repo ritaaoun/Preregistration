@@ -1,6 +1,7 @@
 #include "Course.hpp"
 #include "Server.hpp"
 #include "Professor.hpp"
+#include <iostream>
 
 Course::~Course()
 {
@@ -30,6 +31,13 @@ void Course::loadProfessor()
 		mProfessor = static_cast<Professor*>(Server::getInstance().data.getUser(mProfessorId));
 	}
 }
+std::string Course::serialize()
+{
+	return std::to_string(getId()) + ClientServerInterface::DELIMITER + getFullCode() + ClientServerInterface::DELIMITER +
+		getName() + ClientServerInterface::DELIMITER + getDescription() +
+		ClientServerInterface::DELIMITER + std::to_string(getNumberOfCredits());
+}
+
 
 
 Course::Course(int departmentId, const std::string & courseCode, const std::string & courseName, 

@@ -44,6 +44,32 @@ void Section::loadStudents()
 	}
 }
 
+std::string Section::serialize()
+{
+	std::string result = std::to_string(getCrn()) + ClientServerInterface::DELIMITER + std::to_string(getCourseId()) +
+		ClientServerInterface::DELIMITER + getCourse()->getFullCode() + ClientServerInterface::DELIMITER +
+		getCourse()->getDescription() + ClientServerInterface::DELIMITER + std::to_string(getNumber()) +
+		ClientServerInterface::DELIMITER + std::to_string(getCapacity()) + ClientServerInterface::DELIMITER +
+		std::to_string(getNumberOfStudents()) + ClientServerInterface::DELIMITER + getProfessor()->getFullName();
+
+	std::vector<TimeSlot*> slots = getTimeSlots();
+
+	if (slots.size() > 0)
+	{
+		result += ClientServerInterface::DELIMITER;
+		for (std::vector<TimeSlot*>::iterator it = slots.begin();it != slots.end();++it)
+		{
+			result += (*it)->serialize();
+			if (slots.end() != it + 1)
+			{
+				result += ClientServerInterface::LIST_TIMESLOT_DELIMITER;
+			}
+		}
+	}
+
+	return result;
+}
+
 int Section::getCrn() const
 {
 	return mCrn;
@@ -180,7 +206,7 @@ std::vector<Student*> Section::getStudents()
 
 int Section::getNumberOfStudents() const
 {
-	return mStudentIds.size();
+	return (int)mStudentIds.size();
 }
 
 bool Section::addStudent(Student * student)

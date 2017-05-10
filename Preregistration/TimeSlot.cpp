@@ -38,3 +38,28 @@ unsigned int TimeSlot::getEndMinutes()
 {
 	return mEndMinutes;
 }
+
+std::string TimeSlot::getTimeString()
+{
+	return std::to_string(mStartHour) + ":" + std::to_string(mStartMinutes) + " - " + std::to_string(mEndHour) + ":" + std::to_string(mEndMinutes);
+}
+
+std::string  TimeSlot::getDayString()
+{
+	switch (mDay)
+	{
+	case SUNDAY: return "Su"; break;
+	case MONDAY: return "M"; break;
+	case TUESDAY: return "T"; break;
+	case WEDNESDAY: return "W"; break;
+	case THURSDAY: return "R"; break;
+	case FRIDAY: return "F"; break;
+	case SATURDAY: return "Sa"; break;
+	default: return " ";
+	}
+}
+
+std::string TimeSlot::serialize()
+{
+	return getDayString() + ClientServerInterface::TIMESLOT_DELIMITER + getTimeString();
+}

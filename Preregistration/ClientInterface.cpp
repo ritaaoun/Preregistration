@@ -1,4 +1,5 @@
 #include "ClientInterface.hpp"
+#include <iostream>
 
 ClientInterface::ClientInterface() : client()
 {

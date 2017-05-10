@@ -1,5 +1,6 @@
 #include "Server.hpp"
 #include <fstream>
+#include <iostream>
 
 int main()
 {

@@ -67,6 +67,11 @@ Schedule* Room::getSchedule()
 	return mSchedule;
 }
 
+std::string Room::serialize()
+{
+	return std::string();
+}
+
 void Room::loadSections()
 {
 	if (mSections.empty() && !mSectionIds.empty()) {

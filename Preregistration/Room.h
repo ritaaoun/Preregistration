@@ -5,8 +5,9 @@
 #include "Section.hpp"
 #include "Constraint.hpp"
 #include <vector>
+#include "ISerializable.hpp"
 
-class Room : public ISchedulable
+class Room : public ISchedulable, public ISerializable
 {
 public:
 	Room(int id, const std::string & buildingCode, int roomNumber, int capacity);
@@ -27,6 +28,9 @@ public:
 	void setCapacity(int capacity);
 
 	Schedule * getSchedule();
+
+	// Inherited via ISerializable
+	virtual std::string serialize() override;
 
 private:
 	int mId;
