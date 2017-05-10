@@ -47,6 +47,20 @@ const std::vector<Section*> Professor::getSections()
 
 bool Professor::requestCourse(int departmentId, const std::string & courseCode, const std::string & courseName, const std::string & courseDescription, int numberOfCredits, Constraint * constraints) const
 {
+	std::vector<Course *> coursesInDepartment = Server::getInstance().data.getDepartment(departmentId)->getCourses();
+	for (std::vector<Course *>::const_iterator it = coursesInDepartment.begin(); it != coursesInDepartment.end(); ++it) {
+		if ((*it)->getCode() == courseCode) {
+			return false;
+		}
+	}
+
+	std::vector<Course *> courseRequestsInDepartment = Server::getInstance().data.getDepartment(departmentId)->getCourseRequests();
+	for (std::vector<Course *>::const_iterator it = courseRequestsInDepartment.begin(); it != courseRequestsInDepartment.end(); ++it) {
+		if ((*it)->getCode() == courseCode) {
+			return false;
+		}
+	}
+
 	Course * course = new Course(departmentId, courseCode, courseName, courseDescription, numberOfCredits, constraints, getId());
 	return course->getDepartment()->requestCourse(course);
 }
