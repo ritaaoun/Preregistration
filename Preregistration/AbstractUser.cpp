@@ -22,10 +22,12 @@ std::string AbstractUser::getPassword() const
 	return m_password;
 }
  
-void AbstractUser::setPassword(const std::string & password)
+void AbstractUser::setPassword(const std::string & oldPassword, const std::string & password)
 {
-	m_password = password;
-	Server::getInstance().repository->updateUser(this);
+	if (oldPassword == m_password) {
+		m_password = password;
+		Server::getInstance().repository->updateUser(this);
+	}
 }
 
 void AbstractUser::resetPassword()

@@ -20,7 +20,7 @@ public:
 
 	bool checkPassword(const std::string & password) const;
 	std::string getPassword() const;
-	void setPassword(const std::string & password);
+	void setPassword(const std::string & oldPassword, const std::string & password);
 	void resetPassword();
 	
 	std::string getFirstName() const;

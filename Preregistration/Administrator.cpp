@@ -148,6 +148,20 @@ std::vector<Course*> Administrator::getCourseRequests()
 	return out;
 }
 
+bool Administrator::resetUserPassword(const std::string & username)
+{
+	AbstractUser * user = Server::getInstance().data.getUser(username);
+	if (std::find(m_privilegeIds.begin(), m_privilegeIds.end(), user->getDepartmentId()) != m_privilegeIds.end()) {
+		user->resetPassword();
+		std::cout << "Administrator::resetUserPassword: password of " << user->getId() << " was reset" << std::endl;
+		return true;
+	}
+	else {
+		std::cerr << "Administrator::resetUserPassword: The administrator " << getId() << " does not have privilege over user " << getId() << std::endl;
+		return false;
+	}
+}
+
 bool Administrator::editUser(std::string username, const std::string & firstName, const std::string & middleName, const std::string & lastName, int departmentId, const std::string & birthday)
 {
 	AbstractUser * user = Server::getInstance().data.getUser(username);

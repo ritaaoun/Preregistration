@@ -30,9 +30,9 @@ public:
 	std::vector<AbstractUser*> getUsers();
 	std::vector<Course *> getCourseRequests();
 
+	bool resetUserPassword(const std::string & username);
+
 private:
 	std::vector<int> m_privilegeIds;
 	std::vector<Department *> m_privileges; ///< vector of departments the Administrator has privileges in
-
-	std::vector<AbstractUser *> m_users;
 };
