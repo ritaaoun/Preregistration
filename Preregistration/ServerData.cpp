@@ -61,7 +61,7 @@ bool ServerData::addUser(AbstractUser * user)
 	return true;
 }
 
-AbstractUser * ServerData::getUser(std::string username) const
+AbstractUser * ServerData::getUser(const std::string & username) const
 {
 	std::unordered_map<std::string, AbstractUser*>::const_iterator it = m_usersByUsername.find(username);
 	if (it != m_usersByUsername.end())
@@ -138,7 +138,19 @@ std::vector<Course*> ServerData::getCourses(Course::Status status) const
 {
 	std::vector<Course *> out;
 	for (std::unordered_map<int, Course*>::const_iterator it = m_courses.begin(); it != m_courses.end(); ++it) {
-		if (it->second->getStatus() == status || it->second->getDepartment() ) {
+		if (it->second->getStatus() == status) {
+			out.push_back(it->second);
+		}
+	}
+	return out;
+}
+
+std::vector<Course*> ServerData::getCourses(const std::string & username, Course::Status status) const
+{
+	AbstractUser *user = getUser(username);
+	std::vector<Course *> out;
+	for (std::unordered_map<int, Course*>::const_iterator it = m_courses.begin(); it != m_courses.end(); ++it) {
+		if (it->second->getDepartmentId() == user->getDepartmentId() && it->second->getStatus() == status) {
 			out.push_back(it->second);
 		}
 	}

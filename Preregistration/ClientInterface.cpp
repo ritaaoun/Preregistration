@@ -60,7 +60,7 @@ std::string ClientInterface::sendMessage(std::string params)
 	return client.sendData(params);
 }
 
-std::string ClientInterface::getCourses(std::string params)
+std::string ClientInterface::getCourseRequests(std::string params)
 {
 	params = "getCourses" + ClientServerInterface::FUNC_DELIMITER + params;
 	return client.sendData(params);

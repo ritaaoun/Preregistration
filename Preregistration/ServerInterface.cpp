@@ -14,10 +14,13 @@ ServerInterface::ServerInterface()
 	functionMap["getSentMessages"] = &ServerInterface::getSentMessages;
 	functionMap["getReceivedMessages"] = &ServerInterface::getReceivedMessages;
 	functionMap["sendMessage"] = &ServerInterface::sendMessage;
-	functionMap["getCourses"] = &ServerInterface::getCourses;
+	functionMap["getCourseRequests"] = &ServerInterface::getCourseRequests;
 	functionMap["addCourse"] = &ServerInterface::addCourse;
 	functionMap["decideOnCourse"] = &ServerInterface::decideOnCourse;
 	functionMap["getDepartments"] = &ServerInterface::getDepartments;
+	functionMap["givePrivileges"] = &ServerInterface::givePrivileges;
+	functionMap["getSections"] = &ServerInterface::getSections;
+	functionMap["getUserSections"] = &ServerInterface::getUserSections;
 
 }
 
@@ -83,33 +86,40 @@ std::string ServerInterface::login(std::string params)
 
 std::string ServerInterface::getUsers(std::string params)
 {
-	std::string username = params;
-	AbstractUser* user = Server::getInstance().data.getUser(username);
-	if (user != nullptr)
-	{
-		if (user->getType() == AbstractUser::Type::ADMINISTRATOR)
+	try {
+		std::string username = params;
+		AbstractUser* user = Server::getInstance().data.getUser(username);
+		if (user != nullptr)
 		{
-			Administrator * admin = (Administrator*)user;
-			std::vector<AbstractUser*> users = admin->getUsers();
-			std::string result = "";
-			for (std::vector<AbstractUser*>::iterator it = users.begin();it != users.end();++it)
+			if (user->getType() == AbstractUser::Type::ADMINISTRATOR)
 			{
-				result += (*it)->getUsername() + ClientServerInterface::DELIMITER + (*it)->getFirstName() +
-					ClientServerInterface::DELIMITER + (*it)->getMiddleName() + ClientServerInterface::DELIMITER +
-					(*it)->getLastName() + ClientServerInterface::DELIMITER +
-					std::to_string((*it)->getDepartmentId()) + ClientServerInterface::DELIMITER + (*it)->getBirthday() +
-					ClientServerInterface::DELIMITER + std::to_string((*it)->getStartYear()) + ClientServerInterface::DELIMITER +
-					std::to_string((*it)->getStartTerm()) + ClientServerInterface::DELIMITER + std::to_string((*it)->getType());
-				if (users.end() != it + 1)
+				Administrator * admin = (Administrator*)user;
+				std::vector<AbstractUser*> users = admin->getUsers();
+				std::string result = "";
+				for (std::vector<AbstractUser*>::iterator it = users.begin();it != users.end();++it)
 				{
-					result += ClientServerInterface::LIST_DELIMITER;
+					result += (*it)->getUsername() + ClientServerInterface::DELIMITER + (*it)->getFirstName() +
+						ClientServerInterface::DELIMITER + (*it)->getMiddleName() + ClientServerInterface::DELIMITER +
+						(*it)->getLastName() + ClientServerInterface::DELIMITER +
+						std::to_string((*it)->getDepartmentId()) + ClientServerInterface::DELIMITER + (*it)->getBirthday() +
+						ClientServerInterface::DELIMITER + std::to_string((*it)->getStartYear()) + ClientServerInterface::DELIMITER +
+						std::to_string((*it)->getStartTerm()) + ClientServerInterface::DELIMITER + std::to_string((*it)->getType());
+					if (users.end() != it + 1)
+					{
+						result += ClientServerInterface::LIST_DELIMITER;
+					}
 				}
+				return result;
 			}
-			return result;
 		}
-	}
 
-	return "false";
+		return "false";
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "Error in ServerInterface::getUsers" << e.what();
+		return "false";
+	}
 }
 
 std::string ServerInterface::addUser(std::string params)
@@ -217,7 +227,7 @@ std::string ServerInterface::getSentMessages(std::string params)
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << "Error in ServerInterface::addUser" << e.what();
+		std::cerr << "Error in ServerInterface::getSentMessages" << e.what();
 		return "false";
 	}
 }
@@ -249,7 +259,7 @@ std::string ServerInterface::getReceivedMessages(std::string params)
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << "Error in ServerInterface::addUser" << e.what();
+		std::cerr << "Error in ServerInterface::getReceivedMessages" << e.what();
 		return "false";
 	}
 }
@@ -277,12 +287,12 @@ std::string ServerInterface::sendMessage(std::string params)
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << "Error in ServerInterface::addUser" << e.what();
+		std::cerr << "Error in ServerInterface::sendMessage" << e.what();
 		return "false";
 	}
 }
 
-std::string ServerInterface::getCourses(std::string params)
+std::string ServerInterface::getCourseRequests(std::string params)
 {
 	try
 	{
@@ -293,10 +303,41 @@ std::string ServerInterface::getCourses(std::string params)
 			if (user->getType() == AbstractUser::Type::ADMINISTRATOR)
 			{
 				Administrator * admin = (Administrator*)user;
-				//admin->getCourseRequest();
+				std::vector<Course*> courses = admin->getCourseRequests();
+				std::string result = "";
+				for (std::vector<Course*>::iterator it = courses.begin();it != courses.end();++it)
+				{
+					result += std::to_string((*it)->getID()) + ClientServerInterface::DELIMITER + (*it)->getCourseCode() + ClientServerInterface::DELIMITER +
+						(*it)->getCourseName() + ClientServerInterface::DELIMITER + (*it)->getDescription() +
+						ClientServerInterface::DELIMITER + std::to_string((*it)->getNumberOfCredits());
+
+					if (courses.end() != it + 1)
+					{
+						result += ClientServerInterface::LIST_DELIMITER;
+					}
+				}
 			}
 		}
-		std::vector<Course*> courses;// = Server::getInstance().data.getCourses(stat);
+		return "false";
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "Error in ServerInterface::getCourseRequests" << e.what();
+		return "false";
+	}
+}
+
+std::string ServerInterface::getUserCourses(std::string params)
+{
+	try
+	{
+		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
+
+		std::string username = param[0];
+		Course::Status status = (Course::Status)Helper::stringToLong(param[1]);
+
+		std::vector<Course*> courses = Server::getInstance().data.getCourses(username, status);
+
 		std::string result = "";
 		for (std::vector<Course*>::iterator it = courses.begin();it != courses.end();++it)
 		{
@@ -309,18 +350,14 @@ std::string ServerInterface::getCourses(std::string params)
 				result += ClientServerInterface::LIST_DELIMITER;
 			}
 		}
-		return "false";
+		return result;
+
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << "Error in ServerInterface::addUser" << e.what();
+		std::cerr << "Error in ServerInterface::getUserCourses" << e.what();
 		return "false";
 	}
-}
-
-std::string ServerInterface::getUserCourses(std::string params)
-{
-	return std::string();
 }
 
 std::string ServerInterface::addCourse(std::string params)
@@ -358,7 +395,7 @@ std::string ServerInterface::addCourse(std::string params)
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << "Error in ServerInterface::login" << e.what();
+		std::cerr << "Error in ServerInterface::addCourse" << e.what();
 		return "false";
 	}
 }
@@ -390,7 +427,7 @@ std::string ServerInterface::decideOnCourse(std::string params)
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << "Error in ServerInterface::login" << e.what();
+		std::cerr << "Error in ServerInterface::decideOnCourse" << e.what();
 		return "false";
 	}
 }
@@ -430,7 +467,37 @@ std::string ServerInterface::getDepartments(std::string params)
 
 std::string ServerInterface::givePrivileges(std::string params)
 {
-	return std::string();
+	try
+	{
+		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
+
+		std::string username = param[0];
+		std::string recipient = param[1];
+		int departmentId = Helper::stringToLong(param[2]);
+
+		std::string result = "";
+		AbstractUser* user = Server::getInstance().data.getUser(param[0]);
+		AbstractUser* recip = Server::getInstance().data.getUser(param[1]);
+		Department* department = Server::getInstance().data.getDepartment(departmentId);
+
+		if (user != nullptr && recip != nullptr && department != nullptr)
+		{
+			if (user->getType() == AbstractUser::Type::ADMINISTRATOR)
+			{
+				Administrator * admin = (Administrator*)user;
+
+				bool success = admin->givePrivilege((Administrator*)recip, department);
+
+				return success ? "true" : "false";
+			}
+		}
+		return "false";
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "Error in ServerInterface::givePrivileges" << e.what();
+		return "false";
+	}
 }
 
 std::string ServerInterface::getSections(std::string params)

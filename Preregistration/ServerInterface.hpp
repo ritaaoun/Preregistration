@@ -31,7 +31,7 @@ public:
 
 	virtual  std::string sendMessage(std::string params) override;
 
-	virtual  std::string getCourses(std::string params) override;
+	virtual  std::string getCourseRequests(std::string params) override;
 
 	virtual  std::string getUserCourses(std::string params) override;
 	
