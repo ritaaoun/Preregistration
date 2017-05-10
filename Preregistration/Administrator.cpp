@@ -3,7 +3,7 @@
 #include <algorithm>
 #include "Professor.hpp"
 #include "Student.hpp"
-//TODO: request course nb
+
 Administrator::Administrator() : AbstractUser(), m_privilegeIds(), m_privileges()
 {
 }
