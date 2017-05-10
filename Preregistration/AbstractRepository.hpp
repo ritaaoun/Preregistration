@@ -39,6 +39,7 @@ public:
 	virtual std::vector<Section*> getSections() const = 0;
 	virtual Constraint* getSectionConstraint(int sectionCrn) const = 0;
 	virtual std::vector<TimeSlot *> getSectionTimeSlots(int sectionCrn) const = 0;
+	virtual bool updateSectionTimeSlots(Section * section) const = 0;
 
 	virtual std::vector<Room*> getRooms() const = 0;
 	virtual int getSectionRoomId(int sectionCrn) const = 0;

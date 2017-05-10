@@ -41,6 +41,15 @@ bool Section::removeTimeSlot(TimeSlot * timeslot)
 	return true;
 }
 
+bool Section::setTimeSlots(const std::vector<TimeSlot*> & timeslots)
+{
+	for (std::vector<TimeSlot*>::iterator it = mTimeSlots.begin(); it != mTimeSlots.end(); ++it) {
+		delete *it;
+	}
+	mTimeSlots = timeslots;
+	return true;
+}
+
 void Section::setStatus(Status status)
 {
 	mStatus = status;
@@ -51,17 +60,17 @@ Section::Status Section::getStatus() const
 	return mStatus;
 }
 
-int Section::getSectionNumber() const
+int Section::getNumber() const
 {
 	return mSectionNumber;
 }
 
-void Section::setSectionCapacity(int capacity)
+void Section::setCapacity(int capacity)
 {
 	mCapacity = capacity;
 }
 
-int Section::getSectionCapacity() const
+int Section::getCapacity() const
 {
 	return mCapacity;
 }

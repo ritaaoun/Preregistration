@@ -76,9 +76,12 @@ bool Administrator::decideOnCourse(Course * courseRequested, bool approveCourse)
 	Department * courseDepartment = courseRequested->getDepartment();
 	if (std::find(m_privileges.begin(), m_privileges.end(), courseDepartment) != m_privileges.end()) {
 		courseDepartment->decideOnCourse(courseRequested, approveCourse);
+		std::cout << "Administrator::decideOnCourse: course " << courseRequested->getID() << " was decided on" << std::endl;
 		return true;
 	}
 	else {
+		std::cerr << "Administrator::decideOnCourse: Administrator " << getId() << " does not have privileges over department " <<
+			courseDepartment->getId() << std::endl;
 		return false;
 	}
 }
@@ -127,6 +130,19 @@ std::vector<AbstractUser*> Administrator::getUsers()
 			for (std::vector<AbstractUser*>::const_iterator user = departmentUsers.begin(); user != departmentUsers.end(); ++user) {
 				out.push_back(*user);
 			}
+		}
+	}
+	return out;
+}
+
+std::vector<Course*> Administrator::getCourseRequests()
+{
+	getPrivileges();
+	std::vector<Course *> out;
+	for (std::vector<Department *>::const_iterator it = m_privileges.begin(); it != m_privileges.end(); ++it) {
+		std::vector<Course *> requests = (*it)->getCourseRequests();
+		for (std::vector<Course *>::const_iterator it2 = requests.begin(); it2 != requests.end(); ++it2) {
+			out.push_back(*it2);
 		}
 	}
 	return out;

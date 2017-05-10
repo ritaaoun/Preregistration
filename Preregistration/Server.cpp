@@ -13,7 +13,6 @@ Server::~Server()
 
 Server & Server::operator=(const Server & rhs)
 {
-	// TODO: insert return statement here
 	return *this;
 }
 

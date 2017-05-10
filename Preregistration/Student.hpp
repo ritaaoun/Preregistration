@@ -21,6 +21,6 @@ public:
 	bool subscribeToSection(Section * section);
 
 private:
-	std::vector<int> m_sectionIds;
+	std::vector<int> m_sectionCrns;
 	std::vector<Section *> m_sections;
 };

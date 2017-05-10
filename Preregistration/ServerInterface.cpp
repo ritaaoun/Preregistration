@@ -30,7 +30,6 @@ ServerInterface::ServerInterface(const ServerInterface & other)
 
 ServerInterface & ServerInterface::operator=(const ServerInterface & rhs)
 {
-	// TODO: insert return statement here
 	return *this;
 }
 
@@ -72,14 +71,10 @@ std::string ServerInterface::login(std::string params)
 		}
 
 		return "false";
-		//TODO: Chane to real impl
-
-		//return "caj07,:,201402911,:,christian,:,adel,:,jabr,:,2";
-
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << "Error in ServerInterface::login" << e.what();
+		std::cerr << "Error in ServerInterface::login" << e.what() << std::endl;
 		return "false";
 	}
 

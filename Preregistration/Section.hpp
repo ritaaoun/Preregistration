@@ -7,6 +7,7 @@
 class Professor;
 class Room;
 class Course;
+class Student;
 
 class Section
 {
@@ -17,15 +18,16 @@ public:
 
 	bool addTimeSlot(TimeSlot* timeslot);
 	bool removeTimeSlot(TimeSlot* timeslot);
+	bool setTimeSlots(const std::vector<TimeSlot*> & timeslots);
 	std::vector<TimeSlot*> getTimeSlots() const;
 
 	void setStatus(Status status);
 	Status getStatus() const;
 
-	int getSectionNumber() const;
+	int getNumber() const;
 
-	void setSectionCapacity(int capacity);
-	int getSectionCapacity() const;
+	void setCapacity(int capacity);
+	int getCapacity() const;
 
 	void setRoom(Room* room);
 	Room* getRoom();
@@ -40,6 +42,8 @@ public:
 
 	int getCourseId() const;
 	Course * getCourse();
+
+	
 
 	Section(int courseId, int capacity, int professorId, const std::vector < TimeSlot *> & timeSlots);
 	Section(int crn, int courseId, int number, int capacity, int professorId, Status status);
@@ -63,5 +67,8 @@ private:
 	Room* mRoom; ///< Room used for the section
 	std::vector<TimeSlot *> mTimeSlots; ///< time slots of the schedule of the section
 	Constraint* mConstraints; ///< constraints i.e: needComputers
+
+	std::vector<int> mStudentIds;
+	std::vector<Student *> mStudents;
 };
 

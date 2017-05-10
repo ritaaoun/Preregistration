@@ -352,7 +352,7 @@ bool SqliteRepository::deleteSection(const Section * section) const
 
 bool SqliteRepository::updateSection(const Section * section) const
 {
-	std::string sql = "UPDATE SECTION SET CAPACITY = '" + std::to_string(section->getSectionCapacity()) + "', ISCONFIRMED = '" +
+	std::string sql = "UPDATE SECTION SET CAPACITY = '" + std::to_string(section->getCapacity()) + "', ISCONFIRMED = '" +
 		std::to_string(section->getStatus()) + "'";
 	return execute(sql);
 }
@@ -360,8 +360,8 @@ bool SqliteRepository::updateSection(const Section * section) const
 int SqliteRepository::createSection(const Section * section) const
 {
 	std::string sql = "INSERT INTO SECTION (COURSEID, NUMBER, CAPACITY, PROFESSORID, ISCONFIRMED) VALUES ( '" +
-		std::to_string(section->getCourseId()) + "', '" + std::to_string(section->getSectionNumber()) + "', '" + 
-		std::to_string(section->getSectionCapacity()) + "', '" + std::to_string(section->getProfessorId()) + "', '" +
+		std::to_string(section->getCourseId()) + "', '" + std::to_string(section->getNumber()) + "', '" + 
+		std::to_string(section->getCapacity()) + "', '" + std::to_string(section->getProfessorId()) + "', '" +
 		std::to_string(section->getStatus()) + "'";
 	if (execute(sql))
 	{
@@ -440,6 +440,31 @@ std::vector<TimeSlot *> SqliteRepository::getSectionTimeSlots(int sectionCrn) co
 		out.push_back(new TimeSlot(day, startHour, startMinute, endHour, endMinute));
 	}
 	return out;
+}
+
+bool SqliteRepository::updateSectionTimeSlots(Section * section) const
+{
+	int crn = section->getCrn();
+	std::string sql = "DELETE FROM TIMESLOTSECTION WHERE SECTIONCRN = '" + std::to_string(crn) + "'";
+
+	if (execute(sql)) {
+		std::vector<TimeSlot *> timeSlots = section->getTimeSlots();
+		std::string sql = "";
+		for (std::vector<TimeSlot *>::const_iterator it = timeSlots.begin(); it != timeSlots.end(); ++it) {
+			TimeSlot * timeSlot = *it;
+			sql = sql + "INSERT INTO TIMESLOTSECTION (SECTIONCRN, DAY, STARTHOUR, STARTMINUTE, ENDHOUR, ENDMINUTE) VALUES ('" +
+				std::to_string(crn) + "', '" + std::to_string(timeSlot->getDay()) + "', '" + std::to_string(timeSlot->getStartHour()) +
+				"', '" + std::to_string(timeSlot->getStartMinutes()) + "', '" + std::to_string(timeSlot->getEndHour()) + "', '" +
+				std::to_string(timeSlot->getEndMinutes()) + "')";
+			if (it != timeSlots.end() - 1) {
+				sql = sql + ", ";
+			}
+		}
+		return execute(sql);
+	}
+	else {
+		return false;
+	}
 }
 
 std::vector<Room*> SqliteRepository::getRooms() const

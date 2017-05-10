@@ -21,7 +21,6 @@ NetworkServer::NetworkServer(const NetworkServer & other)
 
 NetworkServer & NetworkServer::operator=(const NetworkServer & rhs)
 {
-	// TODO: insert return statement here
 	return *this;
 }
 
