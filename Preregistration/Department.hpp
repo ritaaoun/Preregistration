@@ -46,4 +46,7 @@ private:
 
 	std::vector<Course *> m_courses;
 	std::vector<Course *> m_courseRequests;
+
+	void loadCourses();
+	void loadCourseRequests();
 };

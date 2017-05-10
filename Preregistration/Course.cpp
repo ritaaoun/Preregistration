@@ -55,7 +55,8 @@ std::string Course::getCode() const
 
 std::string Course::getFullCode()
 {
-	return getDepartment()->getCode() + mCode;
+	loadDepartment();
+	return mDepartment->getCode() + mCode;
 }
 
 std::string Course::getName() const
@@ -107,8 +108,10 @@ bool Course::removeSection(Section * section)
 	if (std::find(mSections.begin(), mSections.end(), section) == mSections.end())
 	{
 		// if section not already in vector
+		std::cerr << "Course::removeSection: Section " << section->getCrn() << " does not belong to course " << mId << std::endl;
 		return false;
 	}
+	std::cout << "Course::removeSection: Section " << section->getCrn() << " has been added to course " << mId << std::endl;
 	mSections.erase(std::remove(mSections.begin(), mSections.end(), section), mSections.end());
 	return true;
 }
