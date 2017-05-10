@@ -1,12 +1,13 @@
 #include "RoomManager.h"
+#include "Course.hpp"
 
 RoomManager::RoomManager()
 {
 }
 
-bool RoomManager::constraintChecker(Section * section, Room * room)
+bool RoomManager::constraintChecker(Course * course, Room * room)
 {
-	if (section->getConstraint()->matchingConstraint(room->getConstraint()))
+	if (course->getConstraint()->matchingConstraint(room->getConstraint()))
 		return true;
 
 	return false;
@@ -48,7 +49,7 @@ void RoomManager::assignRoom(Section * section)
 {
 	for (Room * room : getRooms())
 	{
-		if (constraintChecker(section, room) && section->getCapacity() <= room->getCapacity())
+		if (constraintChecker(section->getCourse(), room) && section->getCapacity() <= room->getCapacity())
 		{
 			section->setRoom(room);
 			room->addSection(section);
