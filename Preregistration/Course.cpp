@@ -1,5 +1,6 @@
 #include "Course.hpp"
 #include "Server.hpp"
+#include "Professor.hpp"
 
 Course::~Course()
 {
@@ -23,23 +24,31 @@ void Course::loadSections()
 	}
 }
 
+void Course::loadProfessor()
+{
+	if (mProfessor == nullptr) {
+		mProfessor = static_cast<Professor*>(Server::getInstance().data.getUser(mProfessorId));
+	}
+}
+
 
 Course::Course(int departmentId, const std::string & courseCode, const std::string & courseName, 
-	const std::string & courseDescription, int numberOfCredits, Constraint * constraints) :
+	const std::string & courseDescription, int numberOfCredits, Constraint * constraints, int professorId) :
 	mDepartmentID(departmentId), mDepartment(nullptr), mCode(courseCode), mName(courseName),
 	mDescription(courseDescription), mNumberOfCredits(numberOfCredits), mStatus(PENDING), mConstraints(constraints),
-	mSectionIds(), mSections()
+	mSectionIds(), mSections(), mProfessorId(professorId), mProfessor(nullptr)
 {
 	mId = Server::getInstance().repository->createCourse(this);
 	Server::getInstance().data.addCourse(this);
 }
 
 Course::Course(int id, int departmentId, const std::string & courseCode, const std::string & courseName, 
-	const std::string & courseDescription, int numberOfCredits, Status status) :
+	const std::string & courseDescription, int numberOfCredits, Status status, int professorId) :
 	mId(id), mDepartmentID(departmentId), mDepartment(nullptr), mCode(courseCode), mName(courseName),
 	mDescription(courseDescription), mNumberOfCredits(numberOfCredits), mStatus(status),
 	mConstraints(Server::getInstance().repository->getCourseConstraints(id)),
-	mSectionIds(Server::getInstance().repository->getCourseSections(id)), mSections()
+	mSectionIds(Server::getInstance().repository->getCourseSections(id)), mSections(), mProfessorId(professorId),
+	mProfessor(nullptr)
 {
 }
 
@@ -148,5 +157,16 @@ void Course::refuseCourse()
 {
 	mStatus = REFUSED;
 	Server::getInstance().repository->updateCourse(this);
+}
+
+int Course::getProfessorId() const
+{
+	return mProfessorId;
+}
+
+Professor * Course::getProfessor()
+{
+	loadProfessor();
+	return mProfessor;
 }
 

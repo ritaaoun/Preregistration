@@ -25,8 +25,8 @@ public:
 	void setFacultyCode(const std::string & facultyCode);
 	std::string getFacultyCode() const;
 
-	const std::vector<Course *> & getCourses() const;
-	const std::vector<Course *> & getCourseRequests() const;
+	const std::vector<Course *> & getCourses();
+	const std::vector<Course *> & getCourseRequests();
 	bool requestCourse(Course *course);
 	bool decideOnCourse(Course *course, bool approveCourse);
 

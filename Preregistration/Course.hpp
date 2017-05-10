@@ -11,8 +11,8 @@ class Course
 {
 public:
 	enum Status { PENDING, REFUSED, APPROVED, STATUSEND };
-	Course(int departmentId, const std::string & courseCode, const std::string & courseName, const std::string & courseDescription, int numberOfCredits, Constraint * constraints);
-	Course(int id, int departmentId, const std::string & courseCode, const std::string & courseName, const std::string & courseDescription, int numberOfCredits, Status status);
+	Course(int departmentId, const std::string & courseCode, const std::string & courseName, const std::string & courseDescription, int numberOfCredits, Constraint * constraints, int professorId);
+	Course(int id, int departmentId, const std::string & courseCode, const std::string & courseName, const std::string & courseDescription, int numberOfCredits, Status status, int professorId);
 
 	int getID() const;
 	std::string getCode() const;
@@ -37,6 +37,9 @@ public:
 	void approveCourse();
 	void refuseCourse();
 
+	int getProfessorId() const;
+	Professor * getProfessor();
+
 	~Course();
 
 private:
@@ -55,6 +58,10 @@ private:
 	std::vector<int> mSectionIds; ///< vector of different section of the course
 	std::vector<Section*> mSections; ///< vector of different section of the course
 
+	int mProfessorId; ///< Id of professor who requested this course
+	Professor * mProfessor;
+
 	void loadDepartment();
 	void loadSections();
+	void loadProfessor();
 };

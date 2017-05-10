@@ -599,8 +599,9 @@ std::vector<Course*> SqliteRepository::getCourses() const
 		std::string description = row.at(4);
 		int credits = Helper::stringToLong(row.at(5));
 		Course::Status status = static_cast<Course::Status>(Helper::stringToLong(row.at(6)));
+		int professorId = Helper::stringToLong(row.at(7));
 
-		out.push_back(new Course(id, departmentId, code, name, description, credits, status));
+		out.push_back(new Course(id, departmentId, code, name, description, credits, status, professorId));
 	}
 	return out;
 }
@@ -629,7 +630,7 @@ bool SqliteRepository::updateCourse(const Course * course) const
 	std::string sql = "UPDATE COURSE SET DEPARTMENTID = '" + std::to_string(course->getDepartmentId()) + "', "
 		"CODE = '" + course->getCode() + "', NAME = '" + course->getName() + "', DESCRIPTION = '" +
 		course->getDescription() + "', CREDITS = '" + std::to_string(course->getNumberOfCredits()) +
-		"', STATUS = '" + std::to_string(course->getStatus()) + "')";
+		"', STATUS = '" + std::to_string(course->getStatus()) + "', PROFESSORID = '" + std::to_string(course->getProfessorId()) + "')";
 
 	return execute(sql);
 }

@@ -76,6 +76,16 @@ bool Administrator::decideOnCourse(Course * courseRequested, bool approveCourse)
 	Department * courseDepartment = courseRequested->getDepartment();
 	if (hasPrivilegeTo(courseDepartment)) {
 		courseDepartment->decideOnCourse(courseRequested, approveCourse);
+
+		std::string topic = courseRequested->getFullCode();
+		std::string content = "Course " + topic + " was ";
+		if (approveCourse) {
+			sendChatMessage()
+		}
+		else {
+
+		}
+
 		std::cout << "Administrator::decideOnCourse: course " << courseRequested->getID() << " was decided on" << std::endl;
 		return true;
 	}
