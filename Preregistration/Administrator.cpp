@@ -74,7 +74,7 @@ AbstractUser * Administrator::createUser(const std::string & firstName, const st
 bool Administrator::decideOnCourse(Course * courseRequested, bool approveCourse) const
 {
 	Department * courseDepartment = courseRequested->getDepartment();
-	if (std::find(m_privileges.begin(), m_privileges.end(), courseDepartment) != m_privileges.end()) {
+	if (hasPrivilegeTo(courseDepartment)) {
 		courseDepartment->decideOnCourse(courseRequested, approveCourse);
 		std::cout << "Administrator::decideOnCourse: course " << courseRequested->getID() << " was decided on" << std::endl;
 		return true;
@@ -90,10 +90,7 @@ const std::vector<Department*> Administrator::getPrivileges()
 {
 	if (m_privileges.empty() && !m_privilegeIds.empty())
 	{
-		for (std::vector<int>::iterator it = m_privilegeIds.begin(); it != m_privilegeIds.end(); ++it)
-		{
-			m_privileges.push_back(Server::getInstance().data.getDepartment(*it));
-		}
+		loadPrivileges();
 	}
 	return m_privileges;
 }
@@ -121,7 +118,7 @@ std::vector<AbstractUser*> Administrator::getUsers()
 
 	if (!m_privilegeIds.empty()) {
 		if (m_privileges.empty()) {
-			getPrivileges();
+			loadPrivileges();
 		}
 
 		for (std::vector<Department*>::const_iterator it = m_privileges.begin(); it != m_privileges.end(); ++it) {
@@ -137,7 +134,7 @@ std::vector<AbstractUser*> Administrator::getUsers()
 
 std::vector<Course*> Administrator::getCourseRequests()
 {
-	getPrivileges();
+	loadPrivileges();
 	std::vector<Course *> out;
 	for (std::vector<Department *>::const_iterator it = m_privileges.begin(); it != m_privileges.end(); ++it) {
 		std::vector<Course *> requests = (*it)->getCourseRequests();
@@ -159,6 +156,14 @@ bool Administrator::resetUserPassword(const std::string & username)
 	else {
 		std::cerr << "Administrator::resetUserPassword: The administrator " << getId() << " does not have privilege over user " << getId() << std::endl;
 		return false;
+	}
+}
+
+void Administrator::loadPrivileges()
+{
+	for (std::vector<int>::iterator it = m_privilegeIds.begin(); it != m_privilegeIds.end(); ++it)
+	{
+		m_privileges.push_back(Server::getInstance().data.getDepartment(*it));
 	}
 }
 

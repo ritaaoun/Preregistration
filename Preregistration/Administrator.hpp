@@ -35,4 +35,6 @@ public:
 private:
 	std::vector<int> m_privilegeIds;
 	std::vector<Department *> m_privileges; ///< vector of departments the Administrator has privileges in
+
+	void loadPrivileges();
 };

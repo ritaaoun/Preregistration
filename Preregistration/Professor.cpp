@@ -64,14 +64,16 @@ bool Professor::publishSection(int courseId, int capacity, int professorId, cons
 	Section * section = new Section(courseId, capacity, professorId, timeSlots);
 	m_sectionCrns.push_back(section->getCrn());
 	m_sections.push_back(section);
+
+	section->getCourse()->addSection(section);
 	return true;
 }
 
 bool Professor::unpublishSection(Section * section)
 {
 	getSections();
-	m_sectionCrns.erase(std::find(m_sectionCrns.begin(), m_sectionCrns.end(), section->getCrn()));
-	m_sections.erase(std::find(m_sections.begin(), m_sections.end(), section));
+	m_sectionCrns.erase(std::remove(m_sectionCrns.begin(), m_sectionCrns.end(), section->getCrn()), m_sectionCrns.end());
+	m_sections.erase(std::remove(m_sections.begin(), m_sections.end(), section), m_sections.end());
 	Server::getInstance().repository->removeProfessorSection(this, section);
 	Server::getInstance().data.deleteSection(section);
 	return true;

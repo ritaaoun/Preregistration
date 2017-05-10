@@ -35,23 +35,22 @@ const std::vector<Section *> Room ::getSections()
 
 void Room::addSection(Section * section)
 {
-	getSections();
-	std::vector<Section*>::iterator index = std::find(mSections.begin(), mSections.end(), section);
-	if (index == mSections.end())
+	if (section->getRoom() == nullptr)
 	{
+		mSectionIds.push_back(section->getCrn());
 		mSections.push_back(section);
+		Server::getInstance().repository->addRoomSection(this, section);
 	}
 	
 }
 
 void Room::removeSection(Section * section)
 {
-	getSections();
-	std::vector<Section*>::iterator index = std::find(mSections.begin(), mSections.end(), section);
-
-	if (index != mSections.end())
+	if (section->getRoom() == this)
 	{
-		mSections.erase(index);
+		mSectionIds.erase(std::remove(mSectionIds.begin(), mSectionIds.end(), section->getCrn()), mSectionIds.end());
+		mSections.erase(std::remove(mSections.begin(), mSections.end(), section), mSections.end());
+		Server::getInstance().repository->removeRoomSection(this, section);
 	}
 	
 }

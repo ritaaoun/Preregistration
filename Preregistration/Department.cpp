@@ -108,7 +108,7 @@ bool Department::decideOnCourse(Course * course, bool approveCourse)
 			course->refuseCourse();
 		}
 		m_courses.push_back(course);
-		m_courseRequests.erase(it);
+		m_courseRequests.erase(std::remove(m_courseRequests.begin(), m_courseRequests.end(), *it), m_courseRequests.end());
 		Server::getInstance().repository->updateCourse(course);
 		return true;
 	}
@@ -120,5 +120,13 @@ std::vector<AbstractUser*> Department::getUsers() const
 }
 
 Department::Department() : m_id(), m_name(), m_code(), m_facultyCode(), m_courses(), m_courseRequests()
+{
+}
+
+void Department::loadCourses()
+{
+}
+
+void Department::loadCourseRequests()
 {
 }

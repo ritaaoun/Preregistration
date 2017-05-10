@@ -6,6 +6,23 @@ Course::~Course()
 	delete mConstraints;
 }
 
+void Course::loadDepartment()
+{
+	if (mDepartment == nullptr) {
+		mDepartment = Server::getInstance().data.getDepartment(mDepartmentID);
+	}
+}
+
+void Course::loadSections()
+{
+	if (mSections.empty() && !mSectionIds.empty()) {
+		for (std::vector<int>::iterator it = mSectionIds.begin(); it != mSectionIds.end(); ++it)
+		{
+			mSections.push_back(Server::getInstance().data.getSection(*it));
+		}
+	}
+}
+
 
 Course::Course(int departmentId, const std::string & courseCode, const std::string & courseName, 
 	const std::string & courseDescription, int numberOfCredits, Constraint * constraints) :
@@ -38,7 +55,8 @@ std::string Course::getCode() const
 
 std::string Course::getFullCode()
 {
-	return getDepartment()->getCode() + mCode;
+	loadDepartment();
+	return mDepartment->getCode() + mCode;
 }
 
 std::string Course::getName() const
@@ -76,8 +94,8 @@ bool Course::addSection(Section * section)
 	// check first if section is already in vector of sections or not
 	if (std::find(mSections.begin(), mSections.end(), section) == mSections.end())
 	{
-		// if section not already in vector
-		section->setConstraint(this->getConstraint());
+		loadSections();
+		mSectionIds.push_back(section->getCrn());
 		mSections.push_back(section);
 		return true;
 	}
@@ -90,21 +108,17 @@ bool Course::removeSection(Section * section)
 	if (std::find(mSections.begin(), mSections.end(), section) == mSections.end())
 	{
 		// if section not already in vector
+		std::cerr << "Course::removeSection: Section " << section->getCrn() << " does not belong to course " << mId << std::endl;
 		return false;
 	}
+	std::cout << "Course::removeSection: Section " << section->getCrn() << " has been added to course " << mId << std::endl;
 	mSections.erase(std::remove(mSections.begin(), mSections.end(), section), mSections.end());
 	return true;
 }
 
 std::vector<Section*> Course::getSections()
 {
-	if (mSections.empty() && !mSectionIds.empty())
-	{
-		for (std::vector<int>::iterator it = mSectionIds.begin(); it != mSectionIds.end(); ++it)
-		{
-			mSections.push_back(Server::getInstance().data.getSection(*it));
-		}
-	}
+	loadSections();
 	return mSections;
 }
 
@@ -115,10 +129,7 @@ int Course::getDepartmentId() const
 
 Department * Course::getDepartment()
 {
-	if (mDepartment == nullptr)
-	{
-		mDepartment = Server::getInstance().data.getDepartment(mDepartmentID);
-	}
+	loadDepartment();
 	return mDepartment;
 }
 

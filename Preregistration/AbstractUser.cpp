@@ -22,11 +22,15 @@ std::string AbstractUser::getPassword() const
 	return m_password;
 }
  
-void AbstractUser::setPassword(const std::string & oldPassword, const std::string & password)
+bool AbstractUser::setPassword(const std::string & oldPassword, const std::string & password)
 {
 	if (oldPassword == m_password) {
 		m_password = password;
 		Server::getInstance().repository->updateUser(this);
+		return true;
+	}
+	else {
+		return false;
 	}
 }
 
@@ -110,7 +114,7 @@ void AbstractUser::setType(Type type)
 Department * AbstractUser::getDepartment()
 {
 	if (m_department == nullptr) {
-		m_department = Server::getInstance().data.getDepartment(m_departmentId);
+		loadDepartment();
 	}
 	return m_department;
 }
@@ -225,4 +229,9 @@ AbstractUser & AbstractUser::operator=(const AbstractUser & rhs)
 	m_birthday = rhs.m_birthday;
 	m_inbox = rhs.m_inbox;
 	return *this;
+}
+
+void AbstractUser::loadDepartment()
+{
+	m_department = Server::getInstance().data.getDepartment(m_departmentId);
 }
