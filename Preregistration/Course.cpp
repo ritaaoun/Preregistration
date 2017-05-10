@@ -36,6 +36,11 @@ std::string Course::getCourseCode() const
 	return mCourseCode;
 }
 
+std::string Course::getCourseFullCode()
+{
+	return getDepartment()->getCode() + mCourseCode;
+}
+
 std::string Course::getCourseName() const
 {
 	return mCourseName;

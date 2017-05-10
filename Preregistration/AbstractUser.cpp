@@ -69,6 +69,11 @@ void AbstractUser::setLastName(const std::string & lastName)
 	Server::getInstance().repository->updateUser(this);
 }
 
+std::string AbstractUser::getFullName() const
+{
+	return m_firstName + " " + m_middleName + " " + m_lastName;
+}
+
 int AbstractUser::getStartYear() const
 {
 	return m_startYear;

@@ -16,6 +16,7 @@ public:
 
 	int getID() const;
 	std::string getCourseCode() const;
+	std::string getCourseFullCode();
 	std::string getCourseName() const;
 	int getNumberOfCredits() const;
 

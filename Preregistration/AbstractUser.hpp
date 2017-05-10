@@ -32,6 +32,8 @@ public:
 	std::string getLastName() const;
 	void setLastName(const std::string & lastName);
 
+	std::string getFullName() const;
+
 	int getStartYear() const;
 	void setStartYear(int year);
 
