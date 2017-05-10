@@ -574,7 +574,7 @@ std::string ServerInterface::resetPassword(std::string params)
 			{
 				Administrator * admin = (Administrator*)user;
 				admin->resetUserPassword(recipient);
-				return "true";
+				return  "true";
 			}
 		}
 		return "false";
@@ -600,8 +600,8 @@ std::string ServerInterface::changePassword(std::string params)
 		AbstractUser* user = Server::getInstance().data.getUser(username);
 		if (user != nullptr)
 		{
-			user->setPassword(oldPass, newPass);
-			return  "true";
+			bool success = user->setPassword(oldPass, newPass);
+			return success ? "true" : "false";
 		}
 		return "false";
 	}
