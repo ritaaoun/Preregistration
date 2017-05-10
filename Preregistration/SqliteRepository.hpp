@@ -37,6 +37,7 @@ public:
 	virtual std::vector<Section*> getSections() const override;
 	virtual Constraint* getSectionConstraint(int sectionCrn) const override;
 	virtual std::vector<TimeSlot *> getSectionTimeSlots(int sectionCrn) const override;
+	virtual bool updateSectionTimeSlots(Section * section) const override;
 
 	virtual std::vector<Room*> getRooms() const override;
 	virtual int getSectionRoomId(int sectionCrn) const override;

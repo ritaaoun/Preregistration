@@ -260,7 +260,7 @@ int ServerData::getNewSectionNumber(int courseId)
 		std::vector<Section*> sections = it->second->getSections();
 		for (std::vector<Section*>::const_iterator it = sections.begin(); it != sections.end(); ++it)
 		{
-			int id = (*it)->getSectionNumber();
+			int id = (*it)->getNumber();
 			if (id > maxId)
 			{
 				maxId = id;

@@ -3,7 +3,6 @@
 #include "AbstractUser.hpp"
 #include <algorithm>
 
-//TODO: course/course requests
 Department::Department(const std::string & name, const std::string & code, const std::string & facultyCode) :
 	m_name(name), m_code(code), m_facultyCode(facultyCode), m_courseIds(), m_courseRequestIds(), m_courses(),
 	m_courseRequests()
@@ -93,7 +92,6 @@ bool Department::requestCourse(Course * course)
 	return true;
 }
 
-// TODO update database
 bool Department::decideOnCourse(Course * course, bool approveCourse)
 {
 	std::vector<Course*>::iterator it = std::find(m_courseRequests.begin(), m_courseRequests.end(), course);
@@ -111,6 +109,7 @@ bool Department::decideOnCourse(Course * course, bool approveCourse)
 		}
 		m_courses.push_back(course);
 		m_courseRequests.erase(it);
+		Server::getInstance().repository->updateCourse(course);
 		return true;
 	}
 }

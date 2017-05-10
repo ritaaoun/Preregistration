@@ -1,6 +1,6 @@
 #include "Professor.hpp"
 #include "Server.hpp"
-
+//TODO: void getSections
 Professor::Professor() : AbstractUser(), m_sections()
 {
 }
@@ -8,7 +8,7 @@ Professor::Professor() : AbstractUser(), m_sections()
 Professor::Professor(const std::string & firstName, const std::string & middleName, const std::string & lastName,
 	int startYear, Term::Term startTerm, int departmentId, const std::string & birthday) :
 	AbstractUser(firstName, middleName, lastName, startYear, startTerm, Type::PROFESSOR, departmentId, birthday),
-	m_sectionIds(), m_sections()
+	m_sectionCrns(), m_sections()
 {
 }
 
@@ -17,12 +17,12 @@ Professor::Professor(int id, const std::string & username, const std::string & p
 	int departmentId, const std::string & birthday) :
 	AbstractUser(id, username, password, firstName, middleName, lastName, startYear, startTerm, Type::PROFESSOR,
 		departmentId, birthday),
-	m_sectionIds(Server::getInstance().repository->getUserSections(id)), m_sections()
+	m_sectionCrns(Server::getInstance().repository->getUserSections(id)), m_sections()
 {
 }
 
 Professor::Professor(const Professor & other) :
-	AbstractUser(other), m_sectionIds(other.m_sectionIds), m_sections(other.m_sections)
+	AbstractUser(other), m_sectionCrns(other.m_sectionCrns), m_sections(other.m_sections)
 {
 }
 
@@ -33,16 +33,16 @@ Professor::~Professor()
 Professor & Professor::operator=(const Professor & rhs)
 {
 	AbstractUser::operator=(rhs);
-	m_sectionIds = rhs.m_sectionIds;
+	m_sectionCrns = rhs.m_sectionCrns;
 	m_sections = rhs.m_sections;
 	return *this;
 }
 
 const std::vector<Section*> Professor::getSections()
 {
-	if (m_sections.empty())
+	if (m_sections.empty() && !m_sectionCrns.empty())
 	{
-		for (std::vector<int>::iterator it = m_sectionIds.begin(); it != m_sectionIds.end(); ++it)
+		for (std::vector<int>::iterator it = m_sectionCrns.begin(); it != m_sectionCrns.end(); ++it)
 		{
 			m_sections.push_back(Server::getInstance().data.getSection(*it));
 		}
@@ -61,7 +61,48 @@ bool Professor::publishSection(int courseId, int capacity, int professorId, cons
 {
 	getSections();
 	Section * section = new Section(courseId, capacity, professorId, timeSlots);
-	m_sectionIds.push_back(section->getCrn());
+	m_sectionCrns.push_back(section->getCrn());
 	m_sections.push_back(section);
 	return true;
+}
+
+bool Professor::editSectionCapacity(int sectionCrn, int capacity)
+{
+	if (std::find(m_sectionCrns.begin(), m_sectionCrns.end(), sectionCrn) != m_sectionCrns.end()) {
+		Section * section = Server::getInstance().data.getSection(sectionCrn);
+		section->setCapacity(capacity);
+		Server::getInstance().repository->updateSection(section);
+		//TODO: notify
+		return true;
+	}
+	else {
+		std::cerr << "Professor::editSectionCapacity: professor " << getId() << " does not own section " << sectionCrn;
+		return false;
+	}
+}
+
+bool Professor::editSectionTimeSlots(int sectionCrn, const std::vector<TimeSlot*>& timeSlots)
+{
+	if (std::find(m_sectionCrns.begin(), m_sectionCrns.end(), sectionCrn) != m_sectionCrns.end()) {
+		Section * section = Server::getInstance().data.getSection(sectionCrn);
+		section->setTimeSlots(timeSlots);
+		Server::getInstance().repository->updateSectionTimeSlots(section);
+		//TODO: notify
+		return true;
+	}
+	else {
+		std::cerr << "Professor::editSectionCapacity: professor " << getId() << " does not own section " << sectionCrn;
+		return false;
+	}
+}
+
+bool Professor::editSection(int sectionCrn, int capacity, const std::vector<TimeSlot*>& timeSlots)
+{
+	return editSectionCapacity(sectionCrn, capacity) && editSectionTimeSlots(sectionCrn, timeSlots);
+}
+
+bool Professor::notifySectionStudents(Section * section, const std::string & message)
+{
+	//std::vector<
+	return false;
 }

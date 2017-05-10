@@ -3,7 +3,7 @@
 #include "AbstractUser.hpp"
 #include "Course.hpp"
 #include <vector>
-//course requests
+
 class Administrator : public AbstractUser {
 public:
 	Administrator();
@@ -18,6 +18,8 @@ public:
 
 	AbstractUser * createUser(const std::string & firstName, const std::string & middleName, const std::string & lastName,
 		int startYear, Term::Term startTerm, Type userType, int departmentId, const std::string & birthday) const;
+	bool editUser(std::string username, const std::string & firstName, const std::string & middleName, const std::string & lastName,
+		int departmentId, const std::string & birthday);
 
 	bool decideOnCourse(Course *courseRequested, bool approveCourse) const;
 
@@ -26,9 +28,7 @@ public:
 	bool givePrivilege(Administrator *administrator, Department * department) const;
 
 	std::vector<AbstractUser*> getUsers();
-
-	bool editUser(std::string username, const std::string & firstName, const std::string & middleName, const std::string & lastName,
-		int departmentId, const std::string & birthday);
+	std::vector<Course *> getCourseRequests();
 
 private:
 	std::vector<int> m_privilegeIds;
