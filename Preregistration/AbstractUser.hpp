@@ -79,7 +79,7 @@ private:
 	Type m_type; ///< User type
 	int m_departmentId; ///< Id of department the user belonds to
 	Department * m_department; ///< Department the user belongs to
-	std::string m_birthday; ///< User birthday in the format DD-MM-YYYY
+	std::string m_birthday; ///< User birt hday in the format DD-MM-YYYY
 	
 	Inbox m_inbox; ///< User inbox
 };

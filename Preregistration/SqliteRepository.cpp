@@ -608,7 +608,7 @@ std::vector<Course*> SqliteRepository::getCourses() const
 int SqliteRepository::createCourse(const Course * course) const
 {
 	std::string sql = "INSERT INTO COURSE (DEPARTMENTID, CODE, NAME, DESCRIPTION, CREDITS, STATUS) VALUES ( '" +
-		std::to_string(course->getDepartmentId()) + "', '" + course->getCourseCode() + "', '" + course->getCourseName() + "', '" +
+		std::to_string(course->getDepartmentId()) + "', '" + course->getCode() + "', '" + course->getName() + "', '" +
 		course->getDescription() + "', '" + std::to_string(course->getNumberOfCredits()) + "', '" +
 		std::to_string(course->getStatus()) + "'";
 	if (execute(sql))
@@ -627,7 +627,7 @@ int SqliteRepository::createCourse(const Course * course) const
 bool SqliteRepository::updateCourse(const Course * course) const
 {
 	std::string sql = "UPDATE COURSE SET DEPARTMENTID = '" + std::to_string(course->getDepartmentId()) + "', "
-		"CODE = '" + course->getCourseCode() + "', NAME = '" + course->getCourseName() + "', DESCRIPTION = '" +
+		"CODE = '" + course->getCode() + "', NAME = '" + course->getName() + "', DESCRIPTION = '" +
 		course->getDescription() + "', CREDITS = '" + std::to_string(course->getNumberOfCredits()) +
 		"', STATUS = '" + std::to_string(course->getStatus()) + "')";
 
