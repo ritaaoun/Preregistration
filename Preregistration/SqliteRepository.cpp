@@ -405,24 +405,6 @@ std::vector<Section*> SqliteRepository::getSections() const
 	return out;
 }
 
-Constraint * SqliteRepository::getSectionConstraint(int sectionCrn) const
-{
-	std::string sql = "SELECT * FROM CONSTRAINTSECTION WHERE SECTIONID = '" + std::to_string(sectionCrn) + "'";
-	std::vector<std::vector<std::string>> results = query(sql);
-
-	if (results.size() > 0) {
-		//int crn = Helper::stringToLong(results.at(0).at(0));
-		bool hasComputer = Helper::stringToLong(results.at(0).at(1)) == 1;
-		bool hasSpeakers = Helper::stringToLong(results.at(0).at(2)) == 1;
-		bool hasHighEnergyParticleAccelerator = Helper::stringToLong(results.at(0).at(3)) == 1;
-
-		return new Constraint(hasComputer, hasSpeakers, hasHighEnergyParticleAccelerator);
-	}
-	else {
-		return nullptr;
-	}
-}
-
 std::vector<TimeSlot *> SqliteRepository::getSectionTimeSlots(int sectionCrn) const
 {
 	std::string sql = "SELECT * FROM TIMESLOTSECTION WHERE SECTIONID = '" + std::to_string(sectionCrn) + "'";

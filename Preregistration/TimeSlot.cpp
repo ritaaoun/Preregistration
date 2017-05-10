@@ -62,5 +62,7 @@ std::string  TimeSlot::getDayString()
 
 std::string TimeSlot::serialize()
 {
-	return getDayString() + ClientServerInterface::TIMESLOT_DELIMITER + getTimeString();
+	return getDayString() + ClientServerInterface::TIMESLOT_DELIMITER + std::to_string(mStartHour) +
+		ClientServerInterface::TIMESLOT_DELIMITER + std::to_string(mStartMinutes) + ClientServerInterface::TIMESLOT_DELIMITER + 
+		std::to_string(mEndHour) + ClientServerInterface::TIMESLOT_DELIMITER + std::to_string(mEndMinutes);
 }

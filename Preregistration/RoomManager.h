@@ -11,7 +11,7 @@ private:
 	std::vector<Room*> mRooms;
 
 	//Constraint checker used when assigning rooms to sections
-	bool constraintChecker(Section* section, Room* room);
+	bool constraintChecker(Course* course, Room* room);
 
 public:
 	static RoomManager* getInstance();

@@ -93,7 +93,7 @@ int NetworkServer::acceptClient()
 		result = Server::getInstance().serverInterface.callFunction(std::string(recvbuf));
 
 		// Echo the buffer back to the sender
-		iSendResult = send(ClientSocket, result.c_str(), result.size() + 1, 0);
+		iSendResult = send(ClientSocket, result.c_str(), static_cast<int>(result.size()) + 1, 0);
 		if (iSendResult == SOCKET_ERROR) {
 			printf("send failed with error: %d\n", WSAGetLastError());
 			closesocket(ClientSocket);

@@ -68,10 +68,10 @@ bool Professor::requestCourse(int departmentId, const std::string & courseCode, 
 	return course->getDepartment()->requestCourse(course);
 }
 
-bool Professor::publishSection(int courseId, int capacity, int professorId, const std::vector<TimeSlot*>& timeSlots)
+bool Professor::publishSection(int courseId, int capacity, const std::vector<TimeSlot*>& timeSlots)
 {
 	loadSections();
-	Section * section = new Section(courseId, capacity, professorId, timeSlots);
+	Section * section = new Section(courseId, capacity, getId(), timeSlots);
 	m_sectionCrns.push_back(section->getCrn());
 	m_sections.push_back(section);
 
@@ -87,6 +87,11 @@ bool Professor::unpublishSection(Section * section)
 	Server::getInstance().repository->removeProfessorSection(this, section);
 	Server::getInstance().data.deleteSection(section);
 	return true;
+}
+
+bool Professor::unpublishSection(int sectionCrn)
+{
+	return unpublishSection(Server::getInstance().data.getSection(sectionCrn));
 }
 
 bool Professor::editSectionCapacity(int sectionCrn, int capacity)

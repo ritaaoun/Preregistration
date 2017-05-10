@@ -37,7 +37,6 @@ public:
 	virtual bool updateSection(const Section * section) const = 0;
 	virtual int createSection(const Section * section) const = 0;
 	virtual std::vector<Section*> getSections() const = 0;
-	virtual Constraint* getSectionConstraint(int sectionCrn) const = 0;
 	virtual std::vector<TimeSlot *> getSectionTimeSlots(int sectionCrn) const = 0;
 	virtual bool updateSectionTimeSlots(Section * section) const = 0;
 	virtual bool addStudentSection(Student * student, Section * section) const = 0;

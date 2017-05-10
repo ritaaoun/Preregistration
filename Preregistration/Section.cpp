@@ -6,8 +6,6 @@
 
 Section::~Section()
 {
-	delete mConstraints;
-
 	for (std::vector<TimeSlot *>::iterator it = mTimeSlots.begin(); it != mTimeSlots.end(); ++it) {
 		delete *it;
 	}
@@ -47,8 +45,8 @@ void Section::loadStudents()
 std::string Section::serialize()
 {
 	std::string result = std::to_string(getCrn()) + ClientServerInterface::DELIMITER + std::to_string(getCourseId()) +
-		ClientServerInterface::DELIMITER + getCourse()->getFullCode() + ClientServerInterface::DELIMITER +
-		getCourse()->getDescription() + ClientServerInterface::DELIMITER + std::to_string(getNumber()) +
+		ClientServerInterface::DELIMITER + getCourse()->getFullCode() + ClientServerInterface::DELIMITER + getCourse()->getName() +
+		ClientServerInterface::DELIMITER + getCourse()->getDescription() + ClientServerInterface::DELIMITER + std::to_string(getNumber()) +
 		ClientServerInterface::DELIMITER + std::to_string(getCapacity()) + ClientServerInterface::DELIMITER +
 		std::to_string(getNumberOfStudents()) + ClientServerInterface::DELIMITER + getProfessor()->getFullName();
 
@@ -172,21 +170,6 @@ std::vector<TimeSlot*> Section::getTimeSlots() const
 	return mTimeSlots;
 }
 
-void Section::setConstraint(Constraint * constraint)
-{
-	mConstraints = constraint;
-}
-
-Constraint * Section::getConstraint()
-{
-	if (mConstraints == nullptr) {
-		return getCourse()->getConstraint();
-	}
-	else {
-		return mConstraints;
-	}
-}
-
 int Section::getCourseId() const
 {
 	return mCourseId;
@@ -228,7 +211,7 @@ bool Section::removeStudent(Student * student)
 Section::Section(int courseId, int capacity, int professorId, const std::vector<TimeSlot*>& timeSlots) :
 	mCourseId(courseId), mCourse(nullptr), mSectionNumber(Server::getInstance().data.getNewSectionNumber(courseId)),
 	mCapacity(capacity), mProfId(professorId), mProfessor(nullptr), mStatus(TENTATIVE), mRoomId(-1), mRoom(nullptr),
-	mTimeSlots(timeSlots), mConstraints(nullptr), mStudentIds(), mStudents()
+	mTimeSlots(timeSlots), mStudentIds(), mStudents()
 {
 	mCrn = Server::getInstance().repository->createSection(this);
 	Server::getInstance().data.addSection(this);
@@ -237,8 +220,7 @@ Section::Section(int courseId, int capacity, int professorId, const std::vector<
 Section::Section(int crn, int courseId, int number, int capacity, int professorId, Status status) :
 	mCrn(crn), mCourseId(courseId), mCourse(nullptr), mSectionNumber(number), mCapacity(capacity), mProfId(professorId),
 	mProfessor(nullptr), mStatus(status), mRoomId(Server::getInstance().repository->getSectionRoomId(crn)), mRoom(nullptr), 
-	mTimeSlots(Server::getInstance().repository->getSectionTimeSlots(crn)), 
-	mConstraints(Server::getInstance().repository->getSectionConstraint(crn)), 
+	mTimeSlots(Server::getInstance().repository->getSectionTimeSlots(crn)),  
 	mStudentIds(Server::getInstance().repository->getSectionStudents(this)), mStudents()
 {
 }

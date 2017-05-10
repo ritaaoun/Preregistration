@@ -67,9 +67,9 @@ std::string ClientInterface::getCourseRequests(std::string params)
 	return client.sendData(params);
 }
 
-std::string ClientInterface::getUserCourses(std::string params)
+std::string ClientInterface::getUserDepartmentCourses(std::string params)
 {
-	params = "getUserCourses" + ClientServerInterface::FUNC_DELIMITER + params;
+	params = "getUserDepartmentCourses" + ClientServerInterface::FUNC_DELIMITER + params;
 	return client.sendData(params);
 }
 
@@ -118,5 +118,29 @@ std::string ClientInterface::resetPassword(std::string params)
 std::string ClientInterface::changePassword(std::string params)
 {
 	params = "changePassword" + ClientServerInterface::FUNC_DELIMITER + params;
+	return client.sendData(params);
+}
+
+std::string ClientInterface::addSection(std::string params)
+{
+	params = "addSection" + ClientServerInterface::FUNC_DELIMITER + params;
+	return client.sendData(params);
+}
+
+std::string ClientInterface::editSection(std::string params)
+{
+	params = "editSection" + ClientServerInterface::FUNC_DELIMITER + params;
+	return client.sendData(params);
+}
+
+std::string ClientInterface::deleteSection(std::string params)
+{
+	params = "deleteSection" + ClientServerInterface::FUNC_DELIMITER + params;
+	return client.sendData(params);
+}
+
+std::string ClientInterface::getUserDepartmentSections(std::string params)
+{
+	params = "getUserDepartmentSections" + ClientServerInterface::FUNC_DELIMITER + params;
 	return client.sendData(params);
 }
