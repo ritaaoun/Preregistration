@@ -3,6 +3,7 @@
 #include "Helper.hpp"
 #include <functional>
 #include <exception>
+#include "Professor.hpp"
 
 ServerInterface::ServerInterface()
 {
@@ -94,9 +95,9 @@ std::string ServerInterface::getUsers(std::string params)
 			for (std::vector<AbstractUser*>::iterator it = users.begin();it != users.end();++it)
 			{
 				result += (*it)->getUsername() + ClientServerInterface::DELIMITER + (*it)->getFirstName() +
-					ClientServerInterface::DELIMITER + (*it)->getMiddleName() + ClientServerInterface::DELIMITER + 
+					ClientServerInterface::DELIMITER + (*it)->getMiddleName() + ClientServerInterface::DELIMITER +
 					(*it)->getLastName() + ClientServerInterface::DELIMITER +
-					std::to_string((*it)->getDepartmentId()) + ClientServerInterface::DELIMITER +(*it)->getBirthday() +
+					std::to_string((*it)->getDepartmentId()) + ClientServerInterface::DELIMITER + (*it)->getBirthday() +
 					ClientServerInterface::DELIMITER + std::to_string((*it)->getStartYear()) + ClientServerInterface::DELIMITER +
 					std::to_string((*it)->getStartTerm()) + ClientServerInterface::DELIMITER + std::to_string((*it)->getType());
 				if (users.end() != it + 1)
@@ -175,7 +176,7 @@ std::string ServerInterface::editUser(std::string params)
 			{
 				Administrator * admin = (Administrator*)user;
 				bool worked = admin->editUser(editedUsername, firstName, middleName, lastName, Helper::stringToLong(department), dateOfBirth);
-				return std::to_string(worked);
+				return worked ? "true" : "false";
 			}
 		}
 
@@ -267,8 +268,8 @@ std::string ServerInterface::sendMessage(std::string params)
 		AbstractUser* user = Server::getInstance().data.getUser(params);
 		if (user != nullptr)
 		{
-			bool sent = user->sendChatMessage(recipient,topic,content);
-			return std::to_string(sent);
+			bool sent = user->sendChatMessage(recipient, topic, content);
+			return sent ? "true" : "false";
 		}
 
 		return "false";
@@ -283,17 +284,100 @@ std::string ServerInterface::sendMessage(std::string params)
 
 std::string ServerInterface::getCourses(std::string params)
 {
-	return "";
+	try
+	{
+		std::vector<Course*> courses =  Server::getInstance().data.getCourses(Course::APPROVED);
+		std::string result = "";
+		for (std::vector<Course*>::iterator it = courses.begin();it != courses.end();++it)
+		{
+			result += std::to_string((*it)->getID()) + ClientServerInterface::DELIMITER + (*it)->getCourseCode() + ClientServerInterface::DELIMITER +
+				(*it)->getCourseName() + ClientServerInterface::DELIMITER + (*it)->getDescription() +
+				ClientServerInterface::DELIMITER + std::to_string((*it)->getNumberOfCredits());
+
+			if (courses.end() != it + 1)
+			{
+				result += ClientServerInterface::LIST_DELIMITER;
+			}
+		}
+		return "false";
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "Error in ServerInterface::addUser" << e.what();
+		return "false";
+	}
 }
 
 std::string ServerInterface::addCourse(std::string params)
 {
-	return "";
+	try {
+		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
+
+		std::string username = param[0];
+		std::string departmentId = param[1];
+		std::string courseCode = param[1];
+		std::string courseName = param[1];
+		std::string description = param[1];
+		std::string credits = param[1];
+		bool computer = Helper::stringToLong(param[1]) == 1;
+		bool speaker = Helper::stringToLong(param[1]) == 1;
+		bool accelerator = Helper::stringToLong(param[1]) == 1;
+
+		AbstractUser* user = Server::getInstance().data.getUser(username);
+		if (user != nullptr)
+		{
+			if (user->getType() == AbstractUser::Type::PROFESSOR)
+			{
+				Professor * prof = (Professor*)user;
+
+				Constraint * constraint = new Constraint(computer, speaker, accelerator);
+				bool success = prof->requestCourse(Helper::stringToLong(departmentId), courseCode, courseName, description,
+					Helper::stringToLong(credits), constraint);
+
+				return success ? "true" : "false";
+			}
+		}
+
+		return "false";
+
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "Error in ServerInterface::login" << e.what();
+		return "false";
+	}
 }
 
 std::string ServerInterface::decideOnCourse(std::string params)
 {
-	return "";
+	try
+	{
+		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
+
+		std::string username = param[0];
+		std::string courseId = param[1];
+		std::string status = param[2];
+
+		AbstractUser* user = Server::getInstance().data.getUser(username);
+		if (user != nullptr)
+		{
+			if (user->getType() == AbstractUser::Type::ADMINISTRATOR)
+			{
+				Administrator * admin = (Administrator*)user;
+				Course * course = Server::getInstance().data.getCourse(Helper::stringToLong(courseId));
+				bool success = admin->decideOnCourse(course, status == "1");
+				return success ? "true" : "false";
+			}
+		}
+
+		return "false";
+
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "Error in ServerInterface::login" << e.what();
+		return "false";
+	}
 }
 
 std::string ServerInterface::getDepartments(std::string params)

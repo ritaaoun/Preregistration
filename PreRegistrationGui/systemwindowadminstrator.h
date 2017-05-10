@@ -8,6 +8,7 @@
 #include <QSignalMapper>
 #include "userinfo.h"
 #include "loginwindow.h"
+#include "dialogmessage.h"
 
 namespace Ui {
 class SystemWindowAdminstrator;
@@ -37,8 +38,14 @@ private slots:
 
     void on_cbUserList_currentIndexChanged(int index);
 
+    void on_pushButton_clicked();
+
+    void dialogClosed();
+
 private:
     Ui::SystemWindowAdminstrator *ui;
+    QDialog* dialog;
+    bool dialogOpened;
 
     std::vector<CourseRequest> courseRequests;
     std::vector<UserInfo> userInfo;

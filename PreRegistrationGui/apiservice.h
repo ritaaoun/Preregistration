@@ -9,6 +9,7 @@
 #include <ClientInterface.hpp>
 #include <QDebug>
 #include "userinfo.h"
+#include "message.h"
 
 class APIService
 {
@@ -20,12 +21,14 @@ public:
     std::vector<CourseRequest> getCourseRequests();
     std::unordered_map<int, QString> getDepartments();
     std::vector<UserInfo> getAdminUsersInfo();
+    std::vector<Message> getUserMessages();
     bool userLogIn(QString username, QString password);
     bool addCourse(Course course);
     bool removeCourse(Course course);
     bool createUser(std::vector<QString> userInfo);
     bool editUser(std::vector<QString> userInfo);
     bool sendPriviliges(QString adminUsername, QString adminDepartment);
+    bool sendMessage(Message message);
 
 private:
     APIService();
