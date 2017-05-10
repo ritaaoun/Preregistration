@@ -33,7 +33,7 @@ void Course::loadProfessor()
 }
 std::string Course::serialize()
 {
-	return std::to_string(getID()) + ClientServerInterface::DELIMITER + getFullCode() + ClientServerInterface::DELIMITER +
+	return std::to_string(getId()) + ClientServerInterface::DELIMITER + getFullCode() + ClientServerInterface::DELIMITER +
 		getName() + ClientServerInterface::DELIMITER + getDescription() +
 		ClientServerInterface::DELIMITER + std::to_string(getNumberOfCredits());
 }

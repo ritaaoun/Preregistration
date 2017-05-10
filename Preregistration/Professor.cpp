@@ -3,7 +3,6 @@
 #include "Student.hpp"
 #include <iostream>
 
-//TODO: void getSections
 
 Professor::Professor() : AbstractUser(), m_sections()
 {

@@ -7,7 +7,7 @@
 #include <vector>
 #include "ISerializable.hpp"
 
-class Room : public Schedulable, public ISerializable
+class Room : public ISchedulable, public ISerializable
 {
 public:
 	Room(int id, const std::string & buildingCode, int roomNumber, int capacity);
