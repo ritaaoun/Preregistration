@@ -3,7 +3,6 @@
 #include <sstream>
 #include <vector>
 #include <iterator>
-#include "NetworkClient.hpp"
 
 class ClientServerInterface
 {
@@ -36,7 +35,9 @@ public:
 	static std::vector<std::string> split(const std::string & s, std::string delim);
 	static const std::string DELIMITER;
 	static const std::string FUNC_DELIMITER;
+	static const std::string TIMESLOT_DELIMITER;
 	static const std::string LIST_DELIMITER;
+	static const std::string LIST_TIMESLOT_DELIMITER;
 };
 
 

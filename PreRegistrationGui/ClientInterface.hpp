@@ -1,5 +1,6 @@
 #pragma once
 #include "ClientServerInterface.hpp"
+#include "NetworkClient.hpp"
 
 class ClientInterface : public ClientServerInterface
 {

@@ -1,37 +1,29 @@
-#include "systemwindow.h"
-#include "ui_systemwindow.h"
+#include "systemwindowprofessor.h"
+#include "ui_systemwindowprofessor.h"
 #include <QDebug>
 
-SystemWindow::SystemWindow(QWidget *parent) :
+SystemWindowProfessor::SystemWindowProfessor(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::SystemWindow)
+    ui(new Ui::SystemWindowProfessor)
 {
     ui->setupUi(this);
 
     ui->label_welcome->setText("Welcome " + User::getUser()->getName());
 
+    dialogAddSectionOpened = false;
+
+    professorCourses = APIService::getInstance()->getUserSetions();
+    departmentCourses = APIService::getInstance()->getDepartmentCourses();
+
     refresh();
 }
 
-SystemWindow::~SystemWindow()
+SystemWindowProfessor::~SystemWindowProfessor()
 {
     delete ui;
 }
 
-void SystemWindow::on_pbAddCourse_clicked()
-{
-    APIService::getInstance()->addCourse(courses[ui->cbCoursesList->currentIndex()]);
-    refresh();
-}
-
-
-void SystemWindow::on_pbRemoveCourse_clicked()
-{
-    APIService::getInstance()->removeCourse(userCourses[ui->cbMyCoursesList->currentIndex()]);
-    refresh();
-}
-
-void SystemWindow::setUpCoursesComboBox()
+void SystemWindowProfessor::setUpCoursesComboBox()
 {
     courses = APIService::getInstance()->getCoursesList();
 
@@ -41,20 +33,17 @@ void SystemWindow::setUpCoursesComboBox()
     }
 }
 
-void SystemWindow::on_cbCoursesList_currentIndexChanged(int index)
+void SystemWindowProfessor::on_cbCoursesList_currentIndexChanged(int index)
 {
     Course course = courses[index];
 
     ui->tableCourses->setRowCount(0);
-    ui->cbSectionsList->clear();
 
     for(int i = 0; i < course.getSections().size(); i++)
     {
         std::vector<QTableWidgetItem*> items;
 
         Section section = course.getSections()[i];
-
-        ui->cbSectionsList->addItem(QString::number(section.getNumber()));
 
         items.push_back(new QTableWidgetItem(QString::number(section.getNumber())));
         items.push_back(new QTableWidgetItem(section.getRoom()));
@@ -81,12 +70,12 @@ void SystemWindow::on_cbCoursesList_currentIndexChanged(int index)
     }
 }
 
-void SystemWindow::on_pbRefresh_clicked()
+void SystemWindowProfessor::on_pbRefresh_clicked()
 {
     refresh();
 }
 
-void SystemWindow::displaySchedule()
+void SystemWindowProfessor::displaySchedule()
 {
     std::vector<Course> userCourses = APIService::getInstance()->getUserCourses();
 
@@ -109,17 +98,16 @@ void SystemWindow::displaySchedule()
     }
 }
 
-void SystemWindow::clearSchedule()
+void SystemWindowProfessor::clearSchedule()
 {
     ui->tableSchedule->setRowCount(0);
 }
 
-void SystemWindow::setUpUserCourses()
+void SystemWindowProfessor::setUpUserCourses()
 {
     userCourses = APIService::getInstance()->getUserCourses();
 
     ui->tableMyCourses->setRowCount(0);
-    ui->cbMyCoursesList->clear();
 
     for(int i = 0; i < courses.size(); i++)
     {
@@ -128,7 +116,6 @@ void SystemWindow::setUpUserCourses()
             std::vector<QTableWidgetItem*> items;
 
             Section section = courses[i].getSections()[j];
-            ui->cbMyCoursesList->addItem(courses[i].getName() + " " + QString::number(section.getNumber()));
 
             items.push_back(new QTableWidgetItem(courses[i].getName()));
             items.push_back(new QTableWidgetItem(QString::number(section.getNumber())));
@@ -162,17 +149,36 @@ void SystemWindow::setUpUserCourses()
     }
 }
 
-void SystemWindow::refresh()
+void SystemWindowProfessor::refresh()
 {
     setUpCoursesComboBox();
     setUpUserCourses();
     displaySchedule();
 }
 
-void SystemWindow::removeCourse(int index)
+void SystemWindowProfessor::removeCourse(int index)
 {
 
 }
 
+void SystemWindowProfessor::on_pbRequestCourse_clicked()
+{
 
+}
 
+void SystemWindowProfessor::on_pbAddSection_clicked()
+{
+    if(!dialogAddSectionOpened && professorCourses.size() != 0)
+    {
+        dialogAddSection = new DialogAddSection(professorCourses);
+        QObject::connect(dialogAddSection, SIGNAL(finished(int)), this, SLOT(dialogAddSectionClosed()));
+        dialogAddSection->show();
+
+        dialogAddSectionOpened = true;
+    }
+}
+
+void SystemWindowProfessor::dialogAddSectionClosed()
+{
+    dialogAddSectionOpened = false;
+}

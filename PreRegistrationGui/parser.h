@@ -25,6 +25,7 @@ public:
     static std::string sendDecideOnCourse(std::string username, int id, bool accepted);
     static std::string sendChangePassword(std::string username, std::string oldPassowrd, std::string newPassword);
     static std::string sendResetPassword(std::string username, std::string userUsername);
+    static std::string sendAddSection(std::string username, int courseId, int capacity, std::vector<TimeSlot> timeSlots);
 
     static void getCreateUser(std::string message);
     static bool getBoolean(std::string message);
@@ -32,6 +33,7 @@ public:
     static std::vector<UserInfo> getAdminUserInfo(std::string message);
     static std::vector<Message> getUserMessages(std::string message);
     static std::vector<Course> getCourseRequests(std::string message);
+    static std::vector<Course> getSections(std::string message); //TODO
 };
 
 #endif // PARSER_H
