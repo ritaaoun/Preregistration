@@ -2,7 +2,7 @@
 #include "Server.hpp"
 
 Student::Student() :
-	AbstractUser(), m_sections()
+	AbstractUser(), m_sectionCrns(), m_sections()
 {
 }
 
@@ -41,19 +41,13 @@ Student & Student::operator=(const Student & rhs)
 
 const std::vector<Section*> Student::getSections()
 {
-	if (m_sections.empty())
-	{
-		for (std::vector<int>::iterator it = m_sectionCrns.begin(); it != m_sectionCrns.end(); ++it)
-		{
-			m_sections.push_back(Server::getInstance().data.getSection(*it));
-		}
-
-	}
+	loadSections();
 	return m_sections;
 }
 
 bool Student::subscribeToSection(Section * section)
 {
+	loadSections();
 	m_sectionCrns.push_back(section->getCrn());
 	m_sections.push_back(section);
 	section->addStudent(this);
@@ -63,9 +57,21 @@ bool Student::subscribeToSection(Section * section)
 
 bool Student::unsubscribeFromSection(Section * section)
 {
+	loadSections();
 	m_sectionCrns.erase(std::find(m_sectionCrns.begin(), m_sectionCrns.end(), section->getCrn()));
 	m_sections.erase(std::find(m_sections.begin(), m_sections.end(), section));
 	section->removeStudent(this);
 	Server::getInstance().repository->removeStudentSection(this, section);
 	return true;
+}
+
+void Student::loadSections()
+{
+	if (m_sections.empty())
+	{
+		for (std::vector<int>::iterator it = m_sectionCrns.begin(); it != m_sectionCrns.end(); ++it)
+		{
+			m_sections.push_back(Server::getInstance().data.getSection(*it));
+		}
+	}
 }

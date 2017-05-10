@@ -73,5 +73,10 @@ private:
 
 	std::vector<int> mStudentIds;
 	std::vector<Student *> mStudents;
+
+	void loadCourse();
+	void loadProfessor();
+	void loadRoom();
+	void loadStudents();
 };
 

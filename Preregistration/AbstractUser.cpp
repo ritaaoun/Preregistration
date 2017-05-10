@@ -145,9 +145,14 @@ void AbstractUser::setBirthday(const std::string & birthday)
 bool AbstractUser::sendChatMessage(const std::string & recipient, const std::string & topic, const std::string & content)
 {
 	AbstractUser * user = Server::getInstance().data.getUser(recipient);
-	ChatMessage * message = new ChatMessage(this, user, topic, content);
+	return sendChatMessage(user, topic, content);
+}
+
+bool AbstractUser::sendChatMessage(AbstractUser * recipient, const std::string & topic, const std::string & content)
+{
+	ChatMessage * message = new ChatMessage(this, recipient, topic, content);
 	updateSentMessages(message);
-	user->updateReceivedMessages(message);
+	recipient->updateReceivedMessages(message);
 	return true;
 }
 

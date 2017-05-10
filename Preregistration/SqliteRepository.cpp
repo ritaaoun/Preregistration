@@ -3,6 +3,7 @@
 #include "Student.hpp"
 #include "ChatMessage.hpp"
 #include "Helper.hpp"
+#include "Server.hpp"
 #include <iostream>
 
 SqliteRepository & SqliteRepository::getInstance()
@@ -507,6 +508,23 @@ bool SqliteRepository::removeRoomSection(Room * room, Section * section) const
 	std::string sql = "DELETE FROM ROOMSECTION WHERE ROOMID = '" + std::to_string(room->getId()) +
 		"' AND SECTIONCRN = '" + std::to_string(section->getCrn()) + "'";
 	return execute(sql);
+}
+
+std::vector<int> SqliteRepository::getSectionStudents(const Section * section) const
+{
+	std::string sql = "SELECT USERID FROM USERSECTION WHERE SECTIONCRN = '" + std::to_string(section->getCrn()) + "'";
+	std::vector<std::vector<std::string>> results = query(sql);
+	std::vector<int> out;
+
+	for (std::vector<std::vector<std::string>>::iterator it = results.begin(); it != results.end(); ++it)
+	{
+		int userId = Helper::stringToLong((*it).at(0));
+
+		if (Server::getInstance().data.getUser(userId)->getType() == AbstractUser::STUDENT) {
+			out.push_back(userId);
+		}
+	}
+	return out;
 }
 
 std::vector<Room*> SqliteRepository::getRooms() const

@@ -34,5 +34,7 @@ private:
 	std::vector<int> m_sectionCrns;
 	std::vector<Section *> m_sections;
 
+	void loadSections();
+
 	bool notifySectionStudents(Section * section, const std::string & topic, const std::string & message);
 };

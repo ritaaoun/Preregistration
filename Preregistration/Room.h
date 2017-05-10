@@ -38,4 +38,6 @@ private:
 	std::vector<int> mSectionIds;
 	std::vector<Section*> mSections;
 	Schedule* mSchedule;
+
+	void loadSections();
 };

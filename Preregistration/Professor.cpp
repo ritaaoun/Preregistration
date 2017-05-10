@@ -1,7 +1,7 @@
 #include "Professor.hpp"
 #include "Server.hpp"
 #include "Student.hpp"
-//TODO: void getSections
+
 Professor::Professor() : AbstractUser(), m_sections()
 {
 }
@@ -41,26 +41,19 @@ Professor & Professor::operator=(const Professor & rhs)
 
 const std::vector<Section*> Professor::getSections()
 {
-	if (m_sections.empty() && !m_sectionCrns.empty())
-	{
-		for (std::vector<int>::iterator it = m_sectionCrns.begin(); it != m_sectionCrns.end(); ++it)
-		{
-			m_sections.push_back(Server::getInstance().data.getSection(*it));
-		}
-
-	}
+	loadSections();
 	return m_sections;
 }
 
 bool Professor::requestCourse(int departmentId, const std::string & courseCode, const std::string & courseName, const std::string & courseDescription, int numberOfCredits, Constraint * constraints) const
 {
-	Course * course = new Course(departmentId, courseCode, courseName, courseDescription, numberOfCredits, constraints);
+	Course * course = new Course(departmentId, courseCode, courseName, courseDescription, numberOfCredits, constraints, getId());
 	return course->getDepartment()->requestCourse(course);
 }
 
 bool Professor::publishSection(int courseId, int capacity, int professorId, const std::vector<TimeSlot*>& timeSlots)
 {
-	getSections();
+	loadSections();
 	Section * section = new Section(courseId, capacity, professorId, timeSlots);
 	m_sectionCrns.push_back(section->getCrn());
 	m_sections.push_back(section);
@@ -71,7 +64,7 @@ bool Professor::publishSection(int courseId, int capacity, int professorId, cons
 
 bool Professor::unpublishSection(Section * section)
 {
-	getSections();
+	loadSections();
 	m_sectionCrns.erase(std::remove(m_sectionCrns.begin(), m_sectionCrns.end(), section->getCrn()), m_sectionCrns.end());
 	m_sections.erase(std::remove(m_sections.begin(), m_sections.end(), section), m_sections.end());
 	Server::getInstance().repository->removeProfessorSection(this, section);
@@ -114,6 +107,18 @@ bool Professor::editSectionTimeSlots(int sectionCrn, const std::vector<TimeSlot*
 bool Professor::editSection(int sectionCrn, int capacity, const std::vector<TimeSlot*>& timeSlots)
 {
 	return editSectionCapacity(sectionCrn, capacity) && editSectionTimeSlots(sectionCrn, timeSlots);
+}
+
+void Professor::loadSections()
+{
+	if (m_sections.empty() && !m_sectionCrns.empty())
+	{
+		for (std::vector<int>::iterator it = m_sectionCrns.begin(); it != m_sectionCrns.end(); ++it)
+		{
+			m_sections.push_back(Server::getInstance().data.getSection(*it));
+		}
+
+	}
 }
 
 bool Professor::notifySectionStudents(Section * section, const std::string & topic, const std::string & message)

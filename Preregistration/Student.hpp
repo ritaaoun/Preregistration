@@ -24,4 +24,6 @@ public:
 private:
 	std::vector<int> m_sectionCrns;
 	std::vector<Section *> m_sections;
+
+	void loadSections();
 };

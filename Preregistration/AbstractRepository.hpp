@@ -46,6 +46,7 @@ public:
 	virtual bool removeProfessorSection(Professor * professor, Section * section) const = 0;
 	virtual bool addRoomSection(Room * room, Section * section) const = 0;
 	virtual bool removeRoomSection(Room * room, Section * section) const = 0;
+	virtual std::vector<int> getSectionStudents(const Section * section) const = 0;
 
 	virtual std::vector<Room*> getRooms() const = 0;
 	virtual int getSectionRoomId(int sectionCrn) const = 0;

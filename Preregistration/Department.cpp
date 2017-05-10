@@ -112,8 +112,8 @@ bool Department::decideOnCourse(Course * course, bool approveCourse)
 		else {
 			course->refuseCourse();
 		}
-		m_courseRequestIds.erase(std::remove(m_courseRequestIds.begin(), m_courseRequestIds.end(), course), m_courseRequestIds.end());
-		m_courseRequests.erase(std::remove(m_courseRequests.begin(), m_courseRequests.end(), *it), m_courseRequests.end());
+		m_courseRequestIds.erase(std::remove(m_courseRequestIds.begin(), m_courseRequestIds.end(), course->getID()), m_courseRequestIds.end());
+		m_courseRequests.erase(std::remove(m_courseRequests.begin(), m_courseRequests.end(), course), m_courseRequests.end());
 		Server::getInstance().repository->updateCourse(course);
 
 		std::cout << "Department::decideOnCourse: course " << course->getID() << " has been decided on" << std::endl;
