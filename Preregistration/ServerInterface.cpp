@@ -270,7 +270,7 @@ std::string ServerInterface::sendMessage(std::string params)
 		std::string topic = param[2];
 		std::string content = param[3];
 
-		AbstractUser* user = Server::getInstance().data.getUser(params);
+		AbstractUser* user = Server::getInstance().data.getUser(param[0]);
 		if (user != nullptr)
 		{
 			bool sent = user->sendChatMessage(recipient, topic, content);
@@ -291,7 +291,17 @@ std::string ServerInterface::getCourses(std::string params)
 {
 	try
 	{
-		std::vector<Course*> courses =  Server::getInstance().data.getCourses(Course::APPROVED);
+		AbstractUser* user = Server::getInstance().data.getUser(params);
+
+		if (user != nullptr)
+		{
+			if (user->getType() == AbstractUser::Type::ADMINISTRATOR)
+			{
+				Administrator * admin = (Administrator*)user;
+				//admin->getCourseRequest();
+			}
+		}
+		std::vector<Course*> courses;// = Server::getInstance().data.getCourses(stat);
 		std::string result = "";
 		for (std::vector<Course*>::iterator it = courses.begin();it != courses.end();++it)
 		{
@@ -311,6 +321,11 @@ std::string ServerInterface::getCourses(std::string params)
 		std::cerr << "Error in ServerInterface::addUser" << e.what();
 		return "false";
 	}
+}
+
+std::string ServerInterface::getUserCourses(std::string params)
+{
+	return std::string();
 }
 
 std::string ServerInterface::addCourse(std::string params)
@@ -416,5 +431,20 @@ std::string ServerInterface::getDepartments(std::string params)
 		std::cerr << "Error in ServerInterface::getDepartments" << e.what();
 		return "false";
 	}
+}
+
+std::string ServerInterface::givePrivileges(std::string params)
+{
+	return std::string();
+}
+
+std::string ServerInterface::getSections(std::string params)
+{
+	return std::string();
+}
+
+std::string ServerInterface::getUserSections(std::string params)
+{
+	return std::string();
 }
 

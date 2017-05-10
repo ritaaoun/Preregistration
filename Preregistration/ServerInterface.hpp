@@ -33,12 +33,19 @@ public:
 
 	virtual  std::string getCourses(std::string params) override;
 
+	virtual  std::string getUserCourses(std::string params) override;
+	
 	virtual  std::string addCourse(std::string params) override;
 
 	virtual  std::string decideOnCourse(std::string params) override;
 
 	virtual  std::string getDepartments(std::string params) override;
 
+	virtual  std::string givePrivileges(std::string params) override;
+
+	virtual  std::string getSections(std::string params) override;
+	
+	virtual  std::string getUserSections(std::string params) override;
 
 private:
 
