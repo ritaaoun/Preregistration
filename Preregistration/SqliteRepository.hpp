@@ -38,6 +38,12 @@ public:
 	virtual Constraint* getSectionConstraint(int sectionCrn) const override;
 	virtual std::vector<TimeSlot *> getSectionTimeSlots(int sectionCrn) const override;
 	virtual bool updateSectionTimeSlots(Section * section) const override;
+	virtual bool addStudentSection(Student * student, Section * section) const override;
+	virtual bool removeStudentSection(Student * student, Section * section) const override;
+	virtual bool addProfessorSection(Professor * professor, Section * section) const override;
+	virtual bool removeProfessorSection(Professor * professor, Section * section) const override;
+	virtual bool addRoomSection(Room * room, Section * section) const override;
+	virtual bool removeRoomSection(Room * room, Section * section) const override;
 
 	virtual std::vector<Room*> getRooms() const override;
 	virtual int getSectionRoomId(int sectionCrn) const override;

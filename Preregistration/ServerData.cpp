@@ -151,6 +151,15 @@ bool ServerData::addSection(Section * section)
 	return true;
 }
 
+bool ServerData::deleteSection(Section * section)
+{
+	int crn = section->getCrn();
+	m_sections.erase(crn);
+	Server::getInstance().repository->deleteSection(crn);
+	delete section;
+	return true;
+}
+
 Section * ServerData::getSection(int crn) const
 {
 	std::unordered_map<int, Section*>::const_iterator it = m_sections.find(crn);

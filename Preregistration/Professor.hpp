@@ -21,9 +21,11 @@ public:
 
 	const std::vector<Section *> getSections() override;
 
-	bool requestCourse(int departmentId, const std::string & courseCode, const std::string & courseName, const std::string & courseDescription, int numberOfCredits, Constraint * constraints) const;
+	bool requestCourse(int departmentId, const std::string & courseCode, const std::string & courseName, 
+		const std::string & courseDescription, int numberOfCredits, Constraint * constraints) const;
 
 	bool publishSection(int courseId, int capacity, int professorId, const std::vector<TimeSlot*>& timeSlots);
+	bool unpublishSection(Section * section);
 	bool editSectionCapacity(int sectionCrn, int capacity);
 	bool editSectionTimeSlots(int sectionCrn, const std::vector<TimeSlot*>& timeSlots);
 	bool editSection(int sectionCrn, int capacity, const std::vector<TimeSlot*>& timeSlots);
@@ -32,5 +34,5 @@ private:
 	std::vector<int> m_sectionCrns;
 	std::vector<Section *> m_sections;
 
-	bool notifySectionStudents(Section * section, const std::string & message);
+	bool notifySectionStudents(Section * section, const std::string & topic, const std::string & message);
 };

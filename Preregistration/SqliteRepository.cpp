@@ -362,7 +362,7 @@ int SqliteRepository::createSection(const Section * section) const
 	std::string sql = "INSERT INTO SECTION (COURSEID, NUMBER, CAPACITY, PROFESSORID, ISCONFIRMED) VALUES ( '" +
 		std::to_string(section->getCourseId()) + "', '" + std::to_string(section->getNumber()) + "', '" + 
 		std::to_string(section->getCapacity()) + "', '" + std::to_string(section->getProfessorId()) + "', '" +
-		std::to_string(section->getStatus()) + "'";
+		std::to_string(section->getStatus()) + "')";
 	if (execute(sql))
 	{
 		std::string sql = "SELECT MAX(CRN) FROM SECTION";
@@ -465,6 +465,48 @@ bool SqliteRepository::updateSectionTimeSlots(Section * section) const
 	else {
 		return false;
 	}
+}
+
+bool SqliteRepository::addStudentSection(Student * student, Section * section) const
+{
+	std::string sql = "INSERT INTO USERSECTION (USERID, SECTIONID) VALUES ( '" +
+		std::to_string(student->getId()) + "', '" + std::to_string(section->getCrn()) + "')";
+	return execute(sql);
+}
+
+bool SqliteRepository::removeStudentSection(Student * student, Section * section) const
+{
+	std::string sql = "DELETE FROM USERSECTION WHERE USERID = '" + std::to_string(student->getId()) + 
+		"' AND SECTIONCRN = '" + std::to_string(section->getCrn()) + "'";
+	return execute(sql);
+}
+
+bool SqliteRepository::addProfessorSection(Professor * professor, Section * section) const
+{
+	std::string sql = "INSERT INTO USERSECTION (USERID, SECTIONID) VALUES ( '" +
+		std::to_string(professor->getId()) + "', '" + std::to_string(section->getCrn()) + "')";
+	return execute(sql);
+}
+
+bool SqliteRepository::removeProfessorSection(Professor * professor, Section * section) const
+{
+	std::string sql = "DELETE FROM USERSECTION WHERE USERID = '" + std::to_string(professor->getId()) +
+		"' AND SECTIONCRN = '" + std::to_string(section->getCrn()) + "'";
+	return execute(sql);
+}
+
+bool SqliteRepository::addRoomSection(Room * room, Section * section) const
+{
+	std::string sql = "INSERT INTO ROOMSECTION (ROOMID, SECTIONID) VALUES ( '" +
+		std::to_string(room->getId()) + "', '" + std::to_string(section->getCrn()) + "')";
+	return execute(sql);
+}
+
+bool SqliteRepository::removeRoomSection(Room * room, Section * section) const
+{
+	std::string sql = "DELETE FROM ROOMSECTION WHERE ROOMID = '" + std::to_string(room->getId()) +
+		"' AND SECTIONCRN = '" + std::to_string(section->getCrn()) + "'";
+	return execute(sql);
 }
 
 std::vector<Room*> SqliteRepository::getRooms() const

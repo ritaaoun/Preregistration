@@ -54,6 +54,18 @@ const std::vector<Section*> Student::getSections()
 
 bool Student::subscribeToSection(Section * section)
 {
+	m_sectionCrns.push_back(section->getCrn());
 	m_sections.push_back(section);
+	section->addStudent(this);
+	Server::getInstance().repository->addStudentSection(this, section);
+	return true;
+}
+
+bool Student::unsubscribeFromSection(Section * section)
+{
+	m_sectionCrns.erase(std::find(m_sectionCrns.begin(), m_sectionCrns.end(), section->getCrn()));
+	m_sections.erase(std::find(m_sections.begin(), m_sections.end(), section));
+	section->removeStudent(this);
+	Server::getInstance().repository->removeStudentSection(this, section);
 	return true;
 }

@@ -2,6 +2,7 @@
 #include "Server.hpp"
 #include "Course.hpp"
 #include "Professor.hpp"
+#include "Student.hpp"
 
 Section::~Section()
 {
@@ -143,6 +144,30 @@ Course * Section::getCourse()
 		mCourse = Server::getInstance().data.getCourse(mCourseId);
 	}
 	return mCourse;
+}
+
+std::vector<Student*> Section::getStudents()
+{
+	if (mStudents.empty() && !mStudentIds.empty()) {
+		for (std::vector<int>::const_iterator it = mStudentIds.begin(); it != mStudentIds.end(); ++it) {
+			mStudents.push_back(static_cast<Student*>(Server::getInstance().data.getUser(*it)));
+		}
+	}
+	return mStudents;
+}
+
+bool Section::addStudent(Student * student)
+{
+	mStudentIds.push_back(student->getId());
+	mStudents.push_back(student);
+	return true;
+}
+
+bool Section::removeStudent(Student * student)
+{
+	mStudentIds.erase(std::find(mStudentIds.begin(), mStudentIds.end(), student->getId()));
+	mStudents.erase(std::find(mStudents.begin(), mStudents.end(), student));
+	return true;
 }
 
 Section::Section(int courseId, int capacity, int professorId, const std::vector<TimeSlot*>& timeSlots) :

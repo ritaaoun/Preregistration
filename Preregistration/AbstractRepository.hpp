@@ -40,6 +40,12 @@ public:
 	virtual Constraint* getSectionConstraint(int sectionCrn) const = 0;
 	virtual std::vector<TimeSlot *> getSectionTimeSlots(int sectionCrn) const = 0;
 	virtual bool updateSectionTimeSlots(Section * section) const = 0;
+	virtual bool addStudentSection(Student * student, Section * section) const = 0;
+	virtual bool removeStudentSection(Student * student, Section * section) const = 0;
+	virtual bool addProfessorSection(Professor * professor, Section * section) const = 0;
+	virtual bool removeProfessorSection(Professor * professor, Section * section) const = 0;
+	virtual bool addRoomSection(Room * room, Section * section) const = 0;
+	virtual bool removeRoomSection(Room * room, Section * section) const = 0;
 
 	virtual std::vector<Room*> getRooms() const = 0;
 	virtual int getSectionRoomId(int sectionCrn) const = 0;

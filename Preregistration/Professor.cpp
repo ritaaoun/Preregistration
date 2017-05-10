@@ -1,5 +1,6 @@
 #include "Professor.hpp"
 #include "Server.hpp"
+#include "Student.hpp"
 //TODO: void getSections
 Professor::Professor() : AbstractUser(), m_sections()
 {
@@ -66,13 +67,24 @@ bool Professor::publishSection(int courseId, int capacity, int professorId, cons
 	return true;
 }
 
+bool Professor::unpublishSection(Section * section)
+{
+	getSections();
+	m_sectionCrns.erase(std::find(m_sectionCrns.begin(), m_sectionCrns.end(), section->getCrn()));
+	m_sections.erase(std::find(m_sections.begin(), m_sections.end(), section));
+	Server::getInstance().repository->removeProfessorSection(this, section);
+	Server::getInstance().data.deleteSection(section);
+	return true;
+}
+
 bool Professor::editSectionCapacity(int sectionCrn, int capacity)
 {
 	if (std::find(m_sectionCrns.begin(), m_sectionCrns.end(), sectionCrn) != m_sectionCrns.end()) {
 		Section * section = Server::getInstance().data.getSection(sectionCrn);
 		section->setCapacity(capacity);
 		Server::getInstance().repository->updateSection(section);
-		//TODO: notify
+		notifySectionStudents(section, "Capacity change", "The capacity of section " + std::to_string(section->getNumber()) +
+			" of " + section->getCourse()->getDepartment()->getCode() + section->getCourse()->getCourseCode() + " has changed");
 		return true;
 	}
 	else {
@@ -87,7 +99,8 @@ bool Professor::editSectionTimeSlots(int sectionCrn, const std::vector<TimeSlot*
 		Section * section = Server::getInstance().data.getSection(sectionCrn);
 		section->setTimeSlots(timeSlots);
 		Server::getInstance().repository->updateSectionTimeSlots(section);
-		//TODO: notify
+		notifySectionStudents(section, "Time slot change", "The timing of section " + std::to_string(section->getNumber()) + 
+			" of " + section->getCourse()->getDepartment()->getCode() + section->getCourse()->getCourseCode() + " has changed");
 		return true;
 	}
 	else {
@@ -101,8 +114,11 @@ bool Professor::editSection(int sectionCrn, int capacity, const std::vector<Time
 	return editSectionCapacity(sectionCrn, capacity) && editSectionTimeSlots(sectionCrn, timeSlots);
 }
 
-bool Professor::notifySectionStudents(Section * section, const std::string & message)
+bool Professor::notifySectionStudents(Section * section, const std::string & topic, const std::string & message)
 {
-	//std::vector<
+	std::vector<Student *> students = section->getStudents();
+	for (std::vector<Student *>::const_iterator it = students.begin(); it != students.end(); ++it) {
+		sendChatMessage((*it)->getUsername(), topic, message);
+	}
 	return false;
 }

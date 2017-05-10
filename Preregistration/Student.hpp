@@ -19,6 +19,7 @@ public:
 	const std::vector<Section *> getSections() override;
 
 	bool subscribeToSection(Section * section);
+	bool unsubscribeFromSection(Section * section);
 
 private:
 	std::vector<int> m_sectionCrns;
