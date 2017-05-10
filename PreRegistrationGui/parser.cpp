@@ -156,3 +156,69 @@ std::string Parser::sendMessage(Message message)
 
     return result;
 }
+
+std::string Parser::sendPrivilges(std::string username, std::string adminUsername, std::string department)
+{
+    std::string result;
+
+    result = username
+            + ClientInterface::DELIMITER + adminUsername
+            + ClientInterface::DELIMITER + department;
+
+    return result;
+}
+
+std::vector<Course> Parser::getCourseRequests(std::string message)
+{
+    std::vector<std::string> messageVector = ClientInterface::split(message, ClientInterface::LIST_DELIMITER);
+
+    std::vector<Course> courses;
+
+    for(int i = 0; i < messageVector.size(); i++)
+    {
+        std::vector<std::string> object = ClientInterface::split(messageVector[i], ClientInterface::DELIMITER);
+
+        Course course;
+        course.setId(stoi(object[0]));
+        course.setCode(object[1]);
+        course.setName(object[2]);
+        course.setDescription(object[3]);
+        course.setCredits(stoi(object[4]));
+
+        courses.push_back(course);
+    }
+
+    return courses;
+}
+
+std::string Parser::sendDecideOnCourse(std::string username, int id, bool accepted)
+{
+    std::string result;
+
+    result = username
+            + ClientInterface::DELIMITER + std::to_string(id)
+            + ClientInterface::DELIMITER + std::to_string(accepted);
+
+    return result;
+}
+
+std::string Parser::sendChangePassword(std::string username, std::string oldPassowrd, std::string newPassword)
+{
+    std::string result;
+
+    result = username
+            + ClientInterface::DELIMITER + oldPassowrd
+            + ClientInterface::DELIMITER + newPassword;
+
+    return result;
+}
+
+std::string Parser::sendResetPassword(std::string username, std::string userUsername)
+{
+    std::string result;
+
+    result = username
+            + ClientInterface::DELIMITER + userUsername;
+
+    return result;
+}

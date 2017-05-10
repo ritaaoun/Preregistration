@@ -77,17 +77,17 @@
      </property>
      <column>
       <property name="text">
+       <string>Course Code</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
        <string>Course Name</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>Department</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Professor</string>
+       <string>Credits</string>
       </property>
      </column>
      <column>
@@ -106,9 +106,9 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>110</y>
+      <y>80</y>
       <width>311</width>
-      <height>501</height>
+      <height>541</height>
      </rect>
     </property>
     <widget class="QLabel" name="labelUserAction">
@@ -179,7 +179,7 @@
        <x>10</x>
        <y>150</y>
        <width>291</width>
-       <height>341</height>
+       <height>381</height>
       </rect>
      </property>
      <widget class="QPushButton" name="pbAction">
@@ -188,7 +188,7 @@
         <x>20</x>
         <y>310</y>
         <width>261</width>
-        <height>23</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="text">
@@ -353,6 +353,19 @@
        </item>
       </layout>
      </widget>
+     <widget class="QPushButton" name="pbResetPassword">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>350</y>
+        <width>261</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Reset Password</string>
+      </property>
+     </widget>
      <zorder>layoutWidget</zorder>
      <zorder>pbAction</zorder>
      <zorder>layoutWidget</zorder>
@@ -361,6 +374,7 @@
      <zorder>layoutWidget_5</zorder>
      <zorder>layoutWidget_6</zorder>
      <zorder>layoutWidget_7</zorder>
+     <zorder>pbResetPassword</zorder>
     </widget>
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
@@ -608,6 +622,19 @@
     </property>
     <property name="text">
      <string>Messages</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pbChangePassword">
+    <property name="geometry">
+     <rect>
+      <x>730</x>
+      <y>20</y>
+      <width>121</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Change Password</string>
     </property>
    </widget>
   </widget>

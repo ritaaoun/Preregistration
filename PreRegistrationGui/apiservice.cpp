@@ -44,7 +44,7 @@ bool APIService::userLogIn(QString username, QString password)
     std::string serverResult = client.login(toSend);
 
     //CREATE USER here if true
-    if(serverResult == "true")
+    if(serverResult != "false")
     {
         Parser::getCreateUser(serverResult);
         return true;
@@ -87,39 +87,29 @@ bool APIService::editUser(std::vector<QString> userInfo)
     return result;
 }
 
-std::vector<CourseRequest> APIService::getCourseRequests()
-{
-    CourseRequest request;
-    request.setCourseName("EECE 437");
-    request.setDepartment("CCE");
-    request.setProfessor("Zizo");
+std::vector<Course> APIService::getCourseRequests()
+{   
+    std::string serverResult = client.getCourseRequests(Parser::sendActiveUser());
 
-    CourseRequest request2;
-    request2.setCourseName("EECE 438");
-    request2.setDepartment("CCE");
-    request2.setProfessor("Fifo");
-
-    CourseRequest request3;
-    request3.setCourseName("EECE 436");
-    request3.setDepartment("CCE");
-    request3.setProfessor("Fizo");
-
-    std::vector<CourseRequest> requests;
-    requests.push_back(request);
-    requests.push_back(request2);
-    requests.push_back(request3);
+    std::vector<Course> requests = Parser::getCourseRequests(serverResult);
 
     return requests;
 }
 
-bool APIService::sendPriviliges(QString adminUsername, QString adminDepartment)
+bool APIService::sendPrivileges(QString adminUsername, int adminDepartment)
 {
-    return true;
+    std::string toSend = Parser::sendPrivilges(Parser::sendActiveUser(), adminUsername.toStdString(), QString::number(adminDepartment).toStdString());
+
+    std::string serverResult = client.givePrivileges(toSend);
+
+    bool result = Parser::getBoolean(serverResult);
+
+    return result;
 }
 
 std::unordered_map<int, QString> APIService::getDepartments()
 {
-    std::string serverResult = client.getDepartments(User::getUser()->getUsername().toStdString());
+    std::string serverResult = client.getDepartments(Parser::sendActiveUser());
 
     std::unordered_map<int, QString> departments = Parser::getDepartments(serverResult);
 
@@ -137,9 +127,19 @@ std::vector<UserInfo> APIService::getAdminUsersInfo()
 
 std::vector<Message> APIService::getUserMessages()
 {
-    std::string serverResult = client.getUserMessages(Parser::sendActiveUser());
+    std::string serverResult = client.getReceivedMessages(Parser::sendActiveUser());
 
-    std::vector<Message> messages = Parser::getUserMessages(serverResult);
+    std::vector<Message> messagesReceived = Parser::getUserMessages(serverResult);
+
+    serverResult = client.getSentMessages(Parser::sendActiveUser());
+
+    std::vector<Message> messagesSent = Parser::getUserMessages(serverResult);
+
+    std::vector<Message> messages;
+    for(int i = 0; i < messagesSent.size(); i++)
+        messages.push_back(messagesSent[i]);
+    for(int i = 0; i< messagesReceived.size(); i++)
+        messages.push_back(messagesReceived[i]);
 
     return messages;
 }
@@ -149,6 +149,39 @@ bool APIService::sendMessage(Message message)
     std::string toSend = Parser::sendMessage(message);
 
     std::string serverResult = client.sendMessage(toSend);
+
+    bool result = Parser::getBoolean(serverResult);
+
+    return result;
+}
+
+bool APIService::decideOnCourse(Course course, bool accepted)
+{
+    std::string toSend = Parser::sendDecideOnCourse(Parser::sendActiveUser(), course.getId(), accepted);
+
+    std::string serverResult = client.decideOnCourse(toSend);
+
+    bool result = Parser::getBoolean(serverResult);
+
+    return result;
+}
+
+bool APIService::changePassword(QString oldPassword, QString newPassword)
+{
+    std::string toSend = Parser::sendChangePassword(Parser::sendActiveUser(), oldPassword.toStdString(), newPassword.toStdString());
+
+    std::string serverResult = client.changePassword(toSend);
+
+    bool result = Parser::getBoolean(serverResult);
+
+    return result;
+}
+
+bool APIService::resetPassword(QString userUsername)
+{
+    std::string toSend = Parser::sendResetPassword(Parser::sendActiveUser(), userUsername.toStdString());
+
+    std::string serverResult = client.resetPassword(toSend);
 
     bool result = Parser::getBoolean(serverResult);
 

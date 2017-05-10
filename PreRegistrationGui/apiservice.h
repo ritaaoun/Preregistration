@@ -18,7 +18,7 @@ public:
 
     std::vector<Course> getCoursesList();
     std::vector<Course> getUserCourses();
-    std::vector<CourseRequest> getCourseRequests();
+    std::vector<Course> getCourseRequests();
     std::unordered_map<int, QString> getDepartments();
     std::vector<UserInfo> getAdminUsersInfo();
     std::vector<Message> getUserMessages();
@@ -27,8 +27,11 @@ public:
     bool removeCourse(Course course);
     bool createUser(std::vector<QString> userInfo);
     bool editUser(std::vector<QString> userInfo);
-    bool sendPriviliges(QString adminUsername, QString adminDepartment);
+    bool sendPrivileges(QString adminUsername, int adminDepartment);
     bool sendMessage(Message message);
+    bool decideOnCourse(Course course, bool accepted);
+    bool changePassword(QString oldPassword, QString newPassword);
+    bool resetPassword(QString userUsername);
 
 private:
     APIService();

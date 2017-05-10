@@ -22,6 +22,8 @@ void DialogMessage::setUpUserMessages()
 {
     std::vector<Message> messages = APIService::getInstance()->getUserMessages();
 
+    ui->tableMessages->setRowCount(0);
+
     for(int i = 0; i < messages.size(); i++)
     {
         std::vector<QTableWidgetItem*> items;

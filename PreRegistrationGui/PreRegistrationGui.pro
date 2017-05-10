@@ -20,7 +20,8 @@ SOURCES += main.cpp \
     ClientInterface.cpp \
     userinfo.cpp \
     dialogmessage.cpp \
-    message.cpp
+    message.cpp \
+    dialogchangepassword.cpp
 
 HEADERS += \
     loginwindow.h \
@@ -38,11 +39,13 @@ HEADERS += \
     ClientInterface.hpp \
     userinfo.h \
     dialogmessage.h \
-    message.h
+    message.h \
+    dialogchangepassword.h
 
 FORMS += \
     loginwindow.ui \
     systemwindow.ui \
     systemwindowadminstrator.ui \
-    dialogmessage.ui
+    dialogmessage.ui \
+    dialogchangepassword.ui
 

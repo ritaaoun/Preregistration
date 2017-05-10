@@ -72,7 +72,7 @@ void Message::setMessage(QString message)
 
 void Message::setMessage(std::string message)
 {
-    mMessage = message;
+    mMessage = QString::fromStdString(message);
 }
 
 void Message::setSubject(QString subject)
