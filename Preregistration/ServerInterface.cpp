@@ -567,7 +567,7 @@ std::string ServerInterface::resetPassword(std::string params)
 		std::string recipient = param.at(1);
 
 		std::string result = "";
-		AbstractUser* user = Server::getInstance().data.getUser(params);
+		AbstractUser* user = Server::getInstance().data.getUser(username);
 		if (user != nullptr)
 		{
 			if (user->getType() == AbstractUser::Type::ADMINISTRATOR)
@@ -596,7 +596,7 @@ std::string ServerInterface::changePassword(std::string params)
 		std::string newPass = param.at(2);
 
 		std::string result = "";
-		AbstractUser* user = Server::getInstance().data.getUser(params);
+		AbstractUser* user = Server::getInstance().data.getUser(username);
 		if (user != nullptr)
 		{
 			user->setPassword(oldPass, newPass);
