@@ -598,7 +598,7 @@ bool SqliteRepository::deleteCourse(int id) const
 
 bool SqliteRepository::deleteCourse(const Course * course) const
 {
-	return deleteCourse(course->getID());
+	return deleteCourse(course->getId());
 }
 
 std::vector<Course*> SqliteRepository::getCourses() const

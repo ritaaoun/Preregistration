@@ -311,7 +311,7 @@ std::string ServerInterface::getCourseRequests(std::string params)
 				std::string result = "";
 				for (std::vector<Course*>::iterator it = courses.begin();it != courses.end();++it)
 				{
-					result += std::to_string((*it)->getID()) + ClientServerInterface::DELIMITER + (*it)->getCode() + ClientServerInterface::DELIMITER +
+					result += std::to_string((*it)->getId()) + ClientServerInterface::DELIMITER + (*it)->getCode() + ClientServerInterface::DELIMITER +
 						(*it)->getName() + ClientServerInterface::DELIMITER + (*it)->getDescription() +
 						ClientServerInterface::DELIMITER + std::to_string((*it)->getNumberOfCredits());
 
@@ -346,7 +346,7 @@ std::string ServerInterface::getUserCourses(std::string params)
 		std::string result = "";
 		for (std::vector<Course*>::iterator it = courses.begin();it != courses.end();++it)
 		{
-			result += std::to_string((*it)->getID()) + ClientServerInterface::DELIMITER + (*it)->getCode() + ClientServerInterface::DELIMITER +
+			result += std::to_string((*it)->getId()) + ClientServerInterface::DELIMITER + (*it)->getCode() + ClientServerInterface::DELIMITER +
 				(*it)->getName() + ClientServerInterface::DELIMITER + (*it)->getDescription() +
 				ClientServerInterface::DELIMITER + std::to_string((*it)->getNumberOfCredits());
 

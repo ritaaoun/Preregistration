@@ -52,7 +52,7 @@ Course::Course(int id, int departmentId, const std::string & courseCode, const s
 {
 }
 
-int Course::getID() const
+int Course::getId() const
 {
 	return mId;
 }

@@ -108,13 +108,13 @@ AbstractMessage * ServerData::getMessage(int id) const
 
 bool ServerData::addCourse(Course * course)
 {
-	m_courses[course->getID()] = course;
+	m_courses[course->getId()] = course;
 	return true;
 }
 
 bool ServerData::deleteCourse(Course * course)
 {
-	int id = course->getID();
+	int id = course->getId();
 	m_courses.erase(id);
 	Server::getInstance().repository->deleteCourse(id);
 	delete course;
@@ -361,7 +361,7 @@ bool ServerData::getCourses()
 	for (std::vector<Course*>::iterator it = courses.begin(); it != courses.end(); ++it)
 	{
 		Course * course = *it;
-		m_courses[course->getID()] = course;
+		m_courses[course->getId()] = course;
 	}
 	return true;
 }

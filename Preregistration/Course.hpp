@@ -14,7 +14,7 @@ public:
 	Course(int departmentId, const std::string & courseCode, const std::string & courseName, const std::string & courseDescription, int numberOfCredits, Constraint * constraints, int professorId);
 	Course(int id, int departmentId, const std::string & courseCode, const std::string & courseName, const std::string & courseDescription, int numberOfCredits, Status status, int professorId);
 
-	int getID() const;
+	int getId() const;
 	std::string getCode() const;
 	std::string getFullCode();
 	std::string getName() const;

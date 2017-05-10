@@ -3,7 +3,7 @@
 #include <algorithm>
 #include "Professor.hpp"
 #include "Student.hpp"
-
+//TODO: request course nb
 Administrator::Administrator() : AbstractUser(), m_privilegeIds(), m_privileges()
 {
 }
@@ -80,13 +80,21 @@ bool Administrator::decideOnCourse(Course * courseRequested, bool approveCourse)
 		std::string topic = courseRequested->getFullCode();
 		std::string content = "Course " + topic + " was ";
 		if (approveCourse) {
-			sendChatMessage(courseRequested->getProfessor(), topic, content + "approved.");
+			content = content + "approved.";
 		}
 		else {
-			sendChatMessage(courseRequested->getProfessor(), topic, content + "rejected.");
+			content = content + "rejected.";
 		}
 
-		std::cout << "Administrator::decideOnCourse: course " << courseRequested->getID() << " was decided on" << std::endl;
+		content += " The course details are:\n"
+			"Id: " + std::to_string(courseRequested->getId()) + "\n"
+			"Code: " + courseRequested->getFullCode() + "\n"
+			"Name: " + courseRequested->getName() + "\n"
+			"Description: " + courseRequested->getDescription() + "\n"
+			"Credits: " + std::to_string(courseRequested->getNumberOfCredits());
+
+		sendChatMessage(courseRequested->getProfessor(), topic, content);
+		std::cout << "Administrator::decideOnCourse: course " << courseRequested->getId() << " was decided on" << std::endl;
 		return true;
 	}
 	else {

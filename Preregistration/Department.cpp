@@ -89,7 +89,7 @@ const std::vector<Course*>& Department::getCourseRequests()
 bool Department::requestCourse(Course * course)
 {
 	loadCourseRequests();
-	m_courseRequestIds.push_back(course->getID());
+	m_courseRequestIds.push_back(course->getId());
 	m_courseRequests.push_back(course);
 	return true;
 }
@@ -98,7 +98,7 @@ bool Department::decideOnCourse(Course * course, bool approveCourse)
 {
 	std::vector<Course*>::iterator it = std::find(m_courseRequests.begin(), m_courseRequests.end(), course);
 	if (it == m_courseRequests.end()) {
-		std::cerr << "Department::decideOnCourse: course " << course->getID() << " is not a request" << std::endl;
+		std::cerr << "Department::decideOnCourse: course " << course->getId() << " is not a request" << std::endl;
 		return false;
 	}
 	else {
@@ -106,17 +106,17 @@ bool Department::decideOnCourse(Course * course, bool approveCourse)
 		if (approveCourse) {
 			loadCourses();
 			course->approveCourse();
-			m_courseIds.push_back(course->getID());
+			m_courseIds.push_back(course->getId());
 			m_courses.push_back(course);
 		}
 		else {
 			course->refuseCourse();
 		}
-		m_courseRequestIds.erase(std::remove(m_courseRequestIds.begin(), m_courseRequestIds.end(), course->getID()), m_courseRequestIds.end());
+		m_courseRequestIds.erase(std::remove(m_courseRequestIds.begin(), m_courseRequestIds.end(), course->getId()), m_courseRequestIds.end());
 		m_courseRequests.erase(std::remove(m_courseRequests.begin(), m_courseRequests.end(), course), m_courseRequests.end());
 		Server::getInstance().repository->updateCourse(course);
 
-		std::cout << "Department::decideOnCourse: course " << course->getID() << " has been decided on" << std::endl;
+		std::cout << "Department::decideOnCourse: course " << course->getId() << " has been decided on" << std::endl;
 
 		return true;
 	}
