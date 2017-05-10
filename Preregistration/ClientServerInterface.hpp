@@ -17,11 +17,18 @@ public:
 	virtual  std::string getReceivedMessages(std::string params) = 0;
 	virtual  std::string sendMessage(std::string params) = 0;
 
-	virtual  std::string getCourses(std::string params) = 0;
+	virtual  std::string getCourseRequests(std::string params) = 0;
+	virtual  std::string getUserCourses(std::string params) = 0;
 	virtual  std::string addCourse(std::string params) = 0;
 	virtual  std::string decideOnCourse(std::string params) = 0;
 
 	virtual  std::string getDepartments(std::string params) = 0;
+
+	virtual  std::string givePrivileges(std::string params) = 0;
+
+	virtual  std::string getSections(std::string params) = 0;
+	virtual  std::string getUserSections(std::string params) = 0;
+
 
 
 	static std::vector<std::string> split(const std::string & s, std::string delim);

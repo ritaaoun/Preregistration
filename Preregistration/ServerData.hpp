@@ -15,7 +15,7 @@ public:
 	Department * getDepartment(int id) const;
 
 	bool addUser(AbstractUser * user);
-	AbstractUser * getUser(std::string username) const;
+	AbstractUser * getUser(const std::string & username) const;
 	AbstractUser * getUser(int id) const;
 
 	bool addMessage(AbstractMessage * message);
@@ -25,6 +25,7 @@ public:
 	bool deleteCourse(Course * course);
 	Course * getCourse(int id) const;
 	std::vector<Course *> getCourses(Course::Status status) const;
+	std::vector<Course *> getCourses(const std::string & username, Course::Status status) const;
 
 	bool addSection(Section * section);
 	bool deleteSection(Section * section);
