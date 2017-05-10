@@ -54,5 +54,8 @@ private:
 	Constraint* mConstraints; ///< constraints i.e: needComputers
 	std::vector<int> mSectionIds; ///< vector of different section of the course
 	std::vector<Section*> mSections; ///< vector of different section of the course
+
+	void loadDepartment();
+	void loadSections();
 };
 

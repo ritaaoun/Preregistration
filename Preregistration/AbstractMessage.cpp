@@ -9,7 +9,7 @@ int AbstractMessage::getId() const
 AbstractUser * AbstractMessage::getSender()
 {
 	if (m_sender == nullptr) {
-		m_sender = Server::getInstance().data.getUser(m_senderId);
+		loadSender();
 	}
 	return m_sender;
 }
@@ -17,7 +17,7 @@ AbstractUser * AbstractMessage::getSender()
 AbstractUser * AbstractMessage::getRecipient()
 {
 	if (m_recipient == nullptr) {
-		m_recipient = Server::getInstance().data.getUser(m_recipientId);
+		loadRecipient();
 	}
 	return m_recipient;
 }
@@ -91,4 +91,14 @@ AbstractMessage & AbstractMessage::operator=(const AbstractMessage & rhs)
 	m_topic = rhs.m_topic;
 	m_content = rhs.m_content;
 	return *this;
+}
+
+void AbstractMessage::loadSender()
+{
+	m_recipient = Server::getInstance().data.getUser(m_recipientId);
+}
+
+void AbstractMessage::loadRecipient()
+{
+	m_sender = Server::getInstance().data.getUser(m_senderId);
 }

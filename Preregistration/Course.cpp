@@ -6,6 +6,23 @@ Course::~Course()
 	delete mConstraints;
 }
 
+void Course::loadDepartment()
+{
+	if (mDepartment == nullptr) {
+		mDepartment = Server::getInstance().data.getDepartment(mDepartmentID);
+	}
+}
+
+void Course::loadSections()
+{
+	if (mSections.empty() && !mSectionIds.empty()) {
+		for (std::vector<int>::iterator it = mSectionIds.begin(); it != mSectionIds.end(); ++it)
+		{
+			mSections.push_back(Server::getInstance().data.getSection(*it));
+		}
+	}
+}
+
 
 Course::Course(int departmentId, const std::string & courseCode, const std::string & courseName, 
 	const std::string & courseDescription, int numberOfCredits, Constraint * constraints) :
@@ -76,8 +93,8 @@ bool Course::addSection(Section * section)
 	// check first if section is already in vector of sections or not
 	if (std::find(mSections.begin(), mSections.end(), section) == mSections.end())
 	{
-		// if section not already in vector
-		section->setConstraint(this->getConstraint());
+		loadSections();
+		mSectionIds.push_back(section->getCrn());
 		mSections.push_back(section);
 		return true;
 	}
@@ -98,13 +115,7 @@ bool Course::removeSection(Section * section)
 
 std::vector<Section*> Course::getSections()
 {
-	if (mSections.empty() && !mSectionIds.empty())
-	{
-		for (std::vector<int>::iterator it = mSectionIds.begin(); it != mSectionIds.end(); ++it)
-		{
-			mSections.push_back(Server::getInstance().data.getSection(*it));
-		}
-	}
+	loadSections();
 	return mSections;
 }
 
@@ -115,10 +126,7 @@ int Course::getDepartmentId() const
 
 Department * Course::getDepartment()
 {
-	if (mDepartment == nullptr)
-	{
-		mDepartment = Server::getInstance().data.getDepartment(mDepartmentID);
-	}
+	loadDepartment();
 	return mDepartment;
 }
 

@@ -40,4 +40,6 @@ private:
 	std::string m_topic;
 	std::string m_content;
 
+	void loadSender();
+	void loadRecipient();
 };

@@ -110,7 +110,7 @@ void AbstractUser::setType(Type type)
 Department * AbstractUser::getDepartment()
 {
 	if (m_department == nullptr) {
-		m_department = Server::getInstance().data.getDepartment(m_departmentId);
+		loadDepartment();
 	}
 	return m_department;
 }
@@ -225,4 +225,9 @@ AbstractUser & AbstractUser::operator=(const AbstractUser & rhs)
 	m_birthday = rhs.m_birthday;
 	m_inbox = rhs.m_inbox;
 	return *this;
+}
+
+void AbstractUser::loadDepartment()
+{
+	m_department = Server::getInstance().data.getDepartment(m_departmentId);
 }

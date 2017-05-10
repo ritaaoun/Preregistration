@@ -82,4 +82,6 @@ private:
 	std::string m_birthday; ///< User birthday in the format DD-MM-YYYY
 	
 	Inbox m_inbox; ///< User inbox
+
+	void loadDepartment();
 };
