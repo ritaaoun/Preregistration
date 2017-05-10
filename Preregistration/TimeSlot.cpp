@@ -1,4 +1,5 @@
 #include "TimeSlot.h"
+#include "ClientServerInterface.hpp"
 
 TimeSlot::TimeSlot()
 {

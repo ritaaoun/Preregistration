@@ -38,9 +38,6 @@ public:
 	int getProfessorId() const;
 	Professor* getProfessor();
 
-	void setConstraint(Constraint * constraint);
-	Constraint * getConstraint();
-
 	int getCourseId() const;
 	Course * getCourse();
 
@@ -73,7 +70,6 @@ private:
 	int mRoomId;
 	Room* mRoom; ///< Room used for the section
 	std::vector<TimeSlot *> mTimeSlots; ///< time slots of the schedule of the section
-	Constraint* mConstraints; ///< constraints i.e: needComputers
 
 	std::vector<int> mStudentIds;
 	std::vector<Student *> mStudents;

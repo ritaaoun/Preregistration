@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include "ClientServerInterface.hpp"
 
 class ISerializable
 {
