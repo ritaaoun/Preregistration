@@ -14,46 +14,46 @@ public:
 	ServerInterface(const ServerInterface & other);
 	ServerInterface & operator=(const ServerInterface & rhs);
 
-	std::string callFunction(std::string function);
+	std::string callFunction(const std::string & function);
 
 	// Inherited via ClientServerInterface
-	virtual std::string login(std::string params) override;
+	virtual std::string login(const std::string & params) override;
 
-	virtual std::string getUsers(std::string params) override;
+	virtual std::string getUsers(const std::string & params) override;
 
-	virtual  std::string addUser(std::string params) override;
+	virtual  std::string addUser(const std::string & params) override;
 
-	virtual  std::string editUser(std::string params) override;
+	virtual  std::string editUser(const std::string & params) override;
 
-	virtual  std::string getSentMessages(std::string params) override;
+	virtual  std::string getSentMessages(const std::string & params) override;
 
-	virtual  std::string getReceivedMessages(std::string params) override;
+	virtual  std::string getReceivedMessages(const std::string & params) override;
 
-	virtual  std::string sendMessage(std::string params) override;
+	virtual  std::string sendMessage(const std::string & params) override;
 
-	virtual  std::string getCourseRequests(std::string params) override;
+	virtual  std::string getCourseRequests(const std::string & params) override;
 
-	virtual  std::string getUserCourses(std::string params) override;
+	virtual  std::string getUserCourses(const std::string & params) override;
 
-	virtual  std::string addCourse(std::string params) override;
+	virtual  std::string addCourse(const std::string & params) override;
 
-	virtual  std::string decideOnCourse(std::string params) override;
+	virtual  std::string decideOnCourse(const std::string & params) override;
 
-	virtual  std::string getDepartments(std::string params) override;
+	virtual  std::string getDepartments(const std::string & params) override;
 
-	virtual  std::string givePrivileges(std::string params) override;
+	virtual  std::string givePrivileges(const std::string & params) override;
 
-	virtual  std::string getSections(std::string params) override;
+	virtual  std::string getSections(const std::string & params) override;
 
-	virtual  std::string getUserSections(std::string params) override;
+	virtual  std::string getUserSections(const std::string & params) override;
 
-	virtual std::string resetPassword(std::string params) override;
+	virtual std::string resetPassword(const std::string & params) override;
 
-	virtual std::string changePassword(std::string params) override;
+	virtual std::string changePassword(const std::string & params) override;
 
 private:
 
-	typedef std::string(ServerInterface::*FnPtr)(std::string);
+	typedef std::string(ServerInterface::*FnPtr)(const std::string &);
 	std::map<std::string, FnPtr> functionMap;
 
 

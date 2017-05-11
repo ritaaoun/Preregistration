@@ -7,28 +7,28 @@
 class ClientServerInterface
 {
 public:
-	virtual std::string login(std::string params) = 0;
-	virtual std::string getUsers(std::string params) = 0;
-	virtual  std::string addUser(std::string params) = 0;
-	virtual  std::string editUser(std::string params) = 0;
-	virtual  std::string resetPassword(std::string params) = 0;
-	virtual  std::string changePassword(std::string params) = 0;
+	virtual std::string login(const std::string & params) = 0;
+	virtual std::string getUsers(const std::string & params) = 0;
+	virtual  std::string addUser(const std::string & params) = 0;
+	virtual  std::string editUser(const std::string & params) = 0;
+	virtual  std::string resetPassword(const std::string & params) = 0;
+	virtual  std::string changePassword(const std::string & params) = 0;
 
-	virtual  std::string getSentMessages(std::string params) = 0;
-	virtual  std::string getReceivedMessages(std::string params) = 0;
-	virtual  std::string sendMessage(std::string params) = 0;
+	virtual  std::string getSentMessages(const std::string & params) = 0;
+	virtual  std::string getReceivedMessages(const std::string & params) = 0;
+	virtual  std::string sendMessage(const std::string & params) = 0;
 
-	virtual  std::string getCourseRequests(std::string params) = 0;
-	virtual  std::string getUserCourses(std::string params) = 0;
-	virtual  std::string addCourse(std::string params) = 0;
-	virtual  std::string decideOnCourse(std::string params) = 0;
+	virtual  std::string getCourseRequests(const std::string & params) = 0;
+	virtual  std::string getUserCourses(const std::string & params) = 0;
+	virtual  std::string addCourse(const std::string & params) = 0;
+	virtual  std::string decideOnCourse(const std::string & params) = 0;
 
-	virtual  std::string getDepartments(std::string params) = 0;
+	virtual  std::string getDepartments(const std::string & params) = 0;
 
-	virtual  std::string givePrivileges(std::string params) = 0;
+	virtual  std::string givePrivileges(const std::string & params) = 0;
 
-	virtual  std::string getSections(std::string params) = 0;
-	virtual  std::string getUserSections(std::string params) = 0;
+	virtual  std::string getSections(const std::string & params) = 0;
+	virtual  std::string getUserSections(const std::string & params) = 0;
 
 
 

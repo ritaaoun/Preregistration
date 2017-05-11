@@ -43,7 +43,7 @@ ServerInterface & ServerInterface::operator=(const ServerInterface & rhs)
 	return *this;
 }
 
-std::string ServerInterface::callFunction(std::string function)
+std::string ServerInterface::callFunction(const std::string & function)
 {
 	try
 	{
@@ -62,7 +62,7 @@ std::string ServerInterface::callFunction(std::string function)
 	}
 }
 
-std::string ServerInterface::login(std::string params)
+std::string ServerInterface::login(const std::string & params)
 {
 	try {
 		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
@@ -86,7 +86,7 @@ std::string ServerInterface::login(std::string params)
 
 }
 
-std::string ServerInterface::getUsers(std::string params)
+std::string ServerInterface::getUsers(const std::string & params)
 {
 	try {
 		std::string username = params;
@@ -119,7 +119,7 @@ std::string ServerInterface::getUsers(std::string params)
 	}
 }
 
-std::string ServerInterface::addUser(std::string params)
+std::string ServerInterface::addUser(const std::string & params)
 {
 	try
 	{
@@ -160,7 +160,7 @@ std::string ServerInterface::addUser(std::string params)
 	}
 }
 
-std::string ServerInterface::editUser(std::string params)
+std::string ServerInterface::editUser(const std::string & params)
 {
 	try
 	{
@@ -197,7 +197,7 @@ std::string ServerInterface::editUser(std::string params)
 	}
 }
 
-std::string ServerInterface::getSentMessages(std::string params)
+std::string ServerInterface::getSentMessages(const std::string & params)
 {
 	try
 	{
@@ -227,7 +227,7 @@ std::string ServerInterface::getSentMessages(std::string params)
 	}
 }
 
-std::string ServerInterface::getReceivedMessages(std::string params)
+std::string ServerInterface::getReceivedMessages(const std::string & params)
 {
 	try
 	{
@@ -257,7 +257,7 @@ std::string ServerInterface::getReceivedMessages(std::string params)
 	}
 }
 
-std::string ServerInterface::sendMessage(std::string params)
+std::string ServerInterface::sendMessage(const std::string & params)
 {
 	try
 	{
@@ -285,7 +285,7 @@ std::string ServerInterface::sendMessage(std::string params)
 	}
 }
 
-std::string ServerInterface::getCourseRequests(std::string params)
+std::string ServerInterface::getCourseRequests(const std::string & params)
 {
 	try
 	{
@@ -319,7 +319,7 @@ std::string ServerInterface::getCourseRequests(std::string params)
 	}
 }
 
-std::string ServerInterface::getUserCourses(std::string params)
+std::string ServerInterface::getUserCourses(const std::string & params)
 {
 	try
 	{
@@ -353,7 +353,7 @@ std::string ServerInterface::getUserCourses(std::string params)
 	}
 }
 
-std::string ServerInterface::addCourse(std::string params)
+std::string ServerInterface::addCourse(const std::string & params)
 {
 	try {
 		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
@@ -393,7 +393,7 @@ std::string ServerInterface::addCourse(std::string params)
 	}
 }
 
-std::string ServerInterface::decideOnCourse(std::string params)
+std::string ServerInterface::decideOnCourse(const std::string & params)
 {
 	try
 	{
@@ -425,7 +425,7 @@ std::string ServerInterface::decideOnCourse(std::string params)
 	}
 }
 
-std::string ServerInterface::getDepartments(std::string params)
+std::string ServerInterface::getDepartments(const std::string & params)
 {
 	try
 	{
@@ -458,7 +458,7 @@ std::string ServerInterface::getDepartments(std::string params)
 	}
 }
 
-std::string ServerInterface::givePrivileges(std::string params)
+std::string ServerInterface::givePrivileges(const std::string & params)
 {
 	try
 	{
@@ -493,7 +493,7 @@ std::string ServerInterface::givePrivileges(std::string params)
 	}
 }
 
-std::string ServerInterface::getSections(std::string params)
+std::string ServerInterface::getSections(const std::string & params)
 {
 	try
 	{
@@ -527,7 +527,7 @@ std::string ServerInterface::getSections(std::string params)
 	}
 }
 
-std::string ServerInterface::getUserSections(std::string params)
+std::string ServerInterface::getUserSections(const std::string & params)
 {
 	try
 	{
@@ -568,7 +568,7 @@ std::string ServerInterface::getUserSections(std::string params)
 	}
 }
 
-std::string ServerInterface::resetPassword(std::string params)
+std::string ServerInterface::resetPassword(const std::string & params)
 {
 	try
 	{
@@ -597,7 +597,7 @@ std::string ServerInterface::resetPassword(std::string params)
 	}
 }
 
-std::string ServerInterface::changePassword(std::string params)
+std::string ServerInterface::changePassword(const std::string & params)
 {
 	try
 	{
