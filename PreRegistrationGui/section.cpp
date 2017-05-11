@@ -59,3 +59,17 @@ void Section::addTimeSlot(TimeSlot slot)
 {
     mSlots.push_back(slot);
 }
+
+void Section::setCrn(int crn)
+{
+    mCrn = crn;
+}
+void Section::setStudentCount(int studentCount)
+{
+    mStudentCount = studentCount;
+}
+
+void Section::setProfessorName(QString professorName)
+{
+    mProfessorName = professorName;
+}

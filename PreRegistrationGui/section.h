@@ -10,8 +10,12 @@ private:
     int mNumber;
     int mCapacity;
     int mActual;
+    int mCrn;
+    int mStudentCount;
     QString mRoom;
+    QString mProfessorName;
     std::vector<TimeSlot> mSlots;
+
 
 public:
     Section();
@@ -28,6 +32,9 @@ public:
     void setRoom(QString room);
     void setRoom(std::string room);
     void addTimeSlot(TimeSlot slot);
+    void setCrn(int crn);
+    void setStudentCount(int studentCount);
+    void setProfessorName(QString mProfessorName);
 };
 
 #endif // SECTION_H

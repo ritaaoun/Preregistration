@@ -249,6 +249,61 @@ std::string Parser::sendAddSection(std::string username, int courseId, int capac
     return result;
 }
 
+std::vector<Course> getSections(const std::string & message)
+{
+    // seperate the sections
+    std::vector<std::string> messageVector = ClientInterface::split(message, ClientInterface::LIST_DELIMITER);
+    QMap<std::string, Course> idCourseMap;
 
+    for(int i = 0; i < messageVector.size(); i++)
+    {
+        std::vector<std::string> object = ClientInterface::split(messageVector[i], ClientInterface::DELIMITER);
 
+        Section section;
+        Course course;
+        if(!idCourseMap.contains(object[1]))
+        {
+            course.setId(stoi(object[1]));
+            course.setCode(object[2]);
+            course.setName(object[3]);
+            course.setDescription(object[4]);
+            course.setCredits(stoi(object[5]));
+            idCourseMap.insert(object[1], course);
+        }
+        else
+        {
+            course = idCourseMap[object[1]];
+        }
+
+        section.setCrn(stoi(object[0]));
+        section.setNumber(stoi(object[6]));
+        section.setCapacity(stoi(object[7]));
+        section.setStudentCount(stoi(object[8]));
+        section.setProfessorName(object[9]);
+        std::string timeslots = object[10];
+
+        std::vector<std::string> timeslotsStrings = ClientInterface::split(timeslots, ClientInterface::LIST_TIMESLOT_DELIMITER);
+
+        for(int j = 0; j < timeslotsStrings.size(); j++)
+        {
+            std::vector<std::string> timeSlotElements = ClientInterface::split(timeslotsStrings[i], ClientInterface::TIMESLOT_DELIMITER);
+
+            TimeSlot timeSlot;
+            timeSlot.setDay(stoi(timeSlotElements[0]));
+            timeSlot.setStartHour(stoi(timeSlotElements[1]));
+            timeSlot.setStartMinutes(stoi(timeSlotElements[2]));
+            timeSlot.setEndHour(stoi(timeSlotElements[3]));
+            timeSlot.setEndtMinutes(stoi(timeSlotElements[4]));
+
+            section.addTimeSlot(timeSlot);
+        }
+        course.addSection(section);
+        idCourseMap.insert(object[1], course);
+    }
+
+    std::vector<Course> courses;
+    for (QMap<std::string, Course>::iterator course : idCourseMap)
+        courses.push_back(*course);
+
+    return courses;
 }

@@ -94,3 +94,15 @@ void Course::addSection(Section section)
 {
     mSections.push_back(section);
 }
+
+Course & Course::operator=(const Course & that)
+{
+    this->mId = that.mId;
+    this->mCode = that.mCode;
+    this->mName = that.mName;
+    this->mDescription = that.mDescription;
+    this->mCredits = that.mCredits;
+    this->mSections = that.mSections;
+
+    return *this;
+}
