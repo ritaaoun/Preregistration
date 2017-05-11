@@ -114,6 +114,7 @@ void DialogAddSection::on_cbCourseCode_activated(const QString & text)
 {
     if(!fromAddSection)
     {
+        ui->cbSectionNumber->clear();
         Course selectedCourse;
         bool foundCourse = false;
         int courseId = ui->cbCourseCode->currentData().toInt();

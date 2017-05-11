@@ -214,6 +214,17 @@ bool APIService::editSection(int courseId, int sectionNumber, int capacity, std:
     return result;
 }
 
+bool APIService::removeSection(int courseId, int sectionNumber)
+{
+    std::string toSend = Parser::sendRemoveSection(Parser::sendActiveUser(), courseId, sectionNumber);
+
+    std::string serverResult = client.removeSection(toSend);
+
+    bool result = Parser::getBoolean(serverResult);
+
+    return result;
+}
+
 std::vector<Course> APIService::getUserSetions()
 {
     std::string serverResult = client.getUserSections(Parser::sendActiveUser());

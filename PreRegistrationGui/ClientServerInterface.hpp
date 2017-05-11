@@ -33,6 +33,7 @@ public:
 
     virtual  std::string addSection(std::string params) = 0;
     virtual  std::string editSection(std::string params) = 0;
+    virtual  std::string removeSection(std::string params) = 0;
 
 
 
