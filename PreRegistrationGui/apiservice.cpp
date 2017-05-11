@@ -192,7 +192,7 @@ bool APIService::resetPassword(QString userUsername)
     return result;
 }
 
-bool APIService::addSection(int courseId, int capacity, timeSlots)
+bool APIService::addSection(int courseId, int capacity, std::vector<TimeSlot> timeSlots)
 {
     std::string toSend = Parser::sendAddSection(Parser::sendActiveUser(), courseId, capacity, timeSlots);
 

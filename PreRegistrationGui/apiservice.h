@@ -34,7 +34,7 @@ public:
     bool decideOnCourse(Course course, bool accepted);
     bool changePassword(QString oldPassword, QString newPassword);
     bool resetPassword(QString userUsername);
-    bool addSection(int courseId, int capacity, timeSlots);
+    bool addSection(int courseId, int capacity, std::vector<TimeSlot> timeSlots);
 
 
 private:

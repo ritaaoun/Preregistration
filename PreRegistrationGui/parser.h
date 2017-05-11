@@ -33,7 +33,7 @@ public:
     static std::vector<UserInfo> getAdminUserInfo(std::string message);
     static std::vector<Message> getUserMessages(std::string message);
     static std::vector<Course> getCourseRequests(std::string message);
-    static std::vector<Course> getSections(std::string message); //TODO
+    static std::vector<Course> getSections(std::string message);
 };
 
 #endif // PARSER_H
