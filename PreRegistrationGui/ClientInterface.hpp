@@ -31,6 +31,7 @@ public:
 	virtual std::string resetPassword(std::string params) override;
 	virtual std::string changePassword(std::string params) override;    
     virtual std::string addSection(std::string params) override;
+    virtual std::string editSection(std::string params) override;
 
 
 private:

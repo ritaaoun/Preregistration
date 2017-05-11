@@ -32,6 +32,7 @@ public:
     virtual std::string getUserDepartmentSections(std::string params) = 0;
 
     virtual  std::string addSection(std::string params) = 0;
+    virtual  std::string editSection(std::string params) = 0;
 
 
 

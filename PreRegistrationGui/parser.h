@@ -26,6 +26,8 @@ public:
     static std::string sendChangePassword(std::string username, std::string oldPassowrd, std::string newPassword);
     static std::string sendResetPassword(std::string username, std::string userUsername);
     static std::string sendAddSection(std::string username, int courseId, int capacity, std::vector<TimeSlot> timeSlots);
+    static std::string sendEditSection(std::string username, int courseId, int sectionNumber, int capacity, std::vector<TimeSlot> timeSlots);
+
 
     static void getCreateUser(std::string message);
     static bool getBoolean(std::string message);

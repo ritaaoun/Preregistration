@@ -35,6 +35,8 @@ public:
     bool changePassword(QString oldPassword, QString newPassword);
     bool resetPassword(QString userUsername);
     bool addSection(int courseId, int capacity, std::vector<TimeSlot> timeSlots);
+    bool editSection(int courseId, int sectionNumber, capacity, std::vector<TimeSlot> timeSlots);
+
 
 
 private:

@@ -249,6 +249,33 @@ std::string Parser::sendAddSection(std::string username, int courseId, int capac
     return result;
 }
 
+std::string Parser::sendEditSection(std::string username, int courseId, int sectionNumber, int capacity, std::vector<TimeSlot> timeSlots)
+{
+    std::string result = username
+            + ClientInterface::DELIMITER + stoi(courseId)
+            + ClientInterface::DELIMITER + stoi(sectionNumber)
+            + ClientInterface::DELIMITER + stoi(capacity);
+
+    if (timeSlots.size() > 0)
+    {
+        result += ClientServerInterface::DELIMITER;
+        for (std::vector<TimeSlot*>::iterator it = timeSlots.begin();it != timeSlots.end();++it)
+        {
+            result += (*it)->getDayString()
+                    + ClientServerInterface::TIMESLOT_DELIMITER + QString::number((*it)->mStartHour)
+                    + ClientServerInterface::TIMESLOT_DELIMITER + QString::number((*it)->mStartMinutes)
+                    + ClientServerInterface::TIMESLOT_DELIMITER + QString::number((*it)->mEndHour)
+                    + ClientServerInterface::TIMESLOT_DELIMITER + QString::number((*it)->mEndMinutes);
+
+            if (timeSlots.end() != it + 1)
+            {
+                result += ClientServerInterface::LIST_TIMESLOT_DELIMITER;
+            }
+        }
+    }
+    return result;
+}
+
 std::vector<Course> getSections(const std::string & message)
 {
     // seperate the sections

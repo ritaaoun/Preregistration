@@ -132,3 +132,9 @@ std::string ClientInterface::addSection(std::string params)
     params = "addSection" + ClientServerInterface::FUNC_DELIMITER + params;
     return client.sendData(params);
 }
+
+std::string ClientInterface::editSection(std::string params)
+{
+    params = "editSection" + ClientServerInterface::FUNC_DELIMITER + params;
+    return client.sendData(params);
+}

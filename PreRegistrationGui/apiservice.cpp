@@ -203,6 +203,17 @@ bool APIService::addSection(int courseId, int capacity, std::vector<TimeSlot> ti
     return result;
 }
 
+bool APIService::editSection(int courseId, int sectionNumber, int capacity, std::vector<TimeSlot> timeSlots)
+{
+    std::string toSend = Parser::sendEditSection(Parser::sendActiveUser(), courseId, sectionNumber, capacity, timeSlots);
+
+    std::string serverResult = client.editSection(toSend);
+
+    bool result = Parser::getBoolean(serverResult);
+
+    return result;
+}
+
 std::vector<Course> APIService::getUserSetions()
 {
     std::string serverResult = client.getUserSections(Parser::sendActiveUser());

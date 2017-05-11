@@ -14,14 +14,14 @@ DialogAddSection::DialogAddSection(bool fromAddSection, std::vector<Course> prof
     {
         ui->cbCourseCode->addItem(professorCourses[i].getCode(), QVariant(professorCourses[i].getId()));
     }
-    ui->cbSectionCode->setEnabled(false);
+    ui->cbSectionNumber->setEnabled(false);
 
     //From addSection
     if(fromAddSection)
     {
         ui->label_title->setText("Add Section");
         ui->pbAddSection->setText("Add Section");
-        ui->cbSectionCode->setVisible(false);
+        ui->cbSectionNumber->setVisible(false);
     }
 
 
@@ -30,7 +30,7 @@ DialogAddSection::DialogAddSection(bool fromAddSection, std::vector<Course> prof
     {
         ui->label_title->setText("Edit Section");
         ui->pbAddSection->setText("Edit Section");
-        ui->cbSectionCode->setVisible(true);
+        ui->cbSectionNumber->setVisible(true);
     }
 
 }
@@ -129,11 +129,11 @@ void DialogAddSection::on_cbCourseCode_activated(const QString & text)
         if(foundCourse)
         {
             for(Section section : selectedCourse.getSections())
-                ui->cbSectionCode->addItem(section.getNumber());
-            ui->cbSectionCode->setEnabled(true);
+                ui->cbSectionNumber->addItem(section.getNumber());
+            ui->cbSectionNumber->setEnabled(true);
         }
         else
-            ui->cbSectionCode->setEnabled(false);
+            ui->cbSectionNumber->setEnabled(false);
     }
 }
 
@@ -167,4 +167,29 @@ void DialogAddSection::addSection()
 
 void DialogAddSection::editSection()
 {
+    int courseId = ui->cbCourseCode->currentData().toInt();
+    int sectionNumber = ui->cbSectionNumber->currentData().toInt();
+    // TODO: see how we can check if combobox not selected
+    if(comboBoxes.size() == 0 || std::stoi(ui->sbCapacity->text()) == 0)
+    {
+        return;
+    }
+
+    std::vector<TimeSlot> timeSlots;
+    for(int i = 0; i < comboBoxes.size(); i++)
+    {
+        int dayCode = comboBoxes[i]->currentData().toInt();
+        int startH = std::stoi(startHour[i]->text());
+        int startM = std::stoi(startMinutes[i]->text());
+        int endH = std::stoi(endHour[i]->text());
+        int endM = std::stoi(endMinutes[i]->text());
+
+        TimeSlot timeSlot(dayCode, startH, startM, endH, endM);
+        timeSlots.push_back(timeSlot);
+    }
+
+    int capacity = std::stoi(ui->sbCapacity->text());
+
+    APIService::getInstance()->editSection(courseId, sectionNumber, capacity, timeSlots);
+    this->close();
 }
