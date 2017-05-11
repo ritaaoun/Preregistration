@@ -67,9 +67,9 @@ std::string ClientInterface::getCourseRequests(const std::string & params)
 	return client.sendData(out);
 }
 
-std::string ClientInterface::getUserCourses(const std::string & params)
+std::string ClientInterface::getUserDepartmentCourses(const std::string & params)
 {
-	std::string out = "getUserCourses" + ClientServerInterface::FUNC_DELIMITER + params;
+	std::string out = "getUserDepartmentCourses" + ClientServerInterface::FUNC_DELIMITER + params;
 	return client.sendData(out);
 }
 
@@ -118,5 +118,29 @@ std::string ClientInterface::resetPassword(const std::string & params)
 std::string ClientInterface::changePassword(const std::string & params)
 {
 	std::string out = "changePassword" + ClientServerInterface::FUNC_DELIMITER + params;
+	return client.sendData(out);
+}
+
+std::string ClientInterface::addSection(const std::string & params)
+{
+	std::string out = "addSection" + ClientServerInterface::FUNC_DELIMITER + params;
+	return client.sendData(out);
+}
+
+std::string ClientInterface::editSection(const std::string & params)
+{
+	std::string out = "editSection" + ClientServerInterface::FUNC_DELIMITER + params;
+	return client.sendData(out);
+}
+
+std::string ClientInterface::deleteSection(const std::string & params)
+{
+	std::string out = "deleteSection" + ClientServerInterface::FUNC_DELIMITER + params;
+	return client.sendData(out);
+}
+
+std::string ClientInterface::getUserDepartmentSections(const std::string & params)
+{
+	std::string out = "getUserDepartmentSections" + ClientServerInterface::FUNC_DELIMITER + params;
 	return client.sendData(out);
 }

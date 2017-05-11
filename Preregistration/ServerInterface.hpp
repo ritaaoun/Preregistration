@@ -33,7 +33,7 @@ public:
 
 	virtual  std::string getCourseRequests(const std::string & params) override;
 
-	virtual  std::string getUserCourses(const std::string & params) override;
+	virtual  std::string getUserDepartmentCourses(const std::string & params) override;
 
 	virtual  std::string addCourse(const std::string & params) override;
 
@@ -51,6 +51,14 @@ public:
 
 	virtual std::string changePassword(const std::string & params) override;
 
+	virtual std::string addSection(const std::string & params) override;
+
+	virtual std::string editSection(const std::string & params) override;
+
+	virtual std::string deleteSection(const std::string & params) override;
+
+
+	virtual std::string getUserDepartmentSections(const std::string & params) override;
 private:
 
 	typedef std::string(ServerInterface::*FnPtr)(const std::string &);

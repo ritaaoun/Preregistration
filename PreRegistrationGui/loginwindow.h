@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QDebug>
-#include "systemwindow.h"
+#include "systemwindowprofessor.h"
 #include "systemwindowadminstrator.h"
 
 namespace Ui {

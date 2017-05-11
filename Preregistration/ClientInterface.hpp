@@ -20,7 +20,7 @@ public:
 	virtual  std::string getReceivedMessages(const std::string & params) override;
 	virtual  std::string sendMessage(const std::string & params) override;
 	virtual  std::string getCourseRequests(const std::string & params) override;
-	virtual  std::string getUserCourses(const std::string & params) override;
+	virtual  std::string getUserDepartmentCourses(const std::string & params) override;
 	virtual  std::string addCourse(const std::string & params) override;
 	virtual  std::string decideOnCourse(const std::string & params) override;
 	virtual  std::string getDepartments(const std::string & params) override;
@@ -29,8 +29,11 @@ public:
 	virtual  std::string getUserSections(const std::string & params) override;
 	virtual std::string resetPassword(const std::string & params) override;
 	virtual std::string changePassword(const std::string & params) override;
+	virtual std::string addSection(const std::string & params) override;
+	virtual std::string editSection(const std::string & params) override;
+	virtual std::string deleteSection(const std::string & params) override;
+	virtual std::string getUserDepartmentSections(const std::string & params) override;
 
 private:
 	NetworkClient client;
-
 };

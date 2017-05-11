@@ -47,6 +47,10 @@ bool APIService::userLogIn(QString username, QString password)
     if(serverResult != "false")
     {
         Parser::getCreateUser(serverResult);
+
+        //TEMP
+        User::getUser()->setType(User::Type::PROFESSOR);
+
         return true;
     }
 
@@ -184,6 +188,35 @@ bool APIService::resetPassword(QString userUsername)
     std::string serverResult = client.resetPassword(toSend);
 
     bool result = Parser::getBoolean(serverResult);
+
+    return result;
+}
+
+bool APIService::addSection(int courseId, int capacity, timeSlots)
+{
+    std::string toSend = Parser::sendAddSection(Parser::sendActiveUser(), courseId, capacity, timeSlots);
+
+    std::string serverResult = client.addSection(toSend);
+
+    bool result = Parser::getBoolean(serverResult);
+
+    return result;
+}
+
+std::vector<Course> APIService::getUserSetions()
+{
+    std::string serverResult = client.getUserSections(Parser::sendActiveUser());
+
+    std::vector<Course> result = Parser::getSections(serverResult);
+
+    return result;
+}
+
+std::vector<Course> APIService::getDepartmentCourses()
+{
+    std::string serverResult = client.getUserDepartmentSections(Parser::sendActiveUser());
+
+    std::vector<Course> result = Parser::getSections(serverResult);
 
     return result;
 }

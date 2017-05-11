@@ -6,7 +6,6 @@ win32:DEFINES += _WINSOCKAPI_
 
 SOURCES += main.cpp \
     loginwindow.cpp \
-    systemwindow.cpp \
     apiservice.cpp \
     course.cpp \
     timeslot.cpp \
@@ -21,11 +20,12 @@ SOURCES += main.cpp \
     userinfo.cpp \
     dialogmessage.cpp \
     message.cpp \
-    dialogchangepassword.cpp
+    dialogchangepassword.cpp \
+    systemwindowprofessor.cpp \
+    dialogaddsection.cpp
 
 HEADERS += \
     loginwindow.h \
-    systemwindow.h \
     apiservice.h \
     course.h \
     timeslot.h \
@@ -40,12 +40,15 @@ HEADERS += \
     userinfo.h \
     dialogmessage.h \
     message.h \
-    dialogchangepassword.h
+    dialogchangepassword.h \
+    systemwindowprofessor.h \
+    dialogaddsection.h
 
 FORMS += \
     loginwindow.ui \
-    systemwindow.ui \
     systemwindowadminstrator.ui \
     dialogmessage.ui \
-    dialogchangepassword.ui
+    dialogchangepassword.ui \
+    systemwindowprofessor.ui \
+    dialogaddsection.ui
 

@@ -45,8 +45,8 @@ void Section::loadStudents()
 std::string Section::serialize()
 {
 	std::string result = std::to_string(getCrn()) + ClientServerInterface::DELIMITER + std::to_string(getCourseId()) +
-		ClientServerInterface::DELIMITER + getCourse()->getFullCode() + ClientServerInterface::DELIMITER +
-		getCourse()->getDescription() + ClientServerInterface::DELIMITER + std::to_string(getNumber()) +
+		ClientServerInterface::DELIMITER + getCourse()->getFullCode() + ClientServerInterface::DELIMITER + getCourse()->getName() +
+		ClientServerInterface::DELIMITER + getCourse()->getDescription() + ClientServerInterface::DELIMITER + std::to_string(getNumber()) +
 		ClientServerInterface::DELIMITER + std::to_string(getCapacity()) + ClientServerInterface::DELIMITER +
 		std::to_string(getNumberOfStudents()) + ClientServerInterface::DELIMITER + getProfessor()->getFullName();
 

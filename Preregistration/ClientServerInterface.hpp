@@ -19,7 +19,7 @@ public:
 	virtual  std::string sendMessage(const std::string & params) = 0;
 
 	virtual  std::string getCourseRequests(const std::string & params) = 0;
-	virtual  std::string getUserCourses(const std::string & params) = 0;
+	virtual  std::string getUserDepartmentCourses(const std::string & params) = 0;
 	virtual  std::string addCourse(const std::string & params) = 0;
 	virtual  std::string decideOnCourse(const std::string & params) = 0;
 
@@ -29,7 +29,10 @@ public:
 
 	virtual  std::string getSections(const std::string & params) = 0;
 	virtual  std::string getUserSections(const std::string & params) = 0;
-
+	virtual  std::string addSection(const std::string & params) = 0;
+	virtual  std::string editSection(const std::string & params) = 0;
+	virtual  std::string deleteSection(const std::string & params) = 0;
+	virtual  std::string getUserDepartmentSections(const std::string & params) = 0;
 
 
 	static std::vector<std::string> split(const std::string & s, std::string delim);

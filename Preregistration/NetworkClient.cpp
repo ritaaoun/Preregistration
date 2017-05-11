@@ -77,7 +77,7 @@ void NetworkClient::connectClient()
 std::string NetworkClient::sendData(std::string params)
 {
 	connectClient();
-	iResult = send(ConnectSocket, params.c_str(), params.size() + 1, 0);
+	iResult = send(ConnectSocket, params.c_str(), static_cast<int>(params.size()) + 1, 0);
 	if (iResult == SOCKET_ERROR) {
 		printf("send failed with error: %d\n", WSAGetLastError());
 		closesocket(ConnectSocket);
