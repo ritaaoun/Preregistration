@@ -170,7 +170,7 @@ void SystemWindowProfessor::on_pbAddSection_clicked()
 {
     if(!dialogAddSectionOpened && professorCourses.size() != 0)
     {
-        dialogAddSection = new DialogAddSection(professorCourses);
+        dialogAddSection = new DialogAddSection(true, professorCourses);
         QObject::connect(dialogAddSection, SIGNAL(finished(int)), this, SLOT(dialogAddSectionClosed()));
         dialogAddSection->show();
 
@@ -181,4 +181,16 @@ void SystemWindowProfessor::on_pbAddSection_clicked()
 void SystemWindowProfessor::dialogAddSectionClosed()
 {
     dialogAddSectionOpened = false;
+}
+
+void SystemWindowProfessor::on_pbEditSection_clicked()
+{
+    if(!dialogAddSectionOpened && professorCourses.size() != 0)
+    {
+        dialogAddSection = new DialogAddSection(false, professorCourses);
+        QObject::connect(dialogAddSection, SIGNAL(finished(int)), this, SLOT(dialogAddSectionClosed()));
+        dialogAddSection->show();
+
+        dialogAddSectionOpened = true;
+    }
 }

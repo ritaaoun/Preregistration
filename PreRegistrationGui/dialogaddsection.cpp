@@ -1,18 +1,38 @@
 #include "dialogaddsection.h"
 #include "ui_dialogaddsection.h"
 
-DialogAddSection::DialogAddSection(std::vector<Course> professorCourses, QWidget *parent) :
+DialogAddSection::DialogAddSection(bool fromAddSection, std::vector<Course> professorCourses, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogAddSection)
 {
     ui->setupUi(this);
-
+    this->fromAddSection = fromAddSection;
+    this->professorCourses = professorCourses;
     //count = 0;
 
     for(int i = 0; i < professorCourses.size(); i++)
     {
         ui->cbCourseCode->addItem(professorCourses[i].getCode(), QVariant(professorCourses[i].getId()));
     }
+    ui->cbSectionCode->setEnabled(false);
+
+    //From addSection
+    if(fromAddSection)
+    {
+        ui->label_title->setText("Add Section");
+        ui->pbAddSection->setText("Add Section");
+        ui->cbSectionCode->setVisible(false);
+    }
+
+
+    // From editSection
+    else
+    {
+        ui->label_title->setText("Edit Section");
+        ui->pbAddSection->setText("Edit Section");
+        ui->cbSectionCode->setVisible(true);
+    }
+
 }
 
 DialogAddSection::~DialogAddSection()
@@ -80,6 +100,45 @@ void DialogAddSection::resetTable()
 
 void DialogAddSection::on_pbAddSection_clicked()
 {
+    if(fromAddSection)
+    {
+        addSection();
+    }
+    else
+    {
+        editSection();
+    }
+}
+
+void DialogAddSection::on_cbCourseCode_activated(const QString & text)
+{
+    if(!fromAddSection)
+    {
+        Course selectedCourse;
+        bool foundCourse = false;
+        int courseId = ui->cbCourseCode->currentData().toInt();
+        for(Course course : professorCourses)
+        {
+            if(course.getId() == courseId)
+            {
+                selectedCourse = course;
+                foundCourse = true;
+
+            }
+        }
+        if(foundCourse)
+        {
+            for(Section section : selectedCourse.getSections())
+                ui->cbSectionCode->addItem(section.getNumber());
+            ui->cbSectionCode->setEnabled(true);
+        }
+        else
+            ui->cbSectionCode->setEnabled(false);
+    }
+}
+
+void DialogAddSection::addSection()
+{
     if(comboBoxes.size() == 0 || std::stoi(ui->sbCapacity->text()) == 0)
     {
         return;
@@ -104,4 +163,8 @@ void DialogAddSection::on_pbAddSection_clicked()
 
     APIService::getInstance()->addSection(courseId, capacity, timeSlots);
     this->close();
+}
+
+void DialogAddSection::editSection()
+{
 }

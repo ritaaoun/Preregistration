@@ -18,6 +18,7 @@ private:
 
 public:
     Course();
+    Course & Course::operator=(const Course & that);
 
     int getId();
     QString getCode();
