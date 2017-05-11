@@ -5,6 +5,8 @@
 #include <QTableWidget>
 #include "apiservice.h"
 #include "dialogaddsection.h"
+#include "dialogremovesection.h"
+#include "dialogrequestcourse.h"
 #include <QDebug>
 
 namespace Ui {
@@ -41,13 +43,26 @@ private slots:
 
     void on_pbAddSection_clicked();
 
-    void dialogAddSectionClosed();
+    void dialogAddEditSectionClosed();
+    void dialogRemoveSectionClosed();
+    void dialogRequestCourseClosed();
+
+
+    void on_pushButton_clicked();
+
+    void on_pbEditSection_clicked();
+
+    void on_pbRemoveSection_clicked();
 
 private:
     Ui::SystemWindowProfessor *ui;
 
-    QDialog* dialogAddSection;
-    bool dialogAddSectionOpened;
+    QDialog* dialogAddEditSection;
+    QDialog* dialogRemoveSection;
+    QDialog* dialogRequestCourse;
+    bool dialogAddEditSectionOpened;
+    bool dialogRemoveSectionOpened;
+    bool dialogRequestCourseOpened;
 
     std::vector<Course> professorCourses;
     std::vector<Course> departmentCourses;

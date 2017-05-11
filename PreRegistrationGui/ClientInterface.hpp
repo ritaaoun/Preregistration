@@ -33,9 +33,7 @@ public:
     virtual std::string addSection(std::string params) override;
     virtual std::string editSection(std::string params) override;
     virtual std::string removeSection(std::string params) override;
-
-
-
+    virtual std::string requestCourse(std::string params) override;
 
 private:
 	NetworkClient client;

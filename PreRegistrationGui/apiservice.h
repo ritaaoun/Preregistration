@@ -37,6 +37,8 @@ public:
     bool addSection(int courseId, int capacity, std::vector<TimeSlot> timeSlots);
     bool editSection(int courseId, int sectionNumber, int capacity, std::vector<TimeSlot> timeSlots);
     bool removeSection(int courseId, int sectionNumber);
+    bool requestCourse(QString courseName, QString courseNumber, QString courseDescription, int numberOfCreadits,
+                       bool needsComputers, bool needsSpeakers, bool needsHighEnergyParticleAccelerator);
 
 
 

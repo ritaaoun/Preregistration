@@ -225,6 +225,19 @@ bool APIService::removeSection(int courseId, int sectionNumber)
     return result;
 }
 
+bool APIService::requestCourse(QString courseName, QString courseNumber, QString courseDescription, int numberOfCreadits,
+                               bool needsComputers, bool needsSpeakers, bool needsHighEnergyParticleAccelerator)
+{
+    std::string toSend = Parser::sendRequestCourse(Parser::sendActiveUser(), courseName, courseNumber, courseDescription, numberOfCreadits,
+                                                   needsComputers, needsSpeakers, needsHighEnergyParticleAccelerator);
+
+    std::string serverResult = client.requestCourse(toSend);
+
+    bool result = Parser::getBoolean(serverResult);
+
+    return result;
+}
+
 std::vector<Course> APIService::getUserSetions()
 {
     std::string serverResult = client.getUserSections(Parser::sendActiveUser());
@@ -242,3 +255,4 @@ std::vector<Course> APIService::getDepartmentCourses()
 
     return result;
 }
+

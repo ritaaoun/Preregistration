@@ -144,3 +144,9 @@ std::string ClientInterface::removeSection(std::string params)
     params = "removeSection" + ClientServerInterface::FUNC_DELIMITER + params;
     return client.sendData(params);
 }
+
+std::string ClientInterface::requestCourse(std::string params)
+{
+    params = "requestCourse" + ClientServerInterface::FUNC_DELIMITER + params;
+    return client.sendData(params);
+}

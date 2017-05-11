@@ -334,3 +334,17 @@ std::vector<Course> getSections(const std::string & message)
 
     return courses;
 }
+
+std::string sendRequestCourse(std::string username, std::string courseName, std::string courseNumber, std::string courseDescription,
+                                     int numberOfCreadits, bool needsComputers, bool needsSpeakers, bool needsHighEnergyParticleAccelerator)
+{
+    std::string result;
+
+    result = username
+            + ClientInterface::DELIMITER + courseName + ClientInterface::DELIMITER + courseNumber
+            + ClientInterface::DELIMITER + courseDescription + ClientInterface::DELIMITER + std::to_string(numberOfCreadits)
+            + ClientInterface::DELIMITER + std::to_string(needsComputers) + ClientInterface::DELIMITER + std::to_string(needsSpeakers)
+            + ClientInterface::DELIMITER + std::to_string(needsHighEnergyParticleAccelerator);
+
+    return result;
+}

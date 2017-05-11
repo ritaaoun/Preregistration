@@ -34,8 +34,7 @@ public:
     virtual  std::string addSection(std::string params) = 0;
     virtual  std::string editSection(std::string params) = 0;
     virtual  std::string removeSection(std::string params) = 0;
-
-
+    virtual  std::string requestCourse(std::string params) = 0;
 
 	static std::vector<std::string> split(const std::string & s, std::string delim);
 	static const std::string DELIMITER;
