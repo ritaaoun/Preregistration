@@ -50,7 +50,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <property name="elideMode">
      <enum>Qt::ElideLeft</enum>
@@ -289,6 +289,32 @@
       </property>
       <property name="text">
        <string>Add Section</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbEditSection">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>410</y>
+        <width>111</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Edit Section</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbRemoveSection">
+      <property name="geometry">
+       <rect>
+        <x>710</x>
+        <y>410</y>
+        <width>111</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Remove Section</string>
       </property>
      </widget>
     </widget>

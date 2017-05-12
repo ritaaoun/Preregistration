@@ -22,7 +22,9 @@ SOURCES += main.cpp \
     message.cpp \
     dialogchangepassword.cpp \
     systemwindowprofessor.cpp \
-    dialogaddsection.cpp
+    dialogaddsection.cpp \
+    dialogremovesection.cpp \
+    dialogrequestcourse.cpp
 
 HEADERS += \
     loginwindow.h \
@@ -42,7 +44,9 @@ HEADERS += \
     message.h \
     dialogchangepassword.h \
     systemwindowprofessor.h \
-    dialogaddsection.h
+    dialogaddsection.h \
+    dialogremovesection.h \
+    dialogrequestcourse.h
 
 FORMS += \
     loginwindow.ui \
@@ -50,5 +54,9 @@ FORMS += \
     dialogmessage.ui \
     dialogchangepassword.ui \
     systemwindowprofessor.ui \
-    dialogaddsection.ui
+    dialogaddsection.ui \
+    dialogremovesection.ui \
+    dialogrequestcourse.ui
+
+DISTFILES +=
 
