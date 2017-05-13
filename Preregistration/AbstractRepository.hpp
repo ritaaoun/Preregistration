@@ -48,6 +48,7 @@ public:
 	virtual std::vector<int> getSectionStudents(const Section * section) const = 0;
 
 	virtual std::vector<Room*> getRooms() const = 0;
+	virtual std::vector<int> getRoomIds() const = 0;
 	virtual int getSectionRoomId(int sectionCrn) const = 0;
 	virtual Constraint * getRoomConstraint(int roomId) const = 0;
 	virtual std::vector<int> getRoomSectionIds(int roomId) const = 0;

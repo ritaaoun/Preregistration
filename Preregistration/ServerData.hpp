@@ -31,6 +31,7 @@ public:
 	bool deleteSection(Section * section);
 	Section * getSection(int crn) const;
 
+	bool addRoom(Room * room);
 	Room * getRoom(int id) const;
 
 	bool initialize();

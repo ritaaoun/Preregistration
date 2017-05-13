@@ -528,6 +528,21 @@ std::vector<Room*> SqliteRepository::getRooms() const
 	return out;
 }
 
+std::vector<int> SqliteRepository::getRoomIds() const
+{
+	std::string sql = "SELECT ID FROM ROOM";
+	std::vector<std::vector<std::string>> results = query(sql);
+	std::vector<int> out;
+
+	for (std::vector<std::vector<std::string>>::iterator it = results.begin(); it != results.end(); ++it)
+	{
+		std::vector<std::string> row = *it;
+		int id = Helper::stringToLong(row.at(0));
+
+		out.push_back(id);
+	}
+	return out;
+}
 int SqliteRepository::getSectionRoomId(int sectionCrn) const
 {
 	std::string sql = "SELECT ROOMID FROM SECTIONROOM WHERE SECTIONCRN = '" + std::to_string(sectionCrn) + "'";

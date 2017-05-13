@@ -150,6 +150,7 @@ void Department::loadCourseRequests()
 	}
 }
 
+
 std::string Department::serialize()
 {
 	return std::to_string(getId()) + ClientServerInterface::DELIMITER + getName();

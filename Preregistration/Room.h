@@ -7,15 +7,20 @@
 #include <vector>
 #include "ISerializable.hpp"
 
+
 class Room : public ISchedulable, public ISerializable
 {
 public:
 	Room(int id, const std::string & buildingCode, int roomNumber, int capacity);
 	virtual ~Room();
+	Room & operator=(const Room & rhs);
+	bool operator<(const Room & rhs) const;
+
 
 	int getId() const;
 	int getRoomNumber() const;
 	std::string getBuildingCode() const;
+
 
 	const std::vector<Section *> getSections() override;
 	void addSection(Section* section);

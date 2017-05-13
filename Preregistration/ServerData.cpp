@@ -185,6 +185,13 @@ Section * ServerData::getSection(int crn) const
 	}
 }
 
+bool ServerData::addRoom(Room * room)
+{
+	m_rooms[room->getId()] = room;
+	return true;
+
+}
+
 Room * ServerData::getRoom(int id) const
 {
 	std::unordered_map<int, Room*>::const_iterator it = m_rooms.find(id);
