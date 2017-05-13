@@ -46,7 +46,7 @@ public:
 	virtual std::vector<int> getSectionStudents(const Section * section) const override;
 
 	virtual std::vector<Room*> getRooms() const override;
-	std::vector<int> getRoomIds() const;
+	std::vector<int> getRoomIds() const override;
 	virtual int getSectionRoomId(int sectionCrn) const override;
 	virtual Constraint * getRoomConstraint(int roomId) const override;
 	virtual std::vector<int> getRoomSectionIds(int roomId) const override;
