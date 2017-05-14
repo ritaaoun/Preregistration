@@ -34,7 +34,8 @@ public:
     void addTimeSlot(TimeSlot slot);
     void setCrn(int crn);
     void setStudentCount(int studentCount);
-    void setProfessorName(QString mProfessorName);
+    void setProfessorName(QString professorName);
+    void setProfessorName(std::string professorName);
 };
 
 #endif // SECTION_H

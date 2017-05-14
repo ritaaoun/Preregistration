@@ -73,3 +73,8 @@ void Section::setProfessorName(QString professorName)
 {
     mProfessorName = professorName;
 }
+
+void Section::setProfessorName(std::string professorName)
+{
+    mProfessorName = QString::fromStdString(professorName);
+}

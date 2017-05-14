@@ -63,6 +63,13 @@ QString TimeSlot::getDayString()
     }
 }
 
+std::string TimeSlot::getDayStdString()
+{
+    QString day = getDayString();
+
+    return day.toStdString();
+}
+
 void TimeSlot::setDay(int day)
 {
     mDay = static_cast<Day>(day);

@@ -29,7 +29,7 @@ public:
     static std::string sendEditSection(std::string username, int courseId, int sectionNumber, int capacity, std::vector<TimeSlot> timeSlots);
     static std::string sendRequestCourse(std::string username, std::string courseName, std::string courseNumber, std::string courseDescription,
                                          int numberOfCreadits, bool needsComputers, bool needsSpeakers, bool needsHighEnergyParticleAccelerator);
-
+    static std::string sendRemoveSection(std::string username, int courseId, int sectionNumber);
 
     static void getCreateUser(std::string message);
     static bool getBoolean(std::string message);

@@ -1,23 +1,24 @@
-#ifndef DIALOGADDSECTION_H
-#define DIALOGADDSECTION_H
+#ifndef DIALOGSECTION_H
+#define DIALOGSECTION_H
 
 #include <QDialog>
 #include <QComboBox>
+#include <QLineEdit>
 #include <QSignalMapper>
 #include "apiservice.h"
 #include "timeslot.h"
 
 namespace Ui {
-class DialogAddSection;
+class DialogSection;
 }
 
-class DialogAddSection : public QDialog
+class DialogSection : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit DialogAddSection(bool fromAddSection, std::vector<Course> professorCourses, QWidget *parent = 0);
-    ~DialogAddSection();
+    explicit DialogSection(bool fromAddSection, std::vector<Course> professorCourses, QWidget *parent = 0);
+    ~DialogSection();
 
 private slots:
     void on_pdAddTimeSLot_clicked();
@@ -29,7 +30,7 @@ private slots:
     void on_cbCourseCode_activated(const QString &text);
 
 private:
-    Ui::DialogAddSection *ui;
+    Ui::DialogSection *ui;
 
     //int count;
 
@@ -50,4 +51,4 @@ private:
 
 };
 
-#endif // DIALOGADDSECTION_H
+#endif // DIALOGSECTION_H

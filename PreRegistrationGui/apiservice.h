@@ -40,9 +40,6 @@ public:
     bool requestCourse(QString courseName, QString courseNumber, QString courseDescription, int numberOfCreadits,
                        bool needsComputers, bool needsSpeakers, bool needsHighEnergyParticleAccelerator);
 
-
-
-
 private:
     APIService();
     static APIService* service;

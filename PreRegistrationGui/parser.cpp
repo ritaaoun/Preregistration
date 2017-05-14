@@ -226,19 +226,19 @@ std::string Parser::sendResetPassword(std::string username, std::string userUser
 std::string Parser::sendAddSection(std::string username, int courseId, int capacity, std::vector<TimeSlot> timeSlots)
 {
     std::string result = username
-            + ClientInterface::DELIMITER + stoi(courseId)
-            + ClientInterface::DELIMITER + stoi(capacity);
+            + ClientInterface::DELIMITER + std::to_string(courseId)
+            + ClientInterface::DELIMITER + std::to_string(capacity);
 
     if (timeSlots.size() > 0)
     {
         result += ClientServerInterface::DELIMITER;
-        for (std::vector<TimeSlot*>::iterator it = timeSlots.begin();it != timeSlots.end();++it)
+        for (std::vector<TimeSlot>::iterator it = timeSlots.begin(); it != timeSlots.end(); ++it)
         {
-            result += (*it)->getDayString()
-                    + ClientServerInterface::TIMESLOT_DELIMITER + QString::number((*it)->mStartHour)
-                    + ClientServerInterface::TIMESLOT_DELIMITER + QString::number((*it)->mStartMinutes)
-                    + ClientServerInterface::TIMESLOT_DELIMITER + QString::number((*it)->mEndHour)
-                    + ClientServerInterface::TIMESLOT_DELIMITER + QString::number((*it)->mEndMinutes);
+            result += (*it).getDayStdString()
+                    + ClientServerInterface::TIMESLOT_DELIMITER + std::to_string((*it).getStartHour())
+                    + ClientServerInterface::TIMESLOT_DELIMITER + std::to_string((*it).getStartMinutes())
+                    + ClientServerInterface::TIMESLOT_DELIMITER + std::to_string((*it).getEndHour())
+                    + ClientServerInterface::TIMESLOT_DELIMITER + std::to_string((*it).getEndMinutes());
 
             if (timeSlots.end() != it + 1)
             {
@@ -252,20 +252,20 @@ std::string Parser::sendAddSection(std::string username, int courseId, int capac
 std::string Parser::sendEditSection(std::string username, int courseId, int sectionNumber, int capacity, std::vector<TimeSlot> timeSlots)
 {
     std::string result = username
-            + ClientInterface::DELIMITER + stoi(courseId)
-            + ClientInterface::DELIMITER + stoi(sectionNumber)
-            + ClientInterface::DELIMITER + stoi(capacity);
+            + ClientInterface::DELIMITER + std::to_string(courseId)
+            + ClientInterface::DELIMITER + std::to_string(sectionNumber)
+            + ClientInterface::DELIMITER + std::to_string(capacity);
 
     if (timeSlots.size() > 0)
     {
         result += ClientServerInterface::DELIMITER;
-        for (std::vector<TimeSlot*>::iterator it = timeSlots.begin();it != timeSlots.end();++it)
+        for (std::vector<TimeSlot>::iterator it = timeSlots.begin();it != timeSlots.end();++it)
         {
-            result += (*it)->getDayString()
-                    + ClientServerInterface::TIMESLOT_DELIMITER + QString::number((*it)->mStartHour)
-                    + ClientServerInterface::TIMESLOT_DELIMITER + QString::number((*it)->mStartMinutes)
-                    + ClientServerInterface::TIMESLOT_DELIMITER + QString::number((*it)->mEndHour)
-                    + ClientServerInterface::TIMESLOT_DELIMITER + QString::number((*it)->mEndMinutes);
+            result += (*it).getDayStdString()
+                    + ClientServerInterface::TIMESLOT_DELIMITER + std::to_string((*it).getStartHour())
+                    + ClientServerInterface::TIMESLOT_DELIMITER + std::to_string((*it).getStartMinutes())
+                    + ClientServerInterface::TIMESLOT_DELIMITER + std::to_string((*it).getEndHour())
+                    + ClientServerInterface::TIMESLOT_DELIMITER + std::to_string((*it).getEndMinutes());
 
             if (timeSlots.end() != it + 1)
             {
@@ -276,7 +276,7 @@ std::string Parser::sendEditSection(std::string username, int courseId, int sect
     return result;
 }
 
-std::vector<Course> getSections(const std::string & message)
+std::vector<Course> Parser::getSections(std::string message)
 {
     // seperate the sections
     std::vector<std::string> messageVector = ClientInterface::split(message, ClientInterface::LIST_DELIMITER);
@@ -329,13 +329,13 @@ std::vector<Course> getSections(const std::string & message)
     }
 
     std::vector<Course> courses;
-    for (QMap<std::string, Course>::iterator course : idCourseMap)
-        courses.push_back(*course);
+    for (QMap<std::string, Course>::iterator it = idCourseMap.begin(); it != idCourseMap.end(); ++it)
+        courses.push_back(*it);
 
     return courses;
 }
 
-std::string sendRequestCourse(std::string username, std::string courseName, std::string courseNumber, std::string courseDescription,
+std::string Parser::sendRequestCourse(std::string username, std::string courseName, std::string courseNumber, std::string courseDescription,
                                      int numberOfCreadits, bool needsComputers, bool needsSpeakers, bool needsHighEnergyParticleAccelerator)
 {
     std::string result;
@@ -345,6 +345,13 @@ std::string sendRequestCourse(std::string username, std::string courseName, std:
             + ClientInterface::DELIMITER + courseDescription + ClientInterface::DELIMITER + std::to_string(numberOfCreadits)
             + ClientInterface::DELIMITER + std::to_string(needsComputers) + ClientInterface::DELIMITER + std::to_string(needsSpeakers)
             + ClientInterface::DELIMITER + std::to_string(needsHighEnergyParticleAccelerator);
+
+    return result;
+}
+
+std::string Parser::sendRemoveSection(std::string username, int courseId, int sectionNumber)
+{
+    std::string result;
 
     return result;
 }

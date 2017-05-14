@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QTableWidget>
 #include "apiservice.h"
-#include "dialogaddsection.h"
+#include "dialogsection.h"
 #include "dialogremovesection.h"
 #include "dialogrequestcourse.h"
 #include <QDebug>
@@ -47,9 +47,6 @@ private slots:
     void dialogRemoveSectionClosed();
     void dialogRequestCourseClosed();
 
-
-    void on_pushButton_clicked();
-
     void on_pbEditSection_clicked();
 
     void on_pbRemoveSection_clicked();
@@ -57,10 +54,10 @@ private slots:
 private:
     Ui::SystemWindowProfessor *ui;
 
-    QDialog* dialogAddEditSection;
+    QDialog* dialogSection;
     QDialog* dialogRemoveSection;
     QDialog* dialogRequestCourse;
-    bool dialogAddEditSectionOpened;
+    bool dialogSectionOpened;
     bool dialogRemoveSectionOpened;
     bool dialogRequestCourseOpened;
 

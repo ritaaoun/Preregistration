@@ -228,7 +228,7 @@ bool APIService::removeSection(int courseId, int sectionNumber)
 bool APIService::requestCourse(QString courseName, QString courseNumber, QString courseDescription, int numberOfCreadits,
                                bool needsComputers, bool needsSpeakers, bool needsHighEnergyParticleAccelerator)
 {
-    std::string toSend = Parser::sendRequestCourse(Parser::sendActiveUser(), courseName, courseNumber, courseDescription, numberOfCreadits,
+    std::string toSend = Parser::sendRequestCourse(Parser::sendActiveUser(), courseName.toStdString(), courseNumber.toStdString(), courseDescription.toStdString(), numberOfCreadits,
                                                    needsComputers, needsSpeakers, needsHighEnergyParticleAccelerator);
 
     std::string serverResult = client.requestCourse(toSend);

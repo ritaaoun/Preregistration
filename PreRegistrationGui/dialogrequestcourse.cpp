@@ -18,7 +18,7 @@ void DialogRequestCourse::on_pbSendRequest_clicked()
     QString courseName = ui->leCourseName->text();
     QString courseNumber = ui->leCourseNumber->text();
     QString courseDescription = ui->teCourseDescription->toPlainText();
-    int numberOfCreadits = std::stoi(ui->sbCapacity->text());
+    int numberOfCreadits = ui->sbCredits->text().toInt();
     bool needsComputers = ui->cbNeedsComputer->isChecked();
     bool needsSpeakers = ui->cbNeedsSpeakers->isChecked();
     bool needsHighEnergyParticleAccelerator = ui->cbNeedsParticleAccelerator->isChecked();

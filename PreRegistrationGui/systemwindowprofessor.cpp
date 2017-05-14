@@ -10,7 +10,7 @@ SystemWindowProfessor::SystemWindowProfessor(QWidget *parent) :
 
     ui->label_welcome->setText("Welcome " + User::getUser()->getName());
 
-    dialogAddEditSectionOpened = false;
+    dialogSectionOpened = false;
     dialogRemoveSectionOpened = false;
     dialogRequestCourseOpened = false;
 
@@ -160,7 +160,7 @@ void SystemWindowProfessor::refresh()
 
 void SystemWindowProfessor::dialogAddEditSectionClosed()
 {
-    dialogAddEditSectionOpened = false;
+    dialogSectionOpened = false;
 }
 
 void SystemWindowProfessor::dialogRemoveSectionClosed()
@@ -175,25 +175,25 @@ void SystemWindowProfessor::dialogRequestCourseClosed()
 
 void SystemWindowProfessor::on_pbAddSection_clicked()
 {
-    if(!dialogAddEditSectionOpened && professorCourses.size() != 0)
+    if(!dialogSectionOpened && professorCourses.size() != 0)
     {
-        dialogAddEditSection = new DialogAddSection(true, professorCourses);
-        QObject::connect(dialogAddEditSection, SIGNAL(finished(int)), this, SLOT(dialogAddEditSectionClosed()));
-        dialogAddEditSection->show();
+        dialogSection = new DialogSection(true, professorCourses);
+        QObject::connect(dialogSection, SIGNAL(finished(int)), this, SLOT(dialogAddEditSectionClosed()));
+        dialogSection->show();
 
-        dialogAddEditSectionOpened = true;
+        dialogSectionOpened = true;
     }
 }
 
 void SystemWindowProfessor::on_pbEditSection_clicked()
 {
-    if(!dialogAddEditSectionOpened && professorCourses.size() != 0)
+    if(!dialogSectionOpened && professorCourses.size() != 0)
     {
-        dialogAddEditSection = new DialogAddSection(false, professorCourses);
-        QObject::connect(dialogAddEditSection, SIGNAL(finished(int)), this, SLOT(dialogAddEditSectionClosed()));
-        dialogAddEditSection->show();
+        dialogSection = new DialogSection(false, professorCourses);
+        QObject::connect(dialogSection, SIGNAL(finished(int)), this, SLOT(dialogAddEditSectionClosed()));
+        dialogSection->show();
 
-        dialogAddEditSectionOpened = true;
+        dialogSectionOpened = true;
     }
 }
 
@@ -213,10 +213,15 @@ void SystemWindowProfessor::on_pbRequestCourse_clicked()
 {
     if(!dialogRequestCourseOpened)
     {
-        dialogRequestCourse = new DialogRequestCourse(professorCourses);
-        QObject::connect(dialogRequestCourse, SIGNAL(finished(int)), this, SLOT(dialogRequestCourseClosed());
+        dialogRequestCourse = new DialogRequestCourse();
+        QObject::connect(dialogRequestCourse, SIGNAL(finished(int)), this, SLOT(dialogRequestCourseClosed()));
         dialogRequestCourse->show();
 
-        dialogRequestCourse = true;
+        dialogRequestCourseOpened = true;
     }
+}
+
+void SystemWindowProfessor::removeCourse(int index)
+{
+
 }

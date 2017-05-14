@@ -21,8 +21,6 @@ public:
     ~DialogRemoveSection();
 
 private slots:
-    void on_pushButton_clicked();
-
     void on_cbCourseCode_activated(const QString &arg1);
 
     void on_pbRemoveSection_clicked();

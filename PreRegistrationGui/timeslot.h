@@ -34,6 +34,7 @@ public:
 
     QString getTimeString();
     QString getDayString();
+    std::string getDayStdString();
 };
 
 #endif // TIMESLOT_H

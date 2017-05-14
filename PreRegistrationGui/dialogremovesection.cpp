@@ -38,7 +38,7 @@ void DialogRemoveSection::on_cbCourseCode_activated(const QString &arg1)
     if(foundCourse)
     {
         for(Section section : selectedCourse.getSections())
-            ui->cbSectionNumber->addItem(section.getNumber());
+            ui->cbSectionNumber->addItem(QString::number(section.getNumber()));
 
         ui->cbSectionNumber->setVisible(true);
         ui->cbSectionNumber->setEnabled(true);
@@ -56,7 +56,7 @@ void DialogRemoveSection::on_pbRemoveSection_clicked()
     int courseId = ui->cbCourseCode->currentData().toInt();
     int sectionNumber = ui->cbSectionNumber->currentData().toInt();
     //TODO: check if combox was not selected
-    if()
+    if(true)
     {
         return;
     }
