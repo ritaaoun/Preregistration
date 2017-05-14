@@ -15,14 +15,19 @@ int Section::getCapacity()
     return mCapacity;
 }
 
-int Section::getActual()
+int Section::getStudentCount()
 {
-    return mActual;
+    return mStudentCount;
 }
 
 QString Section::getRoom()
 {
     return mRoom;
+}
+
+QString Section::getProfessorName()
+{
+    return mProfessorName;
 }
 
 std::vector<TimeSlot> Section::getTimeSlots()
@@ -38,11 +43,6 @@ void Section::setNumber(int number)
 void Section::setCapacity(int capacity)
 {
     mCapacity = capacity;
-}
-
-void Section::setActual(int actual)
-{
-    mActual = actual;
 }
 
 void Section::setRoom(QString room)

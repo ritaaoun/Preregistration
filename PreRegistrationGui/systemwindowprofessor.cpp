@@ -11,11 +11,8 @@ SystemWindowProfessor::SystemWindowProfessor(QWidget *parent) :
     ui->label_welcome->setText("Welcome " + User::getUser()->getName());
 
     dialogSectionOpened = false;
-    dialogRemoveSectionOpened = false;
+    dialogMessageOpened = false;
     dialogRequestCourseOpened = false;
-
-    professorCourses = APIService::getInstance()->getUserSetions();
-    departmentCourses = APIService::getInstance()->getDepartmentCourses();
 
     refresh();
 }
@@ -27,19 +24,20 @@ SystemWindowProfessor::~SystemWindowProfessor()
 
 void SystemWindowProfessor::setUpCoursesComboBox()
 {
-    courses = APIService::getInstance()->getCoursesList();
+    departmentCourses = APIService::getInstance()->getDepartmentCourses();
 
-    for(int i = 0; i < courses.size(); i++)
+    for(int i = 0; i < departmentCourses.size(); i++)
     {
-        ui->cbCoursesList->addItem(courses[i].getName());
+        ui->cbCoursesList->addItem(departmentCourses[i].getName());
     }
 }
 
 void SystemWindowProfessor::on_cbCoursesList_currentIndexChanged(int index)
 {
-    Course course = courses[index];
+    Course course = departmentCourses[index];
 
     ui->tableCourses->setRowCount(0);
+    ui->labelCourseName->setText(course.getName());
 
     for(int i = 0; i < course.getSections().size(); i++)
     {
@@ -48,6 +46,7 @@ void SystemWindowProfessor::on_cbCoursesList_currentIndexChanged(int index)
         Section section = course.getSections()[i];
 
         items.push_back(new QTableWidgetItem(QString::number(section.getNumber())));
+        items.push_back(new QTableWidgetItem(section.getProfessorName()));
         items.push_back(new QTableWidgetItem(section.getRoom()));
 
         QString days, time;
@@ -62,7 +61,7 @@ void SystemWindowProfessor::on_cbCoursesList_currentIndexChanged(int index)
         items.push_back(new QTableWidgetItem(time));
 
         items.push_back(new QTableWidgetItem(QString::number(section.getCapacity())));
-        items.push_back(new QTableWidgetItem(QString::number(section.getActual())));
+        items.push_back(new QTableWidgetItem(QString::number(section.getStudentCount())));
 
         ui->tableCourses->insertRow(i);
         for(int j = 0; j < items.size(); j++)
@@ -79,15 +78,15 @@ void SystemWindowProfessor::on_pbRefresh_clicked()
 
 void SystemWindowProfessor::displaySchedule()
 {
-    std::vector<Course> userCourses = APIService::getInstance()->getUserCourses();
+    professorCourses = APIService::getInstance()->getUserCourses();
 
-    for(int i = 0; i < userCourses.size(); i++)
+    for(int i = 0; i < professorCourses.size(); i++)
     {
-        std::vector<TimeSlot> timeSlots = userCourses[i].getSections()[0].getTimeSlots();
+        std::vector<TimeSlot> timeSlots = professorCourses[i].getSections()[0].getTimeSlots();
 
         for(int j = 0; j < timeSlots.size(); j++)
         {
-            QTableWidgetItem* item = new QTableWidgetItem(userCourses[i].getName());
+            QTableWidgetItem* item = new QTableWidgetItem(professorCourses[i].getName());
             ui->tableSchedule->setItem(timeSlots[j].getStartHour() - 8, timeSlots[j].getDay(), item);
             ui->tableSchedule->item(timeSlots[j].getStartHour() - 8, timeSlots[j].getDay())->setBackground(Qt::red);
 
@@ -107,24 +106,25 @@ void SystemWindowProfessor::clearSchedule()
 
 void SystemWindowProfessor::setUpUserCourses()
 {
-    userCourses = APIService::getInstance()->getUserCourses();
+    professorCourses = APIService::getInstance()->getUserSetions();
 
     ui->tableMyCourses->setRowCount(0);
 
-    for(int i = 0; i < courses.size(); i++)
+    for(int i = 0; i < professorCourses.size(); i++)
     {
-        for(int j = 0; j < courses[i].getSections().size(); j++)
+        for(int j = 0; j < professorCourses[i].getSections().size(); j++)
         {
             std::vector<QTableWidgetItem*> items;
 
-            Section section = courses[i].getSections()[j];
+            Section section = professorCourses[i].getSections()[j];
 
-            items.push_back(new QTableWidgetItem(courses[i].getName()));
+            items.push_back(new QTableWidgetItem(professorCourses[i].getCode()));
+            items.push_back(new QTableWidgetItem(professorCourses[i].getName()));
+            items.push_back(new QTableWidgetItem(QString::number(professorCourses[i].getCredits())));
             items.push_back(new QTableWidgetItem(QString::number(section.getNumber())));
             items.push_back(new QTableWidgetItem(section.getRoom()));
 
             QString days, time;
-
             for(int k = 0; k < section.getTimeSlots().size(); k++)
             {
                 days += section.getTimeSlots()[k].getDayString();
@@ -135,10 +135,21 @@ void SystemWindowProfessor::setUpUserCourses()
             items.push_back(new QTableWidgetItem(time));
 
             items.push_back(new QTableWidgetItem(QString::number(section.getCapacity())));
-            items.push_back(new QTableWidgetItem(QString::number(section.getActual())));
+            items.push_back(new QTableWidgetItem(QString::number(section.getStudentCount())));
 
-            QPushButton* removeButton = new QPushButton("Remove");
-            QObject::connect(removeButton, SIGNAL(clicked()), this, SLOT(removeCourse(i)));
+            QString course_section = QString::number(i) + "_" + QString::number(j);
+
+            QSignalMapper* smRemoveSection = new QSignalMapper(this);
+            QPushButton* removeSectionButton = new QPushButton("Remove");
+            QObject::connect(removeSectionButton, SIGNAL(clicked(bool)), smRemoveSection, SLOT(map()));
+            smRemoveSection->setMapping(removeSectionButton, course_section);
+            QObject::connect(smRemoveSection, SIGNAL(mapped(QString)), this, SLOT(removeSection(QString)));
+
+            QSignalMapper* smEditSection = new QSignalMapper(this);
+            QPushButton* editSectionButton = new QPushButton("Edit");
+            QObject::connect(editSectionButton, SIGNAL(clicked(bool)), smEditSection, SLOT(map()));
+            smEditSection->setMapping(editSectionButton, course_section);
+            QObject::connect(smEditSection, SIGNAL(mapped(QString)), this, SLOT(editSection(QString)));
 
             ui->tableMyCourses->insertRow(j);
             for(int k = 0; k < items.size(); k++)
@@ -146,7 +157,8 @@ void SystemWindowProfessor::setUpUserCourses()
                  ui->tableMyCourses->setItem(j, k, items[k]);
             }
 
-            ui->tableMyCourses->setCellWidget(j, items.size(), removeButton);
+            ui->tableMyCourses->setCellWidget(j, items.size(), removeSectionButton);
+            ui->tableMyCourses->setCellWidget(j, items.size() + 1, editSectionButton);
         }
     }
 }
@@ -156,16 +168,15 @@ void SystemWindowProfessor::refresh()
     setUpCoursesComboBox();
     setUpUserCourses();
     displaySchedule();
+    if(departmentCourses.size() > 0)
+    {
+        on_cbCoursesList_currentIndexChanged(0);
+    }
 }
 
-void SystemWindowProfessor::dialogAddEditSectionClosed()
+void SystemWindowProfessor::dialogSectionClosed()
 {
     dialogSectionOpened = false;
-}
-
-void SystemWindowProfessor::dialogRemoveSectionClosed()
-{
-    dialogRemoveSectionOpened = false;
 }
 
 void SystemWindowProfessor::dialogRequestCourseClosed()
@@ -177,35 +188,11 @@ void SystemWindowProfessor::on_pbAddSection_clicked()
 {
     if(!dialogSectionOpened && professorCourses.size() != 0)
     {
-        dialogSection = new DialogSection(true, professorCourses);
+        dialogSection = new DialogSection();
         QObject::connect(dialogSection, SIGNAL(finished(int)), this, SLOT(dialogAddEditSectionClosed()));
         dialogSection->show();
 
         dialogSectionOpened = true;
-    }
-}
-
-void SystemWindowProfessor::on_pbEditSection_clicked()
-{
-    if(!dialogSectionOpened && professorCourses.size() != 0)
-    {
-        dialogSection = new DialogSection(false, professorCourses);
-        QObject::connect(dialogSection, SIGNAL(finished(int)), this, SLOT(dialogAddEditSectionClosed()));
-        dialogSection->show();
-
-        dialogSectionOpened = true;
-    }
-}
-
-void SystemWindowProfessor::on_pbRemoveSection_clicked()
-{
-    if(!dialogRemoveSectionOpened && professorCourses.size() != 0)
-    {
-        dialogRemoveSection = new DialogRemoveSection(professorCourses);
-        QObject::connect(dialogRemoveSection, SIGNAL(finished(int)), this, SLOT(dialogRemoveSectionClosed()));
-        dialogRemoveSection->show();
-
-        dialogRemoveSectionOpened = true;
     }
 }
 
@@ -221,7 +208,78 @@ void SystemWindowProfessor::on_pbRequestCourse_clicked()
     }
 }
 
-void SystemWindowProfessor::removeCourse(int index)
+void SystemWindowProfessor::removeSection(QString course_section)
 {
+    QStringList list = course_section.split('-');
 
+    int courseIndex = list.at(0).toInt();
+    int sectionIndex = list.at(1).toInt();
+
+    int courseId = professorCourses[courseIndex].getId();
+    int sectionNumber = professorCourses[courseIndex].getSections()[sectionIndex].getNumber();
+
+    APIService::getInstance()->removeSection(courseId, sectionNumber);
+    setUpUserCourses();
+}
+
+void SystemWindowProfessor::editSection(QString course_section)
+{
+    QStringList list = course_section.split('-');
+
+    int courseIndex = list.at(0).toInt();
+    int sectionIndex = list.at(1).toInt();
+
+    Course course = professorCourses[courseIndex];
+
+    if(!dialogSectionOpened && professorCourses.size() != 0)
+    {
+        dialogSection = new DialogSection(course, sectionIndex);
+        QObject::connect(dialogSection, SIGNAL(finished(int)), this, SLOT(dialogSectionClosed()));
+        dialogSection->show();
+
+        dialogSectionOpened = true;
+    }
+}
+
+void SystemWindowProfessor::on_pbMessage_clicked()
+{
+    if(!dialogMessageOpened)
+    {
+        dialogMessage = new DialogMessage();
+
+        QObject::connect(dialogMessage, SIGNAL(finished(int)), this, SLOT(dialogMessageClosed()));
+        dialogMessage->show();
+
+        dialogMessageOpened = true;
+    }
+}
+
+void SystemWindowProfessor::dialogMessageClosed()
+{
+    dialogMessageOpened = false;
+}
+
+void SystemWindowProfessor::on_pbLogout_clicked()
+{
+    User::removeUser();
+
+    LogInWindow* login = new LogInWindow();
+    login->show();
+
+    if(dialogMessageOpened)
+    {
+        dialogMessage->close();
+    }
+
+    if(dialogRequestCourseOpened)
+    {
+        dialogRequestCourse->close();
+    }
+
+    if(dialogSectionOpened)
+    {
+        dialogSection->close();
+    }
+
+    this->close();
 }

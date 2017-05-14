@@ -1,38 +1,40 @@
 #include "dialogsection.h"
 #include "ui_dialogsection.h"
 
-DialogSection::DialogSection(bool fromAddSection, std::vector<Course> professorCourses, QWidget *parent) :
+DialogSection::DialogSection(Course course, int sectionIndex, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogSection)
 {
     ui->setupUi(this);
-    this->fromAddSection = fromAddSection;
-    this->professorCourses = professorCourses;
-    //count = 0;
 
-    for(int i = 0; i < professorCourses.size(); i++)
+
+    if(sectionIndex != -1 )// From editSection
     {
-        ui->cbCourseCode->addItem(professorCourses[i].getCode(), QVariant(professorCourses[i].getId()));
-    }
-    ui->cbSectionNumber->setEnabled(false);
+        fromAddSection = false;
+        courseToEdit = course;
+        sectionToEdit = course.getSections()[sectionIndex];
 
-    //From addSection
-    if(fromAddSection)
-    {
-        ui->label_title->setText("Add Section");
-        ui->pbAddSection->setText("Add Section");
-        ui->cbSectionNumber->setVisible(false);
-    }
-
-
-    // From editSection
-    else
-    {
         ui->label_title->setText("Edit Section");
         ui->pbAddSection->setText("Edit Section");
-        ui->cbSectionNumber->setVisible(true);
+        ui->widgetCourseCode->setVisible(false);
+
+        fillSectionInfo();
+    }
+    else // From addSection
+    {
+        fromAddSection = true;
+        ui->label_title->setText("Add Section");
+        ui->pbAddSection->setText("Add Section");
+        ui->widgetCourseCode->setVisible(true);
+
+        departmentCourses = APIService::getInstance()->getCoursesList();
+        for(int i = 0; i < departmentCourses.size(); i++)
+        {
+            ui->cbCourseCode->addItem(departmentCourses[i].getCode(), QVariant(departmentCourses[i].getId()));
+        }
     }
 
+    //count = 0;
 }
 
 DialogSection::~DialogSection()
@@ -110,34 +112,6 @@ void DialogSection::on_pbAddSection_clicked()
     }
 }
 
-void DialogSection::on_cbCourseCode_activated(const QString & text)
-{
-    if(!fromAddSection)
-    {
-        ui->cbSectionNumber->clear();
-        Course selectedCourse;
-        bool foundCourse = false;
-        int courseId = ui->cbCourseCode->currentData().toInt();
-        for(Course course : professorCourses)
-        {
-            if(course.getId() == courseId)
-            {
-                selectedCourse = course;
-                foundCourse = true;
-
-            }
-        }
-        if(foundCourse)
-        {
-            for(Section section : selectedCourse.getSections())
-                ui->cbSectionNumber->addItem(QString::number(section.getNumber()));
-            ui->cbSectionNumber->setEnabled(true);
-        }
-        else
-            ui->cbSectionNumber->setEnabled(false);
-    }
-}
-
 void DialogSection::addSection()
 {
     if(comboBoxes.size() == 0 || ui->sbCapacity->text().toInt() == 0)
@@ -169,8 +143,7 @@ void DialogSection::addSection()
 void DialogSection::editSection()
 {
     int courseId = ui->cbCourseCode->currentData().toInt();
-    int sectionNumber = ui->cbSectionNumber->currentData().toInt();
-    // TODO: see how we can check if combobox not selected
+
     if(comboBoxes.size() == 0 || ui->sbCapacity->text().toInt() == 0)
     {
         return;
@@ -191,6 +164,50 @@ void DialogSection::editSection()
 
     int capacity = ui->sbCapacity->text().toInt();
 
-    APIService::getInstance()->editSection(courseId, sectionNumber, capacity, timeSlots);
+    APIService::getInstance()->editSection(courseToEdit.getId(), sectionToEdit.getNumber(), capacity, timeSlots);
     this->close();
+}
+
+void DialogSection::fillSectionInfo()
+{
+    ui->sbCapacity->setValue(sectionToEdit.getCapacity());
+
+    resetTable();
+
+    std::vector<TimeSlot> timeSlots = sectionToEdit.getTimeSlots();
+
+    for(int i = 0; i < timeSlots.size(); i++)
+    {
+        ui->tableTimeSlots->insertRow(i);
+
+        QComboBox* cb = new QComboBox();
+        cb->addItem("M", QVariant(1));
+        cb->addItem("T", QVariant(2));
+        cb->addItem("W", QVariant(3));
+        cb->addItem("R", QVariant(4));
+        cb->addItem("F", QVariant(5));
+        comboBoxes.push_back(cb);
+        ui->tableTimeSlots->setCellWidget(i, 0, cb);
+        cb->setCurrentText(timeSlots[i].getDayString());
+
+        QLineEdit* leStartHour = new QLineEdit();
+        ui->tableTimeSlots->setCellWidget(i, 1, leStartHour);
+        startHour.push_back(leStartHour);
+        leStartHour->setText(QString::number(timeSlots[i].getStartHour()));
+
+        QLineEdit* leStartMinutes = new QLineEdit();
+        ui->tableTimeSlots->setCellWidget(i, 2, leStartMinutes);
+        startMinutes.push_back(leStartMinutes);
+        leStartMinutes->setText(QString::number(timeSlots[i].getStartMinutes()));
+
+        QLineEdit* leEndHour = new QLineEdit();
+        ui->tableTimeSlots->setCellWidget(i, 3, leEndHour);
+        endHour.push_back(leEndHour);
+        leEndHour->setText(QString::number(timeSlots[i].getEndHour()));
+
+        QLineEdit* leEndMinutes = new QLineEdit();
+        ui->tableTimeSlots->setCellWidget(i, 4, leEndMinutes);
+        endMinutes.push_back(leEndMinutes);
+        leEndMinutes->setText(QString::number(timeSlots[i].getEndMinutes()));
+    }
 }

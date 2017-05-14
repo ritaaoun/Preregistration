@@ -56,7 +56,7 @@
     <item>
      <widget class="QSpinBox" name="sbCredits">
       <property name="maximum">
-       <number>1000</number>
+       <number>10</number>
       </property>
      </widget>
     </item>
@@ -155,7 +155,7 @@
     </rect>
    </property>
    <property name="title">
-    <string>GroupBox</string>
+    <string>Constraints</string>
    </property>
    <widget class="QCheckBox" name="cbNeedsComputer">
     <property name="geometry">

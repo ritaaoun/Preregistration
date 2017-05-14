@@ -9,26 +9,24 @@ class Section
 private:
     int mNumber;
     int mCapacity;
-    int mActual;
     int mCrn;
     int mStudentCount;
     QString mRoom;
     QString mProfessorName;
     std::vector<TimeSlot> mSlots;
 
-
 public:
     Section();
 
     int getNumber();
     int getCapacity();
-    int getActual();
+    int getStudentCount();
     QString getRoom();
+    QString getProfessorName();
     std::vector<TimeSlot> getTimeSlots();
 
     void setNumber(int number);
     void setCapacity(int capacity);
-    void setActual(int actual);
     void setRoom(QString room);
     void setRoom(std::string room);
     void addTimeSlot(TimeSlot slot);

@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTableWidget>
 #include "apiservice.h"
+#include "loginwindow.h"
 #include "dialogsection.h"
 #include "dialogremovesection.h"
 #include "dialogrequestcourse.h"
@@ -21,9 +22,40 @@ public:
     explicit SystemWindowProfessor(QWidget *parent = 0);
     ~SystemWindowProfessor();
 
+private slots:
+    void on_pbRefresh_clicked();
+
+    void on_cbCoursesList_currentIndexChanged(int index);
+
+    void removeSection(QString course_section);
+
+    void editSection(QString course_section);
+
+    void on_pbRequestCourse_clicked();
+
+    void on_pbAddSection_clicked();
+
+    void dialogSectionClosed();
+    void dialogMessageClosed();
+    void dialogRequestCourseClosed();
+
+    void on_pbMessage_clicked();
+
+    void on_pbLogout_clicked();
+
 private:
-    std::vector<Course> courses;
-    std::vector<Course> userCourses;
+    Ui::SystemWindowProfessor *ui;
+
+    QDialog* dialogSection;
+    QDialog* dialogMessage;
+    QDialog* dialogRequestCourse;
+    bool dialogSectionOpened;
+    bool dialogMessageOpened;
+    bool dialogRequestCourseOpened;
+
+    std::vector<Course> professorCourses;
+    std::vector<Course> departmentCourses;
+
 
     void setUpCoursesComboBox();
     void displaySchedule();
@@ -31,38 +63,6 @@ private:
     void setUpUserCourses();
 
     void refresh();
-
-private slots:
-    void on_pbRefresh_clicked();
-
-    void on_cbCoursesList_currentIndexChanged(int index);
-
-    void removeCourse(int index);
-
-    void on_pbRequestCourse_clicked();
-
-    void on_pbAddSection_clicked();
-
-    void dialogAddEditSectionClosed();
-    void dialogRemoveSectionClosed();
-    void dialogRequestCourseClosed();
-
-    void on_pbEditSection_clicked();
-
-    void on_pbRemoveSection_clicked();
-
-private:
-    Ui::SystemWindowProfessor *ui;
-
-    QDialog* dialogSection;
-    QDialog* dialogRemoveSection;
-    QDialog* dialogRequestCourse;
-    bool dialogSectionOpened;
-    bool dialogRemoveSectionOpened;
-    bool dialogRequestCourseOpened;
-
-    std::vector<Course> professorCourses;
-    std::vector<Course> departmentCourses;
 };
 
 #endif // SYSTEMWINDOWPROFESSOR_H
