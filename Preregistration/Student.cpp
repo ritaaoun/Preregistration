@@ -62,12 +62,15 @@ bool Student::subscribeToSection(int sectionCrn)
 
 bool Student::unsubscribeFromSection(Section * section)
 {
-	loadSections();
-	m_sectionCrns.erase(std::find(m_sectionCrns.begin(), m_sectionCrns.end(), section->getCrn()));
-	m_sections.erase(std::find(m_sections.begin(), m_sections.end(), section));
-	section->removeStudent(this);
-	Server::getInstance().repository->removeStudentSection(this, section);
-	return true;
+	if (std::find(m_sections.begin(), m_sections.end(), section) != m_sections.end()) {
+		loadSections();
+		m_sectionCrns.erase(std::find(m_sectionCrns.begin(), m_sectionCrns.end(), section->getCrn()));
+		m_sections.erase(std::find(m_sections.begin(), m_sections.end(), section));
+		section->removeStudent(this);
+		Server::getInstance().repository->removeStudentSection(this, section);
+		return true;
+	}
+	return false;
 }
 
 bool Student::unsubscribeFromSection(int sectionCrn)
