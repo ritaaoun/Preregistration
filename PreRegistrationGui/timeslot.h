@@ -4,7 +4,7 @@
 #include <QString>
 
 enum Day {
-    SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, DAYS_END
+    MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY, DAYS_END
 };
 
 class TimeSlot
@@ -26,8 +26,15 @@ public:
     unsigned int getEndHour();
     unsigned int getEndMinutes();
 
+    void setDay(int day);
+    void setStartHour(int startHour);
+    void setStartMinutes(int startMinutes);
+    void setEndHour(int endHour);
+    void setEndtMinutes(int endMinutes);
+
     QString getTimeString();
     QString getDayString();
+    std::string getDayStdString();
 };
 
 #endif // TIMESLOT_H

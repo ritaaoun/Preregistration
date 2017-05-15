@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SystemWindowProfessor</class>
- <widget class="QMainWindow" name="SystemWindowProfessor">
+ <class>SystemWindowStudent</class>
+ <widget class="QMainWindow" name="SystemWindowStudent">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,31 +14,11 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="label_welcome">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>-10</y>
-      <width>871</width>
-      <height>91</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>24</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Welcome</string>
-    </property>
-   </widget>
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>100</y>
+      <y>90</y>
       <width>841</width>
       <height>501</height>
      </rect>
@@ -50,7 +30,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <property name="elideMode">
      <enum>Qt::ElideLeft</enum>
@@ -293,8 +273,8 @@
        <rect>
         <x>10</x>
         <y>70</y>
-        <width>751</width>
-        <height>311</height>
+        <width>821</width>
+        <height>341</height>
        </rect>
       </property>
       <property name="editTriggers">
@@ -335,6 +315,11 @@
         <string>Actual</string>
        </property>
       </column>
+      <column>
+       <property name="text">
+        <string/>
+       </property>
+      </column>
      </widget>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
@@ -357,19 +342,6 @@
         <widget class="QComboBox" name="cbCoursesList"/>
        </item>
       </layout>
-     </widget>
-     <widget class="QPushButton" name="pbRequestCourse">
-      <property name="geometry">
-       <rect>
-        <x>220</x>
-        <y>410</y>
-        <width>131</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Request Course</string>
-      </property>
      </widget>
      <widget class="QLabel" name="label_2">
       <property name="geometry">
@@ -407,39 +379,26 @@
        <string/>
       </property>
      </widget>
-     <widget class="QPushButton" name="pbAddSection">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>410</y>
-        <width>121</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Add Section</string>
-      </property>
-     </widget>
     </widget>
    </widget>
-   <widget class="QPushButton" name="pbRefresh">
+   <widget class="QPushButton" name="pbChangePassword">
     <property name="geometry">
      <rect>
-      <x>730</x>
-      <y>630</y>
+      <x>390</x>
+      <y>620</y>
       <width>101</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Refresh</string>
+     <string>Change Password</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pbMessage">
     <property name="geometry">
      <rect>
       <x>510</x>
-      <y>630</y>
+      <y>620</y>
       <width>91</width>
       <height>41</height>
      </rect>
@@ -448,30 +407,50 @@
      <string>Messages</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pbRefresh">
+    <property name="geometry">
+     <rect>
+      <x>730</x>
+      <y>620</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Refresh</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_welcome">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>-20</y>
+      <width>871</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>24</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Welcome</string>
+    </property>
+   </widget>
    <widget class="QPushButton" name="pbLogout">
     <property name="geometry">
      <rect>
       <x>620</x>
-      <y>630</y>
+      <y>620</y>
       <width>91</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
      <string>Log Out</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pbChangePassword">
-    <property name="geometry">
-     <rect>
-      <x>390</x>
-      <y>630</y>
-      <width>101</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Change Password</string>
     </property>
    </widget>
   </widget>

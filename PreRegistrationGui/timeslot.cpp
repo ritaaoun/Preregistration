@@ -62,3 +62,35 @@ QString TimeSlot::getDayString()
         default: return " ";
     }
 }
+
+std::string TimeSlot::getDayStdString()
+{
+    QString day = getDayString();
+
+    return day.toStdString();
+}
+
+void TimeSlot::setDay(int day)
+{
+    mDay = static_cast<Day>(day);
+}
+
+void TimeSlot::setStartHour(int startHour)
+{
+    mStartHour = startHour;
+}
+
+void TimeSlot::setStartMinutes(int startMinutes)
+{
+    mStartMinutes = startMinutes;
+}
+
+void TimeSlot::setEndHour(int endHour)
+{
+    mEndHour = endHour;
+}
+
+void TimeSlot::setEndtMinutes(int endMinutes)
+{
+    mEndMinutes = endMinutes;
+}

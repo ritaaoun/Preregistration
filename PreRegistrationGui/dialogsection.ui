@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogAddSection</class>
- <widget class="QDialog" name="DialogAddSection">
+ <class>DialogSection</class>
+ <widget class="QDialog" name="DialogSection">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="label_title">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -127,10 +127,10 @@
     <string>Remove TimeSlots</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>420</x>
      <y>80</y>
      <width>171</width>
      <height>24</height>
@@ -153,16 +153,16 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="widgetCourseCode" native="true">
    <property name="geometry">
     <rect>
-     <x>140</x>
+     <x>20</x>
      <y>80</y>
      <width>155</width>
      <height>24</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_2">
+   <layout class="QHBoxLayout" name="hlCourseCode">
     <item>
      <widget class="QLabel" name="label_3">
       <property name="text">

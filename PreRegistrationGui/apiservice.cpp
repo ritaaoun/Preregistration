@@ -192,11 +192,57 @@ bool APIService::resetPassword(QString userUsername)
     return result;
 }
 
-bool APIService::addSection(int courseId, int capacity, timeSlots)
+bool APIService::publishSection(int courseId, int capacity, std::vector<TimeSlot> timeSlots)
 {
-    std::string toSend = Parser::sendAddSection(Parser::sendActiveUser(), courseId, capacity, timeSlots);
+    std::string toSend = Parser::sendPusblishSection(Parser::sendActiveUser(), courseId, capacity, timeSlots);
 
     std::string serverResult = client.addSection(toSend);
+
+    bool result = Parser::getBoolean(serverResult);
+
+    return result;
+}
+
+bool APIService::editSection(int courseId, int sectionNumber, int capacity, std::vector<TimeSlot> timeSlots)
+{
+    std::string toSend = Parser::sendEditSection(Parser::sendActiveUser(), courseId, sectionNumber, capacity, timeSlots);
+
+    std::string serverResult = client.editSection(toSend);
+
+    bool result = Parser::getBoolean(serverResult);
+
+    return result;
+}
+
+bool APIService::removeSection(int courseId, int sectionNumber)
+{
+    std::string toSend = Parser::sendRemoveSection(Parser::sendActiveUser(), courseId, sectionNumber);
+
+    std::string serverResult = client.removeSection(toSend);
+
+    bool result = Parser::getBoolean(serverResult);
+
+    return result;
+}
+
+bool APIService::addSection(int courseId, int sectionNumber)
+{
+    std::string toSend = Parser::sendAddSection(Parser::sendActiveUser(), courseId, sectionNumber);
+
+    std::string serverResult = client.addSection(toSend);
+
+    bool result = Parser::getBoolean(serverResult);
+
+    return result;
+}
+
+bool APIService::requestCourse(QString courseName, QString courseNumber, QString courseDescription, int numberOfCreadits,
+                               bool needsComputers, bool needsSpeakers, bool needsHighEnergyParticleAccelerator)
+{
+    std::string toSend = Parser::sendRequestCourse(Parser::sendActiveUser(), courseName.toStdString(), courseNumber.toStdString(), courseDescription.toStdString(), numberOfCreadits,
+                                                   needsComputers, needsSpeakers, needsHighEnergyParticleAccelerator);
+
+    std::string serverResult = client.requestCourse(toSend);
 
     bool result = Parser::getBoolean(serverResult);
 
@@ -220,3 +266,4 @@ std::vector<Course> APIService::getDepartmentCourses()
 
     return result;
 }
+

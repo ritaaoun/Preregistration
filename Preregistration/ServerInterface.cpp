@@ -670,6 +670,7 @@ std::string ServerInterface::addSection(const std::string & params)
 
 std::string ServerInterface::editSection(const std::string & params)
 {
+	//TODO: Need to implement editSection
 	return std::string();
 }
 

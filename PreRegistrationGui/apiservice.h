@@ -34,8 +34,12 @@ public:
     bool decideOnCourse(Course course, bool accepted);
     bool changePassword(QString oldPassword, QString newPassword);
     bool resetPassword(QString userUsername);
-    bool addSection(int courseId, int capacity, timeSlots);
-
+    bool publishSection(int courseId, int capacity, std::vector<TimeSlot> timeSlots);
+    bool editSection(int courseId, int sectionNumber, int capacity, std::vector<TimeSlot> timeSlots);
+    bool removeSection(int courseId, int sectionNumber);
+    bool addSection(int courseId, int sectionNumber);
+    bool requestCourse(QString courseName, QString courseNumber, QString courseDescription, int numberOfCreadits,
+                       bool needsComputers, bool needsSpeakers, bool needsHighEnergyParticleAccelerator);
 
 private:
     APIService();

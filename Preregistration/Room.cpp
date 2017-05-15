@@ -8,6 +8,7 @@ Room::Room(int id, const std::string & buildingCode, int roomNumber, int capacit
 	mSectionIds(Server::getInstance().repository->getRoomSectionIds(id)), mSections(),
 	mSchedule(new Schedule(this))
 {
+	Server::getInstance().data.addRoom(this);
 }
 
 Room::~Room()
@@ -16,6 +17,23 @@ Room::~Room()
 		delete mConstraints;
 	}
 	delete mSchedule;
+}
+
+Room & Room::operator=(const Room & rhs)
+{
+	mId = rhs.mId;
+	mBuildingCode = rhs.mBuildingCode;
+	mRoomNumber = rhs.mRoomNumber;
+	mCapacity = rhs.mCapacity;
+	mConstraints = rhs.mConstraints;
+	mSectionIds = rhs.mSectionIds;
+	mSections = rhs.mSections;
+	return *this;
+}
+
+bool Room::operator < (const Room& rhs) const
+{
+	return (mCapacity < rhs.mCapacity);
 }
 
 int Room::getId() const
