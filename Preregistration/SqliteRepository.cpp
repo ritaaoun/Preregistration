@@ -623,10 +623,10 @@ std::vector<Course*> SqliteRepository::getCourses() const
 
 int SqliteRepository::createCourse(const Course * course) const
 {
-	std::string sql = "INSERT INTO COURSE (DEPARTMENTID, CODE, NAME, DESCRIPTION, CREDITS, STATUS) VALUES ( '" +
+	std::string sql = "INSERT INTO COURSE (DEPARTMENTID, CODE, NAME, DESCRIPTION, CREDITS, STATUS, PROFESSORID) VALUES ( '" +
 		std::to_string(course->getDepartmentId()) + "', '" + course->getCode() + "', '" + course->getName() + "', '" +
 		course->getDescription() + "', '" + std::to_string(course->getNumberOfCredits()) + "', '" +
-		std::to_string(course->getStatus()) + "')";
+		std::to_string(course->getStatus()) + "', '" + std::to_string(course->getProfessorId()) + "')";
 	if (execute(sql))
 	{
 		std::string sql = "SELECT MAX(ID) FROM COURSE";
