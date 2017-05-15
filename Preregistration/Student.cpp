@@ -55,6 +55,11 @@ bool Student::subscribeToSection(Section * section)
 	return true;
 }
 
+bool Student::subscribeToSection(int sectionCrn)
+{
+	return subscribeToSection(Server::getInstance().data.getSection(sectionCrn));
+}
+
 bool Student::unsubscribeFromSection(Section * section)
 {
 	loadSections();
