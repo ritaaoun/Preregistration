@@ -20,6 +20,7 @@ public:
 	virtual  std::string getReceivedMessages(const std::string & params) override;
 	virtual  std::string sendMessage(const std::string & params) override;
 	virtual  std::string getCourseRequests(const std::string & params) override;
+	virtual  std::string getCourseSections(const std::string & params) override;
 	virtual  std::string getUserDepartmentCourses(const std::string & params) override;
 	virtual  std::string addCourse(const std::string & params) override;
 	virtual  std::string decideOnCourse(const std::string & params) override;

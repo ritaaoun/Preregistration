@@ -19,6 +19,7 @@ public:
 	virtual  std::string sendMessage(const std::string & params) = 0;
 
 	virtual  std::string getCourseRequests(const std::string & params) = 0;
+	virtual  std::string getCourseSections(const std::string & params) = 0;
 	virtual  std::string getUserDepartmentCourses(const std::string & params) = 0;
 	virtual  std::string addCourse(const std::string & params) = 0;
 	virtual  std::string decideOnCourse(const std::string & params) = 0;

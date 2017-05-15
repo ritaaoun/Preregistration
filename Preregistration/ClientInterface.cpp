@@ -67,6 +67,12 @@ std::string ClientInterface::getCourseRequests(const std::string & params)
 	return client.sendData(out);
 }
 
+std::string ClientInterface::getCourseSections(const std::string & params)
+{
+	std::string out = "getCourseSections" + ClientServerInterface::FUNC_DELIMITER + params;
+	return client.sendData(out);
+}
+
 std::string ClientInterface::getUserDepartmentCourses(const std::string & params)
 {
 	std::string out = "getUserDepartmentCourses" + ClientServerInterface::FUNC_DELIMITER + params;
