@@ -104,7 +104,6 @@ bool Department::decideOnCourse(Course * course, bool approveCourse)
 		return false;
 	}
 	else {
-		Course * course = *it;
 		if (approveCourse) {
 			loadCourses();
 			course->approveCourse();

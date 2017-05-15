@@ -508,7 +508,11 @@ std::string ServerInterface::getSections(const std::string & params)
 		std::vector<Course*> courses = Server::getInstance().data.getCourses(Course::Status::APPROVED);
 		for (std::vector<Course*>::iterator it = courses.begin();it != courses.end();++it)
 		{
-			sections.insert((*it)->getSections().end(), (*it)->getSections().begin(), (*it)->getSections().end());
+			std::vector<Section*> courseSections = (*it)->getSections();
+			for (std::vector<Section*>::const_iterator it2 = courseSections.begin(); it2 != courseSections.end(); ++it2) {
+				sections.push_back(*it2);
+			}
+			//sections.insert((*it)->getSections().end(), (*it)->getSections().begin(), (*it)->getSections().end());
 		}
 
 
@@ -521,11 +525,9 @@ std::string ServerInterface::getSections(const std::string & params)
 			{
 				result += ClientServerInterface::LIST_DELIMITER;
 			}
-
-			return result;
 		}
 
-		return "";
+		return result;
 	}
 	catch (std::exception& e)
 	{
