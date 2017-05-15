@@ -99,6 +99,7 @@ bool Professor::publishSection(int courseId, int capacity, const std::vector<Tim
 
 bool Professor::unpublishSection(Section * section)
 {
+	section->getCourse()->removeSection(section);
 	loadSections();
 	
 	notifySectionStudents(section, "Section removed", "Section " + std::to_string(section->getNumber()) +
