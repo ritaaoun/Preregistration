@@ -141,7 +141,7 @@ std::vector<Section*> Course::getSections()
 
 int Course::getDepartmentId() const
 {
-	return mId;
+	return mDepartmentID;
 }
 
 Department * Course::getDepartment()

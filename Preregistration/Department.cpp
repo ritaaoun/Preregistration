@@ -15,7 +15,8 @@ Department::Department(const std::string & name, const std::string & code, const
 Department::Department(int id, const std::string & name, const std::string & code, const std::string & facultyCode) :
 	m_id(id), m_name(name), m_code(code), m_facultyCode(facultyCode),
 	m_courseIds(Server::getInstance().repository->getDepartmentCourses(id)),
-	m_courseRequestIds(Server::getInstance().repository->getDepartmentCourseRequests(id))
+	m_courseRequestIds(Server::getInstance().repository->getDepartmentCourseRequests(id)), m_courses(),
+	m_courseRequests()
 {
 }
 
