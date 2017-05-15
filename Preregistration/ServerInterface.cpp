@@ -341,13 +341,16 @@ std::string ServerInterface::getUserDepartmentCourses(const std::string & params
 		std::vector<Course*> courses = user->getDepartment()->getCourses();
 
 		std::string result = "";
-		for (std::vector<Course*>::iterator it = courses.begin();it != courses.end();++it)
+		if (!courses.empty())
 		{
-			result += (*it)->serialize();
-
-			if (courses.end() != it + 1)
+			for (std::vector<Course*>::iterator it = courses.begin(); it != courses.end(); ++it)
 			{
-				result += ClientServerInterface::LIST_DELIMITER;
+				result += (*it)->serialize();
+
+				if (courses.end() != it + 1)
+				{
+					result += ClientServerInterface::LIST_DELIMITER;
+				}
 			}
 		}
 		return result;
