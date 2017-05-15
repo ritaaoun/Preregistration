@@ -223,7 +223,7 @@ std::string Parser::sendResetPassword(std::string username, std::string userUser
     return result;
 }
 
-std::string Parser::sendAddSection(std::string username, int courseId, int capacity, std::vector<TimeSlot> timeSlots)
+std::string Parser::sendPusblishSection(std::string username, int courseId, int capacity, std::vector<TimeSlot> timeSlots)
 {
     std::string result = username
             + ClientInterface::DELIMITER + std::to_string(courseId)
@@ -341,9 +341,12 @@ std::string Parser::sendRequestCourse(std::string username, std::string courseNa
     std::string result;
 
     result = username
-            + ClientInterface::DELIMITER + courseName + ClientInterface::DELIMITER + courseNumber
-            + ClientInterface::DELIMITER + courseDescription + ClientInterface::DELIMITER + std::to_string(numberOfCreadits)
-            + ClientInterface::DELIMITER + std::to_string(needsComputers) + ClientInterface::DELIMITER + std::to_string(needsSpeakers)
+            + ClientInterface::DELIMITER + courseName
+            + ClientInterface::DELIMITER + courseNumber
+            + ClientInterface::DELIMITER + courseDescription
+            + ClientInterface::DELIMITER + std::to_string(numberOfCreadits)
+            + ClientInterface::DELIMITER + std::to_string(needsComputers)
+            + ClientInterface::DELIMITER + std::to_string(needsSpeakers)
             + ClientInterface::DELIMITER + std::to_string(needsHighEnergyParticleAccelerator);
 
     return result;
@@ -352,6 +355,21 @@ std::string Parser::sendRequestCourse(std::string username, std::string courseNa
 std::string Parser::sendRemoveSection(std::string username, int courseId, int sectionNumber)
 {
     std::string result;
+
+    result = username
+            + ClientInterface::DELIMITER + std::to_string(courseId)
+            + ClientInterface::DELIMITER + std::to_string(sectionNumber);
+
+    return result;
+}
+
+std::string Parser::sendAddSection(std::string username, int courseId, int sectionNumber)
+{
+    std::string result;
+
+    result = username
+            + ClientInterface::DELIMITER + std::to_string(courseId)
+            + ClientInterface::DELIMITER + std::to_string(sectionNumber);
 
     return result;
 }

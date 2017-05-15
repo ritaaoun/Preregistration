@@ -192,9 +192,9 @@ bool APIService::resetPassword(QString userUsername)
     return result;
 }
 
-bool APIService::addSection(int courseId, int capacity, std::vector<TimeSlot> timeSlots)
+bool APIService::publishSection(int courseId, int capacity, std::vector<TimeSlot> timeSlots)
 {
-    std::string toSend = Parser::sendAddSection(Parser::sendActiveUser(), courseId, capacity, timeSlots);
+    std::string toSend = Parser::sendPusblishSection(Parser::sendActiveUser(), courseId, capacity, timeSlots);
 
     std::string serverResult = client.addSection(toSend);
 
@@ -219,6 +219,17 @@ bool APIService::removeSection(int courseId, int sectionNumber)
     std::string toSend = Parser::sendRemoveSection(Parser::sendActiveUser(), courseId, sectionNumber);
 
     std::string serverResult = client.removeSection(toSend);
+
+    bool result = Parser::getBoolean(serverResult);
+
+    return result;
+}
+
+bool APIService::addSection(int courseId, int sectionNumber)
+{
+    std::string toSend = Parser::sendAddSection(Parser::sendActiveUser(), courseId, sectionNumber);
+
+    std::string serverResult = client.addSection(toSend);
 
     bool result = Parser::getBoolean(serverResult);
 
