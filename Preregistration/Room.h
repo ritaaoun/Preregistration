@@ -37,6 +37,8 @@ public:
 	// Inherited via ISerializable
 	virtual std::string serialize() override;
 
+	bool matchesConstraint(Course * course);
+
 private:
 	int mId;
 	std::string mBuildingCode; ///< building code, e.g. IOEC
