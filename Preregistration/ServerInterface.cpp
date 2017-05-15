@@ -336,8 +336,6 @@ std::string ServerInterface::getUserDepartmentCourses(const std::string & params
 
 		AbstractUser* user = Server::getInstance().data.getUser(username);
 
-		Course::Status status = (Course::Status)Helper::stringToLong(param.at(1));
-
 		std::vector<Course*> courses = user->getDepartment()->getCourses();
 
 		std::string result = "";
@@ -358,7 +356,7 @@ std::string ServerInterface::getUserDepartmentCourses(const std::string & params
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << "Error in ServerInterface::getUserCourses" << e.what();
+		std::cerr << "Error in ServerInterface::getUserDepartmentCourses" << e.what();
 		return "";
 	}
 }
