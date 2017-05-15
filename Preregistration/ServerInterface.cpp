@@ -21,6 +21,7 @@ ServerInterface::ServerInterface()
 	functionMap["getCourseRequests"] = &ServerInterface::getCourseRequests;
 	functionMap["getUserDepartmentCourses"] = &ServerInterface::getUserDepartmentCourses;
 	functionMap["addCourse"] = &ServerInterface::addCourse;
+	functionMap["publishSection"] = &ServerInterface::publishSection;
 	functionMap["decideOnCourse"] = &ServerInterface::decideOnCourse;
 	functionMap["getDepartments"] = &ServerInterface::getDepartments;
 	functionMap["givePrivileges"] = &ServerInterface::givePrivileges;
@@ -667,8 +668,6 @@ std::string ServerInterface::publishSection(const std::string & params)
 		return "false";
 	}
 }
-
-
 
 std::string ServerInterface::addSection(const std::string & params)
 {
