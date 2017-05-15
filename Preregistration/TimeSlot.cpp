@@ -49,14 +49,50 @@ std::string  TimeSlot::getDayString()
 {
 	switch (mDay)
 	{
-	case SUNDAY: return "Su"; break;
 	case MONDAY: return "M"; break;
 	case TUESDAY: return "T"; break;
 	case WEDNESDAY: return "W"; break;
 	case THURSDAY: return "R"; break;
 	case FRIDAY: return "F"; break;
 	case SATURDAY: return "Sa"; break;
+	case SUNDAY: return "Su"; break;
 	default: return " ";
+	}
+}
+
+TimeSlot::Day TimeSlot::stringToDay(const std::string & dayString)
+{
+	if (dayString == "M")
+	{
+		return MONDAY;
+	}
+	else if (dayString == "T")
+	{
+		return TUESDAY;
+	}
+	else if (dayString == "W")
+	{
+		return WEDNESDAY;
+	}
+	else if (dayString == "R")
+	{
+		return THURSDAY;
+	}
+	else if (dayString == "F")
+	{
+		return FRIDAY;
+	}
+	else if (dayString == "Sa")
+	{
+		return SATURDAY;
+	}
+	else if (dayString == "Su")
+	{
+		return SUNDAY;
+	}
+	else
+	{
+		return DAYS_END;
 	}
 }
 

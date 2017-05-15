@@ -20,6 +20,7 @@ public:
 
 	std::string getTimeString();
 	std::string getDayString();
+	static Day stringToDay(const std::string & dayString);
 
 	bool conflictsWith(TimeSlot * t2);
 	

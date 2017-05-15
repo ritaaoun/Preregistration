@@ -655,7 +655,7 @@ std::string ServerInterface::publishSection(const std::string & params)
 				for (std::vector<std::string>::iterator it = slots.begin();it != slots.end();++it)
 				{
 					std::vector<std::string> tslots = this->split((*it), ClientServerInterface::TIMESLOT_DELIMITER);
-					TimeSlot * slot = new TimeSlot(static_cast<TimeSlot::Day>(Helper::stringToLong(tslots.at(0))), Helper::stringToLong(tslots.at(1)),
+					TimeSlot * slot = new TimeSlot(TimeSlot::stringToDay(tslots.at(0)), Helper::stringToLong(tslots.at(1)),
 						Helper::stringToLong(tslots.at(2)), Helper::stringToLong(tslots.at(3)), Helper::stringToLong(tslots.at(4)));
 					actualTimeslots.push_back(slot);
 				}
@@ -726,7 +726,7 @@ std::string ServerInterface::editSection(const std::string & params)
 				for (std::vector<std::string>::iterator it = slots.begin();it != slots.end();++it)
 				{
 					std::vector<std::string> tslots = this->split((*it), ClientServerInterface::TIMESLOT_DELIMITER);
-					TimeSlot * slot = new TimeSlot(static_cast<TimeSlot::Day>(Helper::stringToLong(tslots.at(0))), Helper::stringToLong(tslots.at(1)),
+					TimeSlot * slot = new TimeSlot(TimeSlot::stringToDay(tslots.at(0)), Helper::stringToLong(tslots.at(1)),
 						Helper::stringToLong(tslots.at(2)), Helper::stringToLong(tslots.at(3)), Helper::stringToLong(tslots.at(4)));
 					actualTimeslots.push_back(slot);
 				}
