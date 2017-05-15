@@ -70,6 +70,15 @@ bool Professor::requestCourse(int departmentId, const std::string & courseCode, 
 
 bool Professor::publishSection(int courseId, int capacity, const std::vector<TimeSlot*>& timeSlots)
 {
+	for (std::vector<TimeSlot*>::const_iterator t1 = timeSlots.begin(); t1 != timeSlots.end() - 1; ++t1) {
+		TimeSlot * ts1 = *t1;
+		for (std::vector<TimeSlot*>::const_iterator t2 = t1 + 1; t2 != timeSlots.end(); ++t2) {
+			TimeSlot * ts2 = *t2;
+			if (ts1->conflictsWith(ts2)) {
+				return false;
+			}
+		}
+	}
 	loadSections();
 	Section * section = new Section(courseId, capacity, getId(), timeSlots);
 	m_sectionCrns.push_back(section->getCrn());

@@ -60,6 +60,14 @@ std::string  TimeSlot::getDayString()
 	}
 }
 
+bool TimeSlot::conflictsWith(TimeSlot * ts)
+{
+	return (mDay != ts->mDay) && 
+		(((ts->mStartHour <= mStartHour && ts->mStartMinutes < mStartMinutes) && (mStartHour <= ts->mEndHour && mStartMinutes < ts->mEndMinutes)) || 
+			((ts->mStartHour <= mEndHour &&	ts->mStartMinutes < mEndMinutes) && (mEndHour <= ts->mEndHour && mEndMinutes < ts->mEndMinutes)) ||
+			((mStartHour <= ts->mStartHour && mStartMinutes < ts->mStartMinutes) && (ts->mEndHour <= mEndHour && ts->mEndMinutes < mEndMinutes)));
+}
+
 std::string TimeSlot::serialize()
 {
 	return getDayString() + ClientServerInterface::TIMESLOT_DELIMITER + std::to_string(mStartHour) +

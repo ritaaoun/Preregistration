@@ -20,6 +20,8 @@ public:
 
 	std::string getTimeString();
 	std::string getDayString();
+
+	bool conflictsWith(TimeSlot * t2);
 	
 	// Inherited via ISerializable
 	virtual std::string serialize() override;

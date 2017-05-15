@@ -32,19 +32,7 @@ bool Schedule::hasConflictWith(TimeSlot * timeSlot) const
 	for (unsigned int i = 0; i < mTimeSlots.size(); i++)
 	{
 		TimeSlot* ts = mTimeSlots.at(i);
-		
-		/*
-			Checking timeSlot conflicts if they are on the same day only: 
-			"ts" is for the timeslot in the table already
-			"timeSlot" is the timeslot that we are checking.
-		*/
 
-		if (timeSlot->getDay() != ts->getDay())
-		{
-			continue;
-		}
-		else
-		{
 			/* 
 				Conflicts are true when one of those 3 case are true:
 				
@@ -57,13 +45,10 @@ bool Schedule::hasConflictWith(TimeSlot * timeSlot) const
 				- ts.startHour <= timeslot.startHour && ts.startMinutes < timeSlot.startMinutes
 			*/
 
-			if (((ts->getStartHour() <= timeSlot->getStartHour() && ts->getStartMinutes() < timeSlot->getStartMinutes()) && (timeSlot->getStartHour() <= ts->getEndHour() && timeSlot->getStartMinutes() < ts->getEndMinutes()))
-				|| ((ts->getStartHour() <= timeSlot->getEndHour() && ts->getStartMinutes() < timeSlot->getEndMinutes()) && (timeSlot->getEndHour() <= ts->getEndHour() && timeSlot->getEndMinutes() < ts->getEndMinutes()))
-				|| ((timeSlot->getStartHour() <= ts->getStartHour() && timeSlot->getStartMinutes() < ts->getStartMinutes()) && (ts->getEndHour() <= timeSlot->getEndHour() && ts->getEndMinutes() < timeSlot->getEndMinutes())))
+			if (timeSlot->conflictsWith(ts))
 			{
 				return true;
 			}
-		}
 	}
 	
 	return false;

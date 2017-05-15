@@ -667,7 +667,7 @@ std::string ServerInterface::publishSection(const std::string & params)
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << "Error in ServerInterface::addSection" << e.what();
+		std::cerr << "Error in ServerInterface::publishSection" << e.what();
 		return "false";
 	}
 }
