@@ -6,7 +6,6 @@
 #include "apiservice.h"
 #include "loginwindow.h"
 #include "dialogsection.h"
-#include "dialogremovesection.h"
 #include "dialogrequestcourse.h"
 #include <QDebug>
 
@@ -38,10 +37,13 @@ private slots:
     void dialogSectionClosed();
     void dialogMessageClosed();
     void dialogRequestCourseClosed();
+    void dialogChangePasswordClosed();
 
     void on_pbMessage_clicked();
 
     void on_pbLogout_clicked();
+
+    void on_pbChangePassword_clicked();
 
 private:
     Ui::SystemWindowProfessor *ui;
@@ -49,9 +51,11 @@ private:
     QDialog* dialogSection;
     QDialog* dialogMessage;
     QDialog* dialogRequestCourse;
+    QDialog* dialogChangePassword;
     bool dialogSectionOpened;
     bool dialogMessageOpened;
     bool dialogRequestCourseOpened;
+    bool dialogChangePasswordOpened;
 
     std::vector<Course> professorCourses;
     std::vector<Course> departmentCourses;

@@ -13,6 +13,7 @@ SystemWindowProfessor::SystemWindowProfessor(QWidget *parent) :
     dialogSectionOpened = false;
     dialogMessageOpened = false;
     dialogRequestCourseOpened = false;
+    dialogChangePasswordOpened = false;
 
     refresh();
 }
@@ -281,5 +282,28 @@ void SystemWindowProfessor::on_pbLogout_clicked()
         dialogSection->close();
     }
 
+    if(dialogChangePasswordOpened)
+    {
+        dialogChangePassword->close();
+    }
+
     this->close();
+}
+
+void SystemWindowProfessor::on_pbChangePassword_clicked()
+{
+    if(!dialogChangePasswordOpened)
+    {
+        dialogChangePassword = new DialogChangePassword();
+
+        QObject::connect(dialogChangePassword, SIGNAL(finished(int)), this, SLOT(dialogChangePaswordClosed()));
+        dialogChangePassword->show();
+
+        dialogChangePasswordOpened = true;
+    }
+}
+
+void SystemWindowProfessor::dialogChangePasswordClosed()
+{
+    dialogChangePasswordOpened = false;
 }

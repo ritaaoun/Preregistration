@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>946</width>
-    <height>726</height>
+    <width>950</width>
+    <height>750</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -50,7 +50,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <property name="elideMode">
      <enum>Qt::ElideLeft</enum>
@@ -277,6 +277,11 @@
         <string/>
        </property>
       </column>
+      <column>
+       <property name="text">
+        <string/>
+       </property>
+      </column>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_5">
@@ -456,13 +461,26 @@
      <string>Log Out</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pbChangePassword">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>630</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Change Password</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>946</width>
+     <width>950</width>
      <height>21</height>
     </rect>
    </property>

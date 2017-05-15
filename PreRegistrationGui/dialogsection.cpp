@@ -136,7 +136,7 @@ void DialogSection::addSection()
 
     int capacity = ui->sbCapacity->text().toInt();
 
-    APIService::getInstance()->addSection(courseId, capacity, timeSlots);
+    APIService::getInstance()->publishSection(courseId, capacity, timeSlots);
     this->close();
 }
 
