@@ -118,7 +118,13 @@ bool Professor::unpublishSection(Section * section)
 
 bool Professor::unpublishSection(int sectionCrn)
 {
-	return unpublishSection(Server::getInstance().data.getSection(sectionCrn));
+	if (std::find(m_sectionCrns.begin(), m_sectionCrns.end(), sectionCrn) != m_sectionCrns.end()) {
+		return unpublishSection(Server::getInstance().data.getSection(sectionCrn));
+	}
+	else {
+		std::cerr << "Professor::unpublishSection: Professor " << getId() << " did not publish section " << sectionCrn << std::endl;
+		return false;
+	}
 }
 
 bool Professor::editSectionCapacity(int sectionCrn, int capacity)
@@ -159,6 +165,10 @@ bool Professor::editSection(int sectionCrn, int capacity, const std::vector<Time
 			notifySectionStudents(section, "Section change", "The timing and/or capacity of section " + std::to_string(section->getNumber()) +
 				" of " + section->getCourse()->getFullCode() + " has changed");
 			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
 	else
