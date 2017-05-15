@@ -354,7 +354,7 @@ bool SqliteRepository::deleteSection(const Section * section) const
 bool SqliteRepository::updateSection(const Section * section) const
 {
 	std::string sql = "UPDATE SECTION SET CAPACITY = '" + std::to_string(section->getCapacity()) + "', ISCONFIRMED = '" +
-		std::to_string(section->getStatus()) + "'";
+		std::to_string(section->getStatus()) + "' WHERE CRN = '" + std::to_string(section->getCrn()) + "'";
 	return execute(sql);
 }
 
@@ -645,7 +645,8 @@ bool SqliteRepository::updateCourse(const Course * course) const
 	std::string sql = "UPDATE COURSE SET DEPARTMENTID = '" + std::to_string(course->getDepartmentId()) + "', "
 		"CODE = '" + course->getCode() + "', NAME = '" + course->getName() + "', DESCRIPTION = '" +
 		course->getDescription() + "', CREDITS = '" + std::to_string(course->getNumberOfCredits()) +
-		"', STATUS = '" + std::to_string(course->getStatus()) + "', PROFESSORID = '" + std::to_string(course->getProfessorId()) + "')";
+		"', STATUS = '" + std::to_string(course->getStatus()) + "', PROFESSORID = '" + std::to_string(course->getProfessorId()) +
+		"' WHERE ID='" + std::to_string(course->getId()) + "'";
 
 	return execute(sql);
 }
