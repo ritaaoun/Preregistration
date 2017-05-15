@@ -20,6 +20,7 @@ public:
 
 	bool subscribeToSection(Section * section);
 	bool unsubscribeFromSection(Section * section);
+	bool unsubscribeFromSection(int sectionCrn);
 
 private:
 	std::vector<int> m_sectionCrns;

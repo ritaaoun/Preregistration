@@ -82,6 +82,15 @@ bool Professor::publishSection(int courseId, int capacity, const std::vector<Tim
 bool Professor::unpublishSection(Section * section)
 {
 	loadSections();
+	
+	notifySectionStudents(section, "Section removed", "Section " + std::to_string(section->getNumber()) +
+		" of " + section->getCourse()->getFullCode() + " has been removed.");
+
+	std::vector<Student *> students = section->getStudents();
+	for (std::vector<Student *>::const_iterator it = students.begin(); it != students.end(); ++it) {
+		(*it)->unsubscribeFromSection(section);
+	}
+
 	m_sectionCrns.erase(std::remove(m_sectionCrns.begin(), m_sectionCrns.end(), section->getCrn()), m_sectionCrns.end());
 	m_sections.erase(std::remove(m_sections.begin(), m_sections.end(), section), m_sections.end());
 	Server::getInstance().repository->removeProfessorSection(this, section);

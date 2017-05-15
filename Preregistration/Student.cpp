@@ -65,6 +65,11 @@ bool Student::unsubscribeFromSection(Section * section)
 	return true;
 }
 
+bool Student::unsubscribeFromSection(int sectionCrn)
+{
+	return unsubscribeFromSection(Server::getInstance().data.getSection(sectionCrn));
+}
+
 void Student::loadSections()
 {
 	if (m_sections.empty())
