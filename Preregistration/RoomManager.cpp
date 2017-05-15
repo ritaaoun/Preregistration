@@ -1,16 +1,8 @@
 #include "RoomManager.h"
 #include "Course.hpp"
 
-RoomManager::RoomManager() : mRoomIds(Server::getInstance().repository->getRoomIds())
+RoomManager::RoomManager() : mRoomIds(Server::getInstance().repository->getRoomIds()), mRooms()
 {
-}
-
-bool RoomManager::constraintChecker(Course * course, Room * room)
-{
-	if (course->getConstraint()->matchingConstraint(room->getConstraint()))
-		return true;
-
-	return false;
 }
 
 
@@ -47,23 +39,23 @@ std::vector<Room*> RoomManager::getRooms()
 	return mRooms;
 }
 
-void RoomManager::assignRoom(Section * section)
+bool RoomManager::assignRoom(Section * section)
 {
 	// Sort room accordig to capacity
 	// This way the first room that fits the students and meets the constraints is selected
-	std::vector<Room*> rooms = getRooms();
-	std::sort(rooms.begin(), rooms.end()); 
+	loadRooms();
 
-	for (Room * room : rooms)
+	for (Room * room : mRooms)
 	{
-		if (constraintChecker(section->getCourse(), room) && section->getCapacity() <= room->getCapacity())
+		if (room->matchesConstraint(section->getCourse()) && section->getCapacity() <= room->getCapacity())
 		{
 			section->setRoom(room);
 			room->addSection(section);
 			removeRoom(room); // remove the room from rooms since the room is no longer available
-			break;
+			return true;
 		}
 	}
+	return false;
 }
 
 void RoomManager::loadRooms()
@@ -72,5 +64,9 @@ void RoomManager::loadRooms()
 		for (std::vector<int>::const_iterator it = mRoomIds.begin(); it != mRoomIds.end(); ++it) {
 			mRooms.push_back(Server::getInstance().data.getRoom(*it));
 		}
+		std::sort(mRooms.begin(), mRooms.end());
+		mRoomIds.clear();
+		for (Room * room : mRooms)
+			mRoomIds.push_back(room->getId());
 	}
 }

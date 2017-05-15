@@ -39,17 +39,3 @@ bool Constraint::HasHighEnergyParticleAccelerator()
 {
 	return mHasHighEnergyParticleAccelerator;
 }
-
-bool Constraint::matchingConstraint(Constraint * constraint)
-{
-	if (this->hasComputer() != constraint->hasComputer())
-		return false;
-
-	if (this->hasSpeakers() != constraint->hasSpeakers())
-		return false;
-
-	if (this->HasHighEnergyParticleAccelerator() != constraint->HasHighEnergyParticleAccelerator())
-		return false;
-
-	return true;
-}

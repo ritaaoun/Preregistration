@@ -8,7 +8,6 @@ Room::Room(int id, const std::string & buildingCode, int roomNumber, int capacit
 	mSectionIds(Server::getInstance().repository->getRoomSectionIds(id)), mSections(),
 	mSchedule(new Schedule(this))
 {
-	Server::getInstance().data.addRoom(this);
 }
 
 Room::~Room()
@@ -88,6 +87,22 @@ Schedule* Room::getSchedule()
 std::string Room::serialize()
 {
 	return std::string();
+}
+
+bool Room::matchesConstraint(Course * course)
+{
+	Constraint* courseConstraints = course->getConstraint();
+
+	if (courseConstraints->hasComputer() && !mConstraints->hasComputer())
+		return false;
+
+	if (courseConstraints->hasSpeakers() && !mConstraints->hasSpeakers())
+		return false;
+
+	if (courseConstraints->HasHighEnergyParticleAccelerator() && !mConstraints->HasHighEnergyParticleAccelerator())
+		return false;
+
+	return true;
 }
 
 void Room::loadSections()
