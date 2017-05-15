@@ -365,14 +365,13 @@ std::string ServerInterface::addCourse(const std::string & params)
 		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
 
 		std::string username = param.at(0);
-		std::string departmentId = param.at(1);
 		std::string courseCode = param.at(1);
-		std::string courseName = param.at(1);
-		std::string description = param.at(1);
-		std::string credits = param.at(1);
-		bool computer = Helper::stringToLong(param.at(1)) == 1;
-		bool speaker = Helper::stringToLong(param.at(1)) == 1;
-		bool accelerator = Helper::stringToLong(param.at(1)) == 1;
+		std::string courseName = param.at(2);
+		std::string description = param.at(3);
+		std::string credits = param.at(4);
+		bool computer = Helper::stringToLong(param.at(5)) == 1;
+		bool speaker = Helper::stringToLong(param.at(6)) == 1;
+		bool accelerator = Helper::stringToLong(param.at(7)) == 1;
 
 		AbstractUser* user = Server::getInstance().data.getUser(username);
 		if (user != nullptr)
@@ -382,7 +381,7 @@ std::string ServerInterface::addCourse(const std::string & params)
 				Professor * prof = (Professor*)user;
 
 				Constraint * constraint = new Constraint(computer, speaker, accelerator);
-				bool success = prof->requestCourse(Helper::stringToLong(departmentId), courseCode, courseName, description,
+				bool success = prof->requestCourse(prof->getDepartmentId, courseCode, courseName, description,
 					Helper::stringToLong(credits), constraint);
 
 				return success ? "true" : "false";
