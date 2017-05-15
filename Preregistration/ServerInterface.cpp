@@ -381,7 +381,7 @@ std::string ServerInterface::addCourse(const std::string & params)
 				Professor * prof = (Professor*)user;
 
 				Constraint * constraint = new Constraint(computer, speaker, accelerator);
-				bool success = prof->requestCourse(prof->getDepartmentId, courseCode, courseName, description,
+				bool success = prof->requestCourse(prof->getDepartmentId(), courseCode, courseName, description,
 					Helper::stringToLong(credits), constraint);
 
 				return success ? "true" : "false";
