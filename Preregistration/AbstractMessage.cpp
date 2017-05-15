@@ -8,17 +8,13 @@ int AbstractMessage::getId() const
 
 AbstractUser * AbstractMessage::getSender()
 {
-	if (m_sender == nullptr) {
-		loadSender();
-	}
+	loadSender();
 	return m_sender;
 }
 
 AbstractUser * AbstractMessage::getRecipient()
 {
-	if (m_recipient == nullptr) {
-		loadRecipient();
-	}
+	loadRecipient();
 	return m_recipient;
 }
 
@@ -95,12 +91,16 @@ AbstractMessage & AbstractMessage::operator=(const AbstractMessage & rhs)
 
 void AbstractMessage::loadSender()
 {
-	m_recipient = Server::getInstance().data.getUser(m_recipientId);
+	if (m_sender == nullptr) {
+		m_sender = Server::getInstance().data.getUser(m_senderId);
+	}
 }
 
 void AbstractMessage::loadRecipient()
 {
-	m_sender = Server::getInstance().data.getUser(m_senderId);
+	if (m_recipient == nullptr) {
+		m_recipient = Server::getInstance().data.getUser(m_recipientId);
+	}
 }
 
 std::string AbstractMessage::serialize()

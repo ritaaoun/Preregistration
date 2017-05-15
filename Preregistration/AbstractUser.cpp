@@ -202,7 +202,8 @@ AbstractUser::AbstractUser(int id, const std::string & username, const std::stri
 	int departmentId, const std::string & birthday) :
 	m_id(id), m_username(username), m_password(password), m_firstName(firstName), m_middleName(middleName),
 	m_lastName(lastName), m_startYear(startYear), m_startTerm(startTerm), m_type(userType), m_departmentId(departmentId),
-	m_department(nullptr), m_birthday(birthday), m_inbox()
+	m_department(nullptr), m_birthday(birthday),
+	m_inbox()
 {
 }
 

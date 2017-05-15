@@ -180,9 +180,12 @@ bool Administrator::resetUserPassword(const std::string & username)
 
 void Administrator::loadPrivileges()
 {
-	for (std::vector<int>::iterator it = m_privilegeIds.begin(); it != m_privilegeIds.end(); ++it)
+	if (m_privileges.empty() && !m_privilegeIds.empty())
 	{
-		m_privileges.push_back(Server::getInstance().data.getDepartment(*it));
+		for (std::vector<int>::iterator it = m_privilegeIds.begin(); it != m_privilegeIds.end(); ++it)
+		{
+			m_privileges.push_back(Server::getInstance().data.getDepartment(*it));
+		}
 	}
 }
 
