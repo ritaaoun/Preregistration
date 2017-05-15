@@ -61,13 +61,12 @@ public:
 
 	virtual std::string deleteSection(const std::string & params) override;
 
+	virtual std::string confirmSection(const std::string & params) override;
 
 	virtual std::string getUserDepartmentSections(const std::string & params) override;
 private:
 
 	typedef std::string(ServerInterface::*FnPtr)(const std::string &);
 	std::map<std::string, FnPtr> functionMap;
-
-
 
 };

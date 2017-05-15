@@ -156,3 +156,9 @@ std::string ClientInterface::getUserDepartmentSections(const std::string & param
 	std::string out = "getUserDepartmentSections" + ClientServerInterface::FUNC_DELIMITER + params;
 	return client.sendData(out);
 }
+
+std::string ClientInterface::confirmSection(const std::string & params)
+{
+	std::string out = "confirmSection" + ClientServerInterface::FUNC_DELIMITER + params;
+	return client.sendData(out);
+}

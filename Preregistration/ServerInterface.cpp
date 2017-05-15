@@ -815,6 +815,11 @@ std::string ServerInterface::getUserDepartmentSections(const std::string & param
 	}
 }
 
+std::string ServerInterface::confirmSection(const std::string & params)
+{
+	return std::string();
+}
+
 
 std::string ServerInterface::getCourseSections(const std::string & params)
 {
