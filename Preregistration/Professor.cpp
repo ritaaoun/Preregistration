@@ -70,6 +70,24 @@ bool Professor::requestCourse(int departmentId, const std::string & courseCode, 
 
 bool Professor::publishSection(int courseId, int capacity, const std::vector<TimeSlot*>& timeSlots)
 {
+	for (std::vector<TimeSlot*>::const_iterator t1 = timeSlots.begin(); t1 != timeSlots.end(); ++t1) {
+		TimeSlot * ts = *t1;
+		if ((ts->getStartHour() > ts->getEndHour()) || 
+			(ts->getStartHour() == ts->getEndHour() && ts->getStartMinutes() > ts->getEndMinutes()))
+		{
+			return false;
+		}
+	}
+
+	for (std::vector<TimeSlot*>::const_iterator t1 = timeSlots.begin(); t1 != timeSlots.end() - 1; ++t1) {
+		TimeSlot * ts1 = *t1;
+		for (std::vector<TimeSlot*>::const_iterator t2 = t1 + 1; t2 != timeSlots.end(); ++t2) {
+			TimeSlot * ts2 = *t2;
+			if (ts1->conflictsWith(ts2)) {
+				return false;
+			}
+		}
+	}
 	loadSections();
 	Section * section = new Section(courseId, capacity, getId(), timeSlots);
 	m_sectionCrns.push_back(section->getCrn());
@@ -81,6 +99,7 @@ bool Professor::publishSection(int courseId, int capacity, const std::vector<Tim
 
 bool Professor::unpublishSection(Section * section)
 {
+	section->getCourse()->removeSection(section);
 	loadSections();
 	
 	notifySectionStudents(section, "Section removed", "Section " + std::to_string(section->getNumber()) +
@@ -100,7 +119,13 @@ bool Professor::unpublishSection(Section * section)
 
 bool Professor::unpublishSection(int sectionCrn)
 {
-	return unpublishSection(Server::getInstance().data.getSection(sectionCrn));
+	if (std::find(m_sectionCrns.begin(), m_sectionCrns.end(), sectionCrn) != m_sectionCrns.end()) {
+		return unpublishSection(Server::getInstance().data.getSection(sectionCrn));
+	}
+	else {
+		std::cerr << "Professor::unpublishSection: Professor " << getId() << " did not publish section " << sectionCrn << std::endl;
+		return false;
+	}
 }
 
 bool Professor::editSectionCapacity(int sectionCrn, int capacity)
@@ -109,8 +134,6 @@ bool Professor::editSectionCapacity(int sectionCrn, int capacity)
 		Section * section = Server::getInstance().data.getSection(sectionCrn);
 		section->setCapacity(capacity);
 		Server::getInstance().repository->updateSection(section);
-		notifySectionStudents(section, "Capacity change", "The capacity of section " + std::to_string(section->getNumber()) +
-			" of " + section->getCourse()->getFullCode() + " has changed");
 		return true;
 	}
 	else {
@@ -125,8 +148,6 @@ bool Professor::editSectionTimeSlots(int sectionCrn, const std::vector<TimeSlot*
 		Section * section = Server::getInstance().data.getSection(sectionCrn);
 		section->setTimeSlots(timeSlots);
 		Server::getInstance().repository->updateSectionTimeSlots(section);
-		notifySectionStudents(section, "Time slot change", "The timing of section " + std::to_string(section->getNumber()) + 
-			" of " + section->getCourse()->getFullCode() + " has changed");
 		return true;
 	}
 	else {
@@ -137,7 +158,25 @@ bool Professor::editSectionTimeSlots(int sectionCrn, const std::vector<TimeSlot*
 
 bool Professor::editSection(int sectionCrn, int capacity, const std::vector<TimeSlot*>& timeSlots)
 {
-	return editSectionCapacity(sectionCrn, capacity) && editSectionTimeSlots(sectionCrn, timeSlots);
+	if (std::find(m_sectionCrns.begin(), m_sectionCrns.end(), sectionCrn) != m_sectionCrns.end())
+	{
+		if (editSectionCapacity(sectionCrn, capacity) && editSectionTimeSlots(sectionCrn, timeSlots))
+		{
+			Section * section = Server::getInstance().data.getSection(sectionCrn);
+			notifySectionStudents(section, "Section change", "The timing and/or capacity of section " + std::to_string(section->getNumber()) +
+				" of " + section->getCourse()->getFullCode() + " has changed");
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else
+	{
+		std::cerr << "Professor::editSection: professor " << getId() << " does not own section " << sectionCrn << std::endl;
+		return false;
+	}
 }
 
 void Professor::loadSections()

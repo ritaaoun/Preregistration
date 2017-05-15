@@ -15,7 +15,8 @@ Department::Department(const std::string & name, const std::string & code, const
 Department::Department(int id, const std::string & name, const std::string & code, const std::string & facultyCode) :
 	m_id(id), m_name(name), m_code(code), m_facultyCode(facultyCode),
 	m_courseIds(Server::getInstance().repository->getDepartmentCourses(id)),
-	m_courseRequestIds(Server::getInstance().repository->getDepartmentCourseRequests(id))
+	m_courseRequestIds(Server::getInstance().repository->getDepartmentCourseRequests(id)), m_courses(),
+	m_courseRequests()
 {
 }
 
@@ -103,7 +104,6 @@ bool Department::decideOnCourse(Course * course, bool approveCourse)
 		return false;
 	}
 	else {
-		Course * course = *it;
 		if (approveCourse) {
 			loadCourses();
 			course->approveCourse();
@@ -115,7 +115,6 @@ bool Department::decideOnCourse(Course * course, bool approveCourse)
 		}
 		m_courseRequestIds.erase(std::remove(m_courseRequestIds.begin(), m_courseRequestIds.end(), course->getId()), m_courseRequestIds.end());
 		m_courseRequests.erase(std::remove(m_courseRequests.begin(), m_courseRequests.end(), course), m_courseRequests.end());
-		Server::getInstance().repository->updateCourse(course);
 
 		std::cout << "Department::decideOnCourse: course " << course->getId() << " has been decided on" << std::endl;
 

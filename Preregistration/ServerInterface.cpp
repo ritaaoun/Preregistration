@@ -336,18 +336,19 @@ std::string ServerInterface::getUserDepartmentCourses(const std::string & params
 
 		AbstractUser* user = Server::getInstance().data.getUser(username);
 
-		Course::Status status = (Course::Status)Helper::stringToLong(param.at(1));
-
 		std::vector<Course*> courses = user->getDepartment()->getCourses();
 
 		std::string result = "";
-		for (std::vector<Course*>::iterator it = courses.begin();it != courses.end();++it)
+		if (!courses.empty())
 		{
-			result += (*it)->serialize();
-
-			if (courses.end() != it + 1)
+			for (std::vector<Course*>::iterator it = courses.begin(); it != courses.end(); ++it)
 			{
-				result += ClientServerInterface::LIST_DELIMITER;
+				result += (*it)->serialize();
+
+				if (courses.end() != it + 1)
+				{
+					result += ClientServerInterface::LIST_DELIMITER;
+				}
 			}
 		}
 		return result;
@@ -355,7 +356,7 @@ std::string ServerInterface::getUserDepartmentCourses(const std::string & params
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << "Error in ServerInterface::getUserCourses" << e.what();
+		std::cerr << "Error in ServerInterface::getUserDepartmentCourses" << e.what();
 		return "";
 	}
 }
@@ -507,7 +508,11 @@ std::string ServerInterface::getSections(const std::string & params)
 		std::vector<Course*> courses = Server::getInstance().data.getCourses(Course::Status::APPROVED);
 		for (std::vector<Course*>::iterator it = courses.begin();it != courses.end();++it)
 		{
-			sections.insert((*it)->getSections().end(), (*it)->getSections().begin(), (*it)->getSections().end());
+			std::vector<Section*> courseSections = (*it)->getSections();
+			for (std::vector<Section*>::const_iterator it2 = courseSections.begin(); it2 != courseSections.end(); ++it2) {
+				sections.push_back(*it2);
+			}
+			//sections.insert((*it)->getSections().end(), (*it)->getSections().begin(), (*it)->getSections().end());
 		}
 
 
@@ -520,11 +525,9 @@ std::string ServerInterface::getSections(const std::string & params)
 			{
 				result += ClientServerInterface::LIST_DELIMITER;
 			}
-
-			return result;
 		}
 
-		return "";
+		return result;
 	}
 	catch (std::exception& e)
 	{
@@ -652,7 +655,7 @@ std::string ServerInterface::publishSection(const std::string & params)
 				for (std::vector<std::string>::iterator it = slots.begin();it != slots.end();++it)
 				{
 					std::vector<std::string> tslots = this->split((*it), ClientServerInterface::TIMESLOT_DELIMITER);
-					TimeSlot * slot = new TimeSlot(static_cast<TimeSlot::Day>(Helper::stringToLong(tslots.at(0))), Helper::stringToLong(tslots.at(1)),
+					TimeSlot * slot = new TimeSlot(TimeSlot::stringToDay(tslots.at(0)), Helper::stringToLong(tslots.at(1)),
 						Helper::stringToLong(tslots.at(2)), Helper::stringToLong(tslots.at(3)), Helper::stringToLong(tslots.at(4)));
 					actualTimeslots.push_back(slot);
 				}
@@ -664,7 +667,7 @@ std::string ServerInterface::publishSection(const std::string & params)
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << "Error in ServerInterface::addSection" << e.what();
+		std::cerr << "Error in ServerInterface::publishSection" << e.what();
 		return "false";
 	}
 }
@@ -723,7 +726,7 @@ std::string ServerInterface::editSection(const std::string & params)
 				for (std::vector<std::string>::iterator it = slots.begin();it != slots.end();++it)
 				{
 					std::vector<std::string> tslots = this->split((*it), ClientServerInterface::TIMESLOT_DELIMITER);
-					TimeSlot * slot = new TimeSlot(static_cast<TimeSlot::Day>(Helper::stringToLong(tslots.at(0))), Helper::stringToLong(tslots.at(1)),
+					TimeSlot * slot = new TimeSlot(TimeSlot::stringToDay(tslots.at(0)), Helper::stringToLong(tslots.at(1)),
 						Helper::stringToLong(tslots.at(2)), Helper::stringToLong(tslots.at(3)), Helper::stringToLong(tslots.at(4)));
 					actualTimeslots.push_back(slot);
 				}

@@ -49,15 +49,59 @@ std::string  TimeSlot::getDayString()
 {
 	switch (mDay)
 	{
-	case SUNDAY: return "Su"; break;
 	case MONDAY: return "M"; break;
 	case TUESDAY: return "T"; break;
 	case WEDNESDAY: return "W"; break;
 	case THURSDAY: return "R"; break;
 	case FRIDAY: return "F"; break;
 	case SATURDAY: return "Sa"; break;
+	case SUNDAY: return "Su"; break;
 	default: return " ";
 	}
+}
+
+TimeSlot::Day TimeSlot::stringToDay(const std::string & dayString)
+{
+	if (dayString == "M")
+	{
+		return MONDAY;
+	}
+	else if (dayString == "T")
+	{
+		return TUESDAY;
+	}
+	else if (dayString == "W")
+	{
+		return WEDNESDAY;
+	}
+	else if (dayString == "R")
+	{
+		return THURSDAY;
+	}
+	else if (dayString == "F")
+	{
+		return FRIDAY;
+	}
+	else if (dayString == "Sa")
+	{
+		return SATURDAY;
+	}
+	else if (dayString == "Su")
+	{
+		return SUNDAY;
+	}
+	else
+	{
+		return DAYS_END;
+	}
+}
+
+bool TimeSlot::conflictsWith(TimeSlot * ts)
+{
+	return (mDay != ts->mDay) && 
+		(((ts->mStartHour <= mStartHour && ts->mStartMinutes < mStartMinutes) && (mStartHour <= ts->mEndHour && mStartMinutes < ts->mEndMinutes)) || 
+			((ts->mStartHour <= mEndHour &&	ts->mStartMinutes < mEndMinutes) && (mEndHour <= ts->mEndHour && mEndMinutes < ts->mEndMinutes)) ||
+			((mStartHour <= ts->mStartHour && mStartMinutes < ts->mStartMinutes) && (ts->mEndHour <= mEndHour && ts->mEndMinutes < mEndMinutes)));
 }
 
 std::string TimeSlot::serialize()

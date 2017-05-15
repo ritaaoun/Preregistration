@@ -128,8 +128,9 @@ bool Course::removeSection(Section * section)
 		std::cerr << "Course::removeSection: Section " << section->getCrn() << " does not belong to course " << mId << std::endl;
 		return false;
 	}
-	std::cout << "Course::removeSection: Section " << section->getCrn() << " has been added to course " << mId << std::endl;
+	std::cout << "Course::removeSection: Section " << section->getCrn() << " has been removed from the course " << mId << std::endl;
 	mSections.erase(std::remove(mSections.begin(), mSections.end(), section), mSections.end());
+	mSectionIds.erase(std::remove(mSectionIds.begin(), mSectionIds.end(), section->getCrn()), mSectionIds.end());
 	return true;
 }
 
@@ -141,7 +142,7 @@ std::vector<Section*> Course::getSections()
 
 int Course::getDepartmentId() const
 {
-	return mId;
+	return mDepartmentID;
 }
 
 Department * Course::getDepartment()
