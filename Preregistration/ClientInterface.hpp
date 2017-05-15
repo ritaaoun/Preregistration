@@ -29,6 +29,7 @@ public:
 	virtual  std::string getUserSections(const std::string & params) override;
 	virtual std::string resetPassword(const std::string & params) override;
 	virtual std::string changePassword(const std::string & params) override;
+	virtual  std::string publishSection(const std::string & params) override;
 	virtual std::string addSection(const std::string & params) override;
 	virtual std::string editSection(const std::string & params) override;
 	virtual std::string deleteSection(const std::string & params) override;

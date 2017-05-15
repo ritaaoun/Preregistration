@@ -121,6 +121,12 @@ std::string ClientInterface::changePassword(const std::string & params)
 	return client.sendData(out);
 }
 
+std::string ClientInterface::publishSection(const std::string & params)
+{
+	std::string out = "publishSection" + ClientServerInterface::FUNC_DELIMITER + params;
+	return client.sendData(out);
+}
+
 std::string ClientInterface::addSection(const std::string & params)
 {
 	std::string out = "addSection" + ClientServerInterface::FUNC_DELIMITER + params;

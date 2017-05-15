@@ -51,6 +51,8 @@ public:
 
 	virtual std::string changePassword(const std::string & params) override;
 
+	virtual  std::string publishSection(const std::string & params) override;
+
 	virtual std::string addSection(const std::string & params) override;
 
 	virtual std::string editSection(const std::string & params) override;

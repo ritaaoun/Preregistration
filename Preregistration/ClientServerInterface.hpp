@@ -29,6 +29,7 @@ public:
 
 	virtual  std::string getSections(const std::string & params) = 0;
 	virtual  std::string getUserSections(const std::string & params) = 0;
+	virtual  std::string publishSection(const std::string & params) = 0;
 	virtual  std::string addSection(const std::string & params) = 0;
 	virtual  std::string editSection(const std::string & params) = 0;
 	virtual  std::string deleteSection(const std::string & params) = 0;
