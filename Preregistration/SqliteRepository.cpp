@@ -313,7 +313,7 @@ int SqliteRepository::createMessage(AbstractMessage * message)
 
 std::vector<AbstractMessage*> SqliteRepository::getMessages() const
 {
-	std::string sql = "SELECT * FROM MESSAGE ORDER BY ID DESC";
+	std::string sql = "SELECT * FROM MESSAGE";
 	std::vector<std::vector<std::string>> results = query(sql);
 	std::vector<AbstractMessage *> out;
 
