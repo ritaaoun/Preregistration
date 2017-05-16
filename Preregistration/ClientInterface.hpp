@@ -35,7 +35,9 @@ public:
 	virtual std::string editSection(const std::string & params) override;
 	virtual std::string deleteSection(const std::string & params) override;
 	virtual std::string getUserDepartmentSections(const std::string & params) override;
+	virtual std::string confirmSection(const std::string & params) override;
 
 private:
 	NetworkClient client;
+
 };
