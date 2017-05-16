@@ -90,6 +90,7 @@ bool Professor::publishSection(int courseId, int capacity, const std::vector<Tim
 	}
 	loadSections();
 	Section * section = new Section(courseId, capacity, getId(), timeSlots);
+	Server::getInstance().repository->addProfessorSection(this, section);
 	m_sectionCrns.push_back(section->getCrn());
 	m_sections.push_back(section);
 

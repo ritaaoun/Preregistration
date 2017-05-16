@@ -813,7 +813,7 @@ std::string ServerInterface::getUserDepartmentSections(const std::string & param
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << "Error in ServerInterface::getUserSections" << e.what();
+		std::cerr << "Error in ServerInterface::getUserDepartmentSections " << e.what();
 		return "";
 	}
 }
