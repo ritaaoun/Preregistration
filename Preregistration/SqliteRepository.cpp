@@ -465,7 +465,7 @@ bool SqliteRepository::removeStudentSection(Student * student, Section * section
 
 bool SqliteRepository::addProfessorSection(Professor * professor, Section * section) const
 {
-	std::string sql = "INSERT INTO USERSECTION (USERID, SECTIONID) VALUES ( '" +
+	std::string sql = "INSERT INTO USERSECTION (USERID, SECTIONCRN) VALUES ( '" +
 		std::to_string(professor->getId()) + "', '" + std::to_string(section->getCrn()) + "')";
 	return execute(sql);
 }
