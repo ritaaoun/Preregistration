@@ -39,9 +39,6 @@ public:
 
 	bool matchesConstraint(Course * course);
 
-	void setAssigned(bool isAssigned);
-	bool isAssigned();
-
 private:
 	int mId;
 	std::string mBuildingCode; ///< building code, e.g. IOEC
@@ -52,7 +49,7 @@ private:
 	std::vector<int> mSectionIds;
 	std::vector<Section*> mSections;
 	Schedule* mSchedule;
-	bool assigned;
+
 
 	void loadSections();
 };

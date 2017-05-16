@@ -6,7 +6,7 @@ Room::Room(int id, const std::string & buildingCode, int roomNumber, int capacit
 	mId(id), mBuildingCode(buildingCode), mRoomNumber(roomNumber), mCapacity(capacity),
 	mConstraints(Server::getInstance().repository->getRoomConstraint(id)), 
 	mSectionIds(Server::getInstance().repository->getRoomSectionIds(id)), mSections(),
-	mSchedule(new Schedule(this)), assigned(false)
+	mSchedule(new Schedule(this))
 {
 }
 
@@ -103,16 +103,6 @@ bool Room::matchesConstraint(Course * course)
 		return false;
 
 	return true;
-}
-
-void Room::setAssigned(bool isAssigned)
-{
-	this->assigned = isAssigned;
-}
-
-bool Room::isAssigned()
-{
-	return this->assigned;
 }
 
 void Room::loadSections()

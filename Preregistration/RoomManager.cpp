@@ -47,12 +47,23 @@ bool RoomManager::assignRoom(Section * section)
 
 	for (Room * room : mRooms)
 	{
-		if (!room->isAssigned() && room->matchesConstraint(section->getCourse()) && section->getCapacity() <= room->getCapacity())
+		
+		if (room->matchesConstraint(section->getCourse()) && section->getCapacity() <= room->getCapacity())
 		{
-			section->setRoom(room);
-			room->addSection(section);
-			room->setAssigned(true);
-			return true;
+			Schedule * schedule = room->getSchedule();
+			bool hasConflicts = false;
+			for (TimeSlot * timeslot : section->getTimeSlots())
+				if (schedule->hasConflictWith(timeslot))
+				{
+					hasConflicts = true;
+					break;
+				}
+			if (!hasConflicts)
+			{
+				section->setRoom(room);
+				room->addSection(section);
+				return true;
+			}
 		}
 	}
 	return false;
