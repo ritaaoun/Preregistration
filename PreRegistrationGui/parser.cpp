@@ -41,8 +41,11 @@ void Parser::getCreateUser(std::string message)
     User::getUser()->setUsername(messageVector[0]);
     User::getUser()->setId(std::stoi(messageVector[1]));
     User::getUser()->setName(messageVector[2] + " " + messageVector[3] + " " + messageVector[4]);
-
-    std::string type = messageVector[5];
+    User::getUser()->setDepartmentId(std::stoi(messageVector[5]));
+    User::getUser()->setBirthday(messageVector[6]);
+    User::getUser()->setStartYear(messageVector[7]);
+    User::getUser()->setStartTerm(messageVector[8]);
+    std::string type = messageVector[9];
 
     if(type == "2")
     {
@@ -108,13 +111,14 @@ std::vector<UserInfo> Parser::getAdminUserInfo(std::string message)
 
         UserInfo user;
         user.setUsername(QString::fromStdString(object[0]));
-        user.setFirstName(QString::fromStdString(object[1]));
-        user.setMiddleName(QString::fromStdString(object[2]));
-        user.setLastName(QString::fromStdString(object[3]));
-        user.setDedepartment(std::stoi(object[4]));
-        user.setDateOfBirth(QDate::fromString(QString::fromStdString(object[5])));
-        user.setStartYear(std::stoi(object[6]));
-        user.setStartTerm(std::stoi(object[7]));
+        user.setId(std::stoi(object[1]));
+        user.setFirstName(QString::fromStdString(object[2]));
+        user.setMiddleName(QString::fromStdString(object[3]));
+        user.setLastName(QString::fromStdString(object[4]));
+        user.setDedepartment(std::stoi(object[5]));
+        user.setDateOfBirth(QDate::fromString(QString::fromStdString(object[6])));
+        user.setStartYear(std::stoi(object[7]));
+        user.setStartTerm(std::stoi(object[8]));
 
         userInfo.push_back(user);
     }
@@ -249,11 +253,10 @@ std::string Parser::sendPusblishSection(std::string username, int courseId, int 
     return result;
 }
 
-std::string Parser::sendEditSection(std::string username, int courseId, int sectionNumber, int capacity, std::vector<TimeSlot> timeSlots)
+std::string Parser::sendEditSection(std::string username, int crn, int capacity, std::vector<TimeSlot> timeSlots)
 {
     std::string result = username
-            + ClientInterface::DELIMITER + std::to_string(courseId)
-            + ClientInterface::DELIMITER + std::to_string(sectionNumber)
+            + ClientInterface::DELIMITER + std::to_string(crn)
             + ClientInterface::DELIMITER + std::to_string(capacity);
 
     if (timeSlots.size() > 0)
@@ -313,10 +316,10 @@ std::vector<Course> Parser::getSections(std::string message)
 
         for(int j = 0; j < timeslotsStrings.size(); j++)
         {
-            std::vector<std::string> timeSlotElements = ClientInterface::split(timeslotsStrings[i], ClientInterface::TIMESLOT_DELIMITER);
+            std::vector<std::string> timeSlotElements = ClientInterface::split(timeslotsStrings[j], ClientInterface::TIMESLOT_DELIMITER);
 
             TimeSlot timeSlot;
-            timeSlot.setDay(stoi(timeSlotElements[0]));
+            timeSlot.setDayString(timeSlotElements[0]);
             timeSlot.setStartHour(stoi(timeSlotElements[1]));
             timeSlot.setStartMinutes(stoi(timeSlotElements[2]));
             timeSlot.setEndHour(stoi(timeSlotElements[3]));
@@ -341,8 +344,8 @@ std::string Parser::sendRequestCourse(std::string username, std::string courseNa
     std::string result;
 
     result = username
-            + ClientInterface::DELIMITER + courseName
             + ClientInterface::DELIMITER + courseNumber
+            + ClientInterface::DELIMITER + courseName
             + ClientInterface::DELIMITER + courseDescription
             + ClientInterface::DELIMITER + std::to_string(numberOfCreadits)
             + ClientInterface::DELIMITER + std::to_string(needsComputers)
@@ -352,24 +355,54 @@ std::string Parser::sendRequestCourse(std::string username, std::string courseNa
     return result;
 }
 
-std::string Parser::sendRemoveSection(std::string username, int courseId, int sectionNumber)
+std::string Parser::sendRemoveSection(std::string username, int crn)
 {
     std::string result;
 
     result = username
-            + ClientInterface::DELIMITER + std::to_string(courseId)
-            + ClientInterface::DELIMITER + std::to_string(sectionNumber);
+            + ClientInterface::DELIMITER + std::to_string(crn);
 
     return result;
 }
 
-std::string Parser::sendAddSection(std::string username, int courseId, int sectionNumber)
+std::string Parser::sendAddSection(std::string username, int crn)
 {
     std::string result;
 
     result = username
-            + ClientInterface::DELIMITER + std::to_string(courseId)
-            + ClientInterface::DELIMITER + std::to_string(sectionNumber);
+            + ClientInterface::DELIMITER + std::to_string(crn);
 
     return result;
+}
+
+std::string Parser::sendConfirmSection(std::string username, int crn)
+{
+    std::string result;
+
+    result = username
+            + ClientInterface::DELIMITER + std::to_string(crn);
+
+    return result;
+}
+
+std::vector<Course> Parser::getDepartmentCourses(std::string message)
+{
+    std::vector<std::string> messageVector = ClientInterface::split(message, ClientInterface::LIST_DELIMITER);
+
+    std::vector<Course> courses;
+    for(int i = 0; i < messageVector.size(); i++)
+    {
+        std::vector<std::string> object = ClientInterface::split(messageVector[i], ClientInterface::DELIMITER);
+
+        Course course;
+        course.setId(std::stoi(object[0]));
+        course.setCode(object[1]);
+        course.setName(object[2]);
+        course.setDescription(object[3]);
+        course.setCredits(std::stoi(object[4]));
+
+        courses.push_back(course);
+    }
+
+    return courses;
 }

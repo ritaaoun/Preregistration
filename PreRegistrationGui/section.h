@@ -20,6 +20,7 @@ public:
 
     int getNumber();
     int getCapacity();
+    int getCrn();
     int getStudentCount();
     QString getRoom();
     QString getProfessorName();

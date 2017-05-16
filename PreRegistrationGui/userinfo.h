@@ -9,6 +9,7 @@ class UserInfo
 public:
     UserInfo();
 
+    void setId(int id);
     void setFirstName(QString firstName);
     void setMiddleName(QString lastName);
     void setLastName(QString middleName);
@@ -19,6 +20,7 @@ public:
     void setStartTerm(int startTerm);
     void setUserType(int userType);
 
+    int getId();
     QString getFirstName();
     std::string getFirstNameStdString();
     QString getMiddleName();
@@ -33,6 +35,7 @@ public:
     int getUserType();
 
 private:
+    int mId;
     QString mFirstName;
     QString mMiddleName;
     QString mLastName;

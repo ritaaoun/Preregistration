@@ -31,6 +31,7 @@ public:
     void setStartMinutes(int startMinutes);
     void setEndHour(int endHour);
     void setEndtMinutes(int endMinutes);
+    void setDayString(std::string day);
 
     QString getTimeString();
     QString getDayString();

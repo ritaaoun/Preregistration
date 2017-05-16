@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>10</y>
+     <y>0</y>
      <width>781</width>
      <height>41</height>
     </rect>
@@ -36,23 +36,21 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QTableWidget" name="tableMessages">
+  <widget class="QTableWidget" name="tableSent">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>70</y>
-     <width>781</width>
+     <width>381</width>
      <height>231</height>
     </rect>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
    </property>
    <column>
     <property name="text">
      <string>From</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>To</string>
     </property>
    </column>
    <column>
@@ -126,7 +124,7 @@
   <widget class="QPushButton" name="pbRefresh">
    <property name="geometry">
     <rect>
-     <x>680</x>
+     <x>660</x>
      <y>570</y>
      <width>131</width>
      <height>51</height>
@@ -136,7 +134,7 @@
     <string>Refresh Messages</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -157,6 +155,60 @@
      <widget class="QTextEdit" name="teMessage"/>
     </item>
    </layout>
+  </widget>
+  <widget class="QTableWidget" name="tableReceived">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>70</y>
+     <width>381</width>
+     <height>231</height>
+    </rect>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <column>
+    <property name="text">
+     <string>To</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Subject</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Message</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>50</y>
+     <width>55</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Sent</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>50</y>
+     <width>55</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Received</string>
+   </property>
   </widget>
  </widget>
  <resources/>

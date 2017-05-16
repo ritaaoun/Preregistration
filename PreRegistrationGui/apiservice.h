@@ -21,9 +21,11 @@ public:
     std::vector<Course> getCourseRequests();
     std::unordered_map<int, QString> getDepartments();
     std::vector<UserInfo> getAdminUsersInfo();
-    std::vector<Message> getUserMessages();
-    std::vector<Course> getUserSetions();
+    std::vector<Message> getUserSentMessages();
+    std::vector<Message> getUserReceivedMessages();
+    std::vector<Course> getUserSections();
     std::vector<Course> getDepartmentCourses();
+    std::vector<Course> getDepartmentSections();
     bool userLogIn(QString username, QString password);
     bool addCourse(Course course);
     bool removeCourse(Course course);
@@ -35,9 +37,10 @@ public:
     bool changePassword(QString oldPassword, QString newPassword);
     bool resetPassword(QString userUsername);
     bool publishSection(int courseId, int capacity, std::vector<TimeSlot> timeSlots);
-    bool editSection(int courseId, int sectionNumber, int capacity, std::vector<TimeSlot> timeSlots);
-    bool removeSection(int courseId, int sectionNumber);
-    bool addSection(int courseId, int sectionNumber);
+    bool editSection(int crn, int capacity, std::vector<TimeSlot> timeSlots);
+    bool removeSection(int crn);
+    bool addSection(int crn);
+    bool confirmSection(QString crn);
     bool requestCourse(QString courseName, QString courseNumber, QString courseDescription, int numberOfCreadits,
                        bool needsComputers, bool needsSpeakers, bool needsHighEnergyParticleAccelerator);
 

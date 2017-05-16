@@ -5,6 +5,11 @@ UserInfo::UserInfo()
 
 }
 
+void UserInfo::setId(int id)
+{
+    mId = id;
+}
+
 void UserInfo::setFirstName(QString firstName)
 {
     mFirstName = firstName;
@@ -48,6 +53,11 @@ void UserInfo::setStartTerm(int startTerm)
 void UserInfo::setUserType(int userType)
 {
     mUserType = userType;
+}
+
+int UserInfo::getId()
+{
+    return mId;
 }
 
 QString UserInfo::getFirstName()

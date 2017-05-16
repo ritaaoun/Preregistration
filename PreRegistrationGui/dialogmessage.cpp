@@ -18,25 +18,46 @@ DialogMessage::~DialogMessage()
 }
 
 
-void DialogMessage::setUpUserMessages()
+void DialogMessage::setUpUserSentMessages()
 {
-    std::vector<Message> messages = APIService::getInstance()->getUserMessages();
+    std::vector<Message> messages = APIService::getInstance()->getUserSentMessages();
 
-    ui->tableMessages->setRowCount(0);
+    ui->tableSent->setRowCount(0);
+
+    for(int i = 0; i < messages.size(); i++)
+    {
+        std::vector<QTableWidgetItem*> items;
+
+        items.push_back(new QTableWidgetItem(messages[i].getTo()));
+        items.push_back(new QTableWidgetItem(messages[i].getSubject()));
+        items.push_back(new QTableWidgetItem(messages[i].getMessage()));
+
+        ui->tableSent->insertRow(i);
+        for(int j = 0; j < items.size(); j++)
+        {
+            ui->tableSent->setItem(i, j, items[j]);
+        }
+    }
+}
+
+void DialogMessage::setUpUserReceivedMessages()
+{
+    std::vector<Message> messages = APIService::getInstance()->getUserReceivedMessages();
+
+    ui->tableReceived->setRowCount(0);
 
     for(int i = 0; i < messages.size(); i++)
     {
         std::vector<QTableWidgetItem*> items;
 
         items.push_back(new QTableWidgetItem(messages[i].getFrom()));
-        items.push_back(new QTableWidgetItem(messages[i].getTo()));
         items.push_back(new QTableWidgetItem(messages[i].getSubject()));
         items.push_back(new QTableWidgetItem(messages[i].getMessage()));
 
-        ui->tableMessages->insertRow(i);
+        ui->tableReceived->insertRow(i);
         for(int j = 0; j < items.size(); j++)
         {
-            ui->tableMessages->setItem(i, j, items[j]);
+            ui->tableReceived->setItem(i, j, items[j]);
         }
     }
 }
@@ -77,5 +98,6 @@ void DialogMessage::clearInputs()
 
 void DialogMessage::refresh()
 {
-    setUpUserMessages();
+    setUpUserSentMessages();
+    setUpUserReceivedMessages();
 }

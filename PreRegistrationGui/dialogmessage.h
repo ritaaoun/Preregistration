@@ -25,7 +25,8 @@ private slots:
 private:
     Ui::DialogMessage *ui;
 
-    void setUpUserMessages();
+    void setUpUserReceivedMessages();
+    void setUpUserSentMessages();
     void clearInputs();
     void refresh();
 };

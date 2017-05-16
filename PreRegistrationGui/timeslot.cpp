@@ -75,6 +75,38 @@ void TimeSlot::setDay(int day)
     mDay = static_cast<Day>(day);
 }
 
+void TimeSlot::setDayString(std::string day)
+{
+    if(day == "M")
+    {
+        mDay = MONDAY;
+    }
+    else if(day == "T")
+    {
+        mDay = TUESDAY;
+    }
+    else if(day == "W")
+    {
+        mDay = WEDNESDAY;
+    }
+    else if(day == "R")
+    {
+        mDay = THURSDAY;
+    }
+    else if(day == "F")
+    {
+        mDay = FRIDAY;
+    }
+    else if(day == "Sa")
+    {
+        mDay = SATURDAY;
+    }
+    else if (day == "Su")
+    {
+        mDay = SUNDAY;
+    }
+}
+
 void TimeSlot::setStartHour(int startHour)
 {
     mStartHour = startHour;
