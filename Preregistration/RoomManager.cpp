@@ -47,11 +47,11 @@ bool RoomManager::assignRoom(Section * section)
 
 	for (Room * room : mRooms)
 	{
-		if (room->matchesConstraint(section->getCourse()) && section->getCapacity() <= room->getCapacity())
+		if (!room->isAssigned() && room->matchesConstraint(section->getCourse()) && section->getCapacity() <= room->getCapacity())
 		{
 			section->setRoom(room);
 			room->addSection(section);
-			removeRoom(room); // remove the room from rooms since the room is no longer available
+			room->setAssigned(true);
 			return true;
 		}
 	}
