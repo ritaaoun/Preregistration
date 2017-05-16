@@ -50,6 +50,7 @@ public:
 	virtual int getSectionRoomId(int sectionCrn) const override;
 	virtual Constraint * getRoomConstraint(int roomId) const override;
 	virtual std::vector<int> getRoomSectionIds(int roomId) const override;
+	virtual bool setSectionRoomId(Section * section, Room * room) const override;
 
 	virtual bool deleteCourse(int id) const override;
 	virtual bool deleteCourse(const Course * course) const override;

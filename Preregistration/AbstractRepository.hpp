@@ -52,6 +52,7 @@ public:
 	virtual int getSectionRoomId(int sectionCrn) const = 0;
 	virtual Constraint * getRoomConstraint(int roomId) const = 0;
 	virtual std::vector<int> getRoomSectionIds(int roomId) const = 0;
+	virtual bool setSectionRoomId(Section * section, Room * room) const = 0;
 
 	virtual bool deleteCourse(int id) const = 0;
 	virtual bool deleteCourse(const Course * course) const = 0;

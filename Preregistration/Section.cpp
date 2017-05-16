@@ -136,6 +136,7 @@ void Section::setRoom(Room * room)
 {
 	mRoomId = room->getId();
 	mRoom = room;
+	Server::getInstance().repository->setSectionRoomId(this, room);
 }
 
 int Section::getRoomId() const

@@ -586,6 +586,17 @@ std::vector<int> SqliteRepository::getRoomSectionIds(int roomId) const
 	return sections;
 }
 
+bool SqliteRepository::setSectionRoomId(Section * section, Room * room) const
+{
+	std::string sql ("DELETE FROM ROOMSECTION WHERE SECTIONCRN = '" + std::to_string(section->getCrn()) + "'");
+	if (execute(sql))
+	{
+		sql = "INSERT INTO ROOMSECTION (ROOMID, SECTIONCRN) VALUES ( '" + std::to_string(room->getId()) + "', '" +
+			std::to_string(section->getCrn()) + "')";
+	}
+	return false;
+}
+
 bool SqliteRepository::deleteCourse(int id) const
 {
 	std::string sql = "DELETE FROM COURSE WHERE ID = " + std::to_string(id) + ";";
