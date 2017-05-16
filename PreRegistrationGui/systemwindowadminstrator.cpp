@@ -37,7 +37,6 @@ SystemWindowAdminstrator::SystemWindowAdminstrator(QWidget *parent) :
     ui->rbEdit->setChecked(false);
 
     refresh();
-
     clearUserInputs();
 }
 
@@ -303,7 +302,6 @@ void SystemWindowAdminstrator::setUserInputs(UserInfo user)
 void SystemWindowAdminstrator::refresh()
 {
     setCreateUserMode();
-
     setUpDepartments();
     setUpAdminCourseRequests();
     setUpAdminUsers();

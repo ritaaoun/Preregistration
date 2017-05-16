@@ -23,21 +23,21 @@ SystemWindowProfessor::~SystemWindowProfessor()
     delete ui;
 }
 
-void SystemWindowProfessor::setUpCoursesComboBox()
+void SystemWindowProfessor::setUpSectionsComboBox()
 {
-    departmentCourses = APIService::getInstance()->getDepartmentCourses();
+    departmentSections = APIService::getInstance()->getDepartmentSections();
 
-    for(int i = 0; i < departmentCourses.size(); i++)
+    for(int i = 0; i < departmentSections.size(); i++)
     {
-        ui->cbCoursesList->addItem(departmentCourses[i].getName());
+        ui->cbCoursesList->addItem(departmentSections[i].getCode());
     }
 }
 
 void SystemWindowProfessor::on_cbCoursesList_currentIndexChanged(int index)
 {
-    Course course = departmentCourses[index];
+    Course course = departmentSections[index];
 
-    ui->tableCourses->setRowCount(0);
+    ui->tableSections->setRowCount(0);
     ui->labelCourseName->setText(course.getName());
 
     for(int i = 0; i < course.getSections().size(); i++)
@@ -64,10 +64,10 @@ void SystemWindowProfessor::on_cbCoursesList_currentIndexChanged(int index)
         items.push_back(new QTableWidgetItem(QString::number(section.getCapacity())));
         items.push_back(new QTableWidgetItem(QString::number(section.getStudentCount())));
 
-        ui->tableCourses->insertRow(i);
+        ui->tableSections->insertRow(i);
         for(int j = 0; j < items.size(); j++)
         {
-             ui->tableCourses->setItem(i, j, items[j]);
+             ui->tableSections->setItem(i, j, items[j]);
         }
     }
 }
@@ -79,15 +79,15 @@ void SystemWindowProfessor::on_pbRefresh_clicked()
 
 void SystemWindowProfessor::displaySchedule()
 {
-    professorCourses = APIService::getInstance()->getUserCourses();
+    professorSections = APIService::getInstance()->getUserSections();
 
-    for(int i = 0; i < professorCourses.size(); i++)
+    for(int i = 0; i < professorSections.size(); i++)
     {
-        std::vector<TimeSlot> timeSlots = professorCourses[i].getSections()[0].getTimeSlots();
+        std::vector<TimeSlot> timeSlots = professorSections[i].getSections()[0].getTimeSlots();
 
         for(int j = 0; j < timeSlots.size(); j++)
         {
-            QTableWidgetItem* item = new QTableWidgetItem(professorCourses[i].getName());
+            QTableWidgetItem* item = new QTableWidgetItem(professorSections[i].getName());
             ui->tableSchedule->setItem(timeSlots[j].getStartHour() - 8, timeSlots[j].getDay(), item);
             ui->tableSchedule->item(timeSlots[j].getStartHour() - 8, timeSlots[j].getDay())->setBackground(Qt::red);
 
@@ -102,26 +102,26 @@ void SystemWindowProfessor::displaySchedule()
 
 void SystemWindowProfessor::clearSchedule()
 {
-    ui->tableSchedule->setRowCount(0);
+    //ui->tableSchedule->setRowCount(0);
 }
 
 void SystemWindowProfessor::setUpUserCourses()
 {
-    professorCourses = APIService::getInstance()->getUserSetions();
+    professorSections = APIService::getInstance()->getUserSections();
 
     ui->tableMyCourses->setRowCount(0);
 
-    for(int i = 0; i < professorCourses.size(); i++)
+    for(int i = 0; i < professorSections.size(); i++)
     {
-        for(int j = 0; j < professorCourses[i].getSections().size(); j++)
+        for(int j = 0; j < professorSections[i].getSections().size(); j++)
         {
             std::vector<QTableWidgetItem*> items;
 
-            Section section = professorCourses[i].getSections()[j];
+            Section section = professorSections[i].getSections()[j];
 
-            items.push_back(new QTableWidgetItem(professorCourses[i].getCode()));
-            items.push_back(new QTableWidgetItem(professorCourses[i].getName()));
-            items.push_back(new QTableWidgetItem(QString::number(professorCourses[i].getCredits())));
+            items.push_back(new QTableWidgetItem(professorSections[i].getCode()));
+            items.push_back(new QTableWidgetItem(professorSections[i].getName()));
+            items.push_back(new QTableWidgetItem(QString::number(professorSections[i].getCredits())));
             items.push_back(new QTableWidgetItem(QString::number(section.getNumber())));
             items.push_back(new QTableWidgetItem(section.getRoom()));
 
@@ -152,6 +152,12 @@ void SystemWindowProfessor::setUpUserCourses()
             smEditSection->setMapping(editSectionButton, course_section);
             QObject::connect(smEditSection, SIGNAL(mapped(QString)), this, SLOT(editSection(QString)));
 
+            QSignalMapper* smConfirmSection = new QSignalMapper(this);
+            QPushButton* confirmSectionButton = new QPushButton("Confirm");
+            QObject::connect(confirmSectionButton, SIGNAL(clicked(bool)), smConfirmSection, SLOT(map()));
+            smConfirmSection->setMapping(confirmSectionButton, course_section);
+            QObject::connect(smConfirmSection, SIGNAL(mapped(QString)), this, SLOT(confirmSection(QString)));
+
             ui->tableMyCourses->insertRow(j);
             for(int k = 0; k < items.size(); k++)
             {
@@ -160,16 +166,46 @@ void SystemWindowProfessor::setUpUserCourses()
 
             ui->tableMyCourses->setCellWidget(j, items.size(), removeSectionButton);
             ui->tableMyCourses->setCellWidget(j, items.size() + 1, editSectionButton);
+            ui->tableMyCourses->setCellWidget(j, items.size() + 2, confirmSectionButton);
+        }
+    }
+}
+
+void SystemWindowProfessor::setUpDepartmentCourses()
+{
+    departmentCourses = APIService::getInstance()->getDepartmentCourses();
+
+    ui->tableCourses->setRowCount(0);
+    for(int i = 0; i < departmentCourses.size(); i++)
+    {
+        std::vector<QTableWidgetItem*> items;
+
+        Course course = departmentCourses[i];
+
+        items.push_back(new QTableWidgetItem(course.getCode()));
+        items.push_back(new QTableWidgetItem(course.getName()));
+        items.push_back(new QTableWidgetItem(course.getDescription()));
+        items.push_back(new QTableWidgetItem(QString::number(course.getCredits())));
+
+        ui->tableCourses->insertRow(i);
+        for(int j = 0; j < items.size(); j++)
+        {
+            ui->tableCourses->setItem(i, j, items[j]);
         }
     }
 }
 
 void SystemWindowProfessor::refresh()
 {
-    setUpCoursesComboBox();
+    setUpSectionsComboBox();
+    qDebug() << "YQWE";
     setUpUserCourses();
+    qDebug() << "YQWE";
+    setUpDepartmentCourses();
+    qDebug() << "YQWE";
     displaySchedule();
-    if(departmentCourses.size() > 0)
+qDebug() << "YQWE";
+    if(departmentSections.size() > 0)
     {
         on_cbCoursesList_currentIndexChanged(0);
     }
@@ -185,12 +221,12 @@ void SystemWindowProfessor::dialogRequestCourseClosed()
     dialogRequestCourseOpened = false;
 }
 
-void SystemWindowProfessor::on_pbAddSection_clicked()
+void SystemWindowProfessor::on_pbActionSection_clicked()
 {
-    if(!dialogSectionOpened && professorCourses.size() != 0)
+    if(!dialogSectionOpened && departmentCourses.size() != 0)
     {
         dialogSection = new DialogSection();
-        QObject::connect(dialogSection, SIGNAL(finished(int)), this, SLOT(dialogAddEditSectionClosed()));
+        QObject::connect(dialogSection, SIGNAL(finished(int)), this, SLOT(dialogSectionClosed()));
         dialogSection->show();
 
         dialogSectionOpened = true;
@@ -211,28 +247,27 @@ void SystemWindowProfessor::on_pbRequestCourse_clicked()
 
 void SystemWindowProfessor::removeSection(QString course_section)
 {
-    QStringList list = course_section.split('-');
+    QStringList list = course_section.split('_');
 
     int courseIndex = list.at(0).toInt();
     int sectionIndex = list.at(1).toInt();
 
-    int courseId = professorCourses[courseIndex].getId();
-    int sectionNumber = professorCourses[courseIndex].getSections()[sectionIndex].getNumber();
+    int crn = professorSections[courseIndex].getSections()[sectionIndex].getCrn();
 
-    APIService::getInstance()->removeSection(courseId, sectionNumber);
+    APIService::getInstance()->removeSection(crn);
     setUpUserCourses();
 }
 
 void SystemWindowProfessor::editSection(QString course_section)
 {
-    QStringList list = course_section.split('-');
+    QStringList list = course_section.split('_');
 
     int courseIndex = list.at(0).toInt();
     int sectionIndex = list.at(1).toInt();
 
-    Course course = professorCourses[courseIndex];
+    Course course = professorSections[courseIndex];
 
-    if(!dialogSectionOpened && professorCourses.size() != 0)
+    if(!dialogSectionOpened && professorSections.size() != 0)
     {
         dialogSection = new DialogSection(course, sectionIndex);
         QObject::connect(dialogSection, SIGNAL(finished(int)), this, SLOT(dialogSectionClosed()));
@@ -240,6 +275,19 @@ void SystemWindowProfessor::editSection(QString course_section)
 
         dialogSectionOpened = true;
     }
+}
+
+void SystemWindowProfessor::confirmSection(QString course_section)
+{
+    QStringList list = course_section.split('_');
+
+    int courseIndex = list.at(0).toInt();
+    int sectionIndex = list.at(1).toInt();
+
+    QString crn = professorSections[courseIndex].getSections()[sectionIndex].getCrn();
+
+    APIService::getInstance()->confirmSection(crn);
+    setUpUserCourses();
 }
 
 void SystemWindowProfessor::on_pbMessage_clicked()

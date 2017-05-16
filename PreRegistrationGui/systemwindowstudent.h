@@ -43,13 +43,15 @@ private:
     bool dialogMessageOpened;
     bool dialogChangePasswordOpened;
 
-    std::vector<Course> studentCourses;
+    std::vector<Course> departmentSections;
+    std::vector<Course> studentSections;
     std::vector<Course> departmentCourses;
 
 
     void setUpCoursesComboBox();
     void displaySchedule();
     void clearSchedule();
+    void setUpDepartmentCourses();
     void setUpUserCourses();
 
     void refresh();

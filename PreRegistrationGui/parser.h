@@ -26,11 +26,12 @@ public:
     static std::string sendChangePassword(std::string username, std::string oldPassowrd, std::string newPassword);
     static std::string sendResetPassword(std::string username, std::string userUsername);
     static std::string sendPusblishSection(std::string username, int courseId, int capacity, std::vector<TimeSlot> timeSlots);
-    static std::string sendEditSection(std::string username, int courseId, int sectionNumber, int capacity, std::vector<TimeSlot> timeSlots);
+    static std::string sendEditSection(std::string username, int crn, int capacity, std::vector<TimeSlot> timeSlots);
     static std::string sendRequestCourse(std::string username, std::string courseName, std::string courseNumber, std::string courseDescription,
                                          int numberOfCreadits, bool needsComputers, bool needsSpeakers, bool needsHighEnergyParticleAccelerator);
-    static std::string sendRemoveSection(std::string username, int courseId, int sectionNumber);
-    static std::string sendAddSection(std::string username, int courseId, int sectionNumber);
+    static std::string sendRemoveSection(std::string username, int crn);
+    static std::string sendAddSection(std::string username, int crn);
+    static std::string sendConfirmSection(std::string username, int crn);
 
     static void getCreateUser(std::string message);
     static bool getBoolean(std::string message);
@@ -39,6 +40,7 @@ public:
     static std::vector<Message> getUserMessages(std::string message);
     static std::vector<Course> getCourseRequests(std::string message);
     static std::vector<Course> getSections(std::string message);
+    static std::vector<Course> getDepartmentCourses(std::string message);
 };
 
 #endif // PARSER_H

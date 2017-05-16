@@ -27,14 +27,11 @@ std::vector<Course> APIService::getCoursesList()
 
 std::vector<Course> APIService::getUserCourses()
 {
-    std::vector<Course> v;
+    std::string serverResult = client.getUserDepartmentCourses(Parser::sendActiveUser());
 
-    for(int i = 0; i < 1; i++)
-    {
+    std::vector<Course> result = Parser::getDepartmentCourses(serverResult);
 
-    }
-
-    return v;
+    return result;
 }
 
 bool APIService::userLogIn(QString username, QString password)
@@ -47,10 +44,6 @@ bool APIService::userLogIn(QString username, QString password)
     if(serverResult != "false")
     {
         Parser::getCreateUser(serverResult);
-
-        //TEMP
-        User::getUser()->setType(User::Type::PROFESSOR);
-
         return true;
     }
 
@@ -129,23 +122,22 @@ std::vector<UserInfo> APIService::getAdminUsersInfo()
     return userInfo;
 }
 
-std::vector<Message> APIService::getUserMessages()
+std::vector<Message> APIService::getUserSentMessages()
+{
+    std::string serverResult = client.getSentMessages(Parser::sendActiveUser());
+
+    std::vector<Message> messagesSent = Parser::getUserMessages(serverResult);
+
+    return messagesSent;
+}
+
+std::vector<Message> APIService::getUserReceivedMessages()
 {
     std::string serverResult = client.getReceivedMessages(Parser::sendActiveUser());
 
     std::vector<Message> messagesReceived = Parser::getUserMessages(serverResult);
 
-    serverResult = client.getSentMessages(Parser::sendActiveUser());
-
-    std::vector<Message> messagesSent = Parser::getUserMessages(serverResult);
-
-    std::vector<Message> messages;
-    for(int i = 0; i < messagesSent.size(); i++)
-        messages.push_back(messagesSent[i]);
-    for(int i = 0; i< messagesReceived.size(); i++)
-        messages.push_back(messagesReceived[i]);
-
-    return messages;
+    return messagesReceived;
 }
 
 bool APIService::sendMessage(Message message)
@@ -196,16 +188,16 @@ bool APIService::publishSection(int courseId, int capacity, std::vector<TimeSlot
 {
     std::string toSend = Parser::sendPusblishSection(Parser::sendActiveUser(), courseId, capacity, timeSlots);
 
-    std::string serverResult = client.addSection(toSend);
+    std::string serverResult = client.publishSection(toSend);
 
     bool result = Parser::getBoolean(serverResult);
 
     return result;
 }
 
-bool APIService::editSection(int courseId, int sectionNumber, int capacity, std::vector<TimeSlot> timeSlots)
+bool APIService::editSection(int crn, int capacity, std::vector<TimeSlot> timeSlots)
 {
-    std::string toSend = Parser::sendEditSection(Parser::sendActiveUser(), courseId, sectionNumber, capacity, timeSlots);
+    std::string toSend = Parser::sendEditSection(Parser::sendActiveUser(), crn, capacity, timeSlots);
 
     std::string serverResult = client.editSection(toSend);
 
@@ -214,20 +206,20 @@ bool APIService::editSection(int courseId, int sectionNumber, int capacity, std:
     return result;
 }
 
-bool APIService::removeSection(int courseId, int sectionNumber)
+bool APIService::removeSection(int crn)
 {
-    std::string toSend = Parser::sendRemoveSection(Parser::sendActiveUser(), courseId, sectionNumber);
+    std::string toSend = Parser::sendRemoveSection(Parser::sendActiveUser(), crn);
 
-    std::string serverResult = client.removeSection(toSend);
+    std::string serverResult = client.deleteSection(toSend);
 
     bool result = Parser::getBoolean(serverResult);
 
     return result;
 }
 
-bool APIService::addSection(int courseId, int sectionNumber)
+bool APIService::addSection(int crn)
 {
-    std::string toSend = Parser::sendAddSection(Parser::sendActiveUser(), courseId, sectionNumber);
+    std::string toSend = Parser::sendAddSection(Parser::sendActiveUser(), crn);
 
     std::string serverResult = client.addSection(toSend);
 
@@ -236,20 +228,33 @@ bool APIService::addSection(int courseId, int sectionNumber)
     return result;
 }
 
+bool APIService::confirmSection(QString crn)
+{
+//    std::string toSend = Parser::sendConfirmSection(Parser::sendActiveUser(), crn.toStdString());
+
+//    std::string serverResult = client.confirmSection(toSend);
+
+//    bool result = Parser::getBoolean(serverResult);
+
+//    return result;
+
+    return true;
+}
+
 bool APIService::requestCourse(QString courseName, QString courseNumber, QString courseDescription, int numberOfCreadits,
                                bool needsComputers, bool needsSpeakers, bool needsHighEnergyParticleAccelerator)
 {
     std::string toSend = Parser::sendRequestCourse(Parser::sendActiveUser(), courseName.toStdString(), courseNumber.toStdString(), courseDescription.toStdString(), numberOfCreadits,
                                                    needsComputers, needsSpeakers, needsHighEnergyParticleAccelerator);
 
-    std::string serverResult = client.requestCourse(toSend);
+    std::string serverResult = client.addCourse(toSend);
 
     bool result = Parser::getBoolean(serverResult);
 
     return result;
 }
 
-std::vector<Course> APIService::getUserSetions()
+std::vector<Course> APIService::getUserSections()
 {
     std::string serverResult = client.getUserSections(Parser::sendActiveUser());
 
@@ -260,7 +265,16 @@ std::vector<Course> APIService::getUserSetions()
 
 std::vector<Course> APIService::getDepartmentCourses()
 {
-    std::string serverResult = client.getUserDepartmentSections(Parser::sendActiveUser());
+    std::string serverResult = client.getUserDepartmentCourses(Parser::sendActiveUser());
+
+    std::vector<Course> result = Parser::getDepartmentCourses(serverResult);
+
+    return result;
+}
+
+std::vector<Course> APIService::getDepartmentSections()
+{
+    std::string serverResult = client.getSections(Parser::sendActiveUser());
 
     std::vector<Course> result = Parser::getSections(serverResult);
 

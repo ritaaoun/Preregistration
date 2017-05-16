@@ -30,9 +30,11 @@ private slots:
 
     void editSection(QString course_section);
 
+    void confirmSection(QString course_section);
+
     void on_pbRequestCourse_clicked();
 
-    void on_pbAddSection_clicked();
+    void on_pbActionSection_clicked();
 
     void dialogSectionClosed();
     void dialogMessageClosed();
@@ -57,14 +59,15 @@ private:
     bool dialogRequestCourseOpened;
     bool dialogChangePasswordOpened;
 
-    std::vector<Course> professorCourses;
+    std::vector<Course> professorSections;
+    std::vector<Course> departmentSections;
     std::vector<Course> departmentCourses;
 
-
-    void setUpCoursesComboBox();
+    void setUpSectionsComboBox();
     void displaySchedule();
     void clearSchedule();
     void setUpUserCourses();
+    void setUpDepartmentCourses();
 
     void refresh();
 };

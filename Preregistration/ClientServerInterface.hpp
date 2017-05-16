@@ -23,6 +23,7 @@ public:
 	virtual  std::string getUserDepartmentCourses(const std::string & params) = 0;
 	virtual  std::string addCourse(const std::string & params) = 0;
 	virtual  std::string decideOnCourse(const std::string & params) = 0;
+	virtual  std::string confirmSection(const std::string & params) = 0;
 
 	virtual  std::string getDepartments(const std::string & params) = 0;
 

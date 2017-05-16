@@ -44,6 +44,26 @@ int User::getId()
     return mId;
 }
 
+int User::getDepartmentId()
+{
+    return mDepartmentId;
+}
+
+QString User::getBirthday()
+{
+    return mBirthday;
+}
+
+QString User::getStartYear()
+{
+    return mStartYear;
+}
+
+QString User::getStartTerm()
+{
+    return mStartTerm;
+}
+
 void User::setName(QString name)
 {
     mName = name;
@@ -72,4 +92,39 @@ void User::setType(Type type)
 void User::setId(int id)
 {
     mId = id;
+}
+
+void User::setBirthday(QString birthday)
+{
+    mBirthday = birthday;
+}
+
+void User::setBirthday(std::string birthday)
+{
+    mBirthday = QString::fromStdString(birthday);
+}
+
+void User::setStartYear(QString startYear)
+{
+    mStartYear = startYear;
+}
+
+void User::setStartYear(std::string startYear)
+{
+    mStartYear = QString::fromStdString(startYear);
+}
+
+void User::setStartTerm(QString startTerm)
+{
+    mStartTerm = startTerm;
+}
+
+void User::setStartTerm(std::string startTerm)
+{
+    mStartTerm = QString::fromStdString(startTerm);
+}
+
+void User::setDepartmentId(int departmentId)
+{
+    mDepartmentId = departmentId;
 }

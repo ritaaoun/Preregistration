@@ -25,6 +25,11 @@ QString Section::getRoom()
     return mRoom;
 }
 
+int Section::getCrn()
+{
+    return mCrn;
+}
+
 QString Section::getProfessorName()
 {
     return mProfessorName;

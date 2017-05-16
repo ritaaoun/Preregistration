@@ -108,11 +108,6 @@
      <string>End Minutes</string>
     </property>
    </column>
-   <column>
-    <property name="text">
-     <string/>
-    </property>
-   </column>
   </widget>
   <widget class="QPushButton" name="pbRemoveTimeSlots">
    <property name="geometry">
@@ -157,9 +152,9 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>80</y>
-     <width>155</width>
-     <height>24</height>
+     <y>73</y>
+     <width>191</width>
+     <height>41</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="hlCourseCode">
