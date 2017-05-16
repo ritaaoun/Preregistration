@@ -407,7 +407,7 @@ std::vector<Section*> SqliteRepository::getSections() const
 
 std::vector<TimeSlot *> SqliteRepository::getSectionTimeSlots(int sectionCrn) const
 {
-	std::string sql = "SELECT * FROM TIMESLOTSECTION WHERE SECTIONID = '" + std::to_string(sectionCrn) + "'";
+	std::string sql = "SELECT * FROM TIMESLOTSECTION WHERE SECTIONCRN = '" + std::to_string(sectionCrn) + "'";
 	std::vector<std::vector<std::string>> results = query(sql);
 	std::vector<TimeSlot *> out;
 
@@ -451,7 +451,7 @@ bool SqliteRepository::updateSectionTimeSlots(Section * section) const
 
 bool SqliteRepository::addStudentSection(Student * student, Section * section) const
 {
-	std::string sql = "INSERT INTO USERSECTION (USERID, SECTIONID) VALUES ( '" +
+	std::string sql = "INSERT INTO USERSECTION (USERID, SECTIONCRN) VALUES ( '" +
 		std::to_string(student->getId()) + "', '" + std::to_string(section->getCrn()) + "')";
 	return execute(sql);
 }
@@ -479,7 +479,7 @@ bool SqliteRepository::removeProfessorSection(Professor * professor, Section * s
 
 bool SqliteRepository::addRoomSection(Room * room, Section * section) const
 {
-	std::string sql = "INSERT INTO ROOMSECTION (ROOMID, SECTIONID) VALUES ( '" +
+	std::string sql = "INSERT INTO ROOMSECTION (ROOMID, SECTIONCRN) VALUES ( '" +
 		std::to_string(room->getId()) + "', '" + std::to_string(section->getCrn()) + "')";
 	return execute(sql);
 }
