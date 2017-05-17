@@ -30,8 +30,11 @@ Room & Room::operator=(const Room & rhs)
 
 bool Room::operator < (const Room& rhs) const
 {
-	return (mCapacity < rhs.mCapacity);
+	return (getCapacity() < rhs.getCapacity());
 }
+
+
+
 
 int Room::getId() const
 {

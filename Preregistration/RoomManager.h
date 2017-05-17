@@ -22,3 +22,5 @@ public:
 	
 	void loadRooms();
 };
+
+bool compareByCapacity(Room * a, Room * b);

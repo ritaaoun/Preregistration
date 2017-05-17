@@ -16,7 +16,6 @@ public:
 	Room & operator=(const Room & rhs);
 	bool operator<(const Room & rhs) const;
 
-
 	int getId() const;
 	int getRoomNumber() const;
 	std::string getBuildingCode() const;
