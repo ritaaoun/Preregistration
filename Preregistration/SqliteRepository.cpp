@@ -544,7 +544,7 @@ std::vector<int> SqliteRepository::getRoomIds() const
 }
 int SqliteRepository::getSectionRoomId(int sectionCrn) const
 {
-	std::string sql = "SELECT ROOMID FROM SECTIONROOM WHERE SECTIONCRN = '" + std::to_string(sectionCrn) + "'";
+	std::string sql = "SELECT ROOMID FROM ROOMSECTION WHERE SECTIONCRN = '" + std::to_string(sectionCrn) + "'";
 	std::vector<std::vector<std::string>> results = query(sql);
 
 	if (results.size() > 0) {
