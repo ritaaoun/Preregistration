@@ -113,9 +113,7 @@ void AbstractUser::setType(Type type)
 
 Department * AbstractUser::getDepartment()
 {
-	if (m_department == nullptr) {
-		loadDepartment();
-	}
+	loadDepartment();
 	return m_department;
 }
 
@@ -239,7 +237,10 @@ AbstractUser & AbstractUser::operator=(const AbstractUser & rhs)
 
 void AbstractUser::loadDepartment()
 {
-	m_department = Server::getInstance().data.getDepartment(m_departmentId);
+	if (m_department == nullptr)
+	{
+		m_department = Server::getInstance().data.getDepartment(m_departmentId);
+	}
 }
 
 std::string AbstractUser::serialize()
