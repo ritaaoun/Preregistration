@@ -34,6 +34,7 @@ ServerInterface::ServerInterface()
 	functionMap["editSection"] = &ServerInterface::editSection;
 	functionMap["deleteSection"] = &ServerInterface::deleteSection;
 	functionMap["getUserDepartmentSections"] = &ServerInterface::getUserDepartmentSections;
+	functionMap["confirmSection"] = &ServerInterface::confirmSection;
 
 }
 
