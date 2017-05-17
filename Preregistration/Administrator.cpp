@@ -121,22 +121,31 @@ bool Administrator::hasPrivilegeTo(Department * department) const
 
 bool Administrator::givePrivilege(Administrator * administrator, Department * department) const
 {
-	administrator->loadPrivileges();
-	if (std::find(administrator->m_privileges.begin(), administrator->m_privileges.end(), department) != administrator->m_privileges.end()) {
-		administrator->m_privileges.push_back(department);
-		administrator->m_privilegeIds.push_back(department->getId());
+	if (std::find(m_privilegeIds.begin(), m_privilegeIds.end(), department->getId()) != m_privilegeIds.end())
+	{
+		administrator->loadPrivileges();
+		if (std::find(administrator->m_privileges.begin(), administrator->m_privileges.end(), department) == administrator->m_privileges.end()) {
+			administrator->m_privileges.push_back(department);
+			administrator->m_privilegeIds.push_back(department->getId());
 
-		if (department->getCode() == "ADMN")
-		{
-			int last = m_privileges.size() - 1;
-			std::swap(administrator->m_privileges[0], administrator->m_privileges[last]);
-			std::swap(administrator->m_privilegeIds[0], administrator->m_privilegeIds[last]);
+			if (department->getCode() == "ADMN")
+			{
+				int last = m_privileges.size() - 1;
+				std::swap(administrator->m_privileges[0], administrator->m_privileges[last]);
+				std::swap(administrator->m_privilegeIds[0], administrator->m_privilegeIds[last]);
+			}
+
+			Server::getInstance().repository->createPrivilege(administrator, department);
+			return true;
 		}
-
-		Server::getInstance().repository->createPrivilege(administrator, department);
-		return true;
+		else {
+			std::cout << "Administrator " << administrator->getId() << " already has privileges to department " << department->getId() << std::endl;
+			return false;
+		}
 	}
-	else {
+	else
+	{
+		std::cout << "Administrator " << getId() << " does not have privileges to department " << department->getId() << std::endl;
 		return false;
 	}
 }
