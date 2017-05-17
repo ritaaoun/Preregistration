@@ -674,7 +674,7 @@ Constraint * SqliteRepository::getCourseConstraints(int courseId) const
 		return new Constraint(hasComputer, hasSpeakers, hasHighEnergyParticleAccelerator);
 	}
 	else {
-		return nullptr;
+		return new Constraint(false, false, false);
 	}
 }
 
