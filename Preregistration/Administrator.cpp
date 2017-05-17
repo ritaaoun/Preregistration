@@ -76,27 +76,33 @@ bool Administrator::decideOnCourse(Course * courseRequested, bool approveCourse)
 {
 	Department * courseDepartment = courseRequested->getDepartment();
 	if (hasPrivilegeTo(courseDepartment)) {
-		courseDepartment->decideOnCourse(courseRequested, approveCourse);
+		if (courseDepartment->decideOnCourse(courseRequested, approveCourse))
+		{
 
-		std::string topic = courseRequested->getFullCode();
-		std::string content = "Course " + topic + " was ";
-		if (approveCourse) {
-			content = content + "approved.";
+			std::string topic = courseRequested->getFullCode();
+			std::string content = "Course " + topic + " was ";
+			if (approveCourse) {
+				content = content + "approved.";
+			}
+			else {
+				content = content + "rejected.";
+			}
+
+			content += " The course details are:\n"
+				"Id: " + std::to_string(courseRequested->getId()) + "\n"
+				"Code: " + courseRequested->getFullCode() + "\n"
+				"Name: " + courseRequested->getName() + "\n"
+				"Description: " + courseRequested->getDescription() + "\n"
+				"Credits: " + std::to_string(courseRequested->getNumberOfCredits());
+
+			sendChatMessage(courseRequested->getProfessor(), topic, content);
+			std::cout << "Administrator::decideOnCourse: course " << courseRequested->getId() << " was decided on" << std::endl;
+			return true;
 		}
-		else {
-			content = content + "rejected.";
+		else
+		{
+			return false;
 		}
-
-		content += " The course details are:\n"
-			"Id: " + std::to_string(courseRequested->getId()) + "\n"
-			"Code: " + courseRequested->getFullCode() + "\n"
-			"Name: " + courseRequested->getName() + "\n"
-			"Description: " + courseRequested->getDescription() + "\n"
-			"Credits: " + std::to_string(courseRequested->getNumberOfCredits());
-
-		sendChatMessage(courseRequested->getProfessor(), topic, content);
-		std::cout << "Administrator::decideOnCourse: course " << courseRequested->getId() << " was decided on" << std::endl;
-		return true;
 	}
 	else {
 		std::cerr << "Administrator::decideOnCourse: Administrator " << getId() << " does not have privileges over department " <<
