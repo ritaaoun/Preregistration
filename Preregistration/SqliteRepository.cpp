@@ -568,7 +568,7 @@ Constraint * SqliteRepository::getRoomConstraint(int roomId) const
 		return new Constraint(hasComputer, hasSpeakers, hasHighEnergyParticleAccelerator);
 	}
 	else {
-		return nullptr;
+		return new Constraint(false, false, false);
 	}
 }
 

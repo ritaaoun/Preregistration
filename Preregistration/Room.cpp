@@ -12,9 +12,7 @@ Room::Room(int id, const std::string & buildingCode, int roomNumber, int capacit
 
 Room::~Room()
 {
-	if (mConstraints != nullptr) {
-		delete mConstraints;
-	}
+	delete mConstraints;
 	delete mSchedule;
 }
 
@@ -72,9 +70,7 @@ void Room::removeSection(Section * section)
 
 void Room::setConstraint(Constraint * constraint)
 {
-	if (mConstraints != nullptr) {
-		delete mConstraints;
-	}
+	delete mConstraints;
 	mConstraints = constraint;
 }
 
@@ -141,5 +137,14 @@ std::string Room::getBuildingCode() const
 
 std::string Room::getFullName() const
 {
-	return mBuildingCode + " " + std::to_string(mRoomNumber);
+	std::string out = mBuildingCode + " ";
+	if (mRoomNumber < 10)
+	{
+		out = out + "00";
+	}
+	else if (mRoomNumber < 100)
+	{
+		out = out + "0";
+	}
+	return out + std::to_string(mRoomNumber);
 }
