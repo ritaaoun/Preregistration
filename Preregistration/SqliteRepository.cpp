@@ -98,7 +98,16 @@ SqliteRepository & SqliteRepository::operator=(const SqliteRepository & rhs)
 bool SqliteRepository::deleteUser(const AbstractUser * user) const
 {
 	std::string sql = "DELETE FROM USER WHERE ID = " + std::to_string(user->getId()) + ";";
-	return execute(sql);
+	if (execute(sql))
+	{
+		sql = "DELETE FROM USERSECTION WHERE ID = " + std::to_string(user->getId()) + ";";
+		if (execute(sql))
+		{
+			sql = "DELETE FROM USERSECTION WHERE ID = " + std::to_string(user->getId()) + ";";
+			return execute(sql);
+		}
+	}
+	return false;
 }
 
 bool SqliteRepository::deleteUser(int id) const
@@ -181,8 +190,9 @@ std::vector<int> SqliteRepository::getUserSections(int userId) const
 
 bool SqliteRepository::deleteDepartment(int id) const
 {
+	//TODO: deal with students from department, and privileges
 	std::string sql = "DELETE FROM DEPARTMENT WHERE ID = '" + std::to_string(id) + "'";
-	return execute(sql);
+	return false;
 }
 
 bool SqliteRepository::deleteDepartment(const Department * department) const
@@ -343,7 +353,20 @@ std::vector<AbstractMessage*> SqliteRepository::getMessages() const
 bool SqliteRepository::deleteSection(int crn) const
 {
 	std::string sql = "DELETE FROM SECTION WHERE CRN = '" + std::to_string(crn) + "'";
-	return execute(sql);
+	if (execute(sql))
+	{
+		sql = "DELETE FROM TIMESLOTSECTION WHERE CRN = '" + std::to_string(crn) + "'";
+		if (execute(sql))
+		{
+			sql = "DELETE FROM ROOMSECTION WHERE CRN = '" + std::to_string(crn) + "'";
+			if (execute(sql))
+			{
+				sql = "DELETE FROM USERSECTION WHERE CRN = '" + std::to_string(crn) + "'";
+				return execute(sql);
+			}
+		}
+	}
+	return false;
 }
 
 bool SqliteRepository::deleteSection(const Section * section) const
