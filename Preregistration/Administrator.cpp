@@ -121,6 +121,7 @@ bool Administrator::hasPrivilegeTo(Department * department) const
 
 bool Administrator::givePrivilege(Administrator * administrator, Department * department) const
 {
+	administrator->loadPrivileges();
 	if (std::find(administrator->m_privileges.begin(), administrator->m_privileges.end(), department) != administrator->m_privileges.end()) {
 		administrator->m_privileges.push_back(department);
 		administrator->m_privilegeIds.push_back(department->getId());
