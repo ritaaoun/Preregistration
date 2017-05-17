@@ -39,7 +39,6 @@ SystemWindowAdminstrator::SystemWindowAdminstrator(QWidget *parent) :
 
     refresh();
     clearUserInputs();
-    ui->cbDepartmentUser->setEnabled(true);
 }
 
 SystemWindowAdminstrator::~SystemWindowAdminstrator()
@@ -58,18 +57,21 @@ void SystemWindowAdminstrator::on_pbAction_clicked()
     QString startYear = ui->cbStartYear->currentText();
 
     QString userType;
-
+    QString userTypeString;
     if(ui->rbProfessor->isChecked())
     {
         userType = QString("1");
+        userTypeString = "Professor";
     }
     else if(ui->rbStudent->isChecked())
     {
         userType = QString("0");
+        userTypeString = "Student";
     }
     else if(ui->rbAdministrator->isChecked())
     {
         userType = QString("2");
+        userTypeString = "Administrator";
     }
 
     if(firstName.isEmpty() || lastName.isEmpty()
@@ -92,14 +94,29 @@ void SystemWindowAdminstrator::on_pbAction_clicked()
     if(ui->rbCreate->isChecked())
     {
         userInfo.push_back(userType);
-        APIService::getInstance()->createUser(userInfo);
-
-        clearUserInputs();
+        if(APIService::getInstance()->createUser(userInfo))
+        {
+            log("Succesfuly created " + userTypeString + ": " + userInfo[0] + " " + userInfo[1] + userInfo[2]);
+            clearUserInputs();
+            refresh();
+        }
+        else
+        {
+            logError("Failed to create " + userTypeString);
+        }
     }
     else
     {
         userInfo.push_back(ui->cbUserList->currentText());
-        APIService::getInstance()->editUser(userInfo);
+        if(APIService::getInstance()->editUser(userInfo))
+        {
+            log("Succesfuly edited: " + userInfo[0] + " " + userInfo[1] + userInfo[2]);
+        }
+        else
+        {
+            logError("Failed to edit user");
+        }
+        refresh();
     }
 }
 
@@ -146,29 +163,54 @@ void SystemWindowAdminstrator::acceptCourseRequest(int index)
 {
     Course course = courseRequests[index];
 
-    APIService::getInstance()->decideOnCourse(course, true);
-    setUpAdminCourseRequests();
+    if(APIService::getInstance()->decideOnCourse(course, true))
+    {
+        log("Succesfully accepted course: " + course.getCode());
+    }
+    else
+    {
+        logError("Failed to accept course: " + course.getCode());
+    }
+    refresh();
 }
 
 void SystemWindowAdminstrator::rejectCourseRequest(int index)
 {
     Course course = courseRequests[index];
 
-    APIService::getInstance()->decideOnCourse(course, false);
-    setUpAdminCourseRequests();
+    if(APIService::getInstance()->decideOnCourse(course, false))
+    {
+        log("Succesfully rejected course: " + course.getCode());
+    }
+    else
+    {
+        logError("Failed to reject course: " + course.getCode());
+    }
+    refresh();
 }
 
 void SystemWindowAdminstrator::on_pbConfirmPriviliges_clicked()
 {
     QString adminUsername = ui->leAdminUsername->text();
+
     int adminDepartment = ui->cbDepartmentAdmin->currentData().toInt();
 
     if(adminUsername.isEmpty())
+    {
+        logError("Please enter a username for the privilges");
         return;
-
-    APIService::getInstance()->sendPrivileges(adminUsername, adminDepartment);
+    }
+    if(APIService::getInstance()->sendPrivileges(adminUsername, adminDepartment))
+    {
+        log("Succesfuly granted privileges on " + ui->cbDepartmentAdmin->currentText() + " for "  + adminUsername);
+    }
+    else
+    {
+        logError("Failed to grant privileges to " + adminUsername);
+    }
 
     ui->leAdminUsername->clear();
+    refresh();
 }
 
 void SystemWindowAdminstrator::setUpDepartments()
@@ -228,7 +270,10 @@ void SystemWindowAdminstrator::on_rbCreate_clicked()
     }
     else
     {
-        setOtherChoiceDepartment();
+        if(hasAdministratorPriviliges)
+        {
+            setOtherChoiceDepartment();
+        }
     }
 }
 
@@ -285,6 +330,9 @@ void SystemWindowAdminstrator::setUpAdminUsers()
 {
     userInfo = APIService::getInstance()->getAdminUsersInfo();
 
+    QObject::disconnect(ui->cbDepartmentUser, SIGNAL(currentIndexChanged(int)), this, SLOT(on_cbUserList_currentIndexChanged(int)));
+    ui->cbDepartmentUser->clear();
+
     for(int i = 0; i < userInfo.size(); i++)
     {
         ui->cbUserList->addItem(userInfo[i].getUsername());
@@ -311,11 +359,17 @@ void SystemWindowAdminstrator::setUserInputs(UserInfo user, int index)
     if(user.getUserType() != 2)
     {
         ui->cbDepartmentUser->setCurrentText(departments[index]);
-        setOtherChoiceDepartment();
+        if(hasAdministratorPriviliges)
+        {
+             setOtherChoiceDepartment();
+        }
     }
     else
     {
-        setAdminChoiceDepartment();
+        if(hasAdministratorPriviliges)
+        {
+            setAdminChoiceDepartment();
+        }
     }
 
 }
@@ -328,7 +382,7 @@ void SystemWindowAdminstrator::refresh()
     setUpAdminUsers();
 }
 
-void SystemWindowAdminstrator::on_pushButton_clicked()
+void SystemWindowAdminstrator::on_pbMessage_clicked()
 {
     if(!dialogMessageOpened)
     {
@@ -369,7 +423,14 @@ void SystemWindowAdminstrator::on_pbResetPassword_clicked()
 {
     QString userUsername = ui->cbUserList->currentText();
 
-    APIService::getInstance()->resetPassword(userUsername);
+    if(APIService::getInstance()->resetPassword(userUsername))
+    {
+        log("Succesfuly reset password for "  + userUsername);
+    }
+    else
+    {
+        logError("Failed to reset password for " + userUsername);
+    }
 }
 
 void SystemWindowAdminstrator::on_rbAdministrator_clicked()
@@ -414,4 +475,31 @@ void SystemWindowAdminstrator::setOtherChoiceDepartment()
     {
         ui->cbDepartmentUser->setCurrentIndex(1);
     }
+}
+
+void SystemWindowAdminstrator::logError(QString message)
+{
+    QString content = ui->tbLog->toHtml()
+            + "<font color=\"red\">"
+            + message + "\n"
+            + "</font>";
+
+    ui->tbLog->setHtml(content);
+    QTextCursor cursor = ui->tbLog->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    ui->tbLog->setTextCursor(cursor);
+
+}
+
+void SystemWindowAdminstrator::log(QString message)
+{
+    QString content = ui->tbLog->toHtml()
+            + "<font color=\"green\">"
+            + message + "\n"
+            + "</font>";
+
+    ui->tbLog->setHtml(content);
+    QTextCursor cursor = ui->tbLog->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    ui->tbLog->setTextCursor(cursor);
 }

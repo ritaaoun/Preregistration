@@ -24,6 +24,7 @@ void SystemWindowStudent::setUpCoursesComboBox()
 {
     departmentSections = APIService::getInstance()->getDepartmentSections();
 
+    QObject::disconnect(ui->cbCoursesList, SIGNAL(currentIndexChanged(int)), this, SLOT(on_cbCoursesList_currentIndexChanged(int)));
     ui->cbCoursesList->clear();
 
     for(int i = 0; i < departmentSections.size(); i++)
@@ -71,6 +72,11 @@ void SystemWindowStudent::on_cbCoursesList_currentIndexChanged(int index)
         smAddSection->setMapping(addSectionButton, course_section);
         QObject::connect(smAddSection, SIGNAL(mapped(QString)), this, SLOT(addSection(QString)));
 
+        if(studentInSection(section))
+        {
+            addSectionButton->setEnabled(false);
+        }
+
         ui->tableSections->insertRow(i);
         for(int j = 0; j < items.size(); j++)
         {
@@ -79,6 +85,23 @@ void SystemWindowStudent::on_cbCoursesList_currentIndexChanged(int index)
 
         ui->tableSections->setCellWidget(i, items.size(), addSectionButton);
     }
+}
+
+bool SystemWindowStudent::studentInSection(Section section)
+{
+    for(int i = 0; i < studentSections.size(); i++)
+    {
+        std::vector<Section> sections = studentSections[i].getSections();
+
+        for(int j = 0; j < sections.size(); j++)
+        {
+            if(section.getCrn() == sections[j].getCrn())
+            {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 void SystemWindowStudent::on_pbRefresh_clicked()
@@ -94,18 +117,34 @@ void SystemWindowStudent::displaySchedule()
 
     for(int i = 0; i < studentSections.size(); i++)
     {
-        std::vector<TimeSlot> timeSlots = studentSections[i].getSections()[0].getTimeSlots();
 
-        for(int j = 0; j < timeSlots.size(); j++)
+        std::vector<Section> sections = studentSections[i].getSections();
+
+        for(int j = 0; j < sections.size(); j++)
         {
-            QTableWidgetItem* item = new QTableWidgetItem(studentSections[i].getName());
-            ui->tableSchedule->setItem(timeSlots[j].getStartHour() - 8, timeSlots[j].getDay(), item);
-            ui->tableSchedule->item(timeSlots[j].getStartHour() - 8, timeSlots[j].getDay())->setBackground(Qt::red);
+            std::vector<TimeSlot> timeSlots = sections[i].getTimeSlots();
 
-            for(int l = timeSlots[j].getStartHour() + 1; l <= timeSlots[j].getEndHour(); l++)
+            for(int k = 0; k < timeSlots.size(); k++)
             {
-                ui->tableSchedule->setItem(l - 8, timeSlots[j].getDay(), new QTableWidgetItem());
-                ui->tableSchedule->item(l - 8, timeSlots[j].getDay())->setBackground(Qt::red);
+                for(int l = timeSlots[k].getStartHour(); l <= timeSlots[k].getEndHour(); l++)
+                {
+                    QTableWidgetItem* it = ui->tableSchedule->item(l - 8, timeSlots[k].getDay());
+                    QString content = "";
+                    if(it)
+                    {
+                        content = "/" + it->text();
+                    }
+                    ui->tableSchedule->setItem(l - 8, timeSlots[k].getDay(), new QTableWidgetItem(studentSections[i].getCode() + "-" + QString::number(sections[j].getNumber()) + content));
+                    if(it)
+                    {
+                        logError("Conflict with those courses: " + studentSections[i].getCode() + "-" + QString::number(sections[j].getNumber()) + content);
+                        ui->tableSchedule->item(l - 8, timeSlots[k].getDay())->setBackground(Qt::yellow);
+                    }
+                    else
+                    {
+                        ui->tableSchedule->item(l - 8, timeSlots[k].getDay())->setBackground(Qt::red);
+                    }
+                }
             }
         }
     }
@@ -213,7 +252,14 @@ void SystemWindowStudent::removeSection(QString course_section)
 
     int crn = studentSections[courseIndex].getSections()[sectionIndex].getCrn();
 
-    APIService::getInstance()->removeSection(crn);
+    if(APIService::getInstance()->removeSection(crn))
+    {
+        log("Succesfuly removed section " + QString::number(departmentSections[courseIndex].getSections()[sectionIndex].getNumber()) + " of course: " + departmentSections[courseIndex].getCode());
+    }
+    else
+    {
+        logError("Failed to remove section " + QString::number(departmentSections[courseIndex].getSections()[sectionIndex].getNumber()) + " of course: " + departmentSections[courseIndex].getCode());
+    }
     refresh();
 }
 
@@ -226,7 +272,14 @@ void SystemWindowStudent::addSection(QString course_section)
 
     int crn = departmentSections[courseIndex].getSections()[sectionIndex].getCrn();
 
-    APIService::getInstance()->addSection(crn);
+    if(APIService::getInstance()->addSection(crn))
+    {
+        log("Succesfuly added section " + QString::number(departmentSections[courseIndex].getSections()[sectionIndex].getNumber()) + " of course: " + departmentSections[courseIndex].getCode());
+    }
+    else
+    {
+        logError("Failed to add section " + QString::number(departmentSections[courseIndex].getSections()[sectionIndex].getNumber()) + " of course: " + departmentSections[courseIndex].getCode());
+    }
     refresh();
 }
 
@@ -284,5 +337,31 @@ void SystemWindowStudent::on_pbChangePassword_clicked()
 void SystemWindowStudent::dialogChangePasswordClosed()
 {
     dialogChangePasswordOpened = false;
+}
+
+void SystemWindowStudent::logError(QString message)
+{
+    QString content = ui->tbLog->toHtml()
+            + "<font color=\"red\">"
+            + message + "\n"
+            + "</font>";
+
+    ui->tbLog->setHtml(content);
+    QTextCursor cursor = ui->tbLog->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    ui->tbLog->setTextCursor(cursor);
+}
+
+void SystemWindowStudent::log(QString message)
+{
+    QString content = ui->tbLog->toHtml()
+            + "<font color=\"green\">"
+            + message + "\n"
+            + "</font>";
+
+    ui->tbLog->setHtml(content);
+    QTextCursor cursor = ui->tbLog->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    ui->tbLog->setTextCursor(cursor);
 }
 

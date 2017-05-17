@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Section</string>
   </property>
   <widget class="QLabel" name="label_title">
    <property name="geometry">
@@ -39,8 +39,8 @@
   <widget class="QPushButton" name="pbAddSection">
    <property name="geometry">
     <rect>
-     <x>242</x>
-     <y>440</y>
+     <x>240</x>
+     <y>410</y>
      <width>121</width>
      <height>41</height>
     </rect>
@@ -169,6 +169,19 @@
      <widget class="QComboBox" name="cbCourseCode"/>
     </item>
    </layout>
+  </widget>
+  <widget class="QLabel" name="labelMessage">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>460</y>
+     <width>461</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
   </widget>
  </widget>
  <resources/>

@@ -11,6 +11,7 @@ private:
     int mCapacity;
     int mCrn;
     int mStudentCount;
+    int mStatus;
     QString mRoom;
     QString mProfessorName;
     std::vector<TimeSlot> mSlots;
@@ -22,6 +23,7 @@ public:
     int getCapacity();
     int getCrn();
     int getStudentCount();
+    int getStatus();
     QString getRoom();
     QString getProfessorName();
     std::vector<TimeSlot> getTimeSlots();
@@ -30,6 +32,7 @@ public:
     void setCapacity(int capacity);
     void setRoom(QString room);
     void setRoom(std::string room);
+    void setStatus(int status);
     void addTimeSlot(TimeSlot slot);
     void setCrn(int crn);
     void setStudentCount(int studentCount);

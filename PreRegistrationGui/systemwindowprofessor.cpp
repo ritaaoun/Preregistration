@@ -27,6 +27,7 @@ void SystemWindowProfessor::setUpSectionsComboBox()
 {
     departmentSections = APIService::getInstance()->getDepartmentSections();
 
+    QObject::disconnect(ui->cbCoursesList, SIGNAL(currentIndexChanged(int)), this, SLOT(on_cbCoursesList_currentIndexChanged(int)));
     ui->cbCoursesList->clear();
 
     for(int i = 0; i < departmentSections.size(); i++)
@@ -87,18 +88,33 @@ void SystemWindowProfessor::displaySchedule()
 
     for(int i = 0; i < professorSections.size(); i++)
     {
-        std::vector<TimeSlot> timeSlots = professorSections[i].getSections()[0].getTimeSlots();
+        std::vector<Section> sections = professorSections[i].getSections();
 
-        for(int j = 0; j < timeSlots.size(); j++)
+        for(int j = 0; j < sections.size(); j++)
         {
-            QTableWidgetItem* item = new QTableWidgetItem(professorSections[i].getName());
-            ui->tableSchedule->setItem(timeSlots[j].getStartHour() - 8, timeSlots[j].getDay(), item);
-            ui->tableSchedule->item(timeSlots[j].getStartHour() - 8, timeSlots[j].getDay())->setBackground(Qt::red);
+            std::vector<TimeSlot> timeSlots = sections[j].getTimeSlots();
 
-            for(int l = timeSlots[j].getStartHour() + 1; l <= timeSlots[j].getEndHour(); l++)
+            for(int k = 0; k < timeSlots.size(); k++)
             {
-                ui->tableSchedule->setItem(l - 8, timeSlots[j].getDay(), new QTableWidgetItem());
-                ui->tableSchedule->item(l - 8, timeSlots[j].getDay())->setBackground(Qt::red);
+                for(int l = timeSlots[k].getStartHour(); l <= timeSlots[k].getEndHour(); l++)
+                {
+                    QTableWidgetItem* it = ui->tableSchedule->item(l - 8, timeSlots[k].getDay());
+                    QString content = "";
+                    if(it)
+                    {
+                        content = "/" + it->text();
+                    }
+                    ui->tableSchedule->setItem(l - 8, timeSlots[k].getDay(), new QTableWidgetItem(professorSections[i].getCode() + "-" + QString::number(sections[j].getNumber()) + content));
+                    if(it)
+                    {
+                        logError("Conflict with those courses: " + professorSections[i].getCode() + "-" + QString::number(sections[j].getNumber()) + content);
+                        ui->tableSchedule->item(l - 8, timeSlots[k].getDay())->setBackground(Qt::yellow);
+                    }
+                    else
+                    {
+                        ui->tableSchedule->item(l - 8, timeSlots[k].getDay())->setBackground(Qt::red);
+                    }
+                }
             }
         }
     }
@@ -162,6 +178,11 @@ void SystemWindowProfessor::setUpUserCourses()
             smConfirmSection->setMapping(confirmSectionButton, course_section);
             QObject::connect(smConfirmSection, SIGNAL(mapped(QString)), this, SLOT(confirmSection(QString)));
 
+            if(section.getStatus() == 1)
+            {
+                confirmSectionButton->setEnabled(false);
+            }
+
             ui->tableMyCourses->insertRow(j);
             for(int k = 0; k < items.size(); k++)
             {
@@ -218,6 +239,7 @@ void SystemWindowProfessor::refresh()
 void SystemWindowProfessor::dialogSectionClosed()
 {
     dialogSectionOpened = false;
+    refresh();
 }
 
 void SystemWindowProfessor::dialogRequestCourseClosed()
@@ -258,7 +280,14 @@ void SystemWindowProfessor::removeSection(QString course_section)
 
     int crn = professorSections[courseIndex].getSections()[sectionIndex].getCrn();
 
-    APIService::getInstance()->removeSection(crn);
+    if(APIService::getInstance()->removeSection(crn))
+    {
+        log("Succesfully removed section: " + QString::number(professorSections[courseIndex].getSections()[sectionIndex].getNumber()) + " of course: " + professorSections[courseIndex].getCode());
+    }
+    else
+    {
+        logError("Error in removing section.");
+    }
     refresh();
 }
 
@@ -290,7 +319,14 @@ void SystemWindowProfessor::confirmSection(QString course_section)
 
     int crn = professorSections[courseIndex].getSections()[sectionIndex].getCrn();
 
-    APIService::getInstance()->confirmSection(crn);
+    if(APIService::getInstance()->confirmSection(crn))
+    {
+        log("Succesfully confirmed section: " + QString::number(professorSections[courseIndex].getSections()[sectionIndex].getNumber()) + " of course: " + professorSections[courseIndex].getCode());
+    }
+    else
+    {
+        logError("Error in confirming section.");
+    }
     refresh();
 }
 
@@ -348,7 +384,7 @@ void SystemWindowProfessor::on_pbChangePassword_clicked()
     {
         dialogChangePassword = new DialogChangePassword();
 
-        QObject::connect(dialogChangePassword, SIGNAL(finished(int)), this, SLOT(dialogChangePaswordClosed()));
+        QObject::connect(dialogChangePassword, SIGNAL(finished(int)), this, SLOT(dialogChangePasswordClosed()));
         dialogChangePassword->show();
 
         dialogChangePasswordOpened = true;
@@ -358,4 +394,31 @@ void SystemWindowProfessor::on_pbChangePassword_clicked()
 void SystemWindowProfessor::dialogChangePasswordClosed()
 {
     dialogChangePasswordOpened = false;
+}
+
+void SystemWindowProfessor::logError(QString message)
+{
+    QString content = ui->tbLog->toHtml()
+            + "<font color=\"red\">"
+            + message + "\n"
+            + "</font>";
+
+    ui->tbLog->setHtml(content);
+    QTextCursor cursor = ui->tbLog->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    ui->tbLog->setTextCursor(cursor);
+
+}
+
+void SystemWindowProfessor::log(QString message)
+{
+    QString content = ui->tbLog->toHtml()
+            + "<font color=\"green\">"
+            + message + "\n"
+            + "</font>";
+
+    ui->tbLog->setHtml(content);
+    QTextCursor cursor = ui->tbLog->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    ui->tbLog->setTextCursor(cursor);
 }

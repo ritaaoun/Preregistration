@@ -30,6 +30,11 @@ int Section::getCrn()
     return mCrn;
 }
 
+int Section::getStatus()
+{
+    return mStatus;
+}
+
 QString Section::getProfessorName()
 {
     return mProfessorName;
@@ -43,6 +48,11 @@ std::vector<TimeSlot> Section::getTimeSlots()
 void Section::setNumber(int number)
 {
     mNumber = number;
+}
+
+void Section::setStatus(int status)
+{
+    mStatus = status;
 }
 
 void Section::setCapacity(int capacity)

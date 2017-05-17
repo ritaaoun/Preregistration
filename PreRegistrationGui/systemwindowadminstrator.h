@@ -39,7 +39,7 @@ private slots:
 
     void on_cbUserList_currentIndexChanged(int index);
 
-    void on_pushButton_clicked();
+    void on_pbMessage_clicked();
 
     void dialogMessageClosed();
 
@@ -85,6 +85,9 @@ private:
 
     void setAdminChoiceDepartment();
     void setOtherChoiceDepartment();
+
+    void logError(QString message);
+    void log(QString message);
 };
 
 #endif // SYSTEMWINDOWADMINSTRATOR_H
