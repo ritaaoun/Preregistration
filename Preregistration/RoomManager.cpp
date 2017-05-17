@@ -76,9 +76,14 @@ void RoomManager::loadRooms()
 		for (std::vector<int>::const_iterator it = mRoomIds.begin(); it != mRoomIds.end(); ++it) {
 			mRooms.push_back(Server::getInstance().data.getRoom(*it));
 		}
-		std::sort(mRooms.begin(), mRooms.end());
+		std::sort(mRooms.begin(), mRooms.end(), compareByCapacity);
 		mRoomIds.clear();
 		for (Room * room : mRooms)
 			mRoomIds.push_back(room->getId());
 	}
+}
+
+bool compareByCapacity(Room* a, Room* b)
+{
+	return a->getCapacity() < b->getCapacity();
 }
