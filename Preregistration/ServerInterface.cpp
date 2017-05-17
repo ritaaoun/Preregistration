@@ -843,7 +843,7 @@ std::string ServerInterface::confirmSection(const std::string & params)
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << "Error in ServerInterface::addSection" << e.what();
+		std::cerr << "Error in ServerInterface::confirmSection " << e.what();
 		return "false";
 	}
 }

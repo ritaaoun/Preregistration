@@ -1,5 +1,6 @@
 #include "Student.hpp"
 #include "Server.hpp"
+#include <iostream>
 
 Student::Student() :
 	AbstractUser(), m_sectionCrns(), m_sections()
@@ -48,11 +49,19 @@ const std::vector<Section*> Student::getSections()
 bool Student::subscribeToSection(Section * section)
 {
 	loadSections();
-	m_sectionCrns.push_back(section->getCrn());
-	m_sections.push_back(section);
-	section->addStudent(this);
-	Server::getInstance().repository->addStudentSection(this, section);
-	return true;
+	if (std::find(m_sections.begin(), m_sections.end(), section) != m_sections.end())
+	{
+		m_sectionCrns.push_back(section->getCrn());
+		m_sections.push_back(section);
+		section->addStudent(this);
+		Server::getInstance().repository->addStudentSection(this, section);
+		return true;
+	}
+	else
+	{
+		std::cout << "Student::subscribeToSection: Student " << getId() << " is already subscribed to section " << section->getCrn() << std::endl;
+		return false;
+	}
 }
 
 bool Student::subscribeToSection(int sectionCrn)
