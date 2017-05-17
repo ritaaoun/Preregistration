@@ -123,6 +123,15 @@ bool Administrator::givePrivilege(Administrator * administrator, Department * de
 {
 	if (std::find(m_privileges.begin(), m_privileges.end(), department) != m_privileges.end()) {
 		administrator->m_privileges.push_back(department);
+		administrator->m_privilegeIds.push_back(department->getId());
+
+		if (department->getCode() == "ADMN")
+		{
+			int last = m_privileges.size() - 1;
+			std::swap(administrator->m_privileges[0], administrator->m_privileges[last]);
+			std::swap(administrator->m_privilegeIds[0], administrator->m_privilegeIds[last]);
+		}
+
 		Server::getInstance().repository->createPrivilege(administrator, department);
 		return true;
 	}
@@ -184,7 +193,15 @@ void Administrator::loadPrivileges()
 	{
 		for (std::vector<int>::iterator it = m_privilegeIds.begin(); it != m_privilegeIds.end(); ++it)
 		{
-			m_privileges.push_back(Server::getInstance().data.getDepartment(*it));
+			Department * department = Server::getInstance().data.getDepartment(*it);
+			m_privileges.push_back(department);
+
+			if (department->getCode() == "ADMN")
+			{
+				int last = m_privileges.size() - 1;
+				std::swap(m_privileges[0], m_privileges[last]);
+				std::swap(m_privilegeIds[0], m_privilegeIds[last]);
+			}
 		}
 	}
 }
