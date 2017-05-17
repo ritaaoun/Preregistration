@@ -37,7 +37,11 @@ void LogInWindow::on_pbLogIn_clicked()
             SystemWindowProfessor* w = new SystemWindowProfessor();
             w->show();
         }
-
+        else if(User::getUser()->getType() == User::Type::STUDENT)
+        {
+            SystemWindowStudent* w = new SystemWindowStudent();
+            w->show();
+        }
     }
     else
     {

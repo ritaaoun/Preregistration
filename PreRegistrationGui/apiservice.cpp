@@ -228,17 +228,15 @@ bool APIService::addSection(int crn)
     return result;
 }
 
-bool APIService::confirmSection(QString crn)
+bool APIService::confirmSection(int crn)
 {
-//    std::string toSend = Parser::sendConfirmSection(Parser::sendActiveUser(), crn.toStdString());
+    std::string toSend = Parser::sendConfirmSection(Parser::sendActiveUser(), crn);
 
-//    std::string serverResult = client.confirmSection(toSend);
+    std::string serverResult = client.confirmSection(toSend);
 
-//    bool result = Parser::getBoolean(serverResult);
+    bool result = Parser::getBoolean(serverResult);
 
-//    return result;
-
-    return true;
+    return result;
 }
 
 bool APIService::requestCourse(QString courseName, QString courseNumber, QString courseDescription, int numberOfCreadits,
@@ -263,7 +261,7 @@ std::vector<Course> APIService::getUserSections()
     return result;
 }
 
-std::vector<Course> APIService::getDepartmentCourses()
+std::vector<Course> APIService::getUserDepartmentCourses()
 {
     std::string serverResult = client.getUserDepartmentCourses(Parser::sendActiveUser());
 
@@ -275,7 +273,7 @@ std::vector<Course> APIService::getDepartmentCourses()
 std::vector<Course> APIService::getDepartmentSections()
 {
     std::string serverResult = client.getSections(Parser::sendActiveUser());
-
+qDebug() << QString::fromStdString(serverResult);
     std::vector<Course> result = Parser::getSections(serverResult);
 
     return result;

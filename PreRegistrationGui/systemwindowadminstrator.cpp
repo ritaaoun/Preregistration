@@ -10,8 +10,9 @@ SystemWindowAdminstrator::SystemWindowAdminstrator(QWidget *parent) :
     dialogMessageOpened = false;
     dialogChangePasswordOpened = false;
 
-    ui->label_welcome->setText("Welcome Admin " + User::getUser()->getName());
+    hasAdministratorPriviliges = false;
 
+    ui->label_welcome->setText("Welcome Admin " + User::getUser()->getName());
 
     ui->tableCourseRequests->setColumnWidth(3, 60);
     ui->tableCourseRequests->setColumnWidth(4, 60);
@@ -38,6 +39,7 @@ SystemWindowAdminstrator::SystemWindowAdminstrator(QWidget *parent) :
 
     refresh();
     clearUserInputs();
+    ui->cbDepartmentUser->setEnabled(true);
 }
 
 SystemWindowAdminstrator::~SystemWindowAdminstrator()
@@ -87,7 +89,6 @@ void SystemWindowAdminstrator::on_pbAction_clicked()
     userInfo.push_back(startYear);
     userInfo.push_back(startTerm);
 
-
     if(ui->rbCreate->isChecked())
     {
         userInfo.push_back(userType);
@@ -114,7 +115,7 @@ void SystemWindowAdminstrator::setUpAdminCourseRequests()
 
         items.push_back(new QTableWidgetItem(courseRequests[i].getCode()));
         items.push_back(new QTableWidgetItem(courseRequests[i].getName()));
-        items.push_back(new QTableWidgetItem(courseRequests[i].getCredits()));
+        items.push_back(new QTableWidgetItem(QString::number(courseRequests[i].getCredits())));
 
         ui->tableCourseRequests->insertRow(i);
         for(int j = 0; j < items.size(); j++)
@@ -176,10 +177,21 @@ void SystemWindowAdminstrator::setUpDepartments()
 
     for(std::unordered_map<int, QString>::iterator it = departments.begin(); it != departments.end(); ++it)
     {
+        if(it->second == "Administrator")
+        {
+            ui->rbAdministrator->setEnabled(true);
+            hasAdministratorPriviliges = true;
+        }
+
         ui->cbDepartmentAdmin->addItem(it->second, QVariant(it->first));
         ui->cbDepartmentUser->addItem(it->second, QVariant(it->first));
 
         ui->label_departments->setText(ui->label_departments->text() + it->second + " ");
+    }
+
+    if(!hasAdministratorPriviliges)
+    {
+        ui->rbAdministrator->setEnabled(false);
     }
 }
 
@@ -224,11 +236,10 @@ void SystemWindowAdminstrator::on_rbEdit_clicked()
 {
     clearUserInputs();
     setEditUserMode();
-    setOtherChoiceDepartment();
 
     if(!userInfo.empty())
     {
-        setUserInputs(userInfo[ui->cbUserList->currentIndex()]);
+        setUserInputs(userInfo[ui->cbUserList->currentIndex()], ui->cbUserList->currentIndex());
     }
 }
 
@@ -284,10 +295,10 @@ void SystemWindowAdminstrator::on_cbUserList_currentIndexChanged(int index)
 {
     UserInfo user = userInfo[index];
 
-    setUserInputs(user);
+    setUserInputs(user, index);
 }
 
-void SystemWindowAdminstrator::setUserInputs(UserInfo user)
+void SystemWindowAdminstrator::setUserInputs(UserInfo user, int index)
 {
     ui->leFirstName->setText(user.getFirstName());
     ui->leMiddleName->setText(user.getMiddleName());
@@ -296,7 +307,17 @@ void SystemWindowAdminstrator::setUserInputs(UserInfo user)
     ui->dateEditDateOfBirth->setDate(user.getDateOfBirth());
     ui->cbStartTerm->setCurrentText(terms[user.getStartTerm()]);
     ui->cbStartYear->setCurrentText(QString::number(user.getStartYear()));
-    ui->cbDepartmentUser->setCurrentText(departments[user.getDepartment()]);
+
+    if(user.getUserType() != 2)
+    {
+        ui->cbDepartmentUser->setCurrentText(departments[index]);
+        setOtherChoiceDepartment();
+    }
+    else
+    {
+        setAdminChoiceDepartment();
+    }
+
 }
 
 void SystemWindowAdminstrator::refresh()
@@ -327,7 +348,6 @@ void SystemWindowAdminstrator::dialogMessageClosed()
 
 void SystemWindowAdminstrator::on_pbChangePassword_clicked()
 {
-    qDebug() << dialogChangePasswordOpened;
     if(!dialogChangePasswordOpened)
     {
         dialogChangePassword = new DialogChangePassword();
@@ -359,21 +379,39 @@ void SystemWindowAdminstrator::on_rbAdministrator_clicked()
 
 void SystemWindowAdminstrator::on_rbProfessor_clicked()
 {
-    setOtherChoiceDepartment();
+    if(hasAdministratorPriviliges)
+    {
+        setOtherChoiceDepartment();
+    }
 }
 
 void SystemWindowAdminstrator::on_rbStudent_clicked()
 {
-    setOtherChoiceDepartment();
+    if(hasAdministratorPriviliges)
+    {
+        setOtherChoiceDepartment();
+    }
 }
 
 void SystemWindowAdminstrator::setAdminChoiceDepartment()
 {
-    ui->cbDepartmentUser->setCurrentText(departments[0]);
-   // ui->cbDepartmentUser->showPopup();
+    QModelIndex index = ui->cbDepartmentUser->model()->index(0, 0);
+    QVariant v(1|32);
+    ui->cbDepartmentUser->model()->setData(index, v, Qt::UserRole - 1);
+
+    ui->cbDepartmentUser->setCurrentIndex(0);
+    ui->cbDepartmentUser->setEnabled(false);
 }
 
 void SystemWindowAdminstrator::setOtherChoiceDepartment()
 {
-   // ui->cbDepartmentUser->hidePopup();
+    ui->cbDepartmentUser->setEnabled(true);
+    QModelIndex index = ui->cbDepartmentUser->model()->index(0, 0);
+    QVariant v(0);
+    ui->cbDepartmentUser->model()->setData(index, v, Qt::UserRole - 1);
+
+    if(ui->cbDepartmentUser->count()  > 2)
+    {
+        ui->cbDepartmentUser->setCurrentIndex(1);
+    }
 }

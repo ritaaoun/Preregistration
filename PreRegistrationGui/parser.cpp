@@ -119,6 +119,7 @@ std::vector<UserInfo> Parser::getAdminUserInfo(std::string message)
         user.setDateOfBirth(QDate::fromString(QString::fromStdString(object[6])));
         user.setStartYear(std::stoi(object[7]));
         user.setStartTerm(std::stoi(object[8]));
+        user.setUserType(std::stoi(object[9]));
 
         userInfo.push_back(user);
     }
@@ -187,7 +188,7 @@ std::vector<Course> Parser::getCourseRequests(std::string message)
         course.setCode(object[1]);
         course.setName(object[2]);
         course.setDescription(object[3]);
-        course.setCredits(stoi(object[4]));
+        course.setCredits(std::stoi(object[4]));
 
         courses.push_back(course);
     }
@@ -297,7 +298,7 @@ std::vector<Course> Parser::getSections(std::string message)
             course.setCode(object[2]);
             course.setName(object[3]);
             course.setDescription(object[4]);
-            course.setCredits(stoi(object[5]));
+            course.setCredits(std::stoi(object[5]));
             idCourseMap.insert(object[1], course);
         }
         else

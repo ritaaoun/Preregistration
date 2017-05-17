@@ -24,7 +24,7 @@ public:
     std::vector<Message> getUserSentMessages();
     std::vector<Message> getUserReceivedMessages();
     std::vector<Course> getUserSections();
-    std::vector<Course> getDepartmentCourses();
+    std::vector<Course> getUserDepartmentCourses();
     std::vector<Course> getDepartmentSections();
     bool userLogIn(QString username, QString password);
     bool addCourse(Course course);
@@ -40,7 +40,7 @@ public:
     bool editSection(int crn, int capacity, std::vector<TimeSlot> timeSlots);
     bool removeSection(int crn);
     bool addSection(int crn);
-    bool confirmSection(QString crn);
+    bool confirmSection(int crn);
     bool requestCourse(QString courseName, QString courseNumber, QString courseDescription, int numberOfCreadits,
                        bool needsComputers, bool needsSpeakers, bool needsHighEnergyParticleAccelerator);
 

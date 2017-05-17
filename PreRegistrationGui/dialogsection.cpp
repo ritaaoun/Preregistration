@@ -27,7 +27,7 @@ DialogSection::DialogSection(Course course, int sectionIndex, QWidget *parent) :
         ui->pbAddSection->setText("Add Section");
         ui->widgetCourseCode->setVisible(true);
 
-        departmentCourses = APIService::getInstance()->getDepartmentCourses();
+        departmentCourses = APIService::getInstance()->getUserDepartmentCourses();
         for(int i = 0; i < departmentCourses.size(); i++)
         {
             ui->cbCourseCode->addItem(departmentCourses[i].getCode(), QVariant(departmentCourses[i].getId()));
@@ -49,11 +49,12 @@ void DialogSection::on_pdAddTimeSLot_clicked()
     ui->tableTimeSlots->insertRow(row);
 
     QComboBox* cb = new QComboBox();
-    cb->addItem("M", QVariant(1));
-    cb->addItem("T", QVariant(2));
-    cb->addItem("W", QVariant(3));
-    cb->addItem("R", QVariant(4));
-    cb->addItem("F", QVariant(5));
+    cb->addItem("M", QVariant(0));
+    cb->addItem("T", QVariant(1));
+    cb->addItem("W", QVariant(2));
+    cb->addItem("R", QVariant(3));
+    cb->addItem("F", QVariant(4));
+    cb->addItem("Sa", QVariant(5));
 
     comboBoxes.push_back(cb);
     ui->tableTimeSlots->setCellWidget(row, 0, cb);

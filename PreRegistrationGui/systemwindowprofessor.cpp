@@ -27,6 +27,8 @@ void SystemWindowProfessor::setUpSectionsComboBox()
 {
     departmentSections = APIService::getInstance()->getDepartmentSections();
 
+    ui->cbCoursesList->clear();
+
     for(int i = 0; i < departmentSections.size(); i++)
     {
         ui->cbCoursesList->addItem(departmentSections[i].getCode());
@@ -81,6 +83,8 @@ void SystemWindowProfessor::displaySchedule()
 {
     professorSections = APIService::getInstance()->getUserSections();
 
+    clearSchedule();
+
     for(int i = 0; i < professorSections.size(); i++)
     {
         std::vector<TimeSlot> timeSlots = professorSections[i].getSections()[0].getTimeSlots();
@@ -102,7 +106,7 @@ void SystemWindowProfessor::displaySchedule()
 
 void SystemWindowProfessor::clearSchedule()
 {
-    //ui->tableSchedule->setRowCount(0);
+    ui->tableSchedule->clearContents();
 }
 
 void SystemWindowProfessor::setUpUserCourses()
@@ -173,7 +177,7 @@ void SystemWindowProfessor::setUpUserCourses()
 
 void SystemWindowProfessor::setUpDepartmentCourses()
 {
-    departmentCourses = APIService::getInstance()->getDepartmentCourses();
+    departmentCourses = APIService::getInstance()->getUserDepartmentCourses();
 
     ui->tableCourses->setRowCount(0);
     for(int i = 0; i < departmentCourses.size(); i++)
@@ -198,13 +202,13 @@ void SystemWindowProfessor::setUpDepartmentCourses()
 void SystemWindowProfessor::refresh()
 {
     setUpSectionsComboBox();
-    qDebug() << "YQWE";
+
     setUpUserCourses();
-    qDebug() << "YQWE";
+
     setUpDepartmentCourses();
-    qDebug() << "YQWE";
+
     displaySchedule();
-qDebug() << "YQWE";
+
     if(departmentSections.size() > 0)
     {
         on_cbCoursesList_currentIndexChanged(0);
@@ -255,7 +259,7 @@ void SystemWindowProfessor::removeSection(QString course_section)
     int crn = professorSections[courseIndex].getSections()[sectionIndex].getCrn();
 
     APIService::getInstance()->removeSection(crn);
-    setUpUserCourses();
+    refresh();
 }
 
 void SystemWindowProfessor::editSection(QString course_section)
@@ -284,10 +288,10 @@ void SystemWindowProfessor::confirmSection(QString course_section)
     int courseIndex = list.at(0).toInt();
     int sectionIndex = list.at(1).toInt();
 
-    QString crn = professorSections[courseIndex].getSections()[sectionIndex].getCrn();
+    int crn = professorSections[courseIndex].getSections()[sectionIndex].getCrn();
 
     APIService::getInstance()->confirmSection(crn);
-    setUpUserCourses();
+    refresh();
 }
 
 void SystemWindowProfessor::on_pbMessage_clicked()

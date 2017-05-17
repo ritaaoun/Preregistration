@@ -62,6 +62,8 @@ private:
     bool dialogMessageOpened;
     bool dialogChangePasswordOpened;
 
+    bool hasAdministratorPriviliges;
+
     std::vector<Course> courseRequests;
     std::vector<UserInfo> userInfo;
     std::unordered_map<int, QString> departments;
@@ -79,7 +81,7 @@ private:
     void refresh();
 
     void clearUserInputs();
-    void setUserInputs(UserInfo user);
+    void setUserInputs(UserInfo user, int index);
 
     void setAdminChoiceDepartment();
     void setOtherChoiceDepartment();

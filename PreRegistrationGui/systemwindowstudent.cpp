@@ -24,9 +24,11 @@ void SystemWindowStudent::setUpCoursesComboBox()
 {
     departmentSections = APIService::getInstance()->getDepartmentSections();
 
+    ui->cbCoursesList->clear();
+
     for(int i = 0; i < departmentSections.size(); i++)
     {
-        ui->cbCoursesList->addItem(departmentSections[i].getName());
+        ui->cbCoursesList->addItem(departmentSections[i].getCode());
     }
 }
 
@@ -34,7 +36,7 @@ void SystemWindowStudent::on_cbCoursesList_currentIndexChanged(int index)
 {
     Course course = departmentSections[index];
 
-    ui->tableCourses->setRowCount(0);
+    ui->tableSections->setRowCount(0);
     ui->labelCourseName->setText(course.getName());
 
     for(int i = 0; i < course.getSections().size(); i++)
@@ -69,13 +71,13 @@ void SystemWindowStudent::on_cbCoursesList_currentIndexChanged(int index)
         smAddSection->setMapping(addSectionButton, course_section);
         QObject::connect(smAddSection, SIGNAL(mapped(QString)), this, SLOT(addSection(QString)));
 
-        ui->tableCourses->insertRow(i);
+        ui->tableSections->insertRow(i);
         for(int j = 0; j < items.size(); j++)
         {
-             ui->tableCourses->setItem(i, j, items[j]);
+             ui->tableSections->setItem(i, j, items[j]);
         }
 
-        ui->tableCourses->setCellWidget(i, items.size(), addSectionButton);
+        ui->tableSections->setCellWidget(i, items.size(), addSectionButton);
     }
 }
 
@@ -87,6 +89,8 @@ void SystemWindowStudent::on_pbRefresh_clicked()
 void SystemWindowStudent::displaySchedule()
 {
     studentSections = APIService::getInstance()->getUserSections();
+
+    clearSchedule();
 
     for(int i = 0; i < studentSections.size(); i++)
     {
@@ -109,7 +113,7 @@ void SystemWindowStudent::displaySchedule()
 
 void SystemWindowStudent::clearSchedule()
 {
-    ui->tableSchedule->setRowCount(0);
+    ui->tableSchedule->clearContents();
 }
 
 void SystemWindowStudent::setUpUserCourses()
@@ -166,7 +170,7 @@ void SystemWindowStudent::setUpUserCourses()
 
 void SystemWindowStudent::setUpDepartmentCourses()
 {
-    departmentCourses = APIService::getInstance()->getDepartmentCourses();
+    departmentCourses = APIService::getInstance()->getUserDepartmentCourses();
 
     ui->tableCourses->setRowCount(0);
     for(int i = 0; i < departmentCourses.size(); i++)
@@ -210,7 +214,7 @@ void SystemWindowStudent::removeSection(QString course_section)
     int crn = studentSections[courseIndex].getSections()[sectionIndex].getCrn();
 
     APIService::getInstance()->removeSection(crn);
-    setUpUserCourses();
+    refresh();
 }
 
 void SystemWindowStudent::addSection(QString course_section)
@@ -220,10 +224,10 @@ void SystemWindowStudent::addSection(QString course_section)
     int courseIndex = list.at(0).toInt();
     int sectionIndex = list.at(1).toInt();
 
-    int crn = departmentCourses[courseIndex].getSections()[sectionIndex].getCrn();
+    int crn = departmentSections[courseIndex].getSections()[sectionIndex].getCrn();
 
     APIService::getInstance()->addSection(crn);
-    setUpUserCourses();
+    refresh();
 }
 
 void SystemWindowStudent::on_pbMessage_clicked()
@@ -270,7 +274,7 @@ void SystemWindowStudent::on_pbChangePassword_clicked()
     {
         dialogChangePassword = new DialogChangePassword();
 
-        QObject::connect(dialogChangePassword, SIGNAL(finished(int)), this, SLOT(dialogChangePaswordClosed()));
+        QObject::connect(dialogChangePassword, SIGNAL(finished(int)), this, SLOT(dialogChangePasswordClosed()));
         dialogChangePassword->show();
 
         dialogChangePasswordOpened = true;

@@ -5,6 +5,7 @@
 #include <QDebug>
 #include "systemwindowprofessor.h"
 #include "systemwindowadminstrator.h"
+#include "systemwindowstudent.h"
 
 namespace Ui {
 class LogInWindow;
