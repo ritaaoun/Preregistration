@@ -496,7 +496,7 @@ std::string ServerInterface::givePrivileges(const std::string & params)
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << "Error in ServerInterface::givePrivileges" << e.what();
+		std::cerr << "Error in ServerInterface::givePrivileges " << e.what();
 		return "false";
 	}
 }

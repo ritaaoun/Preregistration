@@ -107,10 +107,7 @@ bool Administrator::decideOnCourse(Course * courseRequested, bool approveCourse)
 
 const std::vector<Department*> Administrator::getPrivileges()
 {
-	if (m_privileges.empty() && !m_privilegeIds.empty())
-	{
-		loadPrivileges();
-	}
+	loadPrivileges();
 	return m_privileges;
 }
 
@@ -145,7 +142,7 @@ bool Administrator::givePrivilege(Administrator * administrator, Department * de
 	}
 	else
 	{
-		std::cout << "Administrator " << getId() << " does not have privileges to department " << department->getId() << std::endl;
+		std::cerr << "Administrator " << getId() << " does not have privileges to department " << department->getId() << std::endl;
 		return false;
 	}
 }
@@ -153,18 +150,15 @@ bool Administrator::givePrivilege(Administrator * administrator, Department * de
 std::vector<AbstractUser*> Administrator::getUsers()
 {
 	std::vector<AbstractUser*> out;
+	loadPrivileges();
+	
+	for (std::vector<Department*>::const_iterator it = m_privileges.begin(); it != m_privileges.end(); ++it) 
+	{
+		std::vector<AbstractUser*> departmentUsers = Server::getInstance().data.getDepartmentUsers(*it);
 
-	if (!m_privilegeIds.empty()) {
-		if (m_privileges.empty()) {
-			loadPrivileges();
-		}
-
-		for (std::vector<Department*>::const_iterator it = m_privileges.begin(); it != m_privileges.end(); ++it) {
-			std::vector<AbstractUser*> departmentUsers = Server::getInstance().data.getDepartmentUsers(*it);
-
-			for (std::vector<AbstractUser*>::const_iterator user = departmentUsers.begin(); user != departmentUsers.end(); ++user) {
-				out.push_back(*user);
-			}
+		for (std::vector<AbstractUser*>::const_iterator user = departmentUsers.begin(); user != departmentUsers.end(); ++user)
+		{
+			out.push_back(*user);
 		}
 	}
 	return out;
