@@ -1,6 +1,7 @@
 #include "AbstractUser.hpp"
 #include "Server.hpp"
 #include "ChatMessage.hpp"
+#include <iostream>
 
 int AbstractUser::getId() const
 {
@@ -148,10 +149,18 @@ bool AbstractUser::sendChatMessage(const std::string & recipient, const std::str
 
 bool AbstractUser::sendChatMessage(AbstractUser * recipient, const std::string & topic, const std::string & content)
 {
-	ChatMessage * message = new ChatMessage(this, recipient, topic, content);
-	updateSentMessages(message);
-	recipient->updateReceivedMessages(message);
-	return true;
+	if (recipient != nullptr)
+	{
+		ChatMessage * message = new ChatMessage(this, recipient, topic, content);
+		updateSentMessages(message);
+		recipient->updateReceivedMessages(message);
+		return true;
+	}
+	else
+	{
+		std::cerr << "The recipient is not a valid user" << std::endl;
+		return false;
+	}
 }
 
 std::vector<AbstractMessage*> AbstractUser::getSentMessages()
