@@ -820,7 +820,32 @@ std::string ServerInterface::getUserDepartmentSections(const std::string & param
 
 std::string ServerInterface::confirmSection(const std::string & params)
 {
-	return std::string();
+	try
+	{
+		std::vector<std::string> param = this->split(params, ClientServerInterface::DELIMITER);
+
+		std::string username = param.at(0);
+		int crn = Helper::stringToLong(param.at(1));
+
+		AbstractUser* user = Server::getInstance().data.getUser(username);
+
+		if (user != nullptr)
+		{
+			if (user->getType() == AbstractUser::Type::PROFESSOR)
+			{
+				Professor * professor = static_cast<Professor*>(user);
+
+				bool success = professor->confirmSection(crn);
+				return success ? "true" : "false";
+			}
+		}
+		return "false";
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "Error in ServerInterface::addSection" << e.what();
+		return "false";
+	}
 }
 
 

@@ -138,3 +138,8 @@ std::string Room::getBuildingCode() const
 {
 	return mBuildingCode;
 }
+
+std::string Room::getFullName() const
+{
+	return mBuildingCode + " " + std::to_string(mRoomNumber);
+}

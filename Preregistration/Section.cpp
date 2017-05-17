@@ -3,6 +3,8 @@
 #include "Course.hpp"
 #include "Professor.hpp"
 #include "Student.hpp"
+#include "RoomManager.h"
+#include <iostream>
 
 Section::~Section()
 {
@@ -28,7 +30,7 @@ void Section::loadProfessor()
 
 void Section::loadRoom()
 {
-	if (mRoom == nullptr) {
+	if (mRoom == nullptr && mRoomId != -1) {
 		mRoom = Server::getInstance().data.getRoom(mRoomId);
 	}
 }
@@ -46,7 +48,7 @@ std::string Section::serialize()
 {
 	std::string result = std::to_string(getCrn()) + ClientServerInterface::DELIMITER + std::to_string(getCourseId()) +
 		ClientServerInterface::DELIMITER + getCourse()->getFullCode() + ClientServerInterface::DELIMITER + getCourse()->getName() +
-		ClientServerInterface::DELIMITER + getCourse()->getDescription() + ClientServerInterface::DELIMITER + std::to_string(getCourse()->getNumberOfCredits()) + 
+		ClientServerInterface::DELIMITER + getCourse()->getDescription() + ClientServerInterface::DELIMITER + std::to_string(getCourse()->getNumberOfCredits()) +
 		ClientServerInterface::DELIMITER + std::to_string(getNumber()) +
 		ClientServerInterface::DELIMITER + std::to_string(getCapacity()) + ClientServerInterface::DELIMITER +
 		std::to_string(getNumberOfStudents()) + ClientServerInterface::DELIMITER + getProfessor()->getFullName();
@@ -64,6 +66,18 @@ std::string Section::serialize()
 				result += ClientServerInterface::LIST_TIMESLOT_DELIMITER;
 			}
 		}
+	} 
+	
+	result = result + ClientServerInterface::DELIMITER + std::to_string(mStatus) + ClientServerInterface::DELIMITER;
+
+	loadRoom();
+	if (mRoom == nullptr)
+	{
+		result = result + "TBA";
+	}
+	else
+	{
+		result = result + mRoom->getFullName();
 	}
 
 	return result;
@@ -208,6 +222,30 @@ bool Section::removeStudent(Student * student)
 	mStudentIds.erase(std::find(mStudentIds.begin(), mStudentIds.end(), student->getId()));
 	mStudents.erase(std::find(mStudents.begin(), mStudents.end(), student));
 	return true;
+}
+
+bool Section::confirm()
+{
+	if (mStatus == TENTATIVE)
+	{
+		if (RoomManager::getInstance()->assignRoom(this))
+		{
+			mStatus = DEFINITE;
+			Server::getInstance().repository->updateSection(this);
+			return true;
+		}
+		else
+		{
+			std::cout << "Section::confirm: There are no rooms currently available that match the time and capacity constraints of Section " <<
+				mCrn << std::endl;
+			return false;
+		}
+	}
+	else
+	{
+		std::cout << "Section::confirm: Section " << mCrn << " is already confirmed" << std::endl;
+		return false;
+	}
 }
 
 Section::Section(int courseId, int capacity, int professorId, const std::vector<TimeSlot*>& timeSlots) :

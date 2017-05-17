@@ -45,6 +45,8 @@ public:
 	int getNumberOfStudents() const;
 	bool addStudent(Student * student);
 	bool removeStudent(Student * student);
+
+	bool confirm();
 	
 	// Inherited via ISerializable
 	virtual std::string serialize() override;

@@ -62,6 +62,7 @@ bool RoomManager::assignRoom(Section * section)
 			{
 				section->setRoom(room);
 				room->addSection(section);
+				Server::getInstance().repository->addRoomSection(room, section);
 				return true;
 			}
 		}

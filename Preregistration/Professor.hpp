@@ -32,6 +32,8 @@ public:
 	bool editSectionTimeSlots(int sectionCrn, const std::vector<TimeSlot*>& timeSlots);
 	bool editSection(int sectionCrn, int capacity, const std::vector<TimeSlot*>& timeSlots);
 
+	bool confirmSection(int sectionCrn);
+
 private:
 	std::vector<int> m_sectionCrns;
 	std::vector<Section *> m_sections;

@@ -20,7 +20,7 @@ public:
 	int getId() const;
 	int getRoomNumber() const;
 	std::string getBuildingCode() const;
-
+	std::string getFullName() const;
 
 	const std::vector<Section *> getSections() override;
 	void addSection(Section* section);

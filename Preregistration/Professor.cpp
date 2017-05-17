@@ -100,33 +100,42 @@ bool Professor::publishSection(int courseId, int capacity, const std::vector<Tim
 
 bool Professor::unpublishSection(Section * section)
 {
-	section->getCourse()->removeSection(section);
-	loadSections();
-	
-	notifySectionStudents(section, "Section removed", "Section " + std::to_string(section->getNumber()) +
-		" of " + section->getCourse()->getFullCode() + " has been removed.");
+	if (std::find(m_sections.begin(), m_sections.end(), section) != m_sections.end()) {
+		if (section->getStatus() == Section::TENTATIVE)
+		{
+			section->getCourse()->removeSection(section);
+			loadSections();
 
-	std::vector<Student *> students = section->getStudents();
-	for (std::vector<Student *>::const_iterator it = students.begin(); it != students.end(); ++it) {
-		(*it)->unsubscribeFromSection(section);
+			notifySectionStudents(section, "Section removed", "Section " + std::to_string(section->getNumber()) +
+				" of " + section->getCourse()->getFullCode() + " has been removed.");
+
+			std::vector<Student *> students = section->getStudents();
+			for (std::vector<Student *>::const_iterator it = students.begin(); it != students.end(); ++it) {
+				(*it)->unsubscribeFromSection(section);
+			}
+
+			m_sectionCrns.erase(std::remove(m_sectionCrns.begin(), m_sectionCrns.end(), section->getCrn()), m_sectionCrns.end());
+			m_sections.erase(std::remove(m_sections.begin(), m_sections.end(), section), m_sections.end());
+			Server::getInstance().repository->removeProfessorSection(this, section);
+			Server::getInstance().data.deleteSection(section);
+			return true;
+		}
+		else
+		{
+			std::cerr << "Section " << section->getCrn() << " cannot be removed as it is definite" << std::endl;
+			return false;
+		}
 	}
-
-	m_sectionCrns.erase(std::remove(m_sectionCrns.begin(), m_sectionCrns.end(), section->getCrn()), m_sectionCrns.end());
-	m_sections.erase(std::remove(m_sections.begin(), m_sections.end(), section), m_sections.end());
-	Server::getInstance().repository->removeProfessorSection(this, section);
-	Server::getInstance().data.deleteSection(section);
-	return true;
+	else
+	{
+		std::cerr << "Professor " << getId() << " does not own section " << section->getCrn() << std::endl;
+		return false;
+	}
 }
 
 bool Professor::unpublishSection(int sectionCrn)
 {
-	if (std::find(m_sectionCrns.begin(), m_sectionCrns.end(), sectionCrn) != m_sectionCrns.end()) {
-		return unpublishSection(Server::getInstance().data.getSection(sectionCrn));
-	}
-	else {
-		std::cerr << "Professor::unpublishSection: Professor " << getId() << " did not publish section " << sectionCrn << std::endl;
-		return false;
-	}
+	return unpublishSection(Server::getInstance().data.getSection(sectionCrn));
 }
 
 bool Professor::editSectionCapacity(int sectionCrn, int capacity)
@@ -176,6 +185,20 @@ bool Professor::editSection(int sectionCrn, int capacity, const std::vector<Time
 	else
 	{
 		std::cerr << "Professor::editSection: professor " << getId() << " does not own section " << sectionCrn << std::endl;
+		return false;
+	}
+}
+
+bool Professor::confirmSection(int sectionCrn)
+{
+	Section * section = Server::getInstance().data.getSection(sectionCrn);
+	loadSections();
+	if (std::find(m_sections.begin(), m_sections.end(), section) != m_sections.end())
+	{
+		return section->confirm();
+	}
+	else
+	{
 		return false;
 	}
 }
