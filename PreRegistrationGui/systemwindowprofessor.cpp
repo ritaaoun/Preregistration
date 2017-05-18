@@ -9,6 +9,7 @@ SystemWindowProfessor::SystemWindowProfessor(QWidget *parent) :
     ui->setupUi(this);
 
     ui->label_welcome->setText("Welcome " + User::getUser()->getName());
+    ui->labelId->setText(QString::number(User::getUser()->getId()));
 
     dialogSectionOpened = false;
     dialogMessageOpened = false;
@@ -34,6 +35,8 @@ void SystemWindowProfessor::setUpSectionsComboBox()
     {
         ui->cbCoursesList->addItem(departmentSections[i].getCode());
     }
+
+    QObject::connect(ui->cbCoursesList, SIGNAL(currentIndexChanged(int)), this, SLOT(on_cbCoursesList_currentIndexChanged(int)));
 }
 
 void SystemWindowProfessor::on_cbCoursesList_currentIndexChanged(int index)
@@ -181,6 +184,7 @@ void SystemWindowProfessor::setUpUserCourses()
             if(section.getStatus() == 1)
             {
                 confirmSectionButton->setEnabled(false);
+                removeSectionButton->setEnabled(false);
             }
 
             ui->tableMyCourses->insertRow(j);

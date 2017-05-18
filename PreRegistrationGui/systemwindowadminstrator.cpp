@@ -39,6 +39,7 @@ SystemWindowAdminstrator::SystemWindowAdminstrator(QWidget *parent) :
 
     refresh();
     clearUserInputs();
+    ui->cbDepartmentUser->setEnabled(true);
 }
 
 SystemWindowAdminstrator::~SystemWindowAdminstrator()
@@ -96,7 +97,7 @@ void SystemWindowAdminstrator::on_pbAction_clicked()
         userInfo.push_back(userType);
         if(APIService::getInstance()->createUser(userInfo))
         {
-            log("Succesfuly created " + userTypeString + ": " + userInfo[0] + " " + userInfo[1] + userInfo[2]);
+            log("Succesfuly created " + userTypeString + ": " + userInfo[0] + " " + userInfo[1] + " " + userInfo[2]);
             clearUserInputs();
             refresh();
         }
@@ -110,7 +111,7 @@ void SystemWindowAdminstrator::on_pbAction_clicked()
         userInfo.push_back(ui->cbUserList->currentText());
         if(APIService::getInstance()->editUser(userInfo))
         {
-            log("Succesfuly edited: " + userInfo[0] + " " + userInfo[1] + userInfo[2]);
+            log("Succesfuly edited: " + userInfo[0] + " " + userInfo[1] + " " + userInfo[2]);
         }
         else
         {
@@ -132,6 +133,7 @@ void SystemWindowAdminstrator::setUpAdminCourseRequests()
 
         items.push_back(new QTableWidgetItem(courseRequests[i].getCode()));
         items.push_back(new QTableWidgetItem(courseRequests[i].getName()));
+        items.push_back(new QTableWidgetItem(courseRequests[i].getDescription()));
         items.push_back(new QTableWidgetItem(QString::number(courseRequests[i].getCredits())));
 
         ui->tableCourseRequests->insertRow(i);
@@ -216,6 +218,9 @@ void SystemWindowAdminstrator::on_pbConfirmPriviliges_clicked()
 void SystemWindowAdminstrator::setUpDepartments()
 {
     departments = APIService::getInstance()->getDepartments();
+
+    ui->cbDepartmentUser->clear();
+    ui->cbDepartmentAdmin->clear();
 
     for(std::unordered_map<int, QString>::iterator it = departments.begin(); it != departments.end(); ++it)
     {
@@ -330,13 +335,15 @@ void SystemWindowAdminstrator::setUpAdminUsers()
 {
     userInfo = APIService::getInstance()->getAdminUsersInfo();
 
-    QObject::disconnect(ui->cbDepartmentUser, SIGNAL(currentIndexChanged(int)), this, SLOT(on_cbUserList_currentIndexChanged(int)));
-    ui->cbDepartmentUser->clear();
+    QObject::disconnect(ui->cbUserList, SIGNAL(currentIndexChanged(int)), this, SLOT(on_cbUserList_currentIndexChanged(int)));
+    ui->cbUserList->clear();
 
     for(int i = 0; i < userInfo.size(); i++)
     {
         ui->cbUserList->addItem(userInfo[i].getUsername());
     }
+
+    QObject::connect(ui->cbUserList, SIGNAL(currentIndexChanged(int)), this, SLOT(on_cbUserList_currentIndexChanged(int)));
 }
 
 void SystemWindowAdminstrator::on_cbUserList_currentIndexChanged(int index)

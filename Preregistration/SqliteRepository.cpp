@@ -437,11 +437,11 @@ std::vector<TimeSlot *> SqliteRepository::getSectionTimeSlots(int sectionCrn) co
 	for (std::vector<std::vector<std::string>>::const_iterator it = results.begin(); it != results.end(); ++it) {
 		//int id = Helper::stringToLong(results.at(0).at(0));
 		//int sectionID = Helper::stringToLong(results.at(0).at(1));
-		TimeSlot::Day day = static_cast<TimeSlot::Day>(Helper::stringToLong(results.at(0).at(2)));
-		int startHour = Helper::stringToLong(results.at(0).at(3));
-		int startMinute = Helper::stringToLong(results.at(0).at(4));
-		int endHour = Helper::stringToLong(results.at(0).at(5));
-		int endMinute = Helper::stringToLong(results.at(0).at(6));
+		TimeSlot::Day day = static_cast<TimeSlot::Day>(Helper::stringToLong(it->at(2)));
+		int startHour = Helper::stringToLong(it->at(3));
+		int startMinute = Helper::stringToLong(it->at(4));
+		int endHour = Helper::stringToLong(it->at(5));
+		int endMinute = Helper::stringToLong(it->at(6));
 
 		out.push_back(new TimeSlot(day, startHour, startMinute, endHour, endMinute));
 	}

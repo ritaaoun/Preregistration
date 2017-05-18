@@ -8,6 +8,7 @@ SystemWindowStudent::SystemWindowStudent(QWidget *parent) :
     ui->setupUi(this);
 
     ui->label_welcome->setText("Welcome " + User::getUser()->getName());
+    ui->labelId->setText(QString::number(User::getUser()->getId()));
 
     dialogMessageOpened = false;
     dialogChangePasswordOpened = false;
@@ -31,6 +32,9 @@ void SystemWindowStudent::setUpCoursesComboBox()
     {
         ui->cbCoursesList->addItem(departmentSections[i].getCode());
     }
+
+    QObject::connect(ui->cbCoursesList, SIGNAL(currentIndexChanged(int)), this, SLOT(on_cbCoursesList_currentIndexChanged(int)));
+
 }
 
 void SystemWindowStudent::on_cbCoursesList_currentIndexChanged(int index)
@@ -117,12 +121,11 @@ void SystemWindowStudent::displaySchedule()
 
     for(int i = 0; i < studentSections.size(); i++)
     {
-
         std::vector<Section> sections = studentSections[i].getSections();
 
         for(int j = 0; j < sections.size(); j++)
         {
-            std::vector<TimeSlot> timeSlots = sections[i].getTimeSlots();
+            std::vector<TimeSlot> timeSlots = sections[j].getTimeSlots();
 
             for(int k = 0; k < timeSlots.size(); k++)
             {
@@ -135,6 +138,7 @@ void SystemWindowStudent::displaySchedule()
                         content = "/" + it->text();
                     }
                     ui->tableSchedule->setItem(l - 8, timeSlots[k].getDay(), new QTableWidgetItem(studentSections[i].getCode() + "-" + QString::number(sections[j].getNumber()) + content));
+
                     if(it)
                     {
                         logError("Conflict with those courses: " + studentSections[i].getCode() + "-" + QString::number(sections[j].getNumber()) + content);

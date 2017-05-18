@@ -17,10 +17,10 @@
    <widget class="QLabel" name="label_welcome">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>-10</y>
+      <x>20</x>
+      <y>10</y>
       <width>1141</width>
-      <height>91</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
@@ -558,6 +558,24 @@
     </property>
     <property name="openLinks">
      <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelId">
+    <property name="geometry">
+     <rect>
+      <x>24</x>
+      <y>70</y>
+      <width>161</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
   </widget>

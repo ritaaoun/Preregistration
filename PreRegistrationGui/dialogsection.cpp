@@ -146,7 +146,7 @@ void DialogSection::addSection()
     if(APIService::getInstance()->publishSection(courseId, capacity, timeSlots))
     {
         ui->labelMessage->setStyleSheet("QLabel { color : green; }");
-        ui->labelMessage->setText("Succesfuly published a section for course: " + courseToEdit.getCode());
+        ui->labelMessage->setText("Succesfuly published a section for course: " + ui->cbCourseCode->currentText());
     }
     else
     {
