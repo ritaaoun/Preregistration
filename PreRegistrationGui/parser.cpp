@@ -328,6 +328,10 @@ std::vector<Course> Parser::getSections(std::string message)
 
             section.addTimeSlot(timeSlot);
         }
+
+        section.setStatus(std::stoi(object[11]));
+        section.setRoom(object[12]);
+
         course.addSection(section);
         idCourseMap.insert(object[1], course);
     }

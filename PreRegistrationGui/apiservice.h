@@ -16,8 +16,6 @@ class APIService
 public:
     static APIService* getInstance();
 
-    std::vector<Course> getCoursesList();
-    std::vector<Course> getUserCourses();
     std::vector<Course> getCourseRequests();
     std::unordered_map<int, QString> getDepartments();
     std::vector<UserInfo> getAdminUsersInfo();
@@ -27,8 +25,6 @@ public:
     std::vector<Course> getUserDepartmentCourses();
     std::vector<Course> getDepartmentSections();
     bool userLogIn(QString username, QString password);
-    bool addCourse(Course course);
-    bool removeCourse(Course course);
     bool createUser(std::vector<QString> userInfo);
     bool editUser(std::vector<QString> userInfo);
     bool sendPrivileges(QString adminUsername, int adminDepartment);

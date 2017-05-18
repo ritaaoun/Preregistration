@@ -38,6 +38,9 @@ private:
     std::vector<QLineEdit*> endHour;
     std::vector<QLineEdit*> endMinutes;
 
+    QIntValidator* hourValidator;
+    QIntValidator* minutesValidator;
+
     bool fromAddSection;
     Course courseToEdit;
     Section sectionToEdit;

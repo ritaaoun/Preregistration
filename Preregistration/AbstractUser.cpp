@@ -1,6 +1,7 @@
 #include "AbstractUser.hpp"
 #include "Server.hpp"
 #include "ChatMessage.hpp"
+#include <iostream>
 
 int AbstractUser::getId() const
 {
@@ -113,9 +114,7 @@ void AbstractUser::setType(Type type)
 
 Department * AbstractUser::getDepartment()
 {
-	if (m_department == nullptr) {
-		loadDepartment();
-	}
+	loadDepartment();
 	return m_department;
 }
 
@@ -150,10 +149,18 @@ bool AbstractUser::sendChatMessage(const std::string & recipient, const std::str
 
 bool AbstractUser::sendChatMessage(AbstractUser * recipient, const std::string & topic, const std::string & content)
 {
-	ChatMessage * message = new ChatMessage(this, recipient, topic, content);
-	updateSentMessages(message);
-	recipient->updateReceivedMessages(message);
-	return true;
+	if (recipient != nullptr)
+	{
+		ChatMessage * message = new ChatMessage(this, recipient, topic, content);
+		updateSentMessages(message);
+		recipient->updateReceivedMessages(message);
+		return true;
+	}
+	else
+	{
+		std::cerr << "The recipient is not a valid user" << std::endl;
+		return false;
+	}
 }
 
 std::vector<AbstractMessage*> AbstractUser::getSentMessages()
@@ -239,7 +246,10 @@ AbstractUser & AbstractUser::operator=(const AbstractUser & rhs)
 
 void AbstractUser::loadDepartment()
 {
-	m_department = Server::getInstance().data.getDepartment(m_departmentId);
+	if (m_department == nullptr)
+	{
+		m_department = Server::getInstance().data.getDepartment(m_departmentId);
+	}
 }
 
 std::string AbstractUser::serialize()

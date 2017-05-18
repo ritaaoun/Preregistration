@@ -17,7 +17,6 @@ DialogMessage::~DialogMessage()
     delete ui;
 }
 
-
 void DialogMessage::setUpUserSentMessages()
 {
     std::vector<Message> messages = APIService::getInstance()->getUserSentMessages();
@@ -84,7 +83,16 @@ void DialogMessage::on_pbSend_clicked()
     theMessage.setSubject(subject);
     theMessage.setMessage(message);
 
-    APIService::getInstance()->sendMessage(theMessage);
+    if(APIService::getInstance()->sendMessage(theMessage))
+    {
+        ui->labelMessage->setStyleSheet("QLabel { color : green; }");
+        ui->labelMessage->setText("Succesfully sent message to: " + to);
+    }
+    else
+    {
+        ui->labelMessage->setStyleSheet("QLabel { color : red; }");
+        ui->labelMessage->setText("Failed to send message to: " + to);
+    }
     clearInputs();
     refresh();
 }

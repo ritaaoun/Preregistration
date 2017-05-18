@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>950</width>
-    <height>750</height>
+    <width>1170</width>
+    <height>900</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Professor MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="label_welcome">
@@ -19,7 +19,7 @@
      <rect>
       <x>30</x>
       <y>-10</y>
-      <width>871</width>
+      <width>1141</width>
       <height>91</height>
      </rect>
     </property>
@@ -39,8 +39,8 @@
      <rect>
       <x>10</x>
       <y>100</y>
-      <width>841</width>
-      <height>501</height>
+      <width>961</width>
+      <height>611</height>
      </rect>
     </property>
     <property name="tabPosition">
@@ -50,7 +50,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <property name="elideMode">
      <enum>Qt::ElideLeft</enum>
@@ -72,10 +72,15 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>50</y>
-        <width>881</width>
-        <height>491</height>
+        <y>10</y>
+        <width>941</width>
+        <height>561</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>7</pointsize>
+       </font>
       </property>
       <property name="horizontalScrollBarPolicy">
        <enum>Qt::ScrollBarAsNeeded</enum>
@@ -102,10 +107,16 @@
        <number>7</number>
       </property>
       <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>100</number>
+       <number>130</number>
       </attribute>
       <attribute name="horizontalHeaderMinimumSectionSize">
        <number>37</number>
+      </attribute>
+      <attribute name="verticalHeaderDefaultSectionSize">
+       <number>37</number>
+      </attribute>
+      <attribute name="verticalHeaderMinimumSectionSize">
+       <number>30</number>
       </attribute>
       <row>
        <property name="text">
@@ -213,18 +224,21 @@
        </property>
       </column>
      </widget>
+     <zorder>tableSchedule</zorder>
+     <zorder>pbRefresh</zorder>
+     <zorder>pbRefresh</zorder>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
-      <string>My Courses</string>
+      <string>My Sections</string>
      </attribute>
      <widget class="QTableWidget" name="tableMyCourses">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>10</x>
         <y>20</y>
-        <width>831</width>
-        <height>311</height>
+        <width>941</width>
+        <height>531</height>
        </rect>
       </property>
       <property name="editTriggers">
@@ -299,10 +313,10 @@
      <widget class="QTableWidget" name="tableCourses">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>40</y>
-        <width>731</width>
-        <height>301</height>
+        <x>10</x>
+        <y>20</y>
+        <width>921</width>
+        <height>471</height>
        </rect>
       </property>
       <property name="editTriggers">
@@ -332,9 +346,9 @@
      <widget class="QPushButton" name="pbRequestCourse">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>380</y>
-        <width>131</width>
+        <x>20</x>
+        <y>510</y>
+        <width>111</width>
         <height>51</height>
        </rect>
       </property>
@@ -352,8 +366,8 @@
        <rect>
         <x>10</x>
         <y>70</y>
-        <width>751</width>
-        <height>311</height>
+        <width>921</width>
+        <height>431</height>
        </rect>
       </property>
       <property name="editTriggers">
@@ -394,23 +408,13 @@
         <string>Actual</string>
        </property>
       </column>
-      <column>
-       <property name="text">
-        <string/>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string/>
-       </property>
-      </column>
      </widget>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>86</width>
+        <width>111</width>
         <height>47</height>
        </rect>
       </property>
@@ -450,7 +454,7 @@
        <rect>
         <x>290</x>
         <y>20</y>
-        <width>481</width>
+        <width>641</width>
         <height>21</height>
        </rect>
       </property>
@@ -466,9 +470,9 @@
      <widget class="QPushButton" name="pbActionSection">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>410</y>
-        <width>121</width>
+        <x>20</x>
+        <y>510</y>
+        <width>111</width>
         <height>51</height>
        </rect>
       </property>
@@ -481,10 +485,10 @@
    <widget class="QPushButton" name="pbRefresh">
     <property name="geometry">
      <rect>
-      <x>730</x>
-      <y>630</y>
-      <width>101</width>
-      <height>41</height>
+      <x>30</x>
+      <y>720</y>
+      <width>111</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
@@ -494,10 +498,10 @@
    <widget class="QPushButton" name="pbMessage">
     <property name="geometry">
      <rect>
-      <x>510</x>
-      <y>630</y>
-      <width>91</width>
-      <height>41</height>
+      <x>1010</x>
+      <y>200</y>
+      <width>111</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
@@ -507,10 +511,10 @@
    <widget class="QPushButton" name="pbLogout">
     <property name="geometry">
      <rect>
-      <x>620</x>
-      <y>630</y>
-      <width>91</width>
-      <height>41</height>
+      <x>1010</x>
+      <y>720</y>
+      <width>111</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
@@ -520,14 +524,40 @@
    <widget class="QPushButton" name="pbChangePassword">
     <property name="geometry">
      <rect>
-      <x>390</x>
-      <y>630</y>
-      <width>101</width>
-      <height>41</height>
+      <x>1010</x>
+      <y>560</y>
+      <width>111</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
      <string>Change Password</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_15">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>720</y>
+      <width>55</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Logs</string>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="tbLog">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>740</y>
+      <width>451</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="openLinks">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -536,7 +566,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>950</width>
+     <width>1170</width>
      <height>26</height>
     </rect>
    </property>

@@ -28,7 +28,28 @@ void DialogRequestCourse::on_pbSendRequest_clicked()
         return;
     }
 
-    APIService::getInstance()->requestCourse(courseName, courseNumber, courseDescription, numberOfCreadits,
-                                             needsComputers, needsSpeakers, needsHighEnergyParticleAccelerator);
-    this->close();
+    if(APIService::getInstance()->requestCourse(courseName, courseNumber, courseDescription, numberOfCreadits,
+                                             needsComputers, needsSpeakers, needsHighEnergyParticleAccelerator))
+    {
+        ui->labelMessage->setStyleSheet("QLabel { color : green; }");
+        ui->labelMessage->setText("Succesfully sent request for course: " + courseName);
+    }
+    else
+    {
+        ui->labelMessage->setStyleSheet("QLabel { color : red; }");
+        ui->labelMessage->setText("Failed to send request for course: " + courseName);
+    }
+
+    clearInputs();
+}
+
+void DialogRequestCourse::clearInputs()
+{
+    ui->leCourseName->clear();
+    ui->leCourseNumber->clear();
+    ui->teCourseDescription->clear();
+    ui->sbCredits->clear();
+    ui->cbNeedsComputer->setChecked(false);
+    ui->cbNeedsParticleAccelerator->setChecked(false);
+    ui->cbNeedsSpeakers->setChecked(false);
 }

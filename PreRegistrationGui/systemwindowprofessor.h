@@ -70,6 +70,9 @@ private:
     void setUpDepartmentCourses();
 
     void refresh();
+
+    void logError(QString message);
+    void log(QString message);
 };
 
 #endif // SYSTEMWINDOWPROFESSOR_H

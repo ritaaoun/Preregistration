@@ -21,6 +21,8 @@ private slots:
 
 private:
     Ui::DialogRequestCourse *ui;
+
+    void clearInputs();
 };
 
 #endif // DIALOGREQUESTCOURSE_H

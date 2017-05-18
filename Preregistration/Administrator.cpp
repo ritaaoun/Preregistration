@@ -76,27 +76,32 @@ bool Administrator::decideOnCourse(Course * courseRequested, bool approveCourse)
 {
 	Department * courseDepartment = courseRequested->getDepartment();
 	if (hasPrivilegeTo(courseDepartment)) {
-		courseDepartment->decideOnCourse(courseRequested, approveCourse);
+		if (courseDepartment->decideOnCourse(courseRequested, approveCourse))
+		{
 
-		std::string topic = courseRequested->getFullCode();
-		std::string content = "Course " + topic + " was ";
-		if (approveCourse) {
-			content = content + "approved.";
+			std::string topic = courseRequested->getFullCode();
+			std::string content = "Course " + topic + " was ";
+			if (approveCourse) {
+				content = content + "approved.";
+			}
+			else {
+				content = content + "rejected.";
+			}
+
+			content += " The course details are: "
+				"Code: " + courseRequested->getFullCode() +
+				"; Name: " + courseRequested->getName() +
+				"; Description: " + courseRequested->getDescription() +
+				"; Credits: " + std::to_string(courseRequested->getNumberOfCredits());
+
+			sendChatMessage(courseRequested->getProfessor(), topic, content);
+			std::cout << "Administrator::decideOnCourse: course " << courseRequested->getId() << " was decided on" << std::endl;
+			return true;
 		}
-		else {
-			content = content + "rejected.";
+		else
+		{
+			return false;
 		}
-
-		content += " The course details are:\n"
-			"Id: " + std::to_string(courseRequested->getId()) + "\n"
-			"Code: " + courseRequested->getFullCode() + "\n"
-			"Name: " + courseRequested->getName() + "\n"
-			"Description: " + courseRequested->getDescription() + "\n"
-			"Credits: " + std::to_string(courseRequested->getNumberOfCredits());
-
-		sendChatMessage(courseRequested->getProfessor(), topic, content);
-		std::cout << "Administrator::decideOnCourse: course " << courseRequested->getId() << " was decided on" << std::endl;
-		return true;
 	}
 	else {
 		std::cerr << "Administrator::decideOnCourse: Administrator " << getId() << " does not have privileges over department " <<
@@ -107,10 +112,7 @@ bool Administrator::decideOnCourse(Course * courseRequested, bool approveCourse)
 
 const std::vector<Department*> Administrator::getPrivileges()
 {
-	if (m_privileges.empty() && !m_privilegeIds.empty())
-	{
-		loadPrivileges();
-	}
+	loadPrivileges();
 	return m_privileges;
 }
 
@@ -121,21 +123,31 @@ bool Administrator::hasPrivilegeTo(Department * department) const
 
 bool Administrator::givePrivilege(Administrator * administrator, Department * department) const
 {
-	if (std::find(m_privileges.begin(), m_privileges.end(), department) != m_privileges.end()) {
-		administrator->m_privileges.push_back(department);
-		administrator->m_privilegeIds.push_back(department->getId());
+	if (std::find(m_privilegeIds.begin(), m_privilegeIds.end(), department->getId()) != m_privilegeIds.end())
+	{
+		administrator->loadPrivileges();
+		if (std::find(administrator->m_privileges.begin(), administrator->m_privileges.end(), department) == administrator->m_privileges.end()) {
+			administrator->m_privileges.push_back(department);
+			administrator->m_privilegeIds.push_back(department->getId());
 
-		if (department->getCode() == "ADMN")
-		{
-			int last = m_privileges.size() - 1;
-			std::swap(administrator->m_privileges[0], administrator->m_privileges[last]);
-			std::swap(administrator->m_privilegeIds[0], administrator->m_privilegeIds[last]);
+			if (department->getCode() == "ADMN")
+			{
+				int last = m_privileges.size() - 1;
+				std::swap(administrator->m_privileges[0], administrator->m_privileges[last]);
+				std::swap(administrator->m_privilegeIds[0], administrator->m_privilegeIds[last]);
+			}
+
+			Server::getInstance().repository->createPrivilege(administrator, department);
+			return true;
 		}
-
-		Server::getInstance().repository->createPrivilege(administrator, department);
-		return true;
+		else {
+			std::cout << "Administrator " << administrator->getId() << " already has privileges to department " << department->getId() << std::endl;
+			return false;
+		}
 	}
-	else {
+	else
+	{
+		std::cerr << "Administrator " << getId() << " does not have privileges to department " << department->getId() << std::endl;
 		return false;
 	}
 }
@@ -143,18 +155,15 @@ bool Administrator::givePrivilege(Administrator * administrator, Department * de
 std::vector<AbstractUser*> Administrator::getUsers()
 {
 	std::vector<AbstractUser*> out;
+	loadPrivileges();
+	
+	for (std::vector<Department*>::const_iterator it = m_privileges.begin(); it != m_privileges.end(); ++it) 
+	{
+		std::vector<AbstractUser*> departmentUsers = Server::getInstance().data.getDepartmentUsers(*it);
 
-	if (!m_privilegeIds.empty()) {
-		if (m_privileges.empty()) {
-			loadPrivileges();
-		}
-
-		for (std::vector<Department*>::const_iterator it = m_privileges.begin(); it != m_privileges.end(); ++it) {
-			std::vector<AbstractUser*> departmentUsers = Server::getInstance().data.getDepartmentUsers(*it);
-
-			for (std::vector<AbstractUser*>::const_iterator user = departmentUsers.begin(); user != departmentUsers.end(); ++user) {
-				out.push_back(*user);
-			}
+		for (std::vector<AbstractUser*>::const_iterator user = departmentUsers.begin(); user != departmentUsers.end(); ++user)
+		{
+			out.push_back(*user);
 		}
 	}
 	return out;

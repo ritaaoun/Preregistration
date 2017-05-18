@@ -17,23 +17,6 @@ APIService* APIService::getInstance()
     return service;
 }
 
-std::vector<Course> APIService::getCoursesList()
-{
-    std::vector<Course> v;
-
-    return v;
-}
-
-
-std::vector<Course> APIService::getUserCourses()
-{
-    std::string serverResult = client.getUserDepartmentCourses(Parser::sendActiveUser());
-
-    std::vector<Course> result = Parser::getDepartmentCourses(serverResult);
-
-    return result;
-}
-
 bool APIService::userLogIn(QString username, QString password)
 {
     //send info and get response
@@ -48,16 +31,6 @@ bool APIService::userLogIn(QString username, QString password)
     }
 
     return false;
-}
-
-bool APIService::addCourse(Course course)
-{
-    return true;
-}
-
-bool APIService::removeCourse(Course course)
-{
-    return true;
 }
 
 bool APIService::createUser(std::vector<QString> userInfo)
@@ -273,7 +246,7 @@ std::vector<Course> APIService::getUserDepartmentCourses()
 std::vector<Course> APIService::getDepartmentSections()
 {
     std::string serverResult = client.getSections(Parser::sendActiveUser());
-qDebug() << QString::fromStdString(serverResult);
+
     std::vector<Course> result = Parser::getSections(serverResult);
 
     return result;

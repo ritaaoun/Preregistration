@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Request Course</string>
   </property>
   <widget class="QLabel" name="label_title">
    <property name="geometry">
@@ -142,7 +142,7 @@
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>480</y>
+     <y>450</y>
      <width>141</width>
      <height>51</height>
     </rect>
@@ -202,6 +202,19 @@
      <string>Needs Speakers</string>
     </property>
    </widget>
+  </widget>
+  <widget class="QLabel" name="labelMessage">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>530</y>
+     <width>461</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
   </widget>
  </widget>
  <resources/>

@@ -22,19 +22,23 @@ void DialogChangePassword::on_pbConfirm_clicked()
 
     if(confirmPassowrd != newPassword)
     {
+        ui->labelMessage->setStyleSheet("QLabel { color : red; }");
         ui->labelMessage->setText("New password doesn't match");
         clearInputs();
         return;
     }
 
-    bool result = APIService::getInstance()->changePassword(oldPassword, newPassword);
 
-    if(result)
+
+    if(APIService::getInstance()->changePassword(oldPassword, newPassword))
     {
-        this->close();
+        ui->labelMessage->setStyleSheet("QLabel { color : green; }");
+        ui->labelMessage->setText("Succesfully changed password");
+        clearInputs();
     }
     else
     {
+        ui->labelMessage->setStyleSheet("QLabel { color : red; }");
         ui->labelMessage->setText("Old password incorrect");
         clearInputs();
     }

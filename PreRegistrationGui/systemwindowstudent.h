@@ -47,6 +47,7 @@ private:
     std::vector<Course> studentSections;
     std::vector<Course> departmentCourses;
 
+    bool studentInSection(Section section);
 
     void setUpCoursesComboBox();
     void displaySchedule();
@@ -55,6 +56,9 @@ private:
     void setUpUserCourses();
 
     void refresh();
+
+    void logError(QString message);
+    void log(QString message);
 };
 
 #endif // SYSTEMWINDOWSTUDENT_H

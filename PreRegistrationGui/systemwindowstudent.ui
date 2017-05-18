@@ -6,21 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>950</width>
-    <height>750</height>
+    <width>1170</width>
+    <height>900</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Student MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>90</y>
-      <width>841</width>
-      <height>501</height>
+      <y>100</y>
+      <width>961</width>
+      <height>611</height>
      </rect>
     </property>
     <property name="tabPosition">
@@ -30,7 +30,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <property name="elideMode">
      <enum>Qt::ElideLeft</enum>
@@ -52,10 +52,15 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>50</y>
-        <width>881</width>
-        <height>491</height>
+        <y>10</y>
+        <width>941</width>
+        <height>561</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>7</pointsize>
+       </font>
       </property>
       <property name="horizontalScrollBarPolicy">
        <enum>Qt::ScrollBarAsNeeded</enum>
@@ -82,7 +87,7 @@
        <number>7</number>
       </property>
       <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>100</number>
+       <number>130</number>
       </attribute>
       <attribute name="horizontalHeaderMinimumSectionSize">
        <number>37</number>
@@ -196,15 +201,15 @@
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
-      <string>My Courses</string>
+      <string>My Sections</string>
      </attribute>
      <widget class="QTableWidget" name="tableMyCourses">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>10</x>
         <y>20</y>
-        <width>831</width>
-        <height>311</height>
+        <width>941</width>
+        <height>531</height>
        </rect>
       </property>
       <property name="editTriggers">
@@ -260,11 +265,6 @@
         <string/>
        </property>
       </column>
-      <column>
-       <property name="text">
-        <string/>
-       </property>
-      </column>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_3">
@@ -274,10 +274,10 @@
      <widget class="QTableWidget" name="tableCourses">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>30</y>
-        <width>731</width>
-        <height>301</height>
+        <x>10</x>
+        <y>20</y>
+        <width>921</width>
+        <height>471</height>
        </rect>
       </property>
       <property name="editTriggers">
@@ -314,8 +314,8 @@
        <rect>
         <x>10</x>
         <y>70</y>
-        <width>821</width>
-        <height>341</height>
+        <width>941</width>
+        <height>431</height>
        </rect>
       </property>
       <property name="editTriggers">
@@ -389,7 +389,7 @@
        <rect>
         <x>180</x>
         <y>20</y>
-        <width>91</width>
+        <width>101</width>
         <height>21</height>
        </rect>
       </property>
@@ -405,9 +405,9 @@
      <widget class="QLabel" name="labelCourseName">
       <property name="geometry">
        <rect>
-        <x>280</x>
+        <x>290</x>
         <y>20</y>
-        <width>481</width>
+        <width>641</width>
         <height>21</height>
        </rect>
       </property>
@@ -422,51 +422,12 @@
      </widget>
     </widget>
    </widget>
-   <widget class="QPushButton" name="pbChangePassword">
-    <property name="geometry">
-     <rect>
-      <x>390</x>
-      <y>620</y>
-      <width>101</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Change Password</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pbMessage">
-    <property name="geometry">
-     <rect>
-      <x>510</x>
-      <y>620</y>
-      <width>91</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Messages</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pbRefresh">
-    <property name="geometry">
-     <rect>
-      <x>730</x>
-      <y>620</y>
-      <width>101</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Refresh</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_welcome">
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>-20</y>
-      <width>871</width>
+      <y>-10</y>
+      <width>1141</width>
       <height>91</height>
      </rect>
     </property>
@@ -481,17 +442,82 @@
      <string>Welcome</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pbMessage">
+    <property name="geometry">
+     <rect>
+      <x>1010</x>
+      <y>200</y>
+      <width>111</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Messages</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pbChangePassword">
+    <property name="geometry">
+     <rect>
+      <x>1010</x>
+      <y>560</y>
+      <width>111</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Change Password</string>
+    </property>
+   </widget>
    <widget class="QPushButton" name="pbLogout">
     <property name="geometry">
      <rect>
-      <x>620</x>
-      <y>620</y>
-      <width>91</width>
-      <height>41</height>
+      <x>1010</x>
+      <y>720</y>
+      <width>111</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
      <string>Log Out</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pbRefresh">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>720</y>
+      <width>111</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Refresh</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_15">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>720</y>
+      <width>55</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Logs</string>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="tbLog">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>740</y>
+      <width>451</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="openLinks">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -500,7 +526,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>950</width>
+     <width>1170</width>
      <height>26</height>
     </rect>
    </property>

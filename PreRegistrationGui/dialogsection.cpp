@@ -7,6 +7,8 @@ DialogSection::DialogSection(Course course, int sectionIndex, QWidget *parent) :
 {
     ui->setupUi(this);
 
+    hourValidator = new QIntValidator(8, 21, this);
+    minutesValidator = new QIntValidator(0, 59, this);
 
     if(sectionIndex != -1 )// From editSection
     {
@@ -60,18 +62,22 @@ void DialogSection::on_pdAddTimeSLot_clicked()
     ui->tableTimeSlots->setCellWidget(row, 0, cb);
 
     QLineEdit* leStartHour = new QLineEdit();
+    leStartHour->setValidator(hourValidator);
     ui->tableTimeSlots->setCellWidget(row, 1, leStartHour);
     startHour.push_back(leStartHour);
 
     QLineEdit* leStartMinutes = new QLineEdit();
+    leStartMinutes->setValidator(minutesValidator);
     ui->tableTimeSlots->setCellWidget(row, 2, leStartMinutes);
     startMinutes.push_back(leStartMinutes);
 
     QLineEdit* leEndHour = new QLineEdit();
+    leEndHour->setValidator(hourValidator);
     ui->tableTimeSlots->setCellWidget(row, 3, leEndHour);
     endHour.push_back(leEndHour);
 
     QLineEdit* leEndMinutes = new QLineEdit();
+    leEndMinutes->setValidator(minutesValidator);
     ui->tableTimeSlots->setCellWidget(row, 4, leEndMinutes);
     endMinutes.push_back(leEndMinutes);
 
@@ -137,8 +143,16 @@ void DialogSection::addSection()
 
     int capacity = ui->sbCapacity->text().toInt();
 
-    APIService::getInstance()->publishSection(courseId, capacity, timeSlots);
-    this->close();
+    if(APIService::getInstance()->publishSection(courseId, capacity, timeSlots))
+    {
+        ui->labelMessage->setStyleSheet("QLabel { color : green; }");
+        ui->labelMessage->setText("Succesfuly published a section for course: " + courseToEdit.getCode());
+    }
+    else
+    {
+        ui->labelMessage->setStyleSheet("QLabel { color : red; }");
+        ui->labelMessage->setText("Failed to publish section fro course: " + courseToEdit.getCode());
+    }
 }
 
 void DialogSection::editSection()
@@ -165,8 +179,16 @@ void DialogSection::editSection()
 
     int capacity = ui->sbCapacity->text().toInt();
 
-    APIService::getInstance()->editSection(sectionToEdit.getCrn(), capacity, timeSlots);
-    this->close();
+    if(APIService::getInstance()->editSection(sectionToEdit.getCrn(), capacity, timeSlots))
+    {
+        ui->labelMessage->setStyleSheet("QLabel { color : green; }");
+        ui->labelMessage->setText("Succesfuly edited the section: " + QString::number(sectionToEdit.getNumber()) + " of course " + courseToEdit.getCode());
+    }
+    else
+    {
+        ui->labelMessage->setStyleSheet("QLabel { color : red; }");
+        ui->labelMessage->setText("Failed to edit section");
+    }
 }
 
 void DialogSection::fillSectionInfo()
@@ -188,26 +210,31 @@ void DialogSection::fillSectionInfo()
         cb->addItem("R", QVariant(3));
         cb->addItem("F", QVariant(4));
         cb->addItem("Sa", QVariant(5));
+
         comboBoxes.push_back(cb);
         ui->tableTimeSlots->setCellWidget(i, 0, cb);
         cb->setCurrentText(timeSlots[i].getDayString());
 
         QLineEdit* leStartHour = new QLineEdit();
+        leStartHour->setValidator(hourValidator);
         ui->tableTimeSlots->setCellWidget(i, 1, leStartHour);
         startHour.push_back(leStartHour);
         leStartHour->setText(QString::number(timeSlots[i].getStartHour()));
 
         QLineEdit* leStartMinutes = new QLineEdit();
+        leStartMinutes->setValidator(minutesValidator);
         ui->tableTimeSlots->setCellWidget(i, 2, leStartMinutes);
         startMinutes.push_back(leStartMinutes);
         leStartMinutes->setText(QString::number(timeSlots[i].getStartMinutes()));
 
         QLineEdit* leEndHour = new QLineEdit();
+        leEndHour->setValidator(hourValidator);
         ui->tableTimeSlots->setCellWidget(i, 3, leEndHour);
         endHour.push_back(leEndHour);
         leEndHour->setText(QString::number(timeSlots[i].getEndHour()));
 
         QLineEdit* leEndMinutes = new QLineEdit();
+        leEndMinutes->setValidator(minutesValidator);
         ui->tableTimeSlots->setCellWidget(i, 4, leEndMinutes);
         endMinutes.push_back(leEndMinutes);
         leEndMinutes->setText(QString::number(timeSlots[i].getEndMinutes()));
