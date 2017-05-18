@@ -740,7 +740,7 @@ std::string ServerInterface::editSection(const std::string & params)
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << "Error in ServerInterface::deleteSection" << e.what();
+		std::cerr << "Error in ServerInterface::editSection" << e.what();
 		return "false";
 	}
 }
