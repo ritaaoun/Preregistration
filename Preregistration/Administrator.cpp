@@ -88,12 +88,11 @@ bool Administrator::decideOnCourse(Course * courseRequested, bool approveCourse)
 				content = content + "rejected.";
 			}
 
-			content += " The course details are:\n"
-				"Id: " + std::to_string(courseRequested->getId()) + "\n"
-				"Code: " + courseRequested->getFullCode() + "\n"
-				"Name: " + courseRequested->getName() + "\n"
-				"Description: " + courseRequested->getDescription() + "\n"
-				"Credits: " + std::to_string(courseRequested->getNumberOfCredits());
+			content += " The course details are: "
+				"Code: " + courseRequested->getFullCode() +
+				"; Name: " + courseRequested->getName() +
+				"; Description: " + courseRequested->getDescription() +
+				"; Credits: " + std::to_string(courseRequested->getNumberOfCredits());
 
 			sendChatMessage(courseRequested->getProfessor(), topic, content);
 			std::cout << "Administrator::decideOnCourse: course " << courseRequested->getId() << " was decided on" << std::endl;
