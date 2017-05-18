@@ -49,7 +49,7 @@ const std::vector<Section*> Student::getSections()
 bool Student::subscribeToSection(Section * section)
 {
 	loadSections();
-	if (std::find(m_sections.begin(), m_sections.end(), section) != m_sections.end())
+	if (std::find(m_sections.begin(), m_sections.end(), section) == m_sections.end())
 	{
 		m_sectionCrns.push_back(section->getCrn());
 		m_sections.push_back(section);
